@@ -8,6 +8,8 @@ project:
   keywords: [sensing, sound, music, psychology, technology]
   authors: [MUS2640, University of Oslo]
   github: https://github.com/fourMs/sensingsoundandmusic
+  license: CC-BY-4.0
+  open_access: true
   exports:
     - format: pdf
       template: springer
