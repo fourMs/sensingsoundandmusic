@@ -4,6 +4,8 @@ subtitle: Exploring the Foundations of Music Psychology and Technology
 subject: "MUS2640"
 author: [Alexander Refsum Jensenius, University of Oslo]
 description: "This page introduces the foundational concepts of music psychology and technology, exploring how humans perceive, experience, and create sound and music through both psychological and technological perspectives."
+exports:
+  - format: pdf
 ---
 
 ## Sensing Sound and music

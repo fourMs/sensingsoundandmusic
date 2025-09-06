@@ -1,6 +1,7 @@
 ---
 title: Introduction
 subject: "Disclaimer: Textbook in development"
+author: [Alexander Refsum Jensenius, University of Oslo]
 description: "This page describes the motivation behind making a web resource for the course MUS2640 Sensing Sound and Music at the University of Oslo."
 exports:
   - format: pdf
