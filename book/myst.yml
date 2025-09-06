@@ -3,10 +3,10 @@
 version: 1
 project:
   id: 11cc8b5a-b0a2-4516-8397-a7dbad782f82
-  # title: Sensing Sound and Music
-  # description: "An interdisciplinary exploration of how humans perceive, experience, and create sound and music through psychological and technological perspectives."
-  # keywords: [sensing, sound, music, psychology, technology]
-  # authors: [MUS2640, University of Oslo]
+  title: Sensing Sound and Music
+  description: "An interdisciplinary exploration of how humans perceive, experience, and create sound and music through psychological and technological perspectives."
+  keywords: [sensing, sound, music, psychology, technology]
+  authors: [MUS2640, University of Oslo]
   github: https://github.com/fourMs/sensingsoundandmusic
   parts:
     abstract: "This book explores how humans perceive, experience, and create sound and music through psychological and technological perspectives."
@@ -14,7 +14,7 @@ project:
       - week1.md
   exports:
     - format: pdf
-      template: lapreprint-typst
+      template: springer
 site:
   template: book-theme
   options:
