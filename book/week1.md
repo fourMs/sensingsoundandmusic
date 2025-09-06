@@ -2,7 +2,7 @@
 title: "Week 1: Tuning in"
 subtitle: "Exploring the Foundations of Music Psychology and Technology"
 authors: 
-  - name: Alexander Refsum Jensenius, 
+  - name: Alexander Refsum Jensenius
     affiliation: 
       - University of Oslo
 description: "This page introduces the foundational concepts of music psychology and technology, exploring how humans perceive, experience, and create sound and music through both psychological and technological perspectives."
@@ -48,7 +48,11 @@ By the end of the course, you will have learned some of the basic terminology, t
 
 When approaching different disciplines, it is important to understand how they interact. Many people call all sorts of collaboration between disciplines "interdisciplinarity". However, there are some differences, highlighted in this figure: 
 
-![Different disciplinarities](https://www.arj.no/images/2022/03/01-disciplinarities-crop.pdf-1-1024x294.png)
+```{figure} https://www.arj.no/images/2022/03/01-disciplinarities-crop.pdf-1-1024x294.png
+:label: Different disciplinarities
+:alt: five circles representing disciplarinities
+:align: center
+```
 
 Intradisciplinary work stays within a single discipline, while crossdisciplinary approaches view one discipline from the perspective of another. Multidisciplinary collaboration involves people from different disciplines working together, each drawing on their own expertise. Interdisciplinary work integrates knowledge and methods from multiple disciplines, synthesizing approaches for a deeper understanding. Transdisciplinary approaches go further, creating unified intellectual frameworks that transcend individual disciplinary boundaries.
 

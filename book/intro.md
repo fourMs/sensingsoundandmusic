@@ -8,9 +8,10 @@ exports:
 
 ## Introduction
 
+![cover](figures/cover/sensing-sound-and-music-cover-horizontal-600px.jpg)
+
 <figure style="float: right; margin-left: 20px;">
-    <img src="book/figures/cover/sensing-sound-and-music-cover-horizontal-600px.jpg" alt="Book cover" width="600">
-<!--    <figcaption>Book cover: Sensing Sound and Music</figcaption>-->
+    <img src="figures/cover/sensing-sound-and-music-cover-horizontal-600px.jpg" alt="Book cover" width="600">
 </figure>
 
 This textbook is written for the course [MUS2640 Sensing Sound and Music](https://www.uio.no/studier/emner/hf/imv/MUS2640/) at the University of Oslo, a foundation course for later studies in *music psychology* and *music technology*. You will be introduced to fundamental principles of acoustics, psychoacoustics, and perception. This includes knowledge about how sound is produced in instruments, reflected in space, and perceived by humans. This is the basis for how we experience pitch, timbre, harmony, and rhythm in music. You will also learn about computer-based representations of sound and music, and get an overview of digital audio, sound synthesis, and analysis. The course provides theoretical knowledge and practical skills for further studies of music psychology and technology.
