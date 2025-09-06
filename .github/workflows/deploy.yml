@@ -24,10 +24,10 @@ jobs:
           pip install typst  # if needed for PDF export
           pip install ghp-import
 
-      - name: Build Jupyter Book (HTML and PDF)
+      - name: Build Jupyter Book with BASE_URL
         run: |
-          jupyter-book build book/
-          jupyter-book build book/ --pdf
+          cd book
+          BASE_URL=/sensingsoundandmusic myst build --html
 
       - name: Deploy to GitHub Pages
         run: |
