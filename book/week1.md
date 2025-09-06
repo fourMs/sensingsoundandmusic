@@ -210,7 +210,11 @@ From a psychological perspective, multimodality emphasizes how the brain combine
 
 Most people agree that sound is a core component of music, yet there are notable examples of musicians and composers who have created and performed music despite significant hearing loss. [Ludwig van Beethoven](https://en.wikipedia.org/wiki/Ludwig_van_Beethoven), one of the most influential composers in Western music history, continued to compose groundbreaking works even after becoming profoundly deaf. In more recent times, percussionist [Evelyn Glennie](https://en.wikipedia.org/wiki/Evelyn_Glennie) has demonstrated that musical experience and expression are not limited by the ability to hear sound in a conventional way. Glennie, who lost most of her hearing by the age of twelve, developed unique techniques to sense vibrations through her body, allowing her to perform and interpret music at the highest level. These examples challenge traditional notions of music as purely an auditory phenomenon and highlight the importance of multimodal and embodied approaches to musical experience.
 
-<div style="max-width:1024px"><div style="position:relative;height:0;padding-bottom:56.25%"><iframe src="https://embed.ted.com/talks/evelyn_glennie_how_to_truly_listen?autoplay=false" width="1024px" height="576px" title="How to truly listen" style="position:absolute;left:0;top:0;width:100%;height:100%" frameborder="0" scrolling="no" allowfullscreen onload="window.parent.postMessage('iframeLoaded', 'https://embed.ted.com')"></iframe></div></div>
+```{video} https://embed.ted.com/talks/evelyn_glennie_how_to_truly_listen
+:width: 1024
+:height: 576
+:title: How to truly listen
+```
 
 
 ### Action and Perception
