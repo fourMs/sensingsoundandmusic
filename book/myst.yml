@@ -20,5 +20,5 @@ project:
 site:
   template: book-theme
   options:
-    # favicon: favicon.ico
-    logo: figures/cover/sensing-sound-and-music-cover-300.jpg
+    favicon: favicon.ico
+    logo: figures/cover/sensing-sound-and-music-square-300px.jpg
