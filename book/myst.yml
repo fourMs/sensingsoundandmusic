@@ -31,5 +31,5 @@ project:
 site:
   template: book-theme
   options:
-    favicon: favicon.ico
-    logo: figures/cover/sensing-sound-and-music-square-300px.jpg
+    logo: ../favicon.ico
+    show_myst_footer: false
