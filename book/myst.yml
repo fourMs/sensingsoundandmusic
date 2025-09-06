@@ -31,5 +31,7 @@ project:
 site:
   template: book-theme
   options:
-    logo: ../favicon.ico
+    favicon: ../favicon.ico
+    logo: figures/cover/sensing-sound-and-music-strip-400px.jpg
     show_myst_footer: false
+    show_myst_banner: false
