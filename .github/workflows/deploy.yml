@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install jupyter-book==2.*  # or your required version
+          pip install "jupyter-book>=2.0.0a0"  # or your required version
           pip install typst  # if needed for PDF export
           pip install ghp-import
 
