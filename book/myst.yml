@@ -30,4 +30,4 @@ site:
   template: book-theme
   options:
     favicon: favicon.ico
-    logo: figures/cover/sensing-sound-and-music-square-300px.jpg
+    logo: book/figures/cover/sensing-sound-and-music-square-300px.jpg
