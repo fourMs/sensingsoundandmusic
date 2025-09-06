@@ -1,0 +1,8 @@
+# Jupyter Book configuration
+# For more options see: https://jupyterbook.org/en/stable/customize/config.html
+title: Sensing Sound and Music
+author: fourMs
+logo: figures/cover/sensing-sound-and-music-cover-300.jpg
+only_build_toc_files: true
+pdf:
+  template: lapreprint-typst

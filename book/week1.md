@@ -3,6 +3,9 @@ title: "Week 1: Tuning in"
 subtitle: Exploring the Foundations of Music Psychology and Technology
 subject: "Disclaimer: Textbook in development"
 description: "This page introduces the foundational concepts of music psychology and technology, exploring how humans perceive, experience, and create sound and music through both psychological and technological perspectives."
+authors: [MUS2640, University of Oslo]
+exports:
+  - format: pdf
 ---
 
 ## Sensing Sound and music
