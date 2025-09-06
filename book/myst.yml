@@ -11,7 +11,9 @@ project:
   parts:
     abstract: "This book explores how humans perceive, experience, and create sound and music through psychological and technological perspectives."
     chapters:
+      - intro.md
       - week1.md
+      - week2.md
   exports:
     - format: pdf
       template: springer
