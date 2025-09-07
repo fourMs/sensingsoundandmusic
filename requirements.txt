@@ -6,3 +6,4 @@ music21
 scipy
 pandas
 mystmd
+ipywidgets
