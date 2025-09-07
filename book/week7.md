@@ -16,6 +16,9 @@ Music performance is inherently physical, involving coordinated movements of the
 Studying the body in music helps researchers understand the relationship between movement and sound, the biomechanics of performance, and the ways physical gestures contribute to musical interpretation. Technologies like motion capture provide valuable insights into these aspects, enabling detailed analysis of how musicians use their bodies to create and shape music.
 
 
+## The vestibular system
+
+The vestibular system is a sensory system located in the inner ear that plays a crucial role in balance, spatial orientation, and coordination of movement. It helps the brain process information about motion, head position, and body posture, allowing individuals to maintain equilibrium and navigate their environment effectively. In the context of music and performance, the vestibular system contributes to a musician's sense of balance and body awareness, which are essential for precise and expressive movement. For more information, see the [Wikipedia article on the vestibular system](https://en.wikipedia.org/wiki/Vestibular_system).
 
 
 ## Motion capture

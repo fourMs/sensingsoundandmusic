@@ -38,7 +38,7 @@ In addition to physical onset, sound events have other relevant timing-related f
 
 *Image source: adapted from Nymoen et al. (2017)[^1]*
 
-### Perceptual Center (P-center) - Perceptual Attack Time (PAT)
+### Perceptual Center and Attack Time
 
 When listening to rhythms, the "moment of occurrence" of a sound—the point we use to place it in time—often does not coincide with its physical onset. This percept is often called the *perceptual center* (P-center) or *perceived attack time* (PAT): a subjective reference point that typically falls somewhere after physical onset and before the peak of the sound's energy. As a result, sequences that are physically synchronous or physically isochronous may be heard as misaligned or uneven.
 
@@ -169,7 +169,7 @@ Asynchrony tends to be measured as the absolute positive (late) or negative (ear
 
 Overall, microrhythm can encompass both expressive moment-to-moment nuance and systematic patterns that recur across a piece or style. In many musical performance traditions, those systematic patterns often constitute the *norm* themselves, rather than representing "*deviations*" from ideal or perfect metronomic/isochronous timing.
 
-### Asynchrony: Beat Delay / Anticipation
+### Beat Delay / Anticipation
 
 Musicians may sometimes play *behind or ahead of the beat* in a *systematic* fashion—whether consciously or not. In rock and soul styles, snare drum strokes on beats 2 and 4 of a 4/4 meter are often claimed to be delayed, and in funk, downbeats are said to regularly anticipate "One". It's important to remember that what counts as "late" or "early" depends on a reference in any given context—whether kick, snare, or overall grid.
 
@@ -200,7 +200,7 @@ After tapping at least 3 full bars for each, follow the instructions at the bott
 **Reflect:** Compared to just listening, how did it feel to tap along to the beat? Did it change how the groove felt? Did you perceive the asynchronies more or less the same?
 ```
 
-### Non-Isochrony: Swing
+### Swing
 
 The duration of subdivision notes need not be isochronous (equal), such as in a straight 8ths hi-hat pattern in rock. Swing - a form of "non-isochrony (non-equal durations) describes systematic long–short patterns at the subdivision level.
 

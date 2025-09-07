@@ -4,21 +4,16 @@
 
 ### Physics
 
-#### Signal
-- **Light**: Light is a form of electromagnetic radiation that is visible to the human eye. It plays a fundamental role in vision and is essential for perceiving the world around us. [Learn more on Wikipedia](https://en.wikipedia.org/wiki/Light).
-- **Sound**: Sound is a mechanical wave that propagates through a medium such as air or water. It is a key component of auditory perception and is used in communication, music, and environmental awareness. [Learn more on Wikipedia](https://en.wikipedia.org/wiki/Sound).
+- [**Light**](https://en.wikipedia.org/wiki/Light): Light is electromagnetic radiation within the visible spectrum, enabling vision and the perception of color, shape, and movement. It is fundamental to how we interpret our surroundings. Light behaves both as a wave and as a particle (photon), and its properties—such as wavelength and intensity—determine how we perceive brightness and color.
+- [**Sound**](https://en.wikipedia.org/wiki/Sound): Sound consists of mechanical vibrations that travel through a medium (such as air or water) and are perceived by the auditory system. It underpins communication, music, and environmental awareness. Sound is characterized by properties like frequency (pitch), amplitude (loudness), and timbre (quality).
 
-#### Representation
-- **Audio**: Audio refers to sound that is recorded, transmitted, or reproduced. It is widely used in media, communication, and entertainment, enabling the sharing of information and experiences. [Learn more on Wikipedia](https://en.wikipedia.org/wiki/Audio).
-- **Video**: Video is the recording, processing, and playback of moving visual images. It is a powerful medium for storytelling, education, and entertainment. [Learn more on Wikipedia](https://en.wikipedia.org/wiki/Video).
+### Representation
 
-### Psychology
+- [**Audio**](https://en.wikipedia.org/wiki/Audio): Audio encompasses the capture, transmission, and reproduction of sound. It is essential in media, communication, and interactive technologies, allowing for the sharing and analysis of auditory information. Audio signals can be analog or digital, and are often processed for clarity, compression, or creative effect.
+- [**Video**](https://en.wikipedia.org/wiki/Video): Video involves recording, processing, and displaying sequences of moving images. It is a versatile medium for conveying information, storytelling, education, and entertainment. Video signals can be analog or digital, and are defined by parameters such as frame rate, resolution, and color depth.
 
-#### Perception
-- **Psychophysics**: Psychophysics is the study of the relationship between physical stimuli and the sensations and perceptions they produce. It helps in understanding how humans interpret sensory information. [Learn more on Wikipedia](https://en.wikipedia.org/wiki/Psychophysics).
-- **Psychoacoustics**: Psychoacoustics explores how humans perceive and interpret sound, including pitch, loudness, and timbre. It is crucial in fields like audio engineering and hearing science. [Learn more on Wikipedia](https://en.wikipedia.org/wiki/Psychoacoustics).
-- **Auditory perception**: Auditory perception involves the processing of sound by the auditory system, enabling humans to recognize and interpret sounds in their environment. [Learn more on Wikipedia](https://en.wikipedia.org/wiki/Auditory_perception).
-- **Cognition**: Cognition encompasses mental processes such as perception, memory, and decision-making. It plays a significant role in how sensory information is interpreted and acted upon. [Learn more on Wikipedia](https://en.wikipedia.org/wiki/Cognition).
+These fundamental physical concepts and their representations form the basis for understanding audiovisual systems and technologies, as well as the ways in which humans perceive and interact with their environment.
+
 
 #### Auditory-visual
 - **Auditory-visual**: Auditory-visual integration refers to the brain's ability to combine auditory and visual information to enhance perception and understanding. This phenomenon is essential in activities like speech comprehension and multimedia experiences. [Learn more on Wikipedia](https://en.wikipedia.org/wiki/Audiovisual).
@@ -59,10 +54,3 @@ Stationary eye-trackers are fixed devices typically used in controlled laborator
 ![Stationary Eye-Tracker](https://upload.wikimedia.org/wikipedia/commons/3/3c/Eye_tracking_software.png)
 *Figure 2: Example of stationary eye-tracking software. Image credit: Wikimedia Commons.*
 
-## Tools
-
-### fNIRS
-
-```{note}
-SonicVisualiser
-```

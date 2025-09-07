@@ -1,7 +1,10 @@
 ---
 title: "Week 2: Listening"
 subtitle: Exploring how we perceive, describe, and engage with soundscapes and sound objects
-author: [Alexander Refsum Jensenius, University of Oslo]
+authors: 
+  - name: Alexander Refsum Jensenius
+    affiliation: 
+      - University of Oslo
 description: "This chapter explores the art and science of listening, focusing on how sounds and soundscapes are described, understood, and analyzed across disciplines. It introduces influential theories and thinkers, practical listening exercises, and tools for engaging with the sonic environment."
 exports:
   - format: pdf
