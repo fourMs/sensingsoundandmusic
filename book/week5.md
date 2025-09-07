@@ -5,56 +5,33 @@ authors:
   - name: Guilherme Schmidt Câmara
     affiliation: 
       - University of Oslo
-description: This chapter explores the foundations of musical time and rhythm, covering concepts such as onset timing, perceptual centers, meter, microrhythm, groove, and entrainment. It examines how rhythm is structured, perceived, and performed, highlighting the roles of technology and analysis tools in understanding timing nuances and groove in various musical styles.
+description: This chapter explores the foundations of musical time and rhythm, covering concepts such as onset timing, perceptual centers, meter, microrhythm, groove, and entrainment. It examines how rhythm is structured, perceived, and performed, highlighting the roles of technology and analysis tools in understanding the nuances of timing and groove in various musical styles.
 exports:
   - format: pdf
 ---
 
 ## Introduction
 
-Music unfolds in time. Unlike pitch or timbre, which can be considered
-at a single point in time, rhythm and meter depend on duration, order,
-and recurrence. They provide the structures that allow us to predict,
-move, and coordinate.
+Music unfolds in time. Unlike pitch or timbre, which can be considered at a single point in time, rhythm and meter depend on duration, order, and recurrence. They provide the structures that allow us to predict, move, and coordinate.
 
-In this chapter, we begin with broad concepts of time and rhythm before
-considering the frameworks of meter, pulse, and subdivisions. We then
-explore microrhythmic nuance and the phenomenon of groove as it pertains
-to rhythmic structures.
+In this chapter, we begin with broad concepts of time and rhythm before considering the frameworks of meter, pulse, and subdivisions. We then explore microrhythmic nuance and the phenomenon of groove as it pertains to rhythmic structures.
 
-Throughout, you will see that musical time is not only a matter of clock
-measurement. It is shaped by perception, culture, and performance
-practice. Rhythms and meters may be notated on the page, but their feel
-depends on how musicians and listeners interpret and embody them.
+Throughout, you will see that musical time is not only a matter of clock measurement. It is shaped by perception, culture, and performance practice. Rhythms and meters may be notated on the page, but their feel depends on how musicians and listeners interpret and embody them.
 
 ## Time
 
-Time in music refers to the organization of sounds and silences in a
-temporal framework. It is the foundation upon which rhythm, beat, and
-meter are built.
+Time in music refers to the organization of sounds and silences in a temporal framework. It is the foundation upon which rhythm, beat, and meter are built.
 
 ### Onset Timing
 
-When we speak of the "timing" of instruments in performance, it usually
-refer to the *onset timing* more specifically. When analysing the sound
-signals of rhythms (e.g., waveform analysis), the (physical) onset
-represents the moment a sound "begins" usually defined as the moment the
-signal rises above a certain amplitude threshold (zero dB or noise floor
-baseline), or begins to rise with a slope above a certain pre-determined
-value. Various onset-detection algorithms exist, and each can differ
-slightly, though the principle remains the same.
+When we speak of the "timing" of instruments in performance, it usually refers to the *onset timing* more specifically. When analysing the sound signals of rhythms (e.g., waveform analysis), the (physical) onset represents the moment a sound "begins," usually defined as the moment the signal rises above a certain amplitude threshold (zero dB or noise floor baseline), or begins to rise with a slope above a certain pre-determined value. Various onset-detection algorithms exist, and each can differ slightly, though the principle remains the same.
 
-In addition to physical onset, sound events have other relevant
-timing-related features such as:
+In addition to physical onset, sound events have other relevant timing-related features such as:
 
 - **Perceptual Onset**: the earliest a sound is perceived to begin
-
 - **Perceptual Attack** or **Center**: the "perceived moment of rhythmic placement"
-
 - **Energy Peak**: the highest peak of energy or intensity
-
 - **Attack Time** (or Duration): time from Physical Onset to Energy Peak
-
 - **Temporal Centroid**: the temporal "balancing point" of the sound
 
 ![](figures/week5_image6.png)
@@ -71,7 +48,7 @@ Studies show that certain sound parameters affect where P-centers are heard. Att
 
 *Image Source: Guilherme Schmidt Camara 2025 ©*
 
-Take two guitar chords for example, one played by slowly arpeggiating the strings ("*swept*") and one playing fast by stroking all the strings in quick succession ("*swift*"). Although both are produced by the same instrument, the swept stroke will tend to sound as if occurring slightly later relative to its physical onset compared to the swift stroke, where the P-center will tend to be much closer to its onset timing.
+Take two guitar chords for example, one played by slowly arpeggiating the strings ("*swept*") and one played fast by stroking all the strings in quick succession ("*swift*"). Although both are produced by the same instrument, the swept stroke will tend to sound as if occurring slightly later relative to its physical onset compared to the swift stroke, where the P-center will tend to be much closer to its onset timing.
 
 ![](figures/week5_image15.png)
 
@@ -85,7 +62,7 @@ Taken altogether, this means aligning tracks by physical onsets does not always 
 
 ## Rhythm
 
-A rhythm can be considered a pattern of durations. When a series of sound events occur, the intervals between them form recognizable shapes in time. In everyday use, we often call anything regular "rhythmic," but in music the term usually refers more specifically to a *pattern of durations formed by intervals between the perceived time points of notes*.
+A rhythm can be considered a pattern of durations. When a series of sound events occurs, the intervals between them form recognizable shapes in time. In everyday use, we often call anything regular "rhythmic," but in music the term usually refers more specifically to a *pattern of durations formed by intervals between the perceived time points of notes*.
 
 Rhythms can be *periodic* (based on cycles, such as a march rhythm) or *aperiodic* (irregular, as in speech or improvisation). Both can be meaningful: a drum groove in 4/4 and a free jazz solo may each have rhythm, but in different senses.
 
@@ -93,13 +70,11 @@ Rhythms also have cultural meanings. A clave rhythm in Afro-Cuban music is more 
 
 ## Meter
 
-Meter provides a *hierarchical framework* for the organization rhythm. It is often described as a nested system of pulses at multiple periodicities, from fast subdivisions to slower bar lengths:
+Meter provides a *hierarchical framework* for the organization's rhythm. It is often described as a nested system of pulses at multiple periodicities, from fast subdivisions to slower bar lengths:
 
 - **Beat** **(Pulse/Tactus)**: the fundamental beat to which we tend to synchronize/entrain to
-
 - **Division levels**: subdivisions of the beat, 8ths, 16ths, 32nds, and slower groupings.
-
-- **Multiple levels**: slower groupings of the beat, half-notes, bar-lengths etc.
+- **Multiple levels**: slower groupings of the beat, half-notes, bar-lengths, etc.
 
 ![](figures/week5_image1.png)
 
@@ -107,7 +82,7 @@ Meter provides a *hierarchical framework* for the organization rhythm. It is oft
 
 ### Pulse / Beat
 
-The *beat* (often also referred to as the *tactus* or *pulse*) is the basic time unit of a meter. A pulse can also describe an ongoing stream of beats (one can speak of 8th note pulses just as much as quarter note pulses). Regardless, the beat level of music is what we naturally tap our feet to, providing stability and predictability for performers and listeners alike.
+The *beat* (often also referred to as the *tactus* or *pulse*) is the basic time unit of a meter. A pulse can also describe an ongoing stream of beats (one can speak of 8th note pulses just as much as quarter note pulses). Regardless, the beat level of music is what we naturally tap our feet to, providing stability and predictability for both performers and listeners.
 
 Research suggests that we comfortably perceive and move to beats when their IOI rate lies between about 500-700ms (120-86 BPM). Pulse is thus closely tied to our sensorimotor system—we tend to move along with it. Faster events are heard as subdivisions, and slower ones are grouped into larger spans.
 
@@ -119,7 +94,7 @@ Subdivisions divide each beat into smaller units. Perceptually, subdivisions ten
 
 ### Metric Accent
 
-Traditionally, Western theory frames meter as a pattern of strong and weak accented beats (e.g., ONE-two-THREE-four in 4/4). Accents are thought to align where metrical levels overlap. But in practice, this is not always how music is felt or performed. Many groove-based styles emphasize *off-beat positions*. In many popular genres such as rock, soul, and r&b, the snare back-beats on 2 and 4 may feel more salient than beat 1. In reggae, the offbeats on the "ands" may dominate more than the downbeats. This is to show that metrical accents are not fixed but can be redefined by practice and cultural convention.
+Traditionally, Western theory frames meter as a pattern of strong and weak accented beats (e.g., ONE-two-THREE-four in 4/4). Accents are thought to align where metrical levels overlap. But in practice, this is not always how music is felt or performed. Many groove-based styles emphasize *off-beat positions*. In many popular genres such as rock, soul, and R&B, the snare backbeats on 2 and 4 may feel more salient than beat 1. In reggae, the offbeats on the "ands" may dominate more than the downbeats. This is to show that metrical accents are not fixed but can be redefined by practice and cultural convention.
 
 ### Asymmetric Meter
 
@@ -146,13 +121,13 @@ After tapping at least 3 full bars in each, follow the instructions at the botto
 
 ## Audio Source Separation
 
-Audio source separation is the process of extracting individual sound sources (e. g., a single flute) from a mixture of sounds (e. g., a recording of an entire concert band) utilizing a variety of computational techniques that consider various features in the extraction process (rhythm, pitch, harmony, notational score). It is a highly useful tool for analysis of rhythm and timing, making detection of onsets microrhythm far easier today than a decade ago.
+Audio source separation is the process of extracting individual sound sources (e.g., a single flute) from a mixture of sounds (e.g., a recording of an entire concert band) utilizing a variety of computational techniques that consider various features in the extraction process (rhythm, pitch, harmony, notational score). It is a highly useful tool for analysis of rhythm and timing, making the detection of onsets' microrhythm far easier today than a decade ago.
 
 ![](figures/week5_image2.png)
 
 *Image Source:* Manilow et al. (2020)[^4]
 
-A range of audio source separation tools are available, each with unique advantages and trade-offs:
+A range of audio source separation tools is available, each with unique advantages and trade-offs:
 
 - **Commercial Online Tools** (e.g., moises.ai, lalal.ai)  
   - *Strengths*: Fast, cloud-based processing with intuitive, DAW-like interfaces. These services typically provide high-quality separation for common instruments in Western popular music, making them accessible to non-experts and suitable for most general use cases.
@@ -182,7 +157,7 @@ Sign up for a free account at [moises.ai](http://moises.ai). Upload a track of y
 
 *Microrhythm* refers to fine-scale timing and shaping of events around our subjective reference structures (beat, subdivision). Unlike beat and subdivision-level rhythms, microrhythm concerns variations in timing at a scale below 100 ms.
 
-In terms of timing, one can speak generally of two related, yet different forms of microrhythm: *asynchrony* and *non*-*isochrony*. Asychrony relates to how musicians can play in an either more synchronized ("on-beat") or asynchronous (early/"pushed" or late/"laid-back") fashion relative to each other. Non-isochrony relates to how they might skew the durational ratio of metrical subdivision levels (e.g., 8th or 16th notes) to varying degrees from isochronous ('straight') to non-isochronous ('swung').
+In terms of timing, one can speak generally of two related, yet different forms of microrhythm: *asynchrony* and *non-isochrony*. Asynchrony refers to the way musicians can play in either a more synchronized ("on-beat") or asynchronous (early/"pushed" or late/"laid-back") manner relative to one another. Non-isochrony relates to how they might skew the durational ratio of metrical subdivision levels (e.g., 8th or 16th notes) to varying degrees from isochronous ('straight') to non-isochronous ('swung').
 
 Whereas asynchrony and non-isochrony both denote departure in timing from synchrony and isochrony in rhythmic contexts (Figure 1, example 1), they do so along different dimensions: asynchrony refers to vertical non-alignment between simultaneously sounding events, whereas non-isochrony denotes non-equal horizontal timing relationships between successive events.
 
@@ -192,13 +167,13 @@ Whereas asynchrony and non-isochrony both denote departure in timing from synchr
 
 Asynchrony tends to be measured as the absolute positive (late) or negative (early) value of signal *onset displacement* (*d*) relative to a fixed timing reference grid (often isochronous) in milliseconds (example 2a and 2b below). Swing is commonly quantified in two ways: either as simply the absolute onset displacement (d) from a grid of an even-numbered/off-beat subdivision event (in milliseconds), or as the '*swing ratio*' (R) between the relative duration of an odd-numbered subdivision event (m + d) and a subsequent even subdivision (m − d), where m is the mean inter-onset-interval (IOI) rate of the subdivision level (example 3). Swing ratios are thus calculated by the formula: 𝑅 = 𝑚 + 𝑑 / 𝑚 − 𝑑, and may be expressed as a ratio (e.g., 1.5:1 \['medium swing'\]) or more simply as a decimal (e.g., 1.5).
 
-Overall, microrhythm can include both *expressive* moment-to-moment nuance and *systematic* patterns that recur across a piece or style. In many musical performance traditions, those systematic patterns often constitute the *norm* themselves, rather than representing "*deviations*" from ideal or perfect metronomic/isochronous timing.
+Overall, microrhythm can encompass both expressive moment-to-moment nuance and systematic patterns that recur across a piece or style. In many musical performance traditions, those systematic patterns often constitute the *norm* themselves, rather than representing "*deviations*" from ideal or perfect metronomic/isochronous timing.
 
 ### Asynchrony: Beat Delay / Anticipation
 
 Musicians may sometimes play *behind or ahead of the beat* in a *systematic* fashion—whether consciously or not. In rock and soul styles, snare drum strokes on beats 2 and 4 of a 4/4 meter are often claimed to be delayed, and in funk, downbeats are said to regularly anticipate "One". It's important to remember that what counts as "late" or "early" depends on a reference in any given context—whether kick, snare, or overall grid.
 
-Different degrees of *beat delay/anticipation* are said to convey different types of '*feels*'. For example, delayed (late) back-beats in groove-styles are often described as \"*Laid-back*\", and elicit a more \"relaxed" feel when only slightly delayed, but a "heavy" or "dragging" feel if delayed too much. Anticipated (early) beats on the other hand are regularly described as "*On-top/Pushed*", which at lower magnitudes might sound "snappy" and "driving", but too much may sound "nervous" or "rushing". Many scholars and musicians have attempted to develop their own heuristics as to what is the right degree of asynchrony in a given style. For example MIDI-based electronic music producer Michael Stewart\'s (in Prögler 1995) \"feel spectrum,\" which illustrates his prescriptions for an assortment of rhythmic feels at 130 beats per minute, for use with synthesizers and drum machines:
+Different degrees of *beat delay/anticipation* are said to convey different types of '*feels*'. For example, delayed (late) back-beats in groove-styles are often described as \"*Laid-back*\", and elicit a more \"relaxed" feel when only slightly delayed, but a "heavy" or "dragging" feel if delayed too much. Anticipated (early) beats, on the other hand, are regularly described as "*On-top/Pushed*", which at lower magnitudes might sound "snappy" and "driving", but too much may sound "nervous" or "rushing". Many scholars and musicians have attempted to develop their own heuristics as to what is the right degree of asynchrony in a given style. For example, MIDI-based electronic music producer Michael Stewart\'s (in Prögler 1995) \"feel spectrum,\" which illustrates his prescriptions for an assortment of rhythmic feels at 130 beats per minute, for use with synthesizers and drum machines:
 
 ![](figures/week5_image4.png)
 
@@ -227,13 +202,13 @@ After tapping at least 3 full bars for each, follow the instructions at the bott
 
 ### Non-Isochrony: Swing
 
-The duration of subdivision notes need not be isochronous (equal) such as in a straight 8ths hi-hat pattern in rock. Swing - a form of "non-isochrony (non-equal durations) describes systematic long--short patterns at the subdivision level.
+The duration of subdivision notes need not be isochronous (equal), such as in a straight 8ths hi-hat pattern in rock. Swing - a form of "non-isochrony (non-equal durations) describes systematic long–short patterns at the subdivision level.
 
-In jazz, musicians typically do not swing at a perfectly mechanical 'triplet swing' ratio of 2:1, but rather swing ratios in performance can vary from closer to 1:1 (straight) all the way up to 3:1 (dotted swing) and beyond depending on tempo, sub-genre, and personal style amongst other factors. In funk/hip-hop, on the other hand, sixteenth-notes tend to be swung at more subtle degrees (e.g., 1.2:1) unless played in explicit funk-shuffle styles (closer to 2:1, triplet).
+In jazz, musicians typically do not swing at a perfectly mechanical 'triplet swing' ratio of 2:1, but rather swing ratios in performance can vary from closer to 1:1 (straight) all the way up to 3:1 (dotted swing) and beyond, depending on tempo, sub-genre, and personal style, amongst other factors. In funk/hip-hop, on the other hand, sixteenth notes tend to be swung at more subtle degrees (e.g., 1.2:1) unless played in explicit funk-shuffle styles (closer to 2:1, triplet).
 
 Different swing ratios are thought to impart different degrees of "motional energy" to rhythms. Rhythms with lower swing ratios (closer to 1:1) are described as more "continuous" "driving", or "propulsive", whereas higher swing ratios (up to 2:1 and beyond) tend to impart "bounce" to "choppiness", often accentuating the downbeats/on-beats of the meter.
 
-Looking at Bootsy Collins' performance again, instead of simply measuring how early or late the timing of bass onsets are on every note, we can calculate the swing ratio between all pairs of odd- and even-numbered subdivisions. We find that the bass swings rather significantly (mean: 1.4) over the course of the two bars, sometimes swinging more and sometimes less—arguably supplying the groove with a certain degree of "bounce". Again, the swing pattern is applied systematically across both bars. (**Audio Ex. 6** gives the bass pattern isolated, without drum machine, looped 3 times).
+Looking at Bootsy Collins' performance again, instead of simply measuring how early or late the timing of bass onsets is on every note, we can calculate the swing ratio between all pairs of odd- and even-numbered subdivisions. We find that the bass swings rather significantly (mean: 1.4) over the course of the two bars, sometimes swinging more and sometimes less—arguably supplying the groove with a certain degree of "bounce". Again, the swing pattern is applied systematically across both bars. (**Audio Ex. 6** gives the bass pattern isolated, without drum machine, looped 3 times).
 
 ![](figures/week5_image16.png)
 
@@ -256,11 +231,11 @@ Finally, listen to the original version (**Audio Ex. 9**, no timing manipulation
 
 ### Perceptual Thresholds of Microrhythm
 
-The just-noticeable difference (JND) thresholds of asynchrony and non-isochrony—the smallest change in onset timing that a listener can reliably detect—depends on various factors. In general, however, asynchrony JNDs tend to depend strongly on instrument attacks and texture. With overlapping, sustained or blended tones (e.g., piano, strings, winds, voices), listeners typically need onsets to differ by roughly 20--50 ms before they hear them as asynchronous. In groove contexts that often involve sharper, more transient sounds (e.g. drums, picked bass), smaller onset displacements can be detected, around 10--20 ms for trained musicians.
+The just-noticeable difference (JND) thresholds of asynchrony and non-isochrony—the smallest change in onset timing that a listener can reliably detect depend on various factors. In general, however, asynchrony JNDs tend to depend strongly on instrument attacks and texture. With overlapping, sustained or blended tones (e.g., piano, strings, winds, voices), listeners typically need onsets to differ by roughly 20--50 ms before they hear them as asynchronous. In groove contexts that often involve sharper, more transient sounds (e.g., drums, picked bass), smaller onset displacements can be detected, around 10--20 ms for trained musicians.
 
 As for swing JND thresholds, non-musicians tend to need around 30 ms (ca. 1.4) to hear rhythms as irregular (not straight/isochronous), while trained musicians can detect lower degrees of swing at around 10 ms displacement (about 1.1 - 1.2).
 
-Other contextual factors can affect the extent to which we hear microrhythmic nuances. In general, the faster the tempo, the greater the onset displacement magnitude, and more displaced events (higher note density) as well as musical training all improve sensitivity.
+Other contextual factors can affect the extent to which we hear microrhythmic nuances. In general, the faster the tempo, the greater the onset displacement magnitude, and the more displaced events (higher note density), as well as musical training, all improve sensitivity.
 
 For more on JNDs of microrhythm in music, see [Câmara et al. (2025)](https://doi.org/10.31234/osf.io/jsg94_v1)[^8]
 
@@ -276,7 +251,7 @@ Open sound files of separate instruments from the same track (such as those you 
 - Load one instrument audio file into Sonic Visualiser first (File → Open), then load the other instrument audio files using File → Import More Audio.
 - Select an instrument layer pane, and then run, for example, the BBC onset plugin:
     - Transform → Analysis by Maker → BBC → Rhythm: Onset
-- Tweak sensitivity (especially threshold), then Run (press OK).
+- Tweak sensitivity (especially threshold), then run (press OK).
     - Re-run with different threshold/sensitivity if it over/under-detects onsets; keep only the best layer (right-click layer name → Remove Layer) to avoid clutter.
 - Do the same for other instrument stems.
 - (Optional) To measure timing differences elsewhere, select a layer and File → Export Annotation Layer... to TSV/CSV. You can then compute inter-onset intervals or between-layer offsets in a spreadsheet.
@@ -290,7 +265,7 @@ Open sound files of separate instruments from the same track (such as those you 
 
 Meter can be thought of as a *musically specific form of entrainment*: we synchronize our attention (and often our movements) to periodicities in the sound. This synchronization sets up *periodic peaks of attention*—expectancy moments where events are most salient—and these peaks are arranged in *hierarchies* (subdivision, tactus/beat, bar, larger cycles). In this view, meter is less a printed grid and more a *behavior of attention* that locks to temporal invariants and shapes how we group notes and hear accents.
 
-*Dynamic attending* theory attempts to explain where metrical accent "comes from" from a cognitive perspective. Not all accents are metrical: phenomenal accents (loudness, timbre, leaps) and structural accents (harmonic/melodic goals) can occur anywhere. *Metrical accent*, however, is said to arise when a rhythmic event lands *inside an attentional peak*—that is, it is *marked by consciousness*, not just made louder. Thus a rock backbeat (dynamic emphasis on 2 and 4) need not move the metrical accent away from 1 and 3 for enculturated listeners; the listener's entrainment maintains the meter while reading the backbeat as an idiomatic reinforcement.
+*Dynamic attending* theory attempts to explain where metrical accent "comes from" from a cognitive perspective. Not all accents are metrical: phenomenal accents (loudness, timbre, leaps) and structural accents (harmonic/melodic goals) can occur anywhere. *Metrical accent*, however, is said to arise when a rhythmic event lands *inside an attentional peak*—that is, it is *marked by consciousness*, not just made louder. Thus, a rock backbeat (dynamic emphasis on 2 and 4) need not move the metrical accent away from 1 and 3 for enculturated listeners; the listener's entrainment maintains the meter while reading the backbeat as an idiomatic reinforcement.
 
 ![](figures/week5_image5.png)
 
@@ -300,9 +275,9 @@ Think of metrical accent strength as the *height and narrowness of an attention 
 
 While groove can be understood in many ways, here we can focus on groove as "pattern" and as "performance approach", with focus on aspects of time and rhythm.
 
-As pattern, a groove can be simply defined as a persistently repeated rhythm—often spanning one or two bars—whose events establish a clear beat and a characteristic subdivision layer. The beat may be externalized (e.g., kick/snare backbeat in 4/4) or implied by cyclic "isoperiodic" figures that recur in a predictable fashion. Style identity often hinges on the *basic unit* (the smallest repeating chunk) and its *density referent* (the shortest practically used subdivision).
+As a pattern, a groove can be simply defined as a persistently repeated rhythm—often spanning one or two bars—whose events establish a clear beat and a characteristic subdivision layer. The beat may be externalized (e.g., kick/snare backbeat in 4/4) or implied by cyclic "isoperiodic" figures that recur in a predictable fashion. Style identity often hinges on the *basic unit* (the smallest repeating chunk) and its *density referent* (the shortest practically used subdivision).
 
-As performance, a groove is the coordinated realization of that basic unit across parts (e.g., drums, bass, guitar/keys, vocals). Players distribute roles: some layers re-inforce the beat (e.g. kicks on beats 1 and 3, snare on 2 and 4), while others supply tension by playing on off-beat subdivisions (e.g., bass accentuating the '2-and'). Often, grooves balance stability (easily entrainable pulse) with off-beat rhythmic devices that supply interest and complexity such as syncopation and cross-/counter-rhythm (see below).
+As performance, a groove is the coordinated realization of that basic unit across parts (e.g., drums, bass, guitar/keys, vocals). Players distribute roles: some layers reinforce the beat (e.g., kicks on beats 1 and 3, snare on 2 and 4), while others supply tension by playing on off-beat subdivisions (e.g., bass accentuating the '2-and'). Often, grooves balance stability (easily entrainable pulse) with off-beat rhythmic devices that supply interest and complexity, such as syncopation and cross-/counter-rhythm (see below).
 
 ### Syncopation
 
@@ -318,15 +293,15 @@ Once again, using Bootsy Collins' bass performance as an example (bar 1 of the t
 
 ### Counter-/Cross-Rhythm
 
-When syncopated events recur *systematically* within the basic unit, they may form larger scale, patterned off-beat groupings that suggest alternative periodicities to the main beat.
+When syncopated events recur *systematically* within the basic unit, they may form larger-scale, patterned off-beat groupings that suggest alternative periodicities to the main beat.
 
-[Cross-rhythm](https://en.wikipedia.org/wiki/Cross-beat) (often also called "polyrhythm") occurs when these groupings display a systematic overlap of rhythmic streams whose periodicities (i.e. 'metrical levels') are noninteger multiples. Typical examples in 4/4 meter would be when two evenly spaced events are superimposed over three beats (2:3 cross-rhythms) or four events over three or six beats (4:3 or 4:6 crossrhythms). The regular pattern of overlapping accents regularly contradict the beats of the prevailing meter, challenging it and engendering greater metrical ambiguity—to the extent that one might hear the pulse as either binary or triplet.
+[Cross-rhythm](https://en.wikipedia.org/wiki/Cross-beat) (often also called "polyrhythm") occurs when these groupings display a systematic overlap of rhythmic streams whose periodicities (i.e., 'metrical levels') are noninteger multiples. Typical examples in 4/4 meter would be when two evenly spaced events are superimposed over three beats (2:3 cross-rhythms) or four events over three or six beats (4:3 or 4:6 cross-rhythms). The regular pattern of overlapping accents regularly contradicts the beats of the prevailing meter, challenging it and engendering greater metrical ambiguity—to the extent that one might hear the pulse as either binary or triplet.
 
 ![](figures/week5_image8.png)
 
 *Image Source: Guilherme Schmidt Camara 2025 ©*
 
-In most groove styles, however, such overlapping rhythms are usually *bounded*—they tend to span less than a bar, and usually coincide again with beat-confirming positions of the meter before repeating. As such they tend to generate lesser degrees of metrical ambiguity without fundamentally challenging the main pulse. Typical counter-rhythmic groupings in 4/4 are 3+3+2 over eight eighth notes, or 3+3+3+3+2+2 over sixteen sixteenths; listeners may hear secondary "pulses" riding on top of the main meter.
+In most groove styles, however, such overlapping rhythms are usually *bounded*—they tend to span less than a bar, and usually coincide again with beat-confirming positions of the meter before repeating. As such, they tend to generate lesser degrees of metrical ambiguity without fundamentally challenging the main pulse. Typical counter-rhythmic groupings in 4/4 are 3+3+2 over eight eighth notes, or 3+3+3+3+2+2 over sixteen sixteenths; listeners may hear secondary "pulses" riding on top of the main meter.
 
 ![](figures/week5_image3.png)
 
@@ -364,25 +339,18 @@ Without a reference, people tend to tap within a *spontaneous tempo range* (arou
 
 ### Tap BPM
 
-A common way to find tempo is simply tapping along to the beat. Tap-BPM tools convert this into a BPM value. Small tempo differences can affect how swing feels—at slower tempos, uneven subdivisions are easier to hear as "swing," while at faster tempos they collapse into straight feel.
+A common way to find the tempo is simply to tap along to the beat. Tap-BPM tools convert this into a BPM value. Small tempo differences can affect how swing feels—at slower tempos, uneven subdivisions are easier to hear as "swing," while at faster tempos they collapse into straight feel.
 
 
 ## **Questions**
 
-1.  Define rhythm and meter. each in one sentence. Give a musical example where phenomenal accents contradict the notated metrical accents—and explain why the meter still "holds."
-
+1.  Define rhythm and meter, each in one sentence. Give a musical example where phenomenal accents contradict the notated metrical accents—and explain why the meter still "holds."
 2.  Why do researchers measure onset timing rather than P-centers when analyzing performances?
-
 3.  Why do many listeners move most comfortably to beats with IOIs around 500--700 ms (≈120--86 BPM)? What typically happens to beat perception above and below this range?
-
 4.  A snare with a very sharp attack and a bass note with a slower attack strike together at the same physical onset time. Why might they not sound synchronous? Name two sound features that can shift perceived placement.
-
 5.  How do straight and swung subdivisions differ? Describe with words and numbers.
-
 6.  Explain laid-back and pushed timing. Why does the choice of reference layer matter?
-
 7.  What is entertainment, and how does it explain that we can maintain a sense of a steady pulse despite microrhythmic variations?
-
 8.  What makes a groove "work"? Explain how a stable beat and subdivision interact with off-beat devices (syncopation, counter-/cross-rhythm, swing) and performance choices to create feel.
 
 
