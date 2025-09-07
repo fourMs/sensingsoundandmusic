@@ -80,6 +80,11 @@ We will use the following software, most of which are free and/or open source. T
 - **[Audiostellar](https://audiostellar.xyz/)**: A unique tool for exploring and organizing sound samples using a visual interface. It helps you discover relationships between sounds and create new compositions.
 
 - **[Freesound](https://freesound.org/)**: A collaborative online database of sound samples. It provides access to a wide variety of sounds that can be used for music production, sound design, and research.
+
+- **[moises.ai](https://moises.ai/)**: An AI-powered platform for music source separation and audio processing. It allows you to isolate vocals, instruments, and other elements from audio tracks, making it useful for practice, remixing, and analysis.
+
+- **[Maître Gnome](https://asym-co.de/)**: An experimental web-based tool for exploring and manipulating sound and music. It offers creative ways to interact with audio, suitable for both educational and artistic purposes.
+
 </details>
 
 <details>
