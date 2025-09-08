@@ -108,7 +108,7 @@ In addition, the *inter-onset-interval* (*IOI*), or time duration, between the m
 :label: exercise-nonisochrony-tapping
 :topic: Meter, Non-Isochrony, Entrainment
 
-Listen to an excerpt of a *springar* fiddle tune by Jon Vestafe (**Audio Ex. 1** – the first beat is marked by a synthetic voice for three measures to help you entrain to the beat). Can you hear how the beats are irregular (non-isochronous)? Compare this to John Coltrane's *My Favorite Things* (**Audio Ex. 2**), where the beats are highly regular.
+Listen to an excerpt of a *springar* fiddle tune by Jon Vestafe (**[Audio Ex. 1](audio/week5_audio_ex_1_springar.mp3)** – the first beat is marked by a synthetic voice for three measures to help you entrain to the beat). Can you hear how the beats are irregular (non-isochronous)? Compare this to John Coltrane's *My Favorite Things* (**[Audio Ex. 2](audio/week5_audio_ex_2_coltrane_myfavthings.mp3)**), where the beats are highly regular.
 
 Now try tapping to both using the *Maître Gnome* online tapping platform:
 - First, tap along to [*My Favorite Things*](https://asym-co.de/tap3a/).
@@ -121,7 +121,7 @@ After tapping at least 3 full bars in each, follow the instructions at the botto
 
 ## Audio Source Separation
 
-Audio source separation is the process of extracting individual sound sources (e.g., a single flute) from a mixture of sounds (e.g., a recording of an entire concert band) utilizing a variety of computational techniques that consider various features in the extraction process (rhythm, pitch, harmony, notational score). It is a highly useful tool for analysis of rhythm and timing, making the detection of onsets' microrhythm far easier today than a decade ago.
+[Auditory scene analysis](https://en.wikipedia.org/wiki/Auditory_scene_analysis) is the process by which the human auditory system organizes sound into perceptually meaningful elements. In computer audition, [audio source separation](https://en.wikipedia.org/wiki/Computer_audition#Source_separation) is the process of extracting individual sound sources (e.g., a single flute) from a mixture of sounds (e.g., a recording of an entire concert band) utilizing a variety of computational techniques that consider various features in the extraction process (rhythm, pitch, harmony, notational score). It is a highly useful tool for analysis of rhythm and timing, making the detection of onsets' microrhythm far easier today than a decade ago.
 
 ![](figures/week5_image2.png)
 
@@ -133,7 +133,7 @@ A range of audio source separation tools is available, each with unique advantag
   - *Strengths*: Fast, cloud-based processing with intuitive, DAW-like interfaces. These services typically provide high-quality separation for common instruments in Western popular music, making them accessible to non-experts and suitable for most general use cases.
   - *Limitations*: User control over separation parameters is limited, as algorithms are proprietary and not user-adjustable. Free versions often restrict export quality or the number of processed tracks, while full functionality usually requires a paid subscription.
 
-- **Open Source / Code-Based Tools** (e.g., Spleeter by Deezer, Demucs)  
+- **Open Source / Code-Based Tools** (e.g., [Spleeter by Deezer](https://github.com/deezer/spleeter), [Demucs](https://github.com/facebookresearch/demucs))  
   - *Strengths*: Highly customizable—users can tweak parameters, retrain models for specific instruments or genres, and integrate separation into research or custom workflows. These tools are free and adaptable for advanced or specialized needs.
   - *Limitations*: Processing speed and quality depend on local hardware and configuration. They require technical skills (command-line or programming experience), and achieving optimal results may involve additional setup or parameter tuning.
 
@@ -179,7 +179,7 @@ Different degrees of *beat delay/anticipation* are said to convey different type
 
 *Image Source: adapted from Stewart (in Prögler 1995)[^6]*
 
-We can look at an example where Bootsy Collins (bassist from James Brown Band and Parliament-Funkadelic) is playing[^7] along to a highly isochronous drum machine groove, which serves as a convenient stable time reference to measure bass onset asynchronies against (listen to **Audio Ex. 3**, where the 2-bar bass and drum riff is looped 3 times). An onset timing analysis reveals that Bootsy systematically plays slightly behind the beat at around +15 ms on average (dashed white line in plot)—what Stewart might call "in the pocket" playing), and furthermore, he does so in the same systematic way in both bars (red and blue lines).
+We can look at an example where Bootsy Collins (bassist from James Brown Band and Parliament-Funkadelic) is playing[^7] along to a highly isochronous drum machine groove, which serves as a convenient stable time reference to measure bass onset asynchronies against (listen to **[Audio Ex. 3](audio/week5_audio_ex_3_riff2_repeated_drums.wav)**, where the 2-bar bass and drum riff is looped 3 times). An onset timing analysis reveals that Bootsy systematically plays slightly behind the beat at around +15 ms on average (dashed white line in plot)—what Stewart might call "in the pocket" playing), and furthermore, he does so in the same systematic way in both bars (red and blue lines).
 
 ![](figures/week5_image12.png)
 
@@ -189,7 +189,7 @@ We can look at an example where Bootsy Collins (bassist from James Brown Band an
 :label: exercise-asynchrony-tapping
 :topic: Asynchrony, Beat Delay/Anticipation, Groove
 
-Listen to an excerpt of D'Angelo's *Left and Right* (**Audio Ex. 4**). Can you hear any systematic delay or anticipation in the comp section? Does it sound "snappy"/"driving", or "dragging"/"heavy"? Now listen to an excerpt from James Brown's *Get Up Offa That Thang* (**Audio Ex. 5**). Do you hear any asynchronies here?
+Listen to an excerpt of D'Angelo's *Left and Right* (**[Audio Ex. 4](audio/week5_audio_ex_4_dangelo_left_and_right.mp3)**). Can you hear any systematic delay or anticipation in the comp section? Does it sound "snappy"/"driving", or "dragging"/"heavy"? Now listen to an excerpt from James Brown's *Get Up Offa That Thang* (**[Audio Ex. 5](audio/week5_audio_ex_5_jbrown_getupoffa.mp3)**). Do you hear any asynchronies here?
 
 Now try tapping to both tracks using the *Maître Gnome* online tapping platform:
 - First, tap along to [*Get Up Offa That Thang*](https://asym-co.de/tap4a/).
@@ -208,7 +208,7 @@ In jazz, musicians typically do not swing at a perfectly mechanical 'triplet swi
 
 Different swing ratios are thought to impart different degrees of "motional energy" to rhythms. Rhythms with lower swing ratios (closer to 1:1) are described as more "continuous" "driving", or "propulsive", whereas higher swing ratios (up to 2:1 and beyond) tend to impart "bounce" to "choppiness", often accentuating the downbeats/on-beats of the meter.
 
-Looking at Bootsy Collins' performance again, instead of simply measuring how early or late the timing of bass onsets is on every note, we can calculate the swing ratio between all pairs of odd- and even-numbered subdivisions. We find that the bass swings rather significantly (mean: 1.4) over the course of the two bars, sometimes swinging more and sometimes less—arguably supplying the groove with a certain degree of "bounce". Again, the swing pattern is applied systematically across both bars. (**Audio Ex. 6** gives the bass pattern isolated, without drum machine, looped 3 times).
+Looking at Bootsy Collins' performance again, instead of simply measuring how early or late the timing of bass onsets is on every note, we can calculate the swing ratio between all pairs of odd- and even-numbered subdivisions. We find that the bass swings rather significantly (mean: 1.4) over the course of the two bars, sometimes swinging more and sometimes less—arguably supplying the groove with a certain degree of "bounce". Again, the swing pattern is applied systematically across both bars. (**[Audio Ex. 6](audio/week5_audio_ex_6_bootsy_riff2_repeated_no_drums.wav)** gives the bass pattern isolated, without drum machine, looped 3 times).
 
 ![](figures/week5_image16.png)
 
@@ -221,17 +221,20 @@ Looking at Bootsy Collins' performance again, instead of simply measuring how ea
 
 Listen to two manipulated versions of James Brown's *Get Up (I Feel Like Being a Sex Machine)*, where the vocals have been source separated out:
 
-- In **Audio Ex. 7**, the timing of all instruments has been modified to be perfectly aligned with a straight 16th grid (1:1 - isochronous).
-- In **Audio Ex. 8**, the timing is perfectly aligned with a triplet sixteenth grid (2:1 - quantized triplet swing).
+- In **[Audio Ex. 7](audio/week5_audio_ex_7_james_brown_getup_sex_machine_bin.mp3)**, the timing of all instruments has been modified to be perfectly aligned with a straight 16th grid (1:1 - isochronous).
+
+- In **[Audio Ex. 8:](audio/week5_audio_ex_8_james_brown_getup_sex_machine_tri.mp3)**, the timing is aligned with a triplet sixteenth grid (2:1 - quantized triplet swing).
 
 **Reflect:** Does one version feel more "choppy" and the other more "driving/continuous"? Why might this be the case?
 
-Finally, listen to the original version (**Audio Ex. 9**, no timing manipulation). Can you tell which instruments are swinging, and if so, are they swinging to the same degree?
+Finally, listen to the original version (**[Audio Ex. 9](audio/week5_audio_ex_9_james_brown_getup_sex_machine_ori.mp3)**, no timing manipulation).
+
+**Reflect:** Can you tell which instruments are swinging, and if so, are they swinging to the same degree?
 ```
 
 ### Perceptual Thresholds of Microrhythm
 
-The just-noticeable difference (JND) thresholds of asynchrony and non-isochrony—the smallest change in onset timing that a listener can reliably detect depend on various factors. In general, however, asynchrony JNDs tend to depend strongly on instrument attacks and texture. With overlapping, sustained or blended tones (e.g., piano, strings, winds, voices), listeners typically need onsets to differ by roughly 20--50 ms before they hear them as asynchronous. In groove contexts that often involve sharper, more transient sounds (e.g., drums, picked bass), smaller onset displacements can be detected, around 10--20 ms for trained musicians.
+Recall from last week that the just-noticeable difference (JND) thresholds of asynchrony and non-isochrony—the smallest change in onset timing that a listener can reliably detect depend on various factors. In general, however, asynchrony JNDs tend to depend strongly on instrument attacks and texture. With overlapping, sustained or blended tones (e.g., piano, strings, winds, voices), listeners typically need onsets to differ by roughly 20–50 ms before they hear them as asynchronous. In groove contexts that often involve sharper, more transient sounds (e.g., drums, picked bass), smaller onset displacements can be detected, around 10–20 ms for trained musicians.
 
 As for swing JND thresholds, non-musicians tend to need around 30 ms (ca. 1.4) to hear rhythms as irregular (not straight/isochronous), while trained musicians can detect lower degrees of swing at around 10 ms displacement (about 1.1 - 1.2).
 
@@ -283,9 +286,9 @@ As performance, a groove is the coordinated realization of that basic unit acros
 
 Syncopation is often described as a local contradiction of a metrical expectation scheme: a note occurring on a weak-position accent, a tie across a strong beat, or the omission of a strong beat followed by sound on a weak one. In 4/4, common cases include stressing the "and" of 2 or 4, tying into 1, or placing a salient event on 3-and while 3 itself is silent. Because the beat is usually firmly established in groove styles, such contradictions tend to add *tension* without destabilizing the meter.
 
-Syncopation can arguably also *reinforce* meter—when an expected strong beat is left unarticulated, listeners feel the "missing" beat more vividly through anticipation; the follow-up weak-beat event then locks back to the underlying cycle. Backbeat-heavy styles illustrate this: dynamic accents on 2 and 4 do not move the downbeat to 2; instead, they clarify a beat-level 'hocketing' against the strong--weak--strong--weak scheme.
+Syncopation can arguably also *reinforce* meter—when an expected strong beat is left unarticulated, listeners feel the "missing" beat more vividly through anticipation; the follow-up weak-beat event then locks back to the underlying cycle. Backbeat-heavy styles illustrate this: dynamic accents on 2 and 4 do not move the downbeat to 2; instead, they clarify a beat-level 'hocketing' against the strong–weak–strong–weak scheme.
 
-Once again, using Bootsy Collins' bass performance as an example (bar 1 of the two-bar transcribed pattern below), looking at a simpler riff this time (**Audio Ex. 10**), we can see that he plays almost exclusively on the off-beat positions of the meter, hitting mainly the "-a" and "'-and" notes (think: 1-e-and-a, 2-e-and-a, etc.) with the exception of the "One"—a typical trait in funk music, where the downbeat is clearly marked in every repetition of the basic groove unit. Against the drums—which, conversely, are highly anchored to the main beats, featuring no syncopation on the 8th and 16th note subdivision level—the bass provides ample tension and rhythmic interest, without challenging the meter.
+Once again, using Bootsy Collins' bass performance as an example (bar 1 of the two-bar transcribed pattern below), looking at a simpler riff this time (**[Audio Ex. 10](audio/week5_audio_ex_10_bootsy_riff1_w_drums.wav)**), we can see that he plays almost exclusively on the off-beat positions of the meter, hitting mainly the "-a" and "'-and" notes (think: 1-e-and-a, 2-e-and-a, etc.) with the exception of the "One"—a typical trait in funk music, where the downbeat is clearly marked in every repetition of the basic groove unit. Against the drums—which, conversely, are highly anchored to the main beats, featuring no syncopation on the 8th and 16th note subdivision level—the bass provides ample tension and rhythmic interest, without challenging the meter.
 
 ![](figures/week5_image11.png)
 
@@ -307,7 +310,7 @@ In most groove styles, however, such overlapping rhythms are usually *bounded*�
 
 *Image Source: Guilherme Schmidt Camara 2025 ©*
 
-Once again, returning to the more complex Bootsy Collins riff we saw earlier, this time, what appears on the surface to be a dense pattern with many 16th notes could be construed as roughly accenting a typical counter-rhythm often found in groove-based music: a 3-3-2 (repeated twice) (see below for transcription, and listen to **Audio Ex. 11**, where the counter-rhythm is overlaid by a clave). Although this counter-rhythm produces constant 2:3 cross-rhythms, they never fully create the sense of a triplet pulse above the main binary 4/4 beat, as the bass groove always returns to accent the main meter beats before this happens.
+Once again, returning to the more complex Bootsy Collins riff we saw earlier, this time, what appears on the surface to be a dense pattern with many 16th notes could be construed as roughly accenting a typical counter-rhythm often found in groove-based music: a 3-3-2 (repeated twice) (see below for transcription, and listen to **[Audio Ex. 11](audio/week5_audio_ex_11_bootsy_riff2_clave_overlaid.wav)**, where the counter-rhythm is overlaid by a clave). Although this counter-rhythm produces constant 2:3 cross-rhythms, they never fully create the sense of a triplet pulse above the main binary 4/4 beat, as the bass groove always returns to accent the main meter beats before this happens.
 
 ![](figures/week5_image13.png)
 
@@ -318,7 +321,7 @@ Once again, returning to the more complex Bootsy Collins riff we saw earlier, th
 :label: exercise-syncopation-crossrhythm
 :topic: Syncopation, Cross-Rhythm, Groove Analysis
 
-Listen to the chorus of Jackie Wilson's *Your Love Keeps Lifting Me (Higher and Higher)* (**Audio Ex. 12**, see transcription below).
+Listen to the chorus of Jackie Wilson's *Your Love Keeps Lifting Me (Higher and Higher)* (**[Audio Ex. 12](audio/week5_audio_ex_12_jackie_wilson.wav)**, see transcription below).
 
 - Identify which notes in the melody or accompaniment are syncopated (i.e., placed on weak beats or off-beats).
 - Listen for instruments that accentuate cross- or counter-rhythmic figures. Can you detect any grouping patterns (such as 3+3+2)?
@@ -331,22 +334,27 @@ Listen to the chorus of Jackie Wilson's *Your Love Keeps Lifting Me (Higher and 
 
 ## Tempo
 
-[Tempo](<https://en.wikipedia.org/wiki/Tempo)>) is the rate of a given pulse, usually measured in BPM as the pulse rate of the fundamental metrical level (e.g. quarter notes in 4/4).
+[Tempo](https://en.wikipedia.org/wiki/Tempo) is the rate of a given pulse, usually measured in BPM as the pulse rate of the fundamental metrical level (e.g. quarter notes in 4/4). Without a reference, people tend to tap within a *spontaneous tempo range* (around 100–120 BPM). This overlaps with walking pace and many dance genres. It suggests that musical tempo is linked to bodily rhythms. We will get back to that later in this course.
 
-### Spontaneous Tempo
+```{exercise}
+:label: exercise-tap-bpm
+:topic: Tempo, BPM, Swing Perception
 
-Without a reference, people tend to tap within a *spontaneous tempo range* (around 100--120 BPM). This overlaps with walking pace and many dance genres. It suggests that musical tempo is linked to bodily rhythms.
+Try determining the tempo of a song by tapping along to the beat using an online [Tap-BPM tool](https://taptempo.io/). 
 
-### Tap BPM
+- Select a song and tap along to the beat; note the BPM value shown.
+- Try this with two songs at different tempi (one slow, one fast).
+- Listen for how the feel of swing or straight subdivisions changes with tempo.
 
-A common way to find the tempo is simply to tap along to the beat. Tap-BPM tools convert this into a BPM value. Small tempo differences can affect how swing feels—at slower tempos, uneven subdivisions are easier to hear as "swing," while at faster tempos they collapse into straight feel.
+**Reflect:** Did you notice that swing is easier to perceive at slower tempos? How does the tempo affect your perception of rhythmic feel?
+```
 
 
 ## **Questions**
 
 1.  Define rhythm and meter, each in one sentence. Give a musical example where phenomenal accents contradict the notated metrical accents—and explain why the meter still "holds."
 2.  Why do researchers measure onset timing rather than P-centers when analyzing performances?
-3.  Why do many listeners move most comfortably to beats with IOIs around 500--700 ms (≈120--86 BPM)? What typically happens to beat perception above and below this range?
+3.  Why do many listeners move most comfortably to beats with IOIs around 500–700 ms (≈120–86 BPM)? What typically happens to beat perception above and below this range?
 4.  A snare with a very sharp attack and a bass note with a slower attack strike together at the same physical onset time. Why might they not sound synchronous? Name two sound features that can shift perceived placement.
 5.  How do straight and swung subdivisions differ? Describe with words and numbers.
 6.  Explain laid-back and pushed timing. Why does the choice of reference layer matter?
@@ -357,7 +365,7 @@ A common way to find the tempo is simply to tap along to the beat. Tap-BPM tools
 
 [^1]: Kristian Nymoen, Anne Danielsen & Justin London (2017). Validating Attack Phase Descriptors Obtained by the Timbre Toolbox and MIRtoolbox, In Tapio Lokki; Jukka Pätynen & Vesa Välimäki (ed.), Proceedings of the 14th Sound and Music Computing Conference 2017. Aalto University. ISBN 978-952-60-3729-5, s 214 - 219
 
-[^2]: Câmara, G. S., Nymoen K., Lartillot O., and Danielsen, A. (2020). Effects of instructed timing on electric guitar and bass sound in groove performance. Journal of the Acoustical Society of America 147(2), 1028--1041
+[^2]: Câmara, G. S., Nymoen K., Lartillot O., and Danielsen, A. (2020). Effects of instructed timing on electric guitar and bass sound in groove performance. Journal of the Acoustical Society of America 147(2), 1028–1041
 
 [^3]: Villing, R. C. (2010). Hearing the moment: Measures and models of the perceptual centre. Ph.D. dissertation, National University of Ireland.
 
