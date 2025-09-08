@@ -1,0 +1,523 @@
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><!--
+""" To recover the Python script to generate this SVG, delete the line above -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="-277 -22 905 724">
+ <title>Animal hearing frequency range</title>
+ <desc>Lin-log graph of the hearing ranges of some animals by CMG Lee based on data at http://vanderbilt.edu/exploration/text/index.php?action=view_section&amp;id=1395 and http://lsu.edu/deafness/HearingRange.html (RR Fay. 1988. Hearing in Vertebrates: a Psychophysics Databook. Hill-Fay Associates, Winnetka IL; D Warfield. 1973. The study of hearing in animals. In: W Gay, ed., Methods of Animal Experimentation, IV. Academic Press, London, pp 43-143; RR Fay and AN Popper, eds. 1994. Comparative Hearing: animals. Springer Handbook of Auditory Research Series. Springer-Verlag, NY; CD West. 1985. The relationship of the spiral turns of the cochela and the length of the basilar membrane to the range of audible frequencies in ground dwelling animals. Journal of the Acoustic Society of America 77:1091-1101; EA Lipman and JR Grassi. 1942. Comparative auditory sensitivity of man and dog. Amer J Psychol 55:84-89; HE Heffner. 1983. Hearing in large and small dogs: Absolute thresholds and size of the tympanic membrane. Behav Neurosci 97:310-318).</desc>
+ <defs>
+<!-- BEGIN_DYNAMIC_SVG -->  <pattern id="pattern_linlogline" patternUnits="userSpaceOnUse" width="100" height="20">
+   <path d="M 30,0 V 20 M 47,0 V 20 M 60,0 V 20 M 69,0 V 20 M 77,0 V 20 M 84,0 V 20 M 90,0 V 20 M 95,0 V 20" stroke="#999999"/>
+   <rect x="0" y="0" width="100" height="20" stroke="#666666" fill="none"/>
+  </pattern>
+  <g id="grid">
+   <rect x="100" y="0" width="500" height="660" stroke="#666666" fill="url(#pattern_linlogline)"/>
+   <g fill="#000000">
+    <text x="100" y="-5">10 Hz</text>
+    <text x="200" y="-5">100 Hz</text>
+    <text x="300" y="-5">1 kHz</text>
+    <text x="400" y="-5">10 kHz</text>
+    <text x="500" y="-5">100 kHz</text>
+    <text x="600" y="-5">1 MHz</text>
+   </g>
+   <g fill="#ff0000">
+    <text x="121" y="680"><tspan>C</tspan><tspan x="121" dy="20">0</tspan></text>
+    <text x="151" y="680"><tspan>C</tspan><tspan x="151" dy="20">1</tspan></text>
+    <text x="181" y="680"><tspan>C</tspan><tspan x="181" dy="20">2</tspan></text>
+    <text x="211" y="680"><tspan>C</tspan><tspan x="211" dy="20">3</tspan></text>
+    <text x="241" y="680"><tspan>C</tspan><tspan x="241" dy="20">4</tspan></text>
+    <text x="271" y="680"><tspan>C</tspan><tspan x="271" dy="20">5</tspan></text>
+    <text x="301" y="680"><tspan>C</tspan><tspan x="301" dy="20">6</tspan></text>
+    <text x="332" y="680"><tspan>C</tspan><tspan x="332" dy="20">7</tspan></text>
+    <text x="362" y="680"><tspan>C</tspan><tspan x="362" dy="20">8</tspan></text>
+    <text x="392" y="680"><tspan>C</tspan><tspan x="392" dy="20">9</tspan></text>
+    <text x="422" y="680"><tspan>C</tspan><tspan x="422" dy="20">10</tspan></text>
+    <text x="452" y="680"><tspan>C</tspan><tspan x="452" dy="20">11</tspan></text>
+    <text x="482" y="680"><tspan>C</tspan><tspan x="482" dy="20">12</tspan></text>
+    <text x="512" y="680"><tspan>C</tspan><tspan x="512" dy="20">13</tspan></text>
+    <text x="542" y="680"><tspan>C</tspan><tspan x="542" dy="20">14</tspan></text>
+    <text x="572" y="680"><tspan>C</tspan><tspan x="572" dy="20">15</tspan></text>
+    <text x="603" y="680"><tspan>C</tspan><tspan x="603" dy="20">16</tspan></text>
+   </g>
+   <path d="M 121,9 V 663 M 151,9 V 663 M 181,9 V 663 M 211,9 V 663 M 241,9 V 663 M 271,9 V 663 M 301,9 V 663 M 332,9 V 663 M 362,9 V 663 M 392,9 V 663 M 422,9 V 663 M 452,9 V 663 M 482,9 V 663 M 512,9 V 663 M 542,9 V 663 M 572,9 V 663 M 603,9 V 663" stroke="#ff0000" stroke-dasharray="2,2"/>
+  </g>
+  <g id="main" font-family="sans-serif" font-size="22" letter-spacing="-2" text-anchor="middle" stroke="none" fill="none">
+   <rect x="-4999" y="-4999" width="9999" height="9999" fill="#ffffff"/>
+   <use xlink:href="#grid"/>
+   <g letter-spacing="-2" stroke-width="10" fill="#000000">
+    <g transform="translate(0,10)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Tuna</text>
+      <text x="-173" y="0.6ex" text-anchor="end">50 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">1.1 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(4.5 8va)</text>
+     </g>
+     <path d="M 169,0 H 304" stroke="#0066ff"/>
+    </g>
+    <g transform="translate(0,30)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Chicken</text>
+      <text x="-173" y="0.6ex" text-anchor="end">125 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">2 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(4.0 8va)</text>
+     </g>
+     <path d="M 209,0 H 330" stroke="#666666"/>
+    </g>
+    <g transform="translate(0,50)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Goldfish</text>
+      <text x="-173" y="0.6ex" text-anchor="end">20 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">3 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(7.2 8va)</text>
+     </g>
+     <path d="M 130,0 H 347" stroke="#0066ff"/>
+    </g>
+    <g transform="translate(0,70)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Bullfrog</text>
+      <text x="-173" y="0.6ex" text-anchor="end">100 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">3 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(4.9 8va)</text>
+     </g>
+     <path d="M 200,0 H 347" stroke="#009900"/>
+    </g>
+    <g transform="translate(0,90)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Catfish</text>
+      <text x="-173" y="0.6ex" text-anchor="end">50 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">4 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(6.3 8va)</text>
+     </g>
+     <path d="M 169,0 H 360" stroke="#0066ff"/>
+    </g>
+    <g transform="translate(0,110)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Tree frog</text>
+      <text x="-173" y="0.6ex" text-anchor="end">50 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">4 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(6.3 8va)</text>
+     </g>
+     <path d="M 169,0 H 360" stroke="#009900"/>
+    </g>
+    <g transform="translate(0,130)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Canary</text>
+      <text x="-173" y="0.6ex" text-anchor="end">250 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">8 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(5.0 8va)</text>
+     </g>
+     <path d="M 239,0 H 390" stroke="#666666"/>
+    </g>
+    <g transform="translate(0,150)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Cockatiel</text>
+      <text x="-173" y="0.6ex" text-anchor="end">250 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">8 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(5.0 8va)</text>
+     </g>
+     <path d="M 239,0 H 390" stroke="#666666"/>
+    </g>
+    <g transform="translate(0,170)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Parakeet</text>
+      <text x="-173" y="0.6ex" text-anchor="end">200 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">8.5 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(5.4 8va)</text>
+     </g>
+     <path d="M 230,0 H 392" stroke="#666666"/>
+    </g>
+    <g transform="translate(0,190)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Elephant</text>
+      <text x="-173" y="0.6ex" text-anchor="end">17 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">10.5 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(9.3 8va)</text>
+     </g>
+     <path d="M 123,0 H 402" stroke="#ff6600"/>
+    </g>
+    <g transform="translate(0,210)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Owl</text>
+      <text x="-173" y="0.6ex" text-anchor="end">200 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">12 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(5.9 8va)</text>
+     </g>
+     <path d="M 230,0 H 407" stroke="#666666"/>
+    </g>
+    <g transform="translate(0,230)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Human</text>
+      <text x="-173" y="0.6ex" text-anchor="end">31 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">19 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(9.3 8va)</text>
+     </g>
+     <path d="M 149,0 H 427" stroke="#cc00cc"/>
+    </g>
+    <g transform="translate(0,250)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Chinchilla</text>
+      <text x="-173" y="0.6ex" text-anchor="end">52 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">33 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(9.3 8va)</text>
+     </g>
+     <path d="M 171,0 H 451" stroke="#ff6600"/>
+    </g>
+    <g transform="translate(0,270)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Horse</text>
+      <text x="-173" y="0.6ex" text-anchor="end">55 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">33.5 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(9.3 8va)</text>
+     </g>
+     <path d="M 174,0 H 452" stroke="#ff6600"/>
+    </g>
+    <g transform="translate(0,290)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Cow</text>
+      <text x="-173" y="0.6ex" text-anchor="end">23 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">35 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(10.6 8va)</text>
+     </g>
+     <path d="M 136,0 H 454" stroke="#ff6600"/>
+    </g>
+    <g transform="translate(0,310)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Raccoon</text>
+      <text x="-173" y="0.6ex" text-anchor="end">100 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">40 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(8.6 8va)</text>
+     </g>
+     <path d="M 200,0 H 460" stroke="#ff6600"/>
+    </g>
+    <g transform="translate(0,330)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Sheep</text>
+      <text x="-173" y="0.6ex" text-anchor="end">125 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">42.5 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(8.4 8va)</text>
+     </g>
+     <path d="M 209,0 H 462" stroke="#ff6600"/>
+    </g>
+    <g transform="translate(0,350)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Dog</text>
+      <text x="-173" y="0.6ex" text-anchor="end">64 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">44 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(9.4 8va)</text>
+     </g>
+     <path d="M 180,0 H 464" stroke="#ff6600"/>
+    </g>
+    <g transform="translate(0,370)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Ferret</text>
+      <text x="-173" y="0.6ex" text-anchor="end">16 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">44 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(11.4 8va)</text>
+     </g>
+     <path d="M 120,0 H 464" stroke="#ff6600"/>
+    </g>
+    <g transform="translate(0,390)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Hedgehog</text>
+      <text x="-173" y="0.6ex" text-anchor="end">250 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">45 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(7.5 8va)</text>
+     </g>
+     <path d="M 239,0 H 465" stroke="#ff6600"/>
+    </g>
+    <g transform="translate(0,410)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Guinea pig</text>
+      <text x="-173" y="0.6ex" text-anchor="end">47 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">49 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(10.0 8va)</text>
+     </g>
+     <path d="M 167,0 H 469" stroke="#ff6600"/>
+    </g>
+    <g transform="translate(0,430)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Rabbit</text>
+      <text x="-173" y="0.6ex" text-anchor="end">96 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">49 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(9.0 8va)</text>
+     </g>
+     <path d="M 198,0 H 469" stroke="#ff6600"/>
+    </g>
+    <g transform="translate(0,450)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Sea lion</text>
+      <text x="-173" y="0.6ex" text-anchor="end">200 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">50 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(8.0 8va)</text>
+     </g>
+     <path d="M 230,0 H 469" stroke="#996600"/>
+    </g>
+    <g transform="translate(0,470)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Gerbil</text>
+      <text x="-173" y="0.6ex" text-anchor="end">56 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">60 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(10.1 8va)</text>
+     </g>
+     <path d="M 174,0 H 477" stroke="#ff6600"/>
+    </g>
+    <g transform="translate(0,490)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Opossum</text>
+      <text x="-173" y="0.6ex" text-anchor="end">500 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">64 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(7.0 8va)</text>
+     </g>
+     <path d="M 269,0 H 480" stroke="#ff6600"/>
+    </g>
+    <g transform="translate(0,510)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Albino rat</text>
+      <text x="-173" y="0.6ex" text-anchor="end">390 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">72 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(7.5 8va)</text>
+     </g>
+     <path d="M 259,0 H 485" stroke="#ff6600"/>
+    </g>
+    <g transform="translate(0,530)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Hooded rat</text>
+      <text x="-173" y="0.6ex" text-anchor="end">530 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">75 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(7.1 8va)</text>
+     </g>
+     <path d="M 272,0 H 487" stroke="#ff6600"/>
+    </g>
+    <g transform="translate(0,550)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Cat</text>
+      <text x="-173" y="0.6ex" text-anchor="end">55 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">77 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(10.5 8va)</text>
+     </g>
+     <path d="M 174,0 H 488" stroke="#ff6600"/>
+    </g>
+    <g transform="translate(0,570)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Mouse</text>
+      <text x="-173" y="0.6ex" text-anchor="end">900 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">79 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(6.4 8va)</text>
+     </g>
+     <path d="M 295,0 H 489" stroke="#ff6600"/>
+    </g>
+    <g transform="translate(0,590)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Little brown bat</text>
+      <text x="-173" y="0.6ex" text-anchor="end">10.3 kHz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">115 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(3.5 8va)</text>
+     </g>
+     <path d="M 401,0 H 506" stroke="#ff6600"/>
+    </g>
+    <g transform="translate(0,610)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Beluga whale</text>
+      <text x="-173" y="0.6ex" text-anchor="end">1 kHz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">123 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(6.9 8va)</text>
+     </g>
+     <path d="M 300,0 H 508" stroke="#996600"/>
+    </g>
+    <g transform="translate(0,630)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Bottlenose dolphin</text>
+      <text x="-173" y="0.6ex" text-anchor="end">150 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">150 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(10.0 8va)</text>
+     </g>
+     <path d="M 217,0 H 517" stroke="#996600"/>
+    </g>
+    <g transform="translate(0,650)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">Porpoise</text>
+      <text x="-173" y="0.6ex" text-anchor="end">75 Hz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">150 kHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(11.0 8va)</text>
+     </g>
+     <path d="M 187,0 H 517" stroke="#996600"/>
+    </g>
+   </g>
+  </g>
+<!-- END_DYNAMIC_SVG -->
+ </defs>
+ <use xlink:href="#main"/>
+</svg>
+<!-- Please retain this and other comments, which contain Python code to generate this SVG. """
+# Store output as a group with id="main" in string array "outs"
+import re
+import math
+def ceil(x):   return int(math.ceil(x))
+def floor(x):  return int(math.floor(x))
+def lg(x):     return math.log10(x)
+def hz2x(hz):  return decade_width * lg(hz)
+def prefix(x): # assume x is a positive integer
+ i_prefix = floor(lg(x) / 3)
+ x_reduced = ('''%f''' % (x / 1000.0 ** i_prefix)).rstrip('0').rstrip('.')
+ return '''%s %s''' % (x_reduced, si_prefixes[i_prefix])
+
+decade_width = 100
+row_height   = 20
+animals = (
+ {'label':'cow'               ,'lo':   23, 'hi': 35000,'colour':'#ff6600'},
+ {'label':'cat'               ,'lo':   55, 'hi': 77000,'colour':'#ff6600'},
+ {'label':'guinea pig'        ,'lo':   47, 'hi': 49000,'colour':'#ff6600'},
+ {'label':'horse'             ,'lo':   55, 'hi': 33500,'colour':'#ff6600'},
+ {'label':'human'             ,'lo':   31, 'hi': 19000,'colour':'#cc00cc'},
+ {'label':'dog'               ,'lo':   64, 'hi': 44000,'colour':'#ff6600'},
+ {'label':'sheep'             ,'lo':  125, 'hi': 42500,'colour':'#ff6600'},
+ {'label':'gerbil'            ,'lo':   56, 'hi': 60000,'colour':'#ff6600'},
+ {'label':'albino rat'        ,'lo':  390, 'hi': 72000,'colour':'#ff6600'},
+ {'label':'hooded rat'        ,'lo':  530, 'hi': 75000,'colour':'#ff6600'},
+ {'label':'rabbit'            ,'lo':   96, 'hi': 49000,'colour':'#ff6600'},
+ {'label':'mouse'             ,'lo':  900, 'hi': 79000,'colour':'#ff6600'},
+ {'label':'little brown bat'  ,'lo':10300, 'hi':115000,'colour':'#ff6600'},
+ {'label':'chinchilla'        ,'lo':   52, 'hi': 33000,'colour':'#ff6600'},
+ {'label':'elephant'          ,'lo':   17, 'hi': 10500,'colour':'#ff6600'},
+ {'label':'sea lion'          ,'lo':  200, 'hi': 50000,'colour':'#996600'},
+ {'label':'bottlenose dolphin','lo':  150, 'hi':150000,'colour':'#996600'},
+#{'label':'human'             ,'lo':   64, 'hi': 23000,'colour':'#cc00cc'},
+#{'label':'dog'               ,'lo':   67, 'hi': 45000,'colour':'#ff6600'},
+#{'label':'cat'               ,'lo':   45, 'hi': 64000,'colour':'#ff6600'},
+#{'label':'cow'               ,'lo':   23, 'hi': 35000,'colour':'#ff6600'},
+#{'label':'horse'             ,'lo':   55, 'hi': 33500,'colour':'#ff6600'},
+#{'label':'sheep'             ,'lo':  100, 'hi': 30000,'colour':'#ff6600'},
+#{'label':'rabbit'            ,'lo':  360, 'hi': 42000,'colour':'#ff6600'},
+#{'label':'rat'               ,'lo':  200, 'hi': 76000,'colour':'#ff6600'},
+#{'label':'mouse'             ,'lo': 1000, 'hi': 91000,'colour':'#ff6600'},
+#{'label':'gerbil'            ,'lo':  100, 'hi': 60000,'colour':'#ff6600'},
+#{'label':'guinea pig'        ,'lo':   54, 'hi': 50000,'colour':'#ff6600'},
+ {'label':'hedgehog'          ,'lo':  250, 'hi': 45000,'colour':'#ff6600'},
+ {'label':'raccoon'           ,'lo':  100, 'hi': 40000,'colour':'#ff6600'},
+ {'label':'ferret'            ,'lo':   16, 'hi': 44000,'colour':'#ff6600'},
+ {'label':'opossum'           ,'lo':  500, 'hi': 64000,'colour':'#ff6600'},
+#{'label':'chinchilla'        ,'lo':   90, 'hi': 22800,'colour':'#ff6600'},
+#{'label':'bat'               ,'lo': 2000, 'hi':110000,'colour':'#ff6600'},
+ {'label':'beluga whale'      ,'lo': 1000, 'hi':123000,'colour':'#996600'},
+#{'label':'elephant'          ,'lo':   16, 'hi': 12000,'colour':'#ff6600'},
+ {'label':'porpoise'          ,'lo':   75, 'hi':150000,'colour':'#996600'},
+ {'label':'goldfish'          ,'lo':   20, 'hi':  3000,'colour':'#0066ff'},
+ {'label':'catfish'           ,'lo':   50, 'hi':  4000,'colour':'#0066ff'},
+ {'label':'tuna'              ,'lo':   50, 'hi':  1100,'colour':'#0066ff'},
+ {'label':'bullfrog'          ,'lo':  100, 'hi':  3000,'colour':'#009900'},
+ {'label':'tree frog'         ,'lo':   50, 'hi':  4000,'colour':'#009900'},
+ {'label':'canary'            ,'lo':  250, 'hi':  8000,'colour':'#666666'},
+ {'label':'parakeet'          ,'lo':  200, 'hi':  8500,'colour':'#666666'},
+ {'label':'cockatiel'         ,'lo':  250, 'hi':  8000,'colour':'#666666'},
+ {'label':'owl'               ,'lo':  200, 'hi': 12000,'colour':'#666666'},
+ {'label':'chicken'           ,'lo':  125, 'hi':  2000,'colour':'#666666'},
+)
+n_animal = len(animals)
+si_prefixes = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y']
+notes       = ['a', 'a#', 'b', 'c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#']
+outs             = []
+out_graphs       = []
+out_linloglines  = []
+out_linloglabels = []
+out_notelines    = []
+out_notelabels   = []
+
+for animal in animals:
+ animal['n_octave'] = math.log(animal['hi'] / animal['lo'], 2)
+
+# Graphs
+y = row_height / -2
+x_lo_min =  9999
+x_hi_max = -9999
+for animal in sorted(animals, key=lambda x: (x['hi'], x['colour']), reverse=False):
+ label    = animal['label']
+ lo       = animal['lo']
+ hi       = animal['hi']
+ colour   = animal['colour']
+ n_octave = animal['n_octave']
+ x_lo     = hz2x(lo)
+ x_hi     = hz2x(hi)
+ y       += row_height
+ if (x_lo_min > x_lo): x_lo_min = x_lo
+ if (x_hi_max < x_hi): x_hi_max = x_hi
+ print '%s:%d-%d' % (label, lo, hi)
+ out_graphs.append('''
+    <g transform="translate(0,%d)">
+     <g transform="translate(98,0) scale(0.85,1)">
+      <text x="-440" y="0.6ex" text-anchor="start" letter-spacing="-1">%s</text>
+      <text x="-173" y="0.6ex" text-anchor="end">%sHz-</text>
+      <text x="-175" y="0.6ex" text-anchor="start">%sHz</text>
+      <text x="0"    y="0.6ex" text-anchor="end">(%.1f 8va)</text>
+     </g>
+     <path d="M %d,0 H %d" stroke="%s"/>
+    </g>''' % (y, label.capitalize(), prefix(lo), prefix(hi), n_octave, x_lo, x_hi, colour))
+
+# Grid
+exp_min = floor(x_lo_min / decade_width)
+exp_max = ceil (x_hi_max / decade_width)
+
+a4_hz = 440
+lg_a4_hz = lg(a4_hz)
+semitone = 2 ** (1.0 / 12)
+lg_semitone = lg(semitone)
+for i_note in range(ceil((exp_min - lg_a4_hz) / lg_semitone), floor((exp_max - lg_a4_hz) / lg_semitone) + 3):
+ hz       = a4_hz * semitone ** i_note
+ basenote = notes[i_note % 12]
+ octave   = floor((i_note + 9) / 12) + 4
+ x_note   = hz2x(hz)
+ #if (len(basenote) < 2):
+ if (basenote is 'c'):
+  out_notelines.append(''' M %d,9 V %d''' % (x_note, row_height * n_animal + 3))
+  out_notelabels.append('''
+    <text x="%d" y="%d"><tspan>%s</tspan><tspan x="%d" dy="20">%s</tspan></text>'''
+   % (x_note, row_height * (n_animal + 1), basenote.capitalize(), x_note, octave))
+  #print "%d\t%sHz\t%s%d" % (i_note, prefix(hz), basenote, octave)
+
+for i_linloglabel in range(exp_min, exp_max + 1):
+ out_linloglabels.append('''
+    <text x="%d" y="-5">%sHz</text>''' % (i_linloglabel * decade_width, prefix(10 ** i_linloglabel)))
+
+for i_linlogline in range(2, 10):
+ out_linloglines.append(''' M %d,0 V %d''' % (hz2x(i_linlogline), row_height))
+
+# Compile main
+outs.append('''
+  <pattern id="pattern_linlogline" patternUnits="userSpaceOnUse" width="100" height="%d">
+   <path d="%s" stroke="#999999"/>
+   <rect x="0" y="0" width="100" height="%d" stroke="#666666" fill="none"/>
+  </pattern>
+  <g id="grid">
+   <rect x="%d" y="0" width="%d" height="%d" stroke="#666666" fill="url(#pattern_linlogline)"/>
+   <g fill="#000000">
+%s
+   </g>
+   <g fill="#ff0000">
+%s
+   </g>
+   <path d="%s" stroke="#ff0000" stroke-dasharray="2,2"/>
+  </g>
+  <g id="main" font-family="sans-serif" font-size="22" letter-spacing="-2" text-anchor="middle" stroke="none" fill="none">
+   <rect x="-4999" y="-4999" width="9999" height="9999" fill="#ffffff"/>
+   <use xlink:href="#grid"/>
+   <g letter-spacing="-2" stroke-width="10" fill="#000000">
+%s
+   </g>
+  </g>
+''' % (row_height, ''.join(out_linloglines).strip(' '), row_height,
+       exp_min * decade_width, (exp_max - exp_min) * decade_width, n_animal * row_height,
+       ''.join(out_linloglabels).strip('\n'),
+       ''.join(out_notelabels).strip('\n'), ''.join(out_notelines).strip(' '),
+       ''.join(out_graphs).strip('\n')))
+
+# Code to compile everything into a .svg file follows...
+double_dash = '-' + '-' # because SVG comments cannot have 2 consecutive '-'s
+myself      = open(__file__, 'r').read() # the contents of this very file
+file_out    = open(re.sub(r'\..*?$', '', __file__) + '.svg', 'w') # *.* -> *.svg
+try: # use try/finally so that file is closed even if write fails
+ file_out.write(
+  '''<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><!%s
+%s''' % (double_dash,
+         re.sub(r'(BEGIN[_]DYNAMIC_SVG.*\n?)[\s\S]*(\n.*END[_]DYNAMIC_SVG)',
+                r'\1%s\2' % (''.join(outs).strip('\n')),
+                myself))) # replace dynamic SVG block with contents of "outs"
+finally:
+ file_out.close()
+# SVG-Python near-polyglot framework by CMG Lee (Oct 2014) -->
