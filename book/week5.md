@@ -363,17 +363,17 @@ Try determining the tempo of a song by tapping along to the beat using an online
 
 
 
-[^1]: Kristian Nymoen, Anne Danielsen & Justin London (2017). Validating Attack Phase Descriptors Obtained by the Timbre Toolbox and MIRtoolbox, In Tapio Lokki; Jukka Pätynen & Vesa Välimäki (ed.), Proceedings of the 14th Sound and Music Computing Conference 2017. Aalto University. ISBN 978-952-60-3729-5, s 214 - 219
+[^1]: Kristian Nymoen, Anne Danielsen & Justin London (2017). Validating Attack Phase Descriptors Obtained by the Timbre Toolbox and MIRtoolbox, In Tapio Lokki; Jukka Pätynen & Vesa Välimäki (ed.), Proceedings of the 14th Sound and Music Computing Conference 2017. Aalto University. ISBN 978-952-60-3729-5, s 214 - 219. [https://smc2017.aalto.fi/media/materials/proceedings/SMC17_p214.pdf](https://smc2017.aalto.fi/media/materials/proceedings/SMC17_p214.pdf)
 
-[^2]: Câmara, G. S., Nymoen K., Lartillot O., and Danielsen, A. (2020). Effects of instructed timing on electric guitar and bass sound in groove performance. Journal of the Acoustical Society of America 147(2), 1028–1041
+[^2]: Câmara, G. S., Nymoen K., Lartillot O., and Danielsen, A. (2020). Effects of instructed timing on electric guitar and bass sound in groove performance. Journal of the Acoustical Society of America 147(2), 1028–1041. [https://doi.org/10.1121/10.0000685](https://doi.org/10.1121/10.0000685)
 
-[^3]: Villing, R. C. (2010). Hearing the moment: Measures and models of the perceptual centre. Ph.D. dissertation, National University of Ireland.
+[^3]: Villing, R. C. (2010). Hearing the moment: Measures and models of the perceptual centre. Ph.D. dissertation, National University of Ireland. [https://doras.dcu.ie/16254/](https://doras.dcu.ie/16254/)
 
 [^4]: Manilow, E., Seetharman, P., & Salamon, J. (2020, October). *Open source tools & data for music source separation*. [https://source-separation.github.io/tutorial](https://source-separation.github.io/tutorial?utm_source=chatgpt.com)
 
 [^5]: Câmara, G. S., Spiech, C., Solli, S., Bang, B., Rogulina, O., Laeng, B., & Danielsen, A. (2025, September 1). Just Noticeable Difference Thresholds of Asynchrony and Non-isochrony in a Multi-Instrumental Groove-based Context. [https://doi.org/10.31234/osf.io/jsg94_v1](https://doi.org/10.31234/osf.io/jsg94_v1)
 
-[^6]: Prögler , J. A. (1995). Searching for swing: Participatory discrepancies in the jazz rhythm section. *Ethnomusicology*, 39, 21-54. DOI: 10.2307/852199
+[^6]: Prögler, J. A. (1995). Searching for swing: Participatory discrepancies in the jazz rhythm section. *Ethnomusicology*, 39, 21-54. [https://doi.org/10.2307/852199](https://doi.org/10.2307/852199)
 
 [^7]: Dancing in the Street, episode 9, "Make It Funky" (BBC/WBGH, 1996)
 
