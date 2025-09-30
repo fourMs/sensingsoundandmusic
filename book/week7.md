@@ -1,5 +1,14 @@
-# Week 7: Body Motion
-
+---
+title: "Week 7: Body Motion"
+subtitle: Exploring the Role of the Body in Music Performance, Perception, and Analysis
+authors: 
+  - name: Alexander Refsum Jensenius
+    affiliation: 
+      - University of Oslo
+description: An introduction to the fundamental role of body motion in music performance, perception, and analysis, covering anatomy, biomechanics, motion capture technologies, and research methods for studying music-related movement.
+exports:
+  - format: pdf
+---
 
 ## The Body in Music
 
@@ -215,13 +224,13 @@ The *statics* branch of biomechanics deals with resting bodies, such as when sit
 
 *Kinematics* is the description of motion; it is sometimes called the "geometry of motion". *Kinetics* is the cause of the motion, meaning what causes the body to move the way it does. Simply put, kinematics you can see, kinetics you can’t. We will look at both of these more closely in a later section. 
 
-## Qualitative vs Quantitative
+### Qualitative vs Quantitative
 
 Biomechanics uses both *qualitative* (descriptive) and *quantitative* (numerical) descriptors. Examples of qualitative descriptors are "good", "slow", and "smooth". Examples of quantitative values are 8 m/s (meters per second), 67° (degrees), and 53 N (Newton). 
 
 In most cases, one would relate qualitative to quantitative descriptors. However, there are no one-to-one relationships. What is considered "slow" or "fast" usually depends on the context.
 
-## Variable Types
+### Variable Types
 
 Many biomechanical parameters can either be represented as *scalar* or *vector* quantities. Scalars only have a magnitude, while vectors have both a magnitude and a direction. Consider the difference between *speed* and *velocity*. Speed tells how fast you are moving in any direction. Velocity, on the other hand, tells how fast you covered a specific distance. 
 
@@ -235,7 +244,7 @@ Considering a bike rider, like in the above picture, there are three different t
 - **Linear Vector**: The bicycle is moving at a velocity of 30 km/hr, heading 45 ° northeast 
 - **Angular Vector**: The wheel of the bicycle is rotating with a velocity of 270 °/s
 
-## Reference Frame
+### Reference Frame
 
 Just as for the anatomical planes, we also need a *reference frame* when studying human motion. This can be either *global* or *local*. When working with a motion capture system in a lab, we often define the coordinate system relative to the lab space. This can be the centre of the room, from which all other positions are calculated. 
 
@@ -244,7 +253,7 @@ Sometimes it makes more sense to use a local reference frame. For example, it is
 
 As we saw in a previous step, biomechanics can be broken into two parts: *kinematics* and *kinetics*. Here we will look at some of the principles of both.
 
-## Kinematics
+### Kinematics
 
 Kinematics uses common physics-based variables to describe motion concerning space and time. These variables can refer to a single point, a body segment, a joint, a limb, or the whole body. The main basic kinematic variables in biomechanics are *position*, *velocity*, and *acceleration*. Each of them can be linear or angular. They can also be either local or global. 
 
@@ -261,7 +270,7 @@ The *speed* describes how fast an object is moving. It is a scalar quantity calc
 The *acceleration* describes the change in velocity of an object. It is beneficial for detecting changes in the movement direction.
 
 
-## Kinetics
+### Kinetics
 
 Kinetics focuses on how forces make the body move. The musculoskeletal system is responsible for generating forces that move the human body and prevent any unwanted motion.
 
@@ -288,62 +297,51 @@ A person is considered in balance when the line of gravity originating from thei
 ![Four bodies showing four different lines of gravity with relation to the base of support and balance.](https://ugc.futurelearn.com/uploads/assets/61/1e/611e086e-b950-4b59-9c10-4940cdbdccf9.png "Colourbox.com / Supplier:253220 /ID:27042285 27042297 27042301")
 
 
-
-
----
-
-
-## The vestibular system
+### The vestibular system
 
 The vestibular system is a sensory system located in the inner ear that plays a crucial role in balance, spatial orientation, and coordination of movement. It helps the brain process information about motion, head position, and body posture, allowing individuals to maintain equilibrium and navigate their environment effectively. In the context of music and performance, the vestibular system contributes to a musician's sense of balance and body awareness, which are essential for precise and expressive movement. For more information, see the [Wikipedia article on the vestibular system](https://en.wikipedia.org/wiki/Vestibular_system).
 
 
-## Motion capture
+## Human Movement Analysis
+### Qualitative approaches
+
+Qualitative methods emphasize observing and describing motion, often using established frameworks:
+
+- **[Labanotation](https://en.wikipedia.org/wiki/Labanotation):** A symbolic notation system for recording human movement, particularly in dance. It uses a set of symbols to represent body parts, directions, levels, and timing, allowing detailed documentation and analysis of movement sequences.
+- **[Laban Movement Analysis (LMA)](https://en.wikipedia.org/wiki/Laban_Movement_Analysis):** A comprehensive system for analyzing the qualities of movement, focusing on four main components: body (what moves), effort (how it moves), shape (the form the body takes), and space (where it moves). The "effort" category is especially relevant in music contexts, describing motion in terms of space (direct/indirect), time (quick/sustained), weight (strong/light), and flow (bound/free).
+
+These qualitative approaches provide valuable insights into the expressive and communicative aspects of movement, complementing quantitative motion capture techniques.
+
+
+### Motion capture
 
 Motion capture (often abbreviated as "mocap") is a technique used to record the movement of objects or people. In software and animation, it's commonly used to capture the movements of actors and apply them to digital characters.
 
-### How it works
+We can differentiate between two main types of motion capture:
 
-- **Preparation:** Sensors or reflective markers are placed on key points of a subject, such as joints or limbs. These markers help track the precise movement of each part of the body.
-- **Recording:** Multiple cameras or specialized tracking devices are set up around the subject. As the subject moves, the cameras capture the positions of the markers from different angles.
-- **Data processing:** The recorded data is sent to software that reconstructs the 3D positions of the markers over time. This data is then mapped onto a digital skeleton or model, allowing the virtual character to mimic the real-life movements.
-- **Applications:** Motion capture is widely used in film, video games, sports analysis, biomechanics, and virtual reality. It enables realistic animation, performance analysis, and interactive experiences.
+- **Camera-based motion capture:** This approach uses cameras—either standard video cameras or specialized systems (such as infrared or depth cameras)—to record and analyze movement. Markers may be placed on the body to help track specific points, or markerless systems can use computer vision algorithms to estimate body positions. Camera-based systems are widely used in biomechanics, animation, and music research because they can capture detailed, full-body motion in three dimensions. However, they often require controlled environments, careful calibration, and can be sensitive to lighting and occlusion.
 
-### Types of motion capture
+- **Sensor-based motion capture:** This method relies on wearable sensors attached directly to the body. Common sensor types include inertial measurement units (IMUs), accelerometers, gyroscopes, magnetometers, and sometimes physiological sensors (such as EMG for muscle activity). Sensor-based systems are generally more portable and less dependent on the environment, making them suitable for field studies or situations where cameras are impractical. They can provide precise data on joint angles, acceleration, and orientation, but may require careful placement and calibration, and can be affected by sensor drift or interference.
 
-- **Optical systems:** Use cameras and reflective markers to track movement. These systems are common in film and game production.
-- **Inertial systems:** Use wearable sensors (such as accelerometers and gyroscopes) to measure movement without the need for cameras.
-- **Magnetic systems:** Use magnetic fields and sensors to determine position and orientation.
+Both approaches have their strengths and limitations, and the choice between them depends on the research context, required precision, and practical considerations.
 
-Motion capture technology continues to evolve, making it easier to capture complex movements and apply them to digital environments with high accuracy.
+### Motion Capture in Music Research
 
-## Mocap in music research
+Motion capture (mocap) is increasingly used in music research to study the physical gestures and movements of performers. By tracking body motion, researchers can analyze how musicians interact with their instruments, coordinate with other performers, and express musical ideas through movement.
 
-Motion capture is increasingly used in music research to study the physical gestures and movements of performers. By tracking body motion, researchers can analyze how musicians interact with their instruments, coordinate with other performers, and express musical ideas through movement.
+Key applications include:
 
-#### Applications
-
-- **Performance analysis:** Mocap helps researchers understand the biomechanics of playing instruments, such as finger, hand, and arm movements in pianists or violinists.
-- **Gesture recognition:** By capturing expressive gestures, mocap enables the study of how movement relates to musical phrasing, dynamics, and emotion.
-- **Interactive systems:** Motion data can be used to control electronic sounds or visual effects in real time, allowing for new forms of musical expression and live performance.
-- **Ensemble coordination:** Mocap can reveal how musicians synchronize their movements during group performances, providing insights into communication and timing.
-
-#### Example studies
-
-Researchers have used mocap to investigate topics such as:
-
-- The relationship between bowing technique and sound production in string players.
-- The role of body posture in wind instrument performance.
-- How conductors use gestures to communicate tempo and dynamics to an orchestra.
+- **Performance analysis:** Mocap helps researchers understand the biomechanics of playing instruments, such as finger, hand, and arm movements in [pianists](https://www.frontiersin.org/articles/10.3389/fpsyg.2017.00207/full) or [violinists](https://www.sciencedirect.com/science/article/pii/S0007681318300994). This can inform pedagogy, ergonomics, and injury prevention.
+- **Gesture recognition:** By capturing expressive gestures, mocap enables the study of how movement relates to musical phrasing, dynamics, and emotion. See [gesture in music performance](https://en.wikipedia.org/wiki/Gesture_in_music_performance) for more background.
+- **Interactive systems:** Motion data can be used to control electronic sounds or visual effects in real time, allowing for new forms of musical expression and live performance. Examples include [motion-controlled instruments](https://en.wikipedia.org/wiki/Motion-controlled_instrument) and [augmented music interfaces](https://www.nime.org/).
+- **Ensemble coordination:** Mocap can reveal how musicians synchronize their movements during group performances, providing insights into [communication and timing](https://www.frontiersin.org/articles/10.3389/fpsyg.2019.00262/full) within ensembles.
 
 Motion capture provides a powerful tool for bridging the gap between physical movement and musical expression, supporting both scientific research and creative exploration.
 
 
-## Methods for Studying Music-Related Body Motion
-
-Understanding body motion in music involves a range of methodological approaches and technologies. These methods can be broadly categorized as **video-based** and **sensor-based** motion analysis, each with qualitative and quantitative aspects. Below is an overview of key methods, their strengths and weaknesses, and considerations for choosing the right approach.
-
 ### Key Considerations
+
+There is no one-size-fits-all solution. The choice depends on research questions, environment, available technology, and the balance between ecological validity and data precision. Video-based methods are accessible and unobtrusive, while sensor-based systems offer higher precision but may be more invasive or require controlled settings.
 
 When planning to study music-related body motion, consider:
 
@@ -356,46 +354,6 @@ When planning to study music-related body motion, consider:
 - **Data Handling:** How will data be synchronized, stored, and shared? What formats and software will be used?
 - **Analysis:** Will the analysis be descriptive (kinematics, spatial/temporal features) or functional (sound-producing/accompanying actions)? Most studies benefit from both qualitative and quantitative approaches.
 
-### Qualitative Motion Analysis
-
-Qualitative methods focus on observing and describing motion, often using established systems:
-
-- **Labanotation:** A symbolic notation system for recording human movement, especially in dance. It uses symbols to represent body parts and their motion over time.
-- **Laban Movement Analysis (LMA):** Focuses on the qualities of movement (body, space, shape, effort). The "effort" category is particularly relevant for music, describing motion in terms of space (direct/indirect), time (quick/sustained), weight (strong/light), and flow (bound/free).
-
-### Video-Based Analysis
-
-Video recordings are a practical starting point for motion studies:
-
-- **Recording Tips:** Use plain backgrounds, stable lighting, fixed cameras, and high-quality settings. Controlled environments are ideal, but field recordings are possible with planning.
-- **Visualization Techniques:**
-    - **Motion Images:** Show pixel differences between frames to highlight movement.
-    - **Motion History Images:** Aggregate motion over time to reveal patterns.
-    - **Motiongrams:** Summarize motion across longer sequences, useful for linking movement with audio features.
-- **Computer Vision:** Techniques can extract features like quantity of motion (QoM), centroid of motion (CoM), and area of motion (AoM). Specialized cameras (infrared, time-of-flight, stereo) and software (e.g., EyesWeb, GEM, Jitter) enable advanced tracking.
-
-### Sensor-Based Motion Capture
-
-Sensor-based systems offer modular and flexible tracking options:
-
-- **Sensor Interfaces:** Convert analog sensor signals to digital data. Consider sampling rate, bit rate, connectivity, power, expandability, and size.
-- **Types of Sensors:**
-    - **Acoustic:** Use ultrasonic signals for position tracking.
-    - **Mechanical:** Measure angles, distances, or forces (e.g., bend sensors in gloves).
-    - **Magnetic:** Track position and orientation using magnetic fields, but can be affected by metal objects.
-    - **Inertial:** Use accelerometers and gyroscopes to capture movement; small, wireless, and increasingly common.
-    - **Electrical (Physiological):** Measure biosignals like muscle activity (EMG), heart rate (EKG), skin conductance (GSR), and brain activity (EEG).
-
-### Synchronization and Data Management
-
-- **Data Formats:** Many formats exist (e.g., C3D, BVH, GDIF, GMS), but no universal standard. Choose formats compatible with your tools and analysis needs.
-- **Multimodal Data:** Synchronize motion data with audio, video, and other signals. Use platforms like EyesWeb, MoCap Toolbox for Matlab, and Max toolboxes for integrated analysis.
-
-### Choosing the Right Method
-
-There is no one-size-fits-all solution. The choice depends on research questions, environment, available technology, and the balance between ecological validity and data precision. Video-based methods are accessible and unobtrusive, while sensor-based systems offer higher precision but may be more invasive or require controlled settings.
-
-For further reading and detailed examples, see the references at the end of this chapter.
 
 ## References
 
