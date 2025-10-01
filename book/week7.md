@@ -1,5 +1,5 @@
 ---
-title: "Week 7: Body Motion"
+title: "Week 7: Body"
 subtitle: Exploring the Role of the Body in Music Performance, Perception, and Analysis
 authors: 
   - name: Alexander Refsum Jensenius
@@ -10,7 +10,7 @@ exports:
   - format: pdf
 ---
 
-## The Body in Music
+## Sound, music and the body
 
 Music performance is fundamentally physical, requiring coordinated body movements to produce sound and convey expression. Musicians depend on posture, gesture, and fine motor control to interact with their instruments, shape musical phrases, and communicate with audiences and fellow performers. The body serves as both the generator and mediator of musical ideas, translating intention into audible and visible action. This physicality is present in all forms of music-making, including singing, playing instruments, conducting, and dancing.
 
