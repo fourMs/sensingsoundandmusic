@@ -75,22 +75,20 @@ Once auditory information reaches the brain, specialized neural circuits decode 
 
 *Lateralization* refers to the tendency for certain auditory functions to be more dominant in one hemisphere of the brain. For example, the left hemisphere is often more specialized for processing rapid temporal changes, such as those found in speech and rhythm. This makes it crucial for language comprehension and rhythmic analysis. The right hemisphere is generally more sensitive to spectral (frequency-based) information, making it important for perceiving melody, pitch, and the emotional qualities of music. This division of labor between hemispheres enhances the brain’s ability to analyze complex sounds, such as music, by allowing parallel processing of different auditory features.
 
-After initial feature extraction, auditory information is integrated with input from other brain regions, including the prefrontal cortex (for attention and expectation), the limbic system (for emotional response), and the motor cortex (for rhythm and movement). This integration supports higher-order processes such as recognizing familiar melodies, predicting musical structure, and associating sounds with memories or emotions.
+After initial feature extraction, auditory information is integrated with input from other brain regions, including the prefrontal cortex (for attention and expectation), the limbic system (for emotional response), and the motor cortex (for rhythm and motion). This integration supports higher-order processes such as recognizing familiar melodies, predicting musical structure, and associating sounds with memories or emotions.
 
 Overall, the neural processing of sound involves a dynamic interplay between specialized brain regions, enabling us to interpret, enjoy, and respond to the rich variety of sounds and music in our environment.
 
 ### Music Perception and Cognition
 
-Music perception and cognition are the result of intricate interactions among multiple brain regions and systems. When we listen to music, the **auditory cortex** first analyzes fundamental sound features&mdash;such as pitch, rhythm, and timbre&mdash;transforming acoustic signals into meaningful patterns. Beyond this initial processing, higher-order brain areas come into play:
+Music perception and cognition are the result of intricate interactions among multiple brain regions and systems. When we listen to music, the auditory cortex first analyzes fundamental sound features&mdash;such as pitch, rhythm, and timbre&mdash;transforming acoustic signals into meaningful patterns. Beyond this initial processing, higher-order brain areas come into play:
 
-- The **prefrontal cortex** is involved in recognizing musical patterns, predicting structure, and integrating musical experiences with attention, memory, and expectation.
-- The **motor cortex** is often activated by rhythm, even during passive listening, reflecting our innate tendency to move or synchronize with music.
-- The **limbic system**&mdash;including the amygdala and hippocampus&mdash;mediates emotional responses and links music to personal memories, explaining why certain songs can evoke strong feelings or vivid recollections.
-- The **reward system**, particularly the **nucleus accumbens**, is engaged during pleasurable musical experiences, releasing dopamine and contributing to the sense of enjoyment and motivation.
+- The prefrontal cortex is involved in recognizing musical patterns, predicting structure, and integrating musical experiences with attention, memory, and expectation.
+- The motor cortex is often activated by rhythm, even during passive listening, reflecting our innate tendency to move or synchronize with music.
+- The limbic system&mdash;including the amygdala and hippocampus&mdash;mediates emotional responses and links music to personal memories, explaining why certain songs can evoke strong feelings or vivid recollections.
+- The reward system, particularly the nucleus accumbens, is engaged during pleasurable musical experiences, releasing dopamine and contributing to the sense of enjoyment and motivation.
 
-These interconnected processes enable us to experience music as a rich, multidimensional phenomenon that involves sensory analysis, emotional engagement, memory retrieval, and cognitive functions such as attention and decision-making. Musical training can further enhance these neural networks, promoting neuroplasticity and supporting improvements in auditory discrimination, language skills, and problem-solving abilities.
-
-Ongoing research continues to reveal how the brain’s distributed networks work together to create the uniquely powerful effects of music on human cognition, emotion, and behavior.
+These interconnected processes enable us to experience music as a rich, multidimensional phenomenon that involves sensory analysis, emotional engagement, memory retrieval, and cognitive functions such as attention and decision-making. Ongoing research continues to reveal how the brain’s distributed networks work together to create the uniquely powerful effects of music on human cognition, emotion, and behavior.
 
 ### Individual Differences
 
