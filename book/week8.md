@@ -10,6 +10,7 @@ exports:
   - format: pdf
 ---
 
+
 ## Sound and music cognition
 
 The human brain plays a central role in how we sense, interpret, and respond to sound and music. From the moment sound waves enter our ears, intricate neural pathways are activated, allowing us to perceive pitch, rhythm, and timbre, as well as to experience emotions and memories linked to music. Understanding the brain’s involvement in sound and music cognition provides insight into the complex interplay between sensory processing, cognitive functions, and emotional responses. This chapter explores the key brain regions and mechanisms underlying our ability to make sense of sound and music, and examines the methods used to study brain activity during musical experiences.
