@@ -5,7 +5,7 @@ authors:
   - name: Alexander Refsum Jensenius
     affiliation: 
       - University of Oslo
-description: An overview of how the brain processes sound and music, highlighting key brain regions involved in perception, cognition, and emotion, as well as methods for capturing brain activity related to music listening and performance.
+description: "An overview of how the brain processes sound and music, highlighting key brain regions involved in perception, cognition, and emotion, as well as methods for capturing brain activity related to music listening and performance."
 exports:
   - format: pdf
 ---
@@ -131,12 +131,13 @@ These complementary methods—EEG, fNIRS, MEG, and fMRI—allow researchers to i
 | **EEG** | Excellent temporal resolution (milliseconds); non-invasive; affordable; portable; suitable for diverse participants and settings | Limited spatial resolution; signals mainly from surface neurons; susceptible to artifacts (e.g., muscle movement, eye blinks) |
 | **fNIRS** | Portable; affordable; silent; tolerant of movement; suitable for developmental and ecological studies | Limited to cortical (surface) regions; lower spatial resolution than fMRI; cannot access deep brain structures |
 | **MEG** | Excellent temporal resolution; good spatial resolution; direct measurement of neural activity; non-invasive; suitable for mapping connectivity | High cost; requires magnetically shielded room; less portable; sensitive to movement; limited accessibility |
-| **fMRI** | High spatial resolution (millimeters); whole-brain coverage; non-invasive; widely available; effective for mapping complex networks | Lower temporal resolution (seconds); sensitive to head movement; noisy/confined environment; expensive; not suitable for all populations |
+| **fMRI** | High spatial resolution (millimeters); whole-brain coverage; non-invasive; widely available; effective for mapping complex networks | High cost; lower temporal resolution (seconds); sensitive to head movement; noisy/confined environment; not suitable for all populations |
 
-
-## References
-
-```{bibliography}
-```
 
 ## Questions
+
+1. What are the main brain regions involved in processing sound and music, and what roles do they play?
+2. How does EEG differ from fMRI in terms of what it measures and its strengths and limitations?
+3. In what ways does musical training influence brain function and neuroplasticity?
+4. Why might researchers choose fNIRS over fMRI for certain music neuroscience studies?
+5. How do the emotional and reward systems of the brain contribute to our experience of music?
