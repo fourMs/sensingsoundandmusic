@@ -10,14 +10,7 @@ exports:
   - format: pdf
 ---
 
-This lecture introduces the fundamental principles of human body structure and movement, with a focus on their relevance to sound and music perception, production, and interaction. Students will explore the anatomy of the auditory and motor systems, the biomechanics of movement, and the ways in which bodily motion influences and is influenced by musical experience. The session will cover:
-
-- Basic anatomy of the musculoskeletal and auditory systems
-- Principles of human motion: joints, muscles, and coordination
-- The role of movement in music performance and perception
-- Sensorimotor integration in musical activities
-- Methods for measuring and analyzing body motion in music research
-
+This week, we will explore the fundamental principles of human body structure and motion, emphasizing their relevance to sound and music perception, production, and interaction. Topics include the anatomy of the musculoskeletal and auditory systems, the biomechanics of movement, and the ways in which bodily motion both influences and is influenced by musical experience. We will also discuss principles of human motion—such as joints, muscles, and coordination—the role of movement in music performance and perception, sensorimotor integration in musical activities, and methods for measuring and analyzing body motion in music research.
 
 ## Sound, music and the body
 
@@ -29,18 +22,12 @@ Body motion is central to both music performance and perception. Musicians use m
 
 Key roles of body motion in music include:
 
-- **Sound production:** Physical gestures are necessary to play instruments or sing, turning intention into sound.
+- **Sound production:** Physical actions are necessary to play instruments or sing, turning intention into sound.
 - **Communication:** Musicians use body language to cue, synchronize, and interact with fellow performers and audiences.
 - **Learning and memory:** Practice develops muscle memory, supporting accuracy and fluency.
 - **Expressivity:** Subtle variations in movement convey emotion and interpretation, making each performance unique.
 
-Understanding the relationship between body motion and music can inform teaching, performance, and research, emphasizing the importance of the body in all aspects of musical experience.
-
-### Embodied music cognition
-
-Embodied music cognition is a research perspective that emphasizes the role of the body in perceiving, understanding, and producing music. Rather than viewing musical experience as purely mental or abstract, this approach highlights how bodily sensations, movements, and actions are integral to musical meaning.
-
-Key ideas in embodied music cognition include:
+An embodied approach to music cognition emphasizes the role of the body in perceiving, understanding, and producing music. Rather than viewing musical experience as purely mental or abstract, this approach highlights how bodily sensations, movements, and actions are integral to musical meaning. Key ideas in embodied music cognition include:
 
 - **Sensorimotor coupling:** Listening to music often triggers involuntary movements, such as tapping a foot or nodding the head, reflecting a close link between perception and action.
 - **Gesture and imagery:** Musicians and listeners may use imagined or actual gestures to make sense of rhythm, melody, and phrasing.
@@ -53,57 +40,17 @@ Research in this field draws on methods from psychology, neuroscience, movement 
 - **Technique and ergonomics:** Proper body alignment and movement are essential for efficient technique and injury prevention. Musicians often train to optimize their posture and motion for better sound production and endurance.
 - **Interaction:** In ensemble settings, musicians use visual cues and body language to synchronize timing, dynamics, and phrasing, fostering group cohesion.
 
-### Research perspectives
-
-Studying the body in music helps researchers understand the relationship between movement and sound, the biomechanics of performance, and the ways physical gestures contribute to musical interpretation. Technologies like motion capture provide valuable insights into these aspects, enabling detailed analysis of how musicians use their bodies to create and shape music.
-
-
-
-## Human Movement Analysis
-
-There are various ways to study human body motion. While many associate "motion capture" with suits, markers, or sensors, the term can be interpreted more broadly to include any method that systematically records human movement. This encompasses both qualitative and quantitative approaches.
-
-### Qualitative Methods
-
-Qualitative motion analysis involves introspection and observation:
-
-- **Introspection:** Reflecting on one's own movement experience, such as evaluating performance or noticing discomfort.
-- **Observation:** Watching others move, either directly or via video, and systematically annotating features of their motion. Although some may not consider this "proper" motion capture, it is a structured way to document movement without advanced technology.
-
-Observation-based methods are common in clinical, sports, and training settings. Video recordings are increasingly used, allowing repeated playback and slow-motion review to analyze details.
-
-### Quantitative Methods
-
-Quantitative methods rely on numerical representations of motion. For example, video can serve as a quantitative tool if features are extracted and measured, rather than just observed. Quantitative analysis often involves plotting measurements and applying statistical or machine learning techniques. Various technologies for quantitative motion capture will be discussed in later sections.
-
-### Mixed Methods
-
-In practice, qualitative and quantitative methods are often combined. For example, researchers may use both video and sensors, and analyses may include both interpretive and numerical components. For clarity, this course distinguishes between qualitative and quantitative methods, but acknowledges that mixed-method approaches are common.
-
-The primary focus of this course is on quantitative motion capture methods, particularly infrared-based systems, while also introducing other techniques. Before exploring these in detail, we will further discuss qualitative approaches.
 
 ## Anatomy
 
-Anatomy is a broad field, but here we provide a concise overview relevant to movement analysis.
-
-### Anatomical Position
-
-Anatomy studies the structure of the body. To describe locations and relationships consistently, we use the *anatomical position*: the body stands upright, head and eyes forward, arms at the sides with palms facing forward, and feet parallel and pointing ahead.
+Anatomy is a broad field, but here we provide a concise overview relevant to movement analysis.Anatomy studies the structure of the body. To describe locations and relationships consistently, we use the *anatomical position*: the body stands upright, head and eyes forward, arms at the sides with palms facing forward, and feet parallel and pointing ahead.
 
 ![A body in the standard anatomical position.](https://ugc.futurelearn.com/uploads/assets/f5/64/f56435b9-17e8-4670-8bcd-577c5c2ec9ed.png)
 
-### Regional Anatomy
-
-There are two main approaches to studying anatomy:
-
-- **Regional anatomy:** Examines all structures within a specific body region (e.g., lower limb).
-- **Systemic anatomy:** Focuses on a single system throughout the body (e.g., the muscular system).
 
 The body is divided into regions: head, neck, trunk, upper limb, and lower limb, each with further subregions. For movement analysis, distinguishing between areas like the arm and forearm or thigh and leg is important.
 
 ![A body in the anatomical position. Regions of the body are named.](https://ugc.futurelearn.com/uploads/assets/96/c3/96c35d42-f05f-4305-8f85-f1f2b6f5625c.png)
-
-### Anatomical Planes
 
 To describe positions and movements in three dimensions, we use *anatomical planes*—imaginary sheets dividing the body:
 
@@ -114,8 +61,6 @@ To describe positions and movements in three dimensions, we use *anatomical plan
 The reference point is typically the belly button for the whole body, but can be adjusted for specific segments.
 
 ![A picture of a body. The three anatomical planes are shown.](https://ugc.futurelearn.com/uploads/assets/34/26/3426a263-9771-4f4e-bba7-f536bd234cf3.png)
-
-### Directional Terms
 
 Standardized directional terms describe locations relative to other body parts. The default reference is the belly button, but other points can be used as needed.
 
@@ -144,123 +89,105 @@ The body can be divided into 11 systems, but for movement, the most relevant are
 - **Muscular system:** Muscles that act on the skeleton to move or position body parts.
 
 Together, these form the *musculoskeletal system*, which is fundamental for producing and controlling movement.
-
 ### The Muscular System
 
-There are three types of muscles, cardiac (the heart), smooth (the digestive organ), skeletal (the biceps and others). In the following article, we will only focus on the skeletal muscles.
+The human body contains three types of muscle tissue: **cardiac** (found in the heart), **smooth** (found in organs such as the digestive tract), and **skeletal** (attached to bones, such as the biceps). Here, we focus on skeletal muscles, which are responsible for voluntary movement by acting on the bones at the joints.
 
-Skeletal muscles act upon the bones to create movement at the joints. The big red fleshy portion is called the *muscle belly*, while the white narrow ends are called *tendons*. These tendons are what attaches the muscle to the bone. Muscle bellies have fibres that *contract* when the muscle is fired (turned on). This causes the tendon to pull on the bone, resulting in movement. The figure below illustrates the process of muscle contraction (firing). This causes the muscle to pull on the bone, which then results in movement. 
+A skeletal muscle consists of a thick, red **muscle belly** and narrow, white **tendons** at each end. The tendons anchor the muscle to bones. When a muscle contracts, its fibers shorten, pulling on the tendons and moving the attached bone. This process is illustrated below:
 
 ![A muscle that contracts, pulling the bone, which equals movement.](https://ugc.futurelearn.com/uploads/assets/18/67/18676079-6e3f-440a-a5ef-9bb9757e39d2.jpg "OpenStax, CC BY 4.0 , https://commons.wikimedia.org/wiki/File:1015_Types_of_Contraction_new.jpg")
 
-Muscles function by contracting: they pull together, never push. The end of the muscle attached to the fixed bone is called the *origin*, while the moveable end is called the muscle’s *insertion*. 
+Muscles can only pull—they cannot push. Movement often involves several muscles working together:
 
-Many muscles may be involved in an action. The main muscle is called the *agonist* and is the "prime mover". Muscles that assist the agonist are called a *synergist*. These can also be *fixators*; that is, they stabilize the origin bone of the agonist. Finally, a muscle with the opposite action to the agonist is called an *antagonist*. 
+- The **agonist** (prime mover) is the main muscle responsible for a specific movement.
+- **Synergists** assist the agonist, sometimes acting as **fixators** to stabilize the origin bone.
+- The **antagonist** produces the opposite action to the agonist, allowing controlled movement.
 
-There are over 600 skeletal muscles in the human body, so we will only give a quick overview. The figure below shows some of the major superficial skeletal muscles or groups. 
+With over 600 skeletal muscles in the human body, we will only highlight some of the major superficial muscles. The figure below shows key muscle groups from the front and back:
 
 ![A body seen from the front, an anatomical position, and the back. Muscles are named.](https://ugc.futurelearn.com/uploads/assets/e5/d8/e5d85739-f8dc-460d-baad-19c5da4fedd5.png "OpenStax & Tomáš Kebert & umimeto.org, CC BY-SA 4.0 https://commons.wikimedia.org/wiki/File:Muscles_front_and_back.svg")
 
-### The skeletal system
+### The Skeletal System
 
-Humans have roughly 206 bones that provide the "scaffold" of the body. The image below identifies the major bones or groups of bones in a human skeleton.
+The adult human skeleton consists of approximately 206 bones, forming the structural framework of the body. The image below identifies the major bones and bone groups:
 
 ![The skeletal system, shown from the front and back. Major bones and groups of bones are named.](https://ugc.futurelearn.com/uploads/assets/80/22/80225b63-e657-4c93-8e82-b59139f076e7.jpg "OpenStax College, CC BY 3.0 https://commons.wikimedia.org/wiki/File:701_Axial_Skeleton-01.jpg")
 
-Bones facilitate movement by serving as attachment sites for the muscles. Think of bones as the "levers" of movement. 
+Bones serve as **levers** for movement and provide attachment points for muscles. Many bones have distinct **landmarks**—features that serve as sites for muscle attachment and can often be felt (palpated) on your own body. Here are a few examples:
 
-### Landmarks 
+- **Ankles:** The prominent bumps on each side are the *malleoli*—the lateral malleolus (on the fibula) and the medial malleolus (on the tibia).
+- **Pelvis:** At the upper, outer edge, trace forward to the pointy bump known as the *anterior superior iliac spine*.
+- **Elbow:** In the anatomical position, the bony bumps on either side are the *medial* and *lateral epicondyles* of the *humerus*. On the back of the elbow, the large bump is the *olecranon process* of the *ulna*.
 
-Bones have *landmarks* on them that serve as muscle attachment sites. Some of these markings we can *palpate* (feel). You can try to locate some of these on your own body: 
+These anatomical features are important reference points for understanding movement and for locating muscle attachments.
 
-* Down at your ankles, these big rounded parts are called a *malleolus*. This is the lateral malleolus (on the fibula) and medial malleolus (on the tibia).
-* At your pelvis, start at the most superior, lateral part. Then trace anteriorly until you hit these big pointy bumps. This is called the anterior superior iliac spine.
-* At your elbow, there is a lot of bony landmarks. In the anatomical position, these two bumpy parts on the outside of the elbow are the medial and lateral *epicondyles* of the *humerus*. Then on the posterior side, the big bump making the apex of your elbow is called the *olecranon* process and is part of the *ulna*.
+### Joints
 
-### Joints 
+Joints are the connections between bones that enable movement and provide structural support. They can be classified in two main ways:
 
-When bones are connected, they form what is called a *joint*. Such joints can be classified both structurally and functionally.  Structural classification considers how the bones are connected; with fibrous connective tissue, cartilage, or enclosed within a fluid-filled space called a *joint cavity*. A functional classification describes the motion possibilities, ranging from immobile, to slightly mobile, to freely moveable. 
+- **Structurally:** Based on how the bones are joined—by fibrous tissue, cartilage, or within a fluid-filled *joint cavity*.
+- **Functionally:** Based on the degree of movement allowed—ranging from immovable, to slightly movable, to freely movable joints.
 
-Joints have a variety of forms, which in turn dictate their motion. When analyzing human movement, it is important to determine the joint type and how it can move. The image below illustrates six of the major types of freely moveable joints and how they move.
+The structure of a joint determines its range and type of motion. Understanding joint types is essential for analyzing human movement, as each type allows specific movements. The illustration below shows six major types of freely movable (synovial) joints and their characteristic motions:
 
 ![The six different types of joints and how they rotate: pivot joint, saddle joint, plane joint, hinge joint, condyloid joint, and ball and socket joint.](https://ugc.futurelearn.com/uploads/assets/c4/8a/c48a7d76-6425-4d58-a426-7fa5f149cf7b.png "Colourbox.com / VectorMine / ID:41693444")
 
-### Joint motion
+Joint movements are described in pairs, always relative to the anatomical position. The primary types of movement in each anatomical plane are:
 
-We can describe joint motion in pairs of movement types, similar to pairs of directional terms. Body movements are always described in relation to the anatomical position. The main types of planar movements are: 
+- **Flexion** and **extension** (sagittal plane)
+- **Abduction** and **adduction** (frontal plane)
+- **Internal (medial) rotation** and **external (lateral) rotation** (transverse plane)
 
-* *Flexion*: *extension* in the sagittal plane
-* *Abduction*: *adduction* in the frontal plane
-* *Internal and External Rotation*: in the transverse plane
-
-The major movement types are illustrated in the figure below. 
+The figure below illustrates these major movement types:
 
 ![Different types of movement.](https://ugc.futurelearn.com/uploads/assets/ed/87/ed87c0c8-4476-4348-b7e2-07a5ebd6303e.jpg "Connexions, CC BY 3.0, https://commons.wikimedia.org/wiki/File:Flexion_and_extension.jpg https://commons.wikimedia.org/wiki/File:Ab_add_and_circumduction.jpg https://commons.wikimedia.org/wiki/File:Rotation_CMX.jpg")
 
-|Movement |	Description |
-| -------------| ------------|
-|Flexion |	Bending movement where the joint angle decreases |
-|Extension |	Straightening movement where the joint angle increases |
-|Abduction |	Movement of a segment away from midline |
-|Adduction |	Movement of a segment toward midline |
-|Circumduction |	Circular motion around the joint combining flexion, extension, abduction, and adduction |
-|Internal Rotation |	Rotation of the segment toward midline |
-|External Rotation |	Rotation of the segment away from midline |
+| Movement           | Description                                                        |
+|--------------------|--------------------------------------------------------------------|
+| Flexion            | Bending movement that decreases the joint angle                    |
+| Extension          | Straightening movement that increases the joint angle              |
+| Abduction          | Movement away from the midline of the body                         |
+| Adduction          | Movement toward the midline of the body                            |
+| Circumduction      | Circular movement combining flexion, extension, abduction, adduction|
+| Internal Rotation  | Rotation toward the midline                                        |
+| External Rotation  | Rotation away from the midline                                     |
 
-Additional specialized movements occur in certain joints. *Supination–Pronation* is a specialized form of rotation mainly used when describing the motion of the forearm and the resultant position of the hand. *Dorsiflexion–Plantar Flexion* is the ankle joint’s specific movement in the sagittal plane, while *Inversion–Eversion* refers to the movement of the ankle along the long axis of the foot. *Elevation–Depression* is upwards and downwards movements, usually describing the shoulder and jaw. 
+Certain joints allow specialized movements:
+
+- **Supination–Pronation:** Rotation of the forearm, turning the palm up (supination) or down (pronation).
+- **Dorsiflexion–Plantar Flexion:** Upward (dorsiflexion) or downward (plantar flexion) movement of the ankle.
+- **Inversion–Eversion:** Turning the sole of the foot inward (inversion) or outward (eversion).
+- **Elevation–Depression:** Upward (elevation) or downward (depression) movement, typically of the shoulder or jaw.
+
+These specialized movements are shown below:
 
 ![The types of specialized movement.](https://ugc.futurelearn.com/uploads/assets/fc/8e/fc8ecf48-c563-46f9-87a6-26bca7880e8b.jpg "Connexions, CC BY 3.0,  https://commons.wikimedia.org/wiki/File:Pronation_and_supination.jpg https://commons.wikimedia.org/wiki/File:Dorsiplantar.jpg https://commons.wikimedia.org/wiki/File:Eversion_and_inversion.jpg https://commons.wikimedia.org/wiki/File:Elevation_and_Depression.jpg")
 
-### Degrees of freedom and Range of motion
+Understanding joint structure and movement is fundamental for analyzing how the body produces and controls motion, especially in activities like music performance where precise and expressive movements are essential.
+### Degrees of Freedom and Range of Motion
 
-The *degrees of freedom* (DoF) describes a joint's possible motion directions. In addition, the *range of motion* (RoM) describes how far the joint can move. 
+*Degrees of freedom* (DoF) refer to the number of independent directions in which a joint can move. Each degree of freedom represents a specific type of movement, such as flexion/extension, abduction/adduction, or rotation. *Range of motion* (RoM) describes the extent or distance a joint can move within each of its degrees of freedom, typically measured in degrees.
 
-Let us look at the example of the elbow again. This is a hinge joint that allows for flexion and extension. Thus it has only one degree of freedom. Other joints, like the shoulder, have three degrees of freedom: extension–flexion, adduction–abduction, and internal and external rotation. As seen in the figure below, the elbow joint can move from 0 to 140 degrees, making its RoM 140 degrees.
+For example, the elbow is a hinge joint that primarily allows flexion and extension—movement in a single plane—so it has one degree of freedom. In contrast, the shoulder is a ball-and-socket joint with three degrees of freedom: flexion–extension, abduction–adduction, and internal–external rotation. The figure below shows the elbow’s range of motion, which typically spans from 0° (fully extended) to about 140° (fully flexed).
 
 ![The range of motion of the elbow joint.](https://ugc.futurelearn.com/uploads/assets/31/89/3189dda8-23d6-4584-9e94-da91e934eafe.png "Colourbox.com / Supplier:105053 / ID:8815139")
- 
-Mechanics is the area of physics concerned with the motion of physical objects. *Biomechanics* is the application of mechanics to biological systems. 
 
-Biomechanics aims to explain how and why the human body moves the way it does. This is done using mechanical principles like forces and motion. As illustrated in the figure below, biomechanics also draws on fields like biology, medicine, and engineering.
+Understanding degrees of freedom and range of motion is essential for analyzing joint function, movement capabilities, and limitations in both everyday activities and specialized tasks like music performance.
+
+
+## Biomechanics
+
+*Mechanics* is the branch of physics that studies the motion of physical objects. *Biomechanics* applies these mechanical principles to biological systems, aiming to explain how and why the human body moves as it does. As illustrated below, biomechanics integrates knowledge from biology, medicine, engineering, and physics.
 
 ![A model on biomechanics, illustrating the various other fields included in biomechanics.](https://ugc.futurelearn.com/uploads/assets/67/de/67de5366-5f8f-4954-879a-d963ac592e3d.png "Biomechanics diagram")
 
-As in anatomy, the terminology used in describing human movement is important for ensuring correct communication. Many of the terms come from other disciplines, like physics. We will go over a few basic ones to ensure that everyone is on the same page with vocabulary.
-
-## Biomechanics
+As in anatomy, using precise terminology is crucial for clear communication in biomechanics. Many terms are borrowed from physics and engineering. The following sections introduce key concepts and vocabulary to ensure a shared understanding when describing human movement.
 
 The *statics* branch of biomechanics deals with resting bodies, such as when sitting or standing. During rest, the body is in equilibrium due to balanced forces. *Dynamics* is concerned with bodies in motion, such as when running or climbing. This motion results from unbalanced forces. For example, you can start running by leaning forwards.
 
 *Kinematics* is the description of motion; it is sometimes called the "geometry of motion". *Kinetics* is the cause of the motion, meaning what causes the body to move the way it does. Simply put, kinematics you can see, kinetics you can’t. We will look at both of these more closely in a later section. 
 
-### Qualitative vs Quantitative
-
-Biomechanics uses both *qualitative* (descriptive) and *quantitative* (numerical) descriptors. Examples of qualitative descriptors are "good", "slow", and "smooth". Examples of quantitative values are 8 m/s (meters per second), 67° (degrees), and 53 N (Newton). 
-
-In most cases, one would relate qualitative to quantitative descriptors. However, there are no one-to-one relationships. What is considered "slow" or "fast" usually depends on the context.
-
-### Variable Types
-
-Many biomechanical parameters can either be represented as *scalar* or *vector* quantities. Scalars only have a magnitude, while vectors have both a magnitude and a direction. Consider the difference between *speed* and *velocity*. Speed tells how fast you are moving in any direction. Velocity, on the other hand, tells how fast you covered a specific distance. 
-
-A vector can be either *linear* or *angular* in nature. Linear values describe motion from one position to another. Angular values describe the rotation about an axis. 
-
-![A skeleton riding a bike.](https://ugc.futurelearn.com/uploads/assets/73/d6/73d6861c-6dd1-487f-a1e9-48af01ee0b30.png "Colourbox.com / Supplier:224651 / ID:30891718")
-
-Considering a bike rider, like in the above picture, there are three different types of values: 
-
--  **Scalar**: The bicycle moves at a speed of 30 km/hr 
-- **Linear Vector**: The bicycle is moving at a velocity of 30 km/hr, heading 45 ° northeast 
-- **Angular Vector**: The wheel of the bicycle is rotating with a velocity of 270 °/s
-
-### Reference Frame
-
 Just as for the anatomical planes, we also need a *reference frame* when studying human motion. This can be either *global* or *local*. When working with a motion capture system in a lab, we often define the coordinate system relative to the lab space. This can be the centre of the room, from which all other positions are calculated. 
-
-Sometimes it makes more sense to use a local reference frame. For example, it is irrelevant to know the exact position in space if one is interested in how the arm moves. Then it is more relevant to study elbow flexion and extension as the angle between the arm and forearm. 
-
-
-As we saw in a previous step, biomechanics can be broken into two parts: *kinematics* and *kinetics*. Here we will look at some of the principles of both.
 
 ### Kinematics
 
@@ -283,8 +210,6 @@ The *acceleration* describes the change in velocity of an object. It is benefici
 
 Kinetics focuses on how forces make the body move. The musculoskeletal system is responsible for generating forces that move the human body and prevent any unwanted motion.
 
-### Force and Moment
-
 As shown in the figure below, a *force* is the push or pull that alters the state of motion of a body. Without forces being applied, there will be no change in motion. In the musculoskeletal system, the muscles generate force that acts upon bones and leads to motion. Gravity is an example of an external force that affects the human body.
 
 ![Different types of forces.](https://ugc.futurelearn.com/uploads/assets/48/50/4850f139-9c99-46ed-841a-3daef7a13327.png "Colourbox.com / VectorMine / ID:44041054")
@@ -292,8 +217,6 @@ As shown in the figure below, a *force* is the push or pull that alters the stat
 When a force rotates a body segment, it is called *torque* or a *moment* of force. The moment is defined by the length of the rotating object, the force applied, and the angle between the force vector and the object. In biomechanics, they can tell us what muscle group is dominant, so flexors or extensors perform work. 
 
 The force and moment can be used to calculate the *power* used, defined as the work done over time. We will not dive into this here, but interested readers can check out some of the references below. 
-
-### Balance
 
 *Balance* is the ability to control equilibrium or stability. In biomechanics, *static balance* refers to the ability to control the body when stationary. *Dynamic balance* is the ability to control the body during motion. 
 
@@ -306,13 +229,19 @@ A person is considered in balance when the line of gravity originating from thei
 ![Four bodies showing four different lines of gravity with relation to the base of support and balance.](https://ugc.futurelearn.com/uploads/assets/61/1e/611e086e-b950-4b59-9c10-4940cdbdccf9.png "Colourbox.com / Supplier:253220 /ID:27042285 27042297 27042301")
 
 
-### The vestibular system
-
-The vestibular system is a sensory system located in the inner ear that plays a crucial role in balance, spatial orientation, and coordination of movement. It helps the brain process information about motion, head position, and body posture, allowing individuals to maintain equilibrium and navigate their environment effectively. In the context of music and performance, the vestibular system contributes to a musician's sense of balance and body awareness, which are essential for precise and expressive movement. For more information, see the [Wikipedia article on the vestibular system](https://en.wikipedia.org/wiki/Vestibular_system).
-
-
 ## Human Movement Analysis
+
+There are various ways to study human body motion. While many associate "motion capture" with suits, markers, or sensors, the term can be interpreted more broadly to include any method that systematically records human movement. This encompasses both qualitative and quantitative approaches. In practice, qualitative and quantitative methods are often combined. For example, researchers may use both video and sensors, and analyses may include both interpretive and numerical components. For clarity, this course distinguishes between qualitative and quantitative methods, but acknowledges that mixed-method approaches are common.
+
+
 ### Qualitative approaches
+
+Qualitative motion analysis involves introspection and observation:
+
+- **Introspection:** Reflecting on one's own movement experience, such as evaluating performance or noticing discomfort.
+- **Observation:** Watching others move, either directly or via video, and systematically annotating features of their motion. Although some may not consider this "proper" motion capture, it is a structured way to document movement without advanced technology.
+
+Observation-based methods are common in clinical, sports, and training settings. Video recordings are increasingly used, allowing repeated playback and slow-motion review to analyze details.
 
 Qualitative methods emphasize observing and describing motion, often using established frameworks:
 
@@ -321,6 +250,9 @@ Qualitative methods emphasize observing and describing motion, often using estab
 
 These qualitative approaches provide valuable insights into the expressive and communicative aspects of movement, complementing quantitative motion capture techniques.
 
+### Quantitative approaches
+
+Quantitative methods rely on numerical representations of motion. For example, video can serve as a quantitative tool if features are extracted and measured, rather than just observed. Quantitative analysis often involves plotting measurements and applying statistical or machine learning techniques. Various technologies for quantitative motion capture will be discussed in later sections.
 
 ### Motion capture
 
@@ -364,9 +296,10 @@ When planning to study music-related body motion, consider:
 - **Analysis:** Will the analysis be descriptive (kinematics, spatial/temporal features) or functional (sound-producing/accompanying actions)? Most studies benefit from both qualitative and quantitative approaches.
 
 
-## References
-
-
-```{bibliography}
-```
 ## Questions
+
+1. Describe the anatomical position and explain why it is important for movement analysis.
+2. What are the main differences between qualitative and quantitative approaches to human movement analysis? Provide examples of each.
+3. How do camera-based and sensor-based motion capture systems differ in their applications and limitations?
+4. Explain the concept of degrees of freedom in joint motion and give an example from the human body.
+5. Discuss how the vestibular system contributes to balance and movement in musical performance.
