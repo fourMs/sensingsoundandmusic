@@ -1,6 +1,6 @@
 ---
 title: "Week 8: The Brain"
-description: Understanding how the brain processes sound and music
+subtitle: Understanding how the brain processes sound and music
 authors: 
   - name: Alexander Refsum Jensenius
     affiliation: 
