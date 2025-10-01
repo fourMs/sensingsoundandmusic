@@ -16,80 +16,76 @@ The human brain plays a central role in how we sense, interpret, and respond to 
 ## The Human Brain
 The human brain is an extraordinarily complex organ, consisting of approximately 86 billion neurons and an even greater number of supporting glial cells. It acts as the central hub for processing all sensory input, orchestrating perception, cognition, emotion, and movement. When it comes to sound and music, several anatomical features are especially relevant:
 
-- **Cerebral Cortex**: The outer layer of the brain, responsible for higher-order functions such as perception, reasoning, and voluntary movement. Within the cortex, the **temporal lobes** house the primary auditory cortex, which is crucial for decoding sound features.
-- **Frontal Lobes**: Involved in attention, planning, and decision-making, these regions help us focus on specific sounds and anticipate musical patterns.
-- **Limbic System**: Includes structures like the amygdala and hippocampus, which are central to processing emotions and forming memories—key elements in our emotional response to music.
-- **Brainstem**: Handles basic life functions (such as breathing and heart rate) and is the first relay station for incoming auditory signals from the ear.
+- The [cerebral cortex](https://en.wikipedia.org/wiki/Cerebral_cortex) is the outer layer of the brain, responsible for higher-order functions such as perception, reasoning, and voluntary movement. Within the cortex, the [temporal lobes](https://en.wikipedia.org/wiki/Temporal_lobe) house the primary auditory cortex, which is crucial for decoding sound features.
+- The [frontal lobes](https://en.wikipedia.org/wiki/Frontal_lobe) are involved in attention, planning, and decision-making, these regions help us focus on specific sounds and anticipate musical patterns.
+- The [limbic system](https://en.wikipedia.org/wiki/Limbic_system) includes structures like the [amygdala](https://en.wikipedia.org/wiki/Amygdala) and [hippocampus](https://en.wikipedia.org/wiki/Hippocampus), which are central to processing emotions and forming memories&mdash;key elements in our emotional response to music.
+- The [brainstem](https://en.wikipedia.org/wiki/Brainstem) handles basic life functions (such as breathing and heart rate) and is the first relay station for incoming auditory signals from the ear.
 
 The brain’s remarkable plasticity allows it to adapt and reorganize in response to musical training, sensory experiences, and even injury. This adaptability underlies our ability to learn new musical skills, recover from hearing loss, and develop unique musical preferences.
 
 Overall, the brain integrates information from both the external world and internal states, enabling us to interpret, respond to, and find meaning in sound and music.
 
-![Human Brain](https://upload.wikimedia.org/wikipedia/commons/b/bb/Blausen_0102_Brain_Motor%26Sensory_%28flipped%29.png)
+![The lobes of the brain](https://upload.wikimedia.org/wikipedia/commons/3/35/Gehirn%2C_medial_-_Lobi_en.svg)
 
-*Illustration of the human brain, highlighting motor and sensory regions of the cerebral cortex (Illustration: Blausen Medical).*
+*Illustration of the brain's lobes ([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Gehirn,_medial_-_Lobi_en.svg)).
 
 ### Key Brain Regions for Sound and Music Listening
 
 Several specialized regions of the brain are crucial for processing sound and music:
 
-- **[Auditory Cortex](https://en.wikipedia.org/wiki/Auditory_cortex)**: Located in the temporal lobe, the auditory cortex decodes basic sound features such as pitch, loudness, and timbre. It plays a central role in recognizing and interpreting musical elements.
+- The [auditory cortex](https://en.wikipedia.org/wiki/Auditory_cortex) is located in the temporal lobe, the auditory cortex decodes basic sound features such as pitch, loudness, and timbre. It plays a central role in recognizing and interpreting musical elements.
 
-- **[Prefrontal Cortex](https://en.wikipedia.org/wiki/Prefrontal_cortex)**: This region is involved in higher-order cognitive functions, including attention, pattern recognition, and the prediction of musical structure.
+- The [prefrontal cortex](https://en.wikipedia.org/wiki/Prefrontal_cortex) is involved in higher-order cognitive functions, including attention, pattern recognition, and the prediction of musical structure.
 
-- **[Motor Cortex](https://en.wikipedia.org/wiki/Motor_cortex)**: Even during passive listening, the motor cortex can be activated, reflecting the brain’s response to rhythm and beat, and its role in coordinating movement.
+- The [motor cortex](https://en.wikipedia.org/wiki/Motor_cortex) can be activated even during passive listening, reflecting the brain’s response to rhythm and beat, and its role in coordinating movement.
 
-- **[Limbic System](https://en.wikipedia.org/wiki/Limbic_system)**: Comprising structures such as the [amygdala](https://en.wikipedia.org/wiki/Amygdala) and [hippocampus](https://en.wikipedia.org/wiki/Hippocampus), the limbic system is essential for emotional responses to music and linking music to memories.
+- The [limbic system](https://en.wikipedia.org/wiki/Limbic_system) comprises structures such as the [amygdala](https://en.wikipedia.org/wiki/Amygdala) and [hippocampus](https://en.wikipedia.org/wiki/Hippocampus), the limbic system is essential for emotional responses to music and linking music to memories.
 
-- **[Nucleus Accumbens](https://en.wikipedia.org/wiki/Nucleus_accumbens)**: Part of the brain’s reward system, this region is associated with pleasurable feelings and motivation that music can evoke.
+- The [nucleus accumbens](https://en.wikipedia.org/wiki/Nucleus_accumbens) i part of the brain’s reward system, this region is associated with pleasurable feelings and motivation that music can evoke.
 
 Together, these regions enable the perception, emotional experience, and cognitive processing of sound and music.
 
+![Human Brain](https://upload.wikimedia.org/wikipedia/commons/b/bb/Blausen_0102_Brain_Motor%26Sensory_%28flipped%29.png)
+
+*Illustration of the human brain, highlighting motor and sensory regions of the cerebral cortex (Illustration: Blausen Medical).*
+
+
 ### Auditory Pathways
 
-Sound perception begins when sound waves enter the outer ear and travel through the ear canal, causing the eardrum to vibrate. These vibrations are transmitted via the ossicles (tiny bones) in the middle ear to the cochlea in the inner ear. Within the cochlea, specialized hair cells convert mechanical vibrations into electrical signals—a process known as transduction.
+As we have discussed in previous weeks, sound perception begins when sound waves enter the [outer ear](https://en.wikipedia.org/wiki/Outer_ear) and travel through the [ear canal](https://en.wikipedia.org/wiki/Ear_canal), causing the [eardrum](https://en.wikipedia.org/wiki/Eardrum) to vibrate. These vibrations are transmitted via the [ossicles](https://en.wikipedia.org/wiki/Ossicles) (tiny bones) in the [middle ear](https://en.wikipedia.org/wiki/Middle_ear) to the [cochlea](https://en.wikipedia.org/wiki/Cochlea) in the [inner ear](https://en.wikipedia.org/wiki/Inner_ear). Within the cochlea, specialized [hair cells](https://en.wikipedia.org/wiki/Hair_cell) convert mechanical vibrations into electrical signals&mdash;a process known as [transduction](https://en.wikipedia.org/wiki/Sensory_transduction).
 
-These neural signals are carried by the auditory nerve (cranial nerve VIII) to the brainstem, where they first synapse in the cochlear nuclei. From there, auditory information follows a complex, multi-stage pathway involving several key relay stations:
+These neural signals are carried by the [auditory nerve](https://en.wikipedia.org/wiki/Cochlear_nerve) to the [brainstem](https://en.wikipedia.org/wiki/Brainstem), where they first synapse in the [cochlear nuclei](https://en.wikipedia.org/wiki/Cochlear_nucleus). From there, auditory information follows a complex, multi-stage pathway involving several key relay stations:
 
-- **Superior Olivary Complex**: Located in the brainstem, this structure is important for processing the timing and intensity differences between the ears, which helps us localize sounds in space.
-- **Inferior Colliculus**: Situated in the midbrain, the inferior colliculus integrates auditory information and is involved in reflexive responses to sound, such as orienting the head toward a noise.
-- **Medial Geniculate Body (Thalamus)**: The thalamus acts as a major relay center, directing auditory signals to the appropriate regions of the cerebral cortex.
+- The [superior olivary complex](https://en.wikipedia.org/wiki/Superior_olivary_complex) is located in the brainstem, this structure is important for processing the timing and intensity differences between the ears, which helps us localize sounds in space.
+- The [inferior colliculus](https://en.wikipedia.org/wiki/Inferior_colliculus) is situated in the midbrain, the inferior colliculus integrates auditory information and is involved in reflexive responses to sound, such as orienting the head toward a noise.
+- The [thalamus](https://en.wikipedia.org/wiki/Medial_geniculate_nucleus) acts as a major relay center, directing auditory signals to the appropriate regions of the cerebral cortex.
 
-Finally, auditory information reaches the **primary auditory cortex** in the temporal lobe, where basic sound features such as pitch, loudness, and timbre are decoded. From here, signals are further processed in secondary auditory areas and other cortical regions, enabling the recognition of complex sounds, speech, and music.
+Finally, auditory information reaches the primary auditory cortex in the temporal lobe, where basic sound features such as pitch, loudness, and timbre are decoded. From here, signals are further processed in secondary auditory areas and other cortical regions, enabling the recognition of complex sounds, speech, and music.
 
 This hierarchical and parallel processing system allows the brain to analyze multiple aspects of sound simultaneously, supporting our ability to detect, localize, and interpret the rich variety of sounds in our environment—including the intricate patterns found in music.
 
 ### Neural Processing of Sound
 
-Once auditory information reaches the brain, specialized neural circuits decode a wide range of sound features. The **auditory cortex**—primarily located in the temporal lobes—serves as the main hub for analyzing basic elements such as pitch, loudness, timbre, and rhythm. Within the auditory cortex, different populations of neurons are tuned to specific sound frequencies, allowing for the precise discrimination of musical notes and speech sounds.
-
-#### Feature Extraction
+Once auditory information reaches the brain, specialized neural circuits decode a wide range of sound features. Within the auditory cortex, different populations of neurons are tuned to specific sound frequencies, allowing for the precise discrimination of musical notes and speech sounds:
 
 - **Pitch**: Neurons in the primary auditory cortex are organized tonotopically, meaning they are arranged according to the frequency of sound they respond to. This organization enables the brain to distinguish between high and low pitches.
 - **Loudness**: The intensity of a sound is encoded by the firing rate of auditory neurons, with louder sounds producing stronger neural responses.
 - **Timbre**: The quality or color of a sound, known as timbre, is processed by integrating information from multiple frequencies and harmonics, allowing us to differentiate between instruments or voices.
 - **Rhythm and Timing**: Temporal patterns in music and speech are analyzed by networks involving both the auditory cortex and motor-related areas, supporting our ability to perceive and synchronize with beats.
 
-#### Lateralization of Function
+*Lateralization* refers to the tendency for certain auditory functions to be more dominant in one hemisphere of the brain. For example, the left hemisphere is often more specialized for processing rapid temporal changes, such as those found in speech and rhythm. This makes it crucial for language comprehension and rhythmic analysis. The right hemisphere is generally more sensitive to spectral (frequency-based) information, making it important for perceiving melody, pitch, and the emotional qualities of music. This division of labor between hemispheres enhances the brain’s ability to analyze complex sounds, such as music, by allowing parallel processing of different auditory features.
 
-**Lateralization** refers to the tendency for certain auditory functions to be more dominant in one hemisphere of the brain. For example:
-- The **left hemisphere** is often more specialized for processing rapid temporal changes, such as those found in speech and rhythm. This makes it crucial for language comprehension and rhythmic analysis.
-- The **right hemisphere** is generally more sensitive to spectral (frequency-based) information, making it important for perceiving melody, pitch, and the emotional qualities of music.
-
-This division of labor between hemispheres enhances the brain’s ability to analyze complex sounds, such as music, by allowing parallel processing of different auditory features.
-
-#### Integration and Higher-Order Processing
-
-After initial feature extraction, auditory information is integrated with input from other brain regions, including the **prefrontal cortex** (for attention and expectation), the **limbic system** (for emotional response), and the **motor cortex** (for rhythm and movement). This integration supports higher-order processes such as recognizing familiar melodies, predicting musical structure, and associating sounds with memories or emotions.
+After initial feature extraction, auditory information is integrated with input from other brain regions, including the prefrontal cortex (for attention and expectation), the limbic system (for emotional response), and the motor cortex (for rhythm and movement). This integration supports higher-order processes such as recognizing familiar melodies, predicting musical structure, and associating sounds with memories or emotions.
 
 Overall, the neural processing of sound involves a dynamic interplay between specialized brain regions, enabling us to interpret, enjoy, and respond to the rich variety of sounds and music in our environment.
+
 ### Music Perception and Cognition
 
-Music perception and cognition are the result of intricate interactions among multiple brain regions and systems. When we listen to music, the **auditory cortex** first analyzes fundamental sound features—such as pitch, rhythm, and timbre—transforming acoustic signals into meaningful patterns. Beyond this initial processing, higher-order brain areas come into play:
+Music perception and cognition are the result of intricate interactions among multiple brain regions and systems. When we listen to music, the **auditory cortex** first analyzes fundamental sound features&mdash;such as pitch, rhythm, and timbre&mdash;transforming acoustic signals into meaningful patterns. Beyond this initial processing, higher-order brain areas come into play:
 
 - The **prefrontal cortex** is involved in recognizing musical patterns, predicting structure, and integrating musical experiences with attention, memory, and expectation.
 - The **motor cortex** is often activated by rhythm, even during passive listening, reflecting our innate tendency to move or synchronize with music.
-- The **limbic system**—including the amygdala and hippocampus—mediates emotional responses and links music to personal memories, explaining why certain songs can evoke strong feelings or vivid recollections.
+- The **limbic system**&mdash;including the amygdala and hippocampus&mdash;mediates emotional responses and links music to personal memories, explaining why certain songs can evoke strong feelings or vivid recollections.
 - The **reward system**, particularly the **nucleus accumbens**, is engaged during pleasurable musical experiences, releasing dopamine and contributing to the sense of enjoyment and motivation.
 
 These interconnected processes enable us to experience music as a rich, multidimensional phenomenon that involves sensory analysis, emotional engagement, memory retrieval, and cognitive functions such as attention and decision-making. Musical training can further enhance these neural networks, promoting neuroplasticity and supporting improvements in auditory discrimination, language skills, and problem-solving abilities.
@@ -106,7 +102,7 @@ Musical training is one of the most influential factors affecting the brain’s 
 
 #### Age-Related Changes and Hearing Loss
 
-As people age, changes in the auditory system and brain can affect the ability to process sound and music. Age-related hearing loss (presbycusis) can reduce sensitivity to certain frequencies and make it harder to distinguish speech or musical details. However, the brain often compensates through neuroplasticity—its capacity to reorganize and form new neural connections. Engaging in musical activities throughout life has been shown to help maintain auditory and cognitive functions in older adults.
+As people age, changes in the auditory system and brain can affect the ability to process sound and music. Age-related hearing loss (presbycusis) can reduce sensitivity to certain frequencies and make it harder to distinguish speech or musical details. However, the brain often compensates through neuroplasticity&mdash;its capacity to reorganize and form new neural connections. Engaging in musical activities throughout life has been shown to help maintain auditory and cognitive functions in older adults.
 
 #### Neurodiversity and Special Populations
 
@@ -176,7 +172,7 @@ MEG offers several strengths, including excellent temporal resolution on the mil
 
 fMRI is widely used in music neuroscience to identify which brain areas are engaged during music listening, performance, and imagination. It has revealed how networks involved in auditory perception, emotion, memory, and motor planning are activated by music. For example, fMRI studies have shown that listening to music can engage not only the auditory cortex but also limbic regions (linked to emotion), the prefrontal cortex (involved in attention and expectation), and motor areas (related to rhythm and movement).
 
-While fMRI provides excellent spatial resolution—allowing precise localization of brain activity—it has lower temporal resolution compared to EEG or MEG, as the hemodynamic response unfolds over several seconds. The scanning environment is also noisy and requires participants to remain very still, which can limit the types of musical tasks that can be studied.
+While fMRI provides excellent spatial resolution&mdash;allowing precise localization of brain activity&mdash;it has lower temporal resolution compared to EEG or MEG, as the hemodynamic response unfolds over several seconds. The scanning environment is also noisy and requires participants to remain very still, which can limit the types of musical tasks that can be studied.
 
 fMRI offers several strengths, including high spatial resolution on the millimeter scale, whole-brain coverage, and non-invasive measurement, making it widely available in research settings and highly effective for mapping complex brain networks. However, it also has notable limitations: its temporal resolution is lower (on the order of seconds), it is sensitive to head movement, the scanning environment is noisy and confined, and the technique is expensive. Additionally, fMRI is not suitable for all populations, such as individuals with metal implants.
 
@@ -187,7 +183,7 @@ fMRI offers several strengths, including high spatial resolution on the millimet
 
 ### Comparison of Brain Activity Measurement Methods
 
-These complementary methods—EEG, fNIRS, MEG, and fMRI—allow researchers to investigate how the brain responds to sound and music, from the millisecond timing of neural events to the identification of specific brain regions involved in perception, cognition, and emotion.
+These complementary methods&mdash;EEG, fNIRS, MEG, and fMRI&mdash;allow researchers to investigate how the brain responds to sound and music, from the millisecond timing of neural events to the identification of specific brain regions involved in perception, cognition, and emotion.
 
 | Method | Strengths | Limitations |
 |--------|-----------|-------------|
@@ -205,7 +201,7 @@ Brain-computer interfaces (BCIs) are systems that enable direct communication be
 
 - **Brain-Computer Interfaces for Music**: BCIs can allow users to create or control music using their brain signals. For example, EEG-based BCIs have been developed that let individuals compose melodies, trigger musical events, or modulate sound parameters through imagined movement or focused attention. These technologies open new possibilities for musical expression, especially for people with physical disabilities.
 
-- **Hearing Aids**: Modern hearing aids increasingly incorporate signal processing techniques that adapt to the user’s environment. Research is exploring how BCIs can further improve hearing aids by detecting the user’s auditory attention—helping the device focus on the sound source the listener wants to hear, such as a specific voice in a noisy room.
+- **Hearing Aids**: Modern hearing aids increasingly incorporate signal processing techniques that adapt to the user’s environment. Research is exploring how BCIs can further improve hearing aids by detecting the user’s auditory attention&mdash;helping the device focus on the sound source the listener wants to hear, such as a specific voice in a noisy room.
 
 - **Cochlear Implants**: Cochlear implants are medical devices that restore hearing by directly stimulating the auditory nerve in individuals with severe hearing loss. Advances in neuroscience and brain-computer interfacing are leading to smarter implants that can adapt to the user’s neural responses, potentially improving sound quality and speech comprehension.
 
