@@ -58,49 +58,81 @@ Together, these regions enable the perception, emotional experience, and cogniti
 
 ## Capturing Brain Activity
 
-Understanding how the brain processes sound and music relies on advanced methods for measuring brain activity. Several non-invasive techniques are commonly used in research and clinical settings to observe neural responses during music listening and performance. Each method offers unique insights into the timing, location, and nature of brain activity.
+Understanding how the brain processes sound and music relies on advanced methods for measuring brain activity. Several non-invasive techniques are commonly used in research and clinical settings to observe neural responses during music listening and performance. Each method offers insights into the timing, location, and nature of brain activity.
 
 ### EEG (Electroencephalography)
 
-Electroencephalography (EEG) records the brain’s electrical activity using electrodes placed on the scalp. EEG captures rapid changes in neural activity with high temporal resolution (on the order of milliseconds), making it ideal for studying the timing of brain responses to auditory stimuli, such as rhythm and pitch changes in music. EEG is widely used in cognitive neuroscience, music perception research, and clinical diagnostics (e.g., epilepsy). [Learn more about EEG on Wikipedia](https://en.wikipedia.org/wiki/Electroencephalography)
+[Electroencephalography](https://en.wikipedia.org/wiki/Electroencephalography) (EEG) is a non-invasive technique that records the brain’s electrical activity through electrodes placed on the scalp. These electrodes detect the tiny voltage fluctuations produced by the synchronous activity of large groups of neurons, primarily in the cerebral cortex. EEG is particularly sensitive to the rapid, millisecond-scale changes in neural activity, making it an excellent tool for studying the timing and dynamics of brain responses.
 
-- **Strengths:** Excellent temporal resolution, non-invasive, relatively affordable and portable.
-- **Limitations:** Limited spatial resolution; signals are influenced by activity from large populations of neurons near the scalp.
+In the context of music and sound research, EEG is used to investigate how the brain processes auditory information such as rhythm, pitch, melody, and harmony. For example, researchers can present musical stimuli and observe event-related potentials ([ERPs](https://en.wikipedia.org/wiki/Event-related_potential))&mdash;distinctive patterns in the EEG signal that are time-locked to specific sensory, cognitive, or motor events. This allows for the examination of processes like auditory attention, expectation, and memory in real time.
 
-![EEG](https://upload.wikimedia.org/wikipedia/commons/3/39/EEG_recording.jpg)
+EEG is also widely used in clinical settings to diagnose neurological conditions such as epilepsy, sleep disorders, and brain injuries. In music neuroscience, it has been instrumental in exploring how musical training affects brain function, how the brain distinguishes between different musical genres, and how emotional responses to music are generated.
+
+- **Strengths:** Excellent temporal resolution (milliseconds), non-invasive, relatively affordable, portable, and suitable for a wide range of participants and experimental settings.
+- **Limitations:** Limited spatial resolution (difficulty pinpointing exact sources of activity within the brain), signals are influenced by activity from large populations of neurons near the scalp, and susceptible to artifacts from muscle movement or eye blinks.
+
+![EEG](https://image.forskning.no/2544552.webp?imageId=2544552&x=0.00&y=0.00&cropw=100.00&croph=100.00&width=2116&height=1186&format=webp)
+
+*Research assistants and students are practicing EEG measurement at RITMO (Photo: UiO).*
 
 
 ### fNIRS (Functional Near-Infrared Spectroscopy)
 
-[Functional Near-Infrared Spectroscopy](https://en.wikipedia.org/wiki/Functional_near-infrared_spectroscopy) (fNIRS) uses near-infrared light to measure changes in blood oxygenation in the cortex, reflecting neural activity. fNIRS is non-invasive, silent, and tolerant of movement, making it suitable for studies involving children, musicians playing instruments, or participants in naturalistic settings.
+[Functional Near-Infrared Spectroscopy](https://en.wikipedia.org/wiki/Functional_near-infrared_spectroscopy) (fNIRS) is a non-invasive imaging technique that uses near-infrared light to monitor changes in blood oxygenation and blood volume in the cortex, which are indirect indicators of neural activity. By placing light sources and detectors on the scalp, fNIRS measures how much near-infrared light is absorbed by oxygenated and deoxygenated hemoglobin in the brain. When a brain region becomes more active, it consumes more oxygen, leading to detectable changes in the optical properties of the tissue.
 
-- **Strengths:** Portable, tolerant of movement, suitable for real-world and developmental studies.
-- **Limitations:** Limited to measuring activity in cortical (surface) brain regions; lower spatial resolution than fMRI.
+fNIRS is particularly valuable for studying brain function in situations where other imaging methods may be impractical. Its silent operation and tolerance for movement make it ideal for research with infants, children, and musicians performing on instruments, as well as for experiments conducted in more naturalistic or real-world environments. For example, fNIRS has been used to investigate how children process music, how musicians' brains respond during live performance, and how social interactions influence neural activity during group music-making.
 
-![fNIRS](https://upload.wikimedia.org/wikipedia/commons/7/7e/FNIRS.jpg)
+- **Strengths:** Portable, relatively affordable, silent, tolerant of movement, and suitable for a wide range of participants and experimental settings, including developmental and ecological studies.
+- **Limitations:** Limited to measuring activity in cortical (surface) brain regions; lower spatial resolution than fMRI; cannot access deep brain structures.
+
+![fNIRS](https://www.uio.no/ritmo/english/projects/musiclab/2024/brain/photos/20241105_122050.jpg)
+
+*Victoria Johnson performing with an fNIRS system during the event [MusicLab Brain: Inside the mind of a violinist](https://www.uio.no/ritmo/english/projects/musiclab/2024/brain/) in 2024 (Photo: UiO).*
 
 
 ### MEG (Magnetoencephalography)
 
-[Magnetoencephalography](https://en.wikipedia.org/wiki/Magnetoencephalography) (MEG) detects the magnetic fields generated by neural electrical activity. MEG provides high temporal and good spatial resolution, allowing researchers to localize brain activity with greater precision than EEG. MEG is particularly useful for mapping functional connectivity and studying the dynamics of auditory and musical processing.
+[Magnetoencephalography](https://en.wikipedia.org/wiki/Magnetoencephalography) (MEG) is a non-invasive neuroimaging technique that measures the tiny magnetic fields produced by synchronized electrical activity in groups of neurons, primarily in the cerebral cortex. Unlike EEG, which detects voltage changes on the scalp, MEG captures the magnetic signals generated by neural currents, providing a direct window into brain function with high temporal precision.
 
-- **Strengths:** High temporal and spatial resolution, direct measurement of neural activity.
-- **Limitations:** Expensive, requires a magnetically shielded room, less portable.
+MEG is especially valuable for studying the timing and localization of brain processes involved in sound and music perception. Its millisecond-level temporal resolution allows researchers to track the rapid neural dynamics underlying auditory processing, rhythm perception, and musical imagery. MEG can also map functional connectivity&mdash;how different brain regions communicate during musical tasks&mdash;by analyzing the synchronization of neural activity across the cortex.
 
-![MEG](https://upload.wikimedia.org/wikipedia/commons/3/3d/MEG_Instrument.jpg)
+In music neuroscience, MEG has been used to investigate how the brain distinguishes between different musical elements, how musicians anticipate and synchronize with rhythm, and how emotional responses to music unfold over time. Its ability to localize sources of brain activity more accurately than EEG makes it a powerful tool for exploring the spatial organization of auditory and cognitive functions.
+
+- **Strengths:** Excellent temporal resolution (milliseconds), good spatial resolution, direct measurement of neural activity, non-invasive, suitable for mapping functional connectivity.
+- **Limitations:** High cost, requires a magnetically shielded room to prevent interference, less portable and more sensitive to movement than EEG or fNIRS, limited accessibility.
+
+![MEG](https://verybigbrain.com/wp-content/uploads/2023/05/magnetoencephalography-meg-brain-study.png)
+
+*MEG instrument used for recording magnetic fields generated by brain activity (Photo: [Very Big Brain](https://verybigbrain.com/outside-influences/magnetoencephalography-meg-a-cutting-edge-tool-for-studying-brain-dynamics/)).*
 
 
 ### fMRI (Functional Magnetic Resonance Imaging)
 
-[Functional Magnetic Resonance Imaging](https://en.wikipedia.org/wiki/Functional_magnetic_resonance_imaging) (fMRI) measures brain activity by detecting changes in blood flow (the BOLD signal) associated with neural activation. fMRI offers excellent spatial resolution, enabling detailed mapping of brain regions involved in music perception, emotion, and memory. 
+[Functional Magnetic Resonance Imaging](https://en.wikipedia.org/wiki/Functional_magnetic_resonance_imaging) (fMRI) is a non-invasive neuroimaging technique that measures brain activity by detecting changes in blood flow, specifically the Blood Oxygen Level Dependent (BOLD) signal. When a brain region becomes more active, it consumes more oxygen, leading to localized changes in blood oxygenation that fMRI can detect. This allows researchers to create detailed maps of neural activity across the entire brain.
 
-- **Strengths:** High spatial resolution, whole-brain coverage, widely used in research.
-- **Limitations:** Lower temporal resolution (seconds), sensitive to movement, noisy environment.
+fMRI is widely used in music neuroscience to identify which brain areas are engaged during music listening, performance, and imagination. It has revealed how networks involved in auditory perception, emotion, memory, and motor planning are activated by music. For example, fMRI studies have shown that listening to music can engage not only the auditory cortex but also limbic regions (linked to emotion), the prefrontal cortex (involved in attention and expectation), and motor areas (related to rhythm and movement).
 
-![fMRI](https://upload.wikimedia.org/wikipedia/commons/5/5e/FMRI_Scan.jpg)
+While fMRI provides excellent spatial resolution—allowing precise localization of brain activity—it has lower temporal resolution compared to EEG or MEG, as the hemodynamic response unfolds over several seconds. The scanning environment is also noisy and requires participants to remain very still, which can limit the types of musical tasks that can be studied.
+
+- **Strengths:** High spatial resolution (millimeters), whole-brain coverage, non-invasive, widely available in research settings, effective for mapping complex brain networks.
+- **Limitations:** Lower temporal resolution (seconds), sensitive to head movement, noisy and confined environment, expensive, and not suitable for all populations (e.g., those with metal implants).
+
+![fMRI](https://upload.wikimedia.org/wikipedia/commons/2/2f/190603_Functional_magnetic_resonance_imaging_at_the_Imperial_Centre_for_Psychedelic_Research.jpg)
+
+*Example of an fMRI scan (Image: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:190603_Functional_magnetic_resonance_imaging_at_the_Imperial_Centre_for_Psychedelic_Research.jpg)).*
 
 
-These complementary methods allow researchers to investigate how the brain responds to sound and music, from the millisecond timing of neural events to the identification of specific brain regions involved in perception, cognition, and emotion.
+### Comparison of Brain Activity Measurement Methods
+
+These complementary methods—EEG, fNIRS, MEG, and fMRI—allow researchers to investigate how the brain responds to sound and music, from the millisecond timing of neural events to the identification of specific brain regions involved in perception, cognition, and emotion.
+
+| Method | Strengths | Limitations |
+|--------|-----------|-------------|
+| **EEG** | Excellent temporal resolution (milliseconds); non-invasive; affordable; portable; suitable for diverse participants and settings | Limited spatial resolution; signals mainly from surface neurons; susceptible to artifacts (e.g., muscle movement, eye blinks) |
+| **fNIRS** | Portable; affordable; silent; tolerant of movement; suitable for developmental and ecological studies | Limited to cortical (surface) regions; lower spatial resolution than fMRI; cannot access deep brain structures |
+| **MEG** | Excellent temporal resolution; good spatial resolution; direct measurement of neural activity; non-invasive; suitable for mapping connectivity | High cost; requires magnetically shielded room; less portable; sensitive to movement; limited accessibility |
+| **fMRI** | High spatial resolution (millimeters); whole-brain coverage; non-invasive; widely available; effective for mapping complex networks | Lower temporal resolution (seconds); sensitive to head movement; noisy/confined environment; expensive; not suitable for all populations |
+
 
 ## References
 
