@@ -1,6 +1,10 @@
 ---
-title: Introduction
-author: [Alexander Refsum Jensenius, University of Oslo]
+title: Sensing Sound and Music
+subtitle: Intersecting musicology, psychology, and technology
+authors: 
+  - name: Alexander Refsum Jensenius (eds.)
+    affiliation: 
+      - University of Oslo
 description: "This page describes the motivation behind making a web resource for the course MUS2640 Sensing Sound and Music at the University of Oslo."
 exports:
   - format: pdf
@@ -8,7 +12,7 @@ exports:
 
 ## Introduction
 
-![Book cover](figures/cover/sensing-sound-and-music-cover-horizontal-600px.jpg)
+![Book cover](figures/cover/20240511_141310_630_1000px.jpg)
 
 This textbook is written for the course [MUS2640 Sensing Sound and Music](https://www.uio.no/studier/emner/hf/imv/MUS2640/) at the University of Oslo, a foundation course for later studies in *music psychology* and *music technology*. You will be introduced to fundamental principles of acoustics, psychoacoustics, and perception. This includes knowledge about how sound is produced in instruments, reflected in space, and perceived by humans. This is the basis for how we experience pitch, timbre, harmony, and rhythm in music. You will also learn about computer-based representations of sound and music, and get an overview of digital audio, sound synthesis, and analysis. The course provides theoretical knowledge and practical skills for further studies of music psychology and technology.
 
@@ -30,7 +34,7 @@ Students in the course typically have mixed backgrounds. Everyone usually has so
 
 This course builds on the idea of *active learning*, an approach that emphasizes student engagement and participation in the learning process. Rather than passively receiving information through lectures, students are encouraged to interact with the material, ask questions, solve problems, and collaborate with peers. Activities may include group discussions, hands-on experiments, peer reviewing, and real-world projects. This method helps deepen understanding, improve retention, and develop critical thinking skills.
 
-We also rely on a *flipped classroom** approach, which is a teaching model where traditional lecture content is delivered outside of class, typically through readings, videos, or interactive resources. This frees up classroom time to apply concepts through discussion, exercises, and collaborative work. This structure allows students to learn foundational material at their own pace and use class sessions for deeper exploration, clarification, and practical application. The flipped classroom model fosters a more personalized and interactive learning environment, supporting diverse learning styles. 
+We also rely on a *flipped classroom* approach, which is a teaching model where traditional lecture content is delivered outside of class, typically through readings, videos, or interactive resources. This frees up classroom time to apply concepts through discussion, exercises, and collaborative work. This structure allows students to learn foundational material at their own pace and use class sessions for deeper exploration, clarification, and practical application. The flipped classroom model fosters a more personalized and interactive learning environment, supporting diverse learning styles. 
 
 ### A research-based and research-led course
 
