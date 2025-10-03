@@ -18,7 +18,6 @@ The human brain is an extraordinarily complex organ, consisting of approximately
 
 - The [cerebral cortex](https://en.wikipedia.org/wiki/Cerebral_cortex) is the outer layer of the brain, responsible for higher-order functions such as perception, reasoning, and voluntary movement. Within the cortex, the [temporal lobes](https://en.wikipedia.org/wiki/Temporal_lobe) house the primary auditory cortex, which is crucial for decoding sound features.
 - The [frontal lobes](https://en.wikipedia.org/wiki/Frontal_lobe) are involved in attention, planning, and decision-making, these regions help us focus on specific sounds and anticipate musical patterns.
-- The [limbic system](https://en.wikipedia.org/wiki/Limbic_system) includes structures like the [amygdala](https://en.wikipedia.org/wiki/Amygdala) and [hippocampus](https://en.wikipedia.org/wiki/Hippocampus), which are central to processing emotions and forming memories&mdash;key elements in our emotional response to music.
 - The [brainstem](https://en.wikipedia.org/wiki/Brainstem) handles basic life functions (such as breathing and heart rate) and is the first relay station for incoming auditory signals from the ear.
 
 The brain’s remarkable plasticity allows it to adapt and reorganize in response to musical training, sensory experiences, and even injury. This adaptability underlies our ability to learn new musical skills, recover from hearing loss, and develop unique musical preferences.
@@ -45,9 +44,9 @@ Several specialized regions of the brain are crucial for processing sound and mu
 
 Together, these regions enable the perception, emotional experience, and cognitive processing of sound and music.
 
-![Human Brain](https://upload.wikimedia.org/wikipedia/commons/b/bb/Blausen_0102_Brain_Motor%26Sensory_%28flipped%29.png)
+![Human Brain](https://upload.wikimedia.org/wikipedia/commons/c/c5/Blausen_0103_Brain_Sensory%26Motor.png)
 
-*Illustration of the human brain, highlighting motor and sensory regions of the cerebral cortex (Illustration: Blausen Medical).*
+*Motor and Sensory Regions of the Cerebral Cortex (Illustration: ![Blausen Medical](https://commons.wikimedia.org/wiki/File:Blausen_0103_Brain_Sensory%26Motor.png)).*
 
 
 ### Auditory Pathways
@@ -114,9 +113,6 @@ Cultural background and exposure to different musical traditions shape how the b
 
 Overall, these individual differences highlight the dynamic and adaptable nature of the brain. Whether through training, experience, or adaptation to sensory challenges, the brain continually reorganizes itself in response to new demands. This neuroplasticity underlies our ability to learn new musical skills, recover from hearing loss, and develop unique musical preferences and abilities.
 
-
-
-
 ## Capturing Brain Activity
 
 Understanding how the brain processes sound and music relies on advanced methods for measuring brain activity. Several non-invasive techniques are commonly used in research and clinical settings to observe neural responses during music listening and performance. Each method offers insights into the timing, location, and nature of brain activity.
@@ -135,20 +131,6 @@ EEG offers several strengths, including excellent temporal resolution on the mil
 
 *Research assistants and students are practicing EEG measurement at RITMO (Photo: UiO).*
 
-
-### fNIRS (Functional Near-Infrared Spectroscopy)
-
-[Functional Near-Infrared Spectroscopy](https://en.wikipedia.org/wiki/Functional_near-infrared_spectroscopy) (fNIRS) is a non-invasive imaging technique that uses near-infrared light to monitor changes in blood oxygenation and blood volume in the cortex, which are indirect indicators of neural activity. By placing light sources and detectors on the scalp, fNIRS measures how much near-infrared light is absorbed by oxygenated and deoxygenated hemoglobin in the brain. When a brain region becomes more active, it consumes more oxygen, leading to detectable changes in the optical properties of the tissue.
-
-fNIRS is particularly valuable for studying brain function in situations where other imaging methods may be impractical. Its silent operation and tolerance for movement make it ideal for research with infants, children, and musicians performing on instruments, as well as for experiments conducted in more naturalistic or real-world environments. For example, fNIRS has been used to investigate how children process music, how musicians' brains respond during live performance, and how social interactions influence neural activity during group music-making.
-
-fNIRS offers several strengths, including portability, relative affordability, silent operation, and tolerance for movement, making it suitable for a wide range of participants and experimental settings, such as developmental and ecological studies. However, it is limited to measuring activity in cortical (surface) brain regions, has lower spatial resolution compared to fMRI, and cannot access deep brain structures.
-
-![fNIRS](https://www.uio.no/ritmo/english/projects/musiclab/2024/brain/photos/20241105_122050.jpg)
-
-*Victoria Johnson performing with an fNIRS system during the event [MusicLab Brain: Inside the mind of a violinist](https://www.uio.no/ritmo/english/projects/musiclab/2024/brain/) in 2024 (Photo: UiO).*
-
-
 ### MEG (Magnetoencephalography)
 
 [Magnetoencephalography](https://en.wikipedia.org/wiki/Magnetoencephalography) (MEG) is a non-invasive neuroimaging technique that measures the tiny magnetic fields produced by synchronized electrical activity in groups of neurons, primarily in the cerebral cortex. Unlike EEG, which detects voltage changes on the scalp, MEG captures the magnetic signals generated by neural currents, providing a direct window into brain function with high temporal precision.
@@ -163,7 +145,6 @@ MEG offers several strengths, including excellent temporal resolution on the mil
 
 *MEG instrument used for recording magnetic fields generated by brain activity (Photo: [Very Big Brain](https://verybigbrain.com/outside-influences/magnetoencephalography-meg-a-cutting-edge-tool-for-studying-brain-dynamics/)).*
 
-
 ### fMRI (Functional Magnetic Resonance Imaging)
 
 [Functional Magnetic Resonance Imaging](https://en.wikipedia.org/wiki/Functional_magnetic_resonance_imaging) (fMRI) is a non-invasive neuroimaging technique that measures brain activity by detecting changes in blood flow, specifically the Blood Oxygen Level Dependent (BOLD) signal. When a brain region becomes more active, it consumes more oxygen, leading to localized changes in blood oxygenation that fMRI can detect. This allows researchers to create detailed maps of neural activity across the entire brain.
@@ -172,12 +153,23 @@ fMRI is widely used in music neuroscience to identify which brain areas are enga
 
 While fMRI provides excellent spatial resolution&mdash;allowing precise localization of brain activity&mdash;it has lower temporal resolution compared to EEG or MEG, as the hemodynamic response unfolds over several seconds. The scanning environment is also noisy and requires participants to remain very still, which can limit the types of musical tasks that can be studied.
 
-fMRI offers several strengths, including high spatial resolution on the millimeter scale, whole-brain coverage, and non-invasive measurement, making it widely available in research settings and highly effective for mapping complex brain networks. However, it also has notable limitations: its temporal resolution is lower (on the order of seconds), it is sensitive to head movement, the scanning environment is noisy and confined, and the technique is expensive. Additionally, fMRI is not suitable for all populations, such as individuals with metal implants.
+fMRI offers several strengths, including high spatial resolution on the millimeter scale, whole-brain coverage, and non-invasive measurement, making it widely available in research settings and highly effective for mapping complex brain networks. However, it also has notable limitations: its temporal resolution is lower (on the order of seconds), it is sensitive to head motion, the scanning environment is noisy and confined, and the technique is expensive. Additionally, fMRI is not suitable for all populations, such as individuals with metal implants or people with claustrophobia.
 
 ![fMRI](https://upload.wikimedia.org/wikipedia/commons/2/2f/190603_Functional_magnetic_resonance_imaging_at_the_Imperial_Centre_for_Psychedelic_Research.jpg)
 
 *Example of an fMRI scan (Image: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:190603_Functional_magnetic_resonance_imaging_at_the_Imperial_Centre_for_Psychedelic_Research.jpg)).*
 
+### fNIRS (Functional Near-Infrared Spectroscopy)
+
+[Functional Near-Infrared Spectroscopy](https://en.wikipedia.org/wiki/Functional_near-infrared_spectroscopy) (fNIRS) is a non-invasive imaging technique that uses near-infrared light to monitor changes in blood oxygenation and blood volume in the cortex, which are indirect indicators of neural activity. By placing light sources and detectors on the scalp, fNIRS measures how much near-infrared light is absorbed by oxygenated and deoxygenated hemoglobin in the brain. When a brain region becomes more active, it consumes more oxygen, leading to detectable changes in the optical properties of the tissue.
+
+fNIRS is particularly valuable for studying brain function in situations where other imaging methods may be impractical. Its silent operation and tolerance for movement make it ideal for research with infants, children, and musicians performing on instruments, as well as for experiments conducted in more naturalistic or real-world environments. For example, fNIRS has been used to investigate how children process music, how musicians' brains respond during live performance, and how social interactions influence neural activity during group music-making.
+
+fNIRS offers several strengths, including portability, relative affordability, silent operation, and tolerance for movement, making it suitable for a wide range of participants and experimental settings, such as developmental and ecological studies. However, it is limited to measuring activity in cortical (surface) brain regions, has lower spatial resolution compared to fMRI, and cannot access deep brain structures.
+
+![fNIRS](https://www.uio.no/ritmo/english/projects/musiclab/2024/brain/photos/20241105_122050.jpg)
+
+*Victoria Johnson performing with an fNIRS system during the event [MusicLab Brain: Inside the mind of a violinist](https://www.uio.no/ritmo/english/projects/musiclab/2024/brain/) in 2024 (Photo: UiO).*
 
 ### Comparison of Brain Activity Measurement Methods
 
