@@ -10,38 +10,81 @@ exports:
   - format: pdf
 ---
 
-This week, we will explore the fundamental principles of human body structure and motion, emphasizing their relevance to sound and music perception, production, and interaction. Topics include the anatomy of the musculoskeletal and auditory systems, the biomechanics of movement, and the ways in which bodily motion both influences and is influenced by musical experience. We will also discuss principles of human motion—such as joints, muscles, and coordination—the role of movement in music performance and perception, sensorimotor integration in musical activities, and methods for measuring and analyzing body motion in music research.
-
-## Sound, music and the body
-
-Music performance is fundamentally physical, requiring coordinated body movements to produce sound and convey expression. Musicians depend on posture, gesture, and fine motor control to interact with their instruments, shape musical phrases, and communicate with audiences and fellow performers. The body serves as both the generator and mediator of musical ideas, translating intention into audible and visible action. This physicality is present in all forms of music-making, including singing, playing instruments, conducting, and dancing.
-
-Physical engagement with music also supports learning and memory. Through repeated practice, performers develop muscle memory, enabling them to execute complex passages with precision and fluidity. The body's involvement goes beyond technical execution, shaping the emotional and expressive qualities of a performance.
-
-Body motion is central to both music performance and perception. Musicians use movement not only to produce sound but also to communicate expressive intent and interact with others. Movement influences phrasing, timing, dynamics, and is essential for both technical skill and emotional expression.
-
-Key roles of body motion in music include:
-
-- **Sound production:** Physical actions are necessary to play instruments or sing, turning intention into sound.
-- **Communication:** Musicians use body language to cue, synchronize, and interact with fellow performers and audiences.
-- **Learning and memory:** Practice develops muscle memory, supporting accuracy and fluency.
-- **Expressivity:** Subtle variations in movement convey emotion and interpretation, making each performance unique.
-
-An embodied approach to music cognition emphasizes the role of the body in perceiving, understanding, and producing music. Rather than viewing musical experience as purely mental or abstract, this approach highlights how bodily sensations, movements, and actions are integral to musical meaning. Key ideas in embodied music cognition include:
-
-- **Sensorimotor coupling:** Listening to music often triggers involuntary movements, such as tapping a foot or nodding the head, reflecting a close link between perception and action.
-- **Gesture and imagery:** Musicians and listeners may use imagined or actual gestures to make sense of rhythm, melody, and phrasing.
-- **Multimodal integration:** Musical experience involves the integration of auditory, visual, and kinesthetic information, with the body serving as a central hub for these processes.
-- **Expressive movement:** The way performers move shapes not only the sound but also how music is perceived by audiences, contributing to emotional communication and interpretation.
-
-Research in this field draws on methods from psychology, neuroscience, movement science, and musicology to explore how bodily processes underpin musical skills, creativity, and communication. Embodied music cognition has practical implications for music education, performance, and technology design, encouraging approaches that engage the whole body in musical experience.
-
-- **Gesture and emotion:** Body movements, such as hand gestures, facial expressions, and posture, play a crucial role in expressing musical ideas and emotions. These gestures can enhance the communicative power of a performance.
-- **Technique and ergonomics:** Proper body alignment and movement are essential for efficient technique and injury prevention. Musicians often train to optimize their posture and motion for better sound production and endurance.
-- **Interaction:** In ensemble settings, musicians use visual cues and body language to synchronize timing, dynamics, and phrasing, fostering group cohesion.
+Up until now, we have mainly considered sensing of sound and music as an auditory phenomenon. And, yes, the *sound* of music is important, but it is important to remember that we also sense sound and music through our bodies. This week, we will delve into the body's role in music perception and cognition. Then, we will get an overview of the body's anatomy and biomechanics, before considering various approaches to analysing human body movement. 
 
 
-## Anatomy
+## Embodied music cognition
+
+Recall that you have been introduced to the theories of [embodied music cognition](https://fourms.github.io/sensingsoundandmusic/week1/#embodied-music-cognition) in the beginning of this course. An embodied approach to music cognition emphasizes the role of the body in producing, perceiving, and understanding music. Rather than viewing musical experience as purely mental or abstract, this approach highlights how bodily sensations, movements, and actions are integral to musical meaning. 
+
+Some key ideas in embodied music cognition include:
+
+- **Sensorimotor coupling:** Listening to music frequently elicits spontaneous bodily responses—such as tapping your foot, nodding your head, or swaying—demonstrating the tight connection between perception and action. This coupling underpins the *action–perception loop*, where perceiving music can trigger movement, and movement, in turn, shapes how music is experienced. Such interactions are fundamental to musical engagement, learning, and expression.
+
+- **Multimodal integration:** Musical experience is inherently multimodal, involving the simultaneous processing and integration of auditory (sound), visual (sight), and kinesthetic (movement and bodily sensation) information. The body acts as a central hub for these sensory streams, allowing us to coordinate what we hear, see, and feel. For example, watching a performer’s gestures can enhance our understanding of musical phrasing, while feeling vibrations or movement can deepen our sense of rhythm and timing.
+
+- **Gesture and imagery:** Expressive body movements—ranging from large gestures to subtle motion—are essential in music performance, aiding in communication, phrasing, and emotional expression. These gestures not only shape the sound produced but also influence how performers and listeners mentally represent music. Even in the absence of overt movement, musicians and listeners often engage in *motor imagery*: mentally simulating gestures or actions associated with music, which can support learning, memory, and interpretation.
+
+![Leman model of embodied music cognition](https://raw.githubusercontent.com/alexarje/sound-actions/refs/heads/main/figures/14-leman-model-crop.png)
+
+*An illustration of Marc Leman's model of embodied music cognition*
+
+Embodied music cognition is explored through multiple disciplines, including musicology, psychology, neuroscience, and human movement science. As a result, the literature presents a variety of perspectives and methodologies. Most research in this area relies on empirical studies&mdash;systematically collecting and analyzing data about musical experiences and bodily responses. This interdisciplinary approach enriches our understanding of how the body shapes musical perception, performance, and meaning.
+
+### 4E Cognition
+
+In recent years, *4E cognition* has emerged as a new direction, building on the "embodied turn" but extending it further. The concept originates from developments in cognitive science and philosophy of mind, particularly in response to traditional views that treated cognition as a process confined to the brain. Researchers such as Francisco Varela, Evan Thompson, Alva Noë, and Andy Clark have argued that understanding cognition requires considering the body, the environment, and the dynamic interactions between them. The "4E" framework—standing for Embodied, Embedded, Enactive, and Extended cognition—emphasizes that cognitive processes are not only shaped by bodily experiences but are also situated in specific contexts, enacted through interaction, and can be distributed across tools and technologies. 
+
+The 4 "Es" are: 
+
+- **Embodied:** Our perception and understanding of music are deeply rooted in the body. The way we move, breathe, and physically interact with instruments or our environment shapes how we experience and interpret sound. For example, tapping your foot to a beat or feeling vibrations through your body are embodied ways of sensing music.
+
+- **Embedded:** Musical experience is shaped by the context in which it occurs. Our interactions with sound are influenced by the physical and social environment—such as the acoustics of a concert hall, the presence of other listeners, or the cultural setting. These factors embed our musical cognition within a broader context.
+
+- **Enactive:** We actively participate in creating musical meaning through our actions. Listening is not passive; we anticipate, move, and respond to music, co-constructing the experience. For instance, a performer’s gestures or a listener’s dance movements are examples of enactive engagement with music.
+
+- **Extended:** Tools and technologies can extend our cognitive processes. Musical instruments, recording devices, and even smartphones become part of the system through which we sense, produce, and understand music. Motion capture systems, for example, extend our ability to analyze and reflect on musical movement.
+
+The 4E cognition perspective encourages us to study music as a holistic, interactive process—one that involves the whole person, situated in a specific context, engaging with both physical and digital tools.
+
+
+## Music-Related Body Motion
+
+In this section, we focus on how the body is involved in both performing and perceiving music. The roles of performers and perceivers are distinct, yet both rely on bodily processes to engage with music.
+
+### Performing Music
+
+Music performance is inherently physical. Musicians use coordinated movements—ranging from large gestures to subtle finger motion—to produce sound, shape musical phrases, and communicate with others. The body acts as both the source and the interpreter of musical ideas, translating intention into audible and visible actions. This physicality is present in all forms of music-making, including singing, playing instruments, conducting, and dancing.
+
+We can categorize music-related body motion in performers into four main types:
+
+- **Sound-Producing Actions:** Movements that directly generate sound on an instrument or interface. These include selection (choosing notes or sounds), excitation (initiating sound, such as striking, plucking, or bowing), and modification (altering sound qualities like pitch or timbre). Examples: pressing piano keys, bowing a violin, or turning a synthesizer knob.
+
+- **Sound-Facilitating Actions:** Movements that support or enhance sound production but do not themselves create sound. These include maintaining posture, shaping phrasing, and entraining the body to rhythm. Examples: a pianist’s arm movement for dynamics, a clarinetist’s breath support, or tapping a foot to keep time.
+
+- **Sound-Accompanying Actions:** Motion that reflect or mimic musical features without producing sound. These include tracing sound contours in the air, mimicking instrumental gestures, or engaging in air performance. Examples: moving a hand upward with rising pitch, playing air guitar, or dancing to music.
+
+- **Communicative Gestures:** Gestures intended to convey meaning, emotion, or instructions to other performers or the audience. These may be expressive, regulatory, or linguistic. Examples: a conductor’s baton movements, a nod to cue an entrance, or expressive hand gestures to convey emotion.
+
+![Link between motion and sound](https://raw.githubusercontent.com/alexarje/sound-actions/refs/heads/main/figures/25-sound-link-crop.png)
+
+*Link between motion and sound (Illustration: Jensenius 2022)*
+
+Physical engagement with music also supports learning and memory. Through practice, performers develop muscle memory, allowing them to execute complex passages with precision and fluidity. The body’s involvement shapes not only technical execution but also the expressive and emotional qualities of a performance.
+
+### Perceiving Music
+
+People also move when *listening* to music, not just when performing. These movements can be both voluntary and involuntary, and they play a significant role in how we experience and understand music. Examples include:
+
+- **Dancing:** Engaging the whole body in rhythmic movement, often in response to the beat, melody, or emotional content of the music. Dance can be highly structured (as in ballroom or folk dance) or spontaneous and improvised.
+- **Air performance:** Imitating the actions of playing an instrument or singing, such as "air guitar," "air drumming," or lip-syncing. These gestures reflect an embodied connection to the music and can enhance engagement and enjoyment.
+- **Finger-tapping:** Tapping fingers on a surface or in the air to mark the beat or rhythm. This is a common, often unconscious, response that helps listeners synchronize with the music and anticipate changes.
+- **Involuntary swaying or nodding:** Subtle body movements, such as swaying, head-nodding, or foot-tapping, that occur without conscious intent. These responses are linked to the brain's sensorimotor coupling with musical rhythm and can be observed across cultures and age groups.
+
+These bodily responses are not merely byproducts of listening—they are integral to musical perception and cognition. Moving to music can enhance memory, emotional response, and even social connection, illustrating the deep link between body and sound in musical experience.
+
+
+## Anatomy and biomechanics
 
 Anatomy is a broad field, but here we provide a concise overview relevant to movement analysis.Anatomy studies the structure of the body. To describe locations and relationships consistently, we use the *anatomical position*: the body stands upright, head and eyes forward, arms at the sides with palms facing forward, and feet parallel and pointing ahead.
 
@@ -128,7 +171,7 @@ Joints are the connections between bones that enable movement and provide struct
 - **Structurally:** Based on how the bones are joined—by fibrous tissue, cartilage, or within a fluid-filled *joint cavity*.
 - **Functionally:** Based on the degree of movement allowed—ranging from immovable, to slightly movable, to freely movable joints.
 
-The structure of a joint determines its range and type of motion. Understanding joint types is essential for analyzing human movement, as each type allows specific movements. The illustration below shows six major types of freely movable (synovial) joints and their characteristic motions:
+The structure of a joint determines its range and type of motion. Understanding joint types is essential for analyzing human movement, as each type allows specific movements. The illustration below shows six major types of freely movable (synovial) joints and their characteristic motion:
 
 ![The six different types of joints and how they rotate: pivot joint, saddle joint, plane joint, hinge joint, condyloid joint, and ball and socket joint.](https://ugc.futurelearn.com/uploads/assets/c4/8a/c48a7d76-6425-4d58-a426-7fa5f149cf7b.png "Colourbox.com / VectorMine / ID:41693444")
 
@@ -175,7 +218,7 @@ For example, the elbow is a hinge joint that primarily allows flexion and extens
 Understanding degrees of freedom and range of motion is essential for analyzing joint function, movement capabilities, and limitations in both everyday activities and specialized tasks like music performance.
 
 
-## Biomechanics
+### Biomechanics
 
 *Mechanics* is the branch of physics that studies the motion of physical objects. *Biomechanics* applies these mechanical principles to biological systems, aiming to explain how and why the human body moves as it does. As illustrated below, biomechanics integrates knowledge from biology, medicine, engineering, and physics.
 
