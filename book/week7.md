@@ -48,7 +48,7 @@ The 4 "Es" are:
 The 4E cognition perspective encourages us to study music as a holistic, interactive process—one that involves the whole person, situated in a specific context, engaging with both physical and digital tools.
 
 
-## Music-Related Body Motion
+### Music-Related Body Motion
 
 In this section, we focus on how the body is involved in both performing and perceiving music. The roles of performers and perceivers are distinct, yet both rely on bodily processes to engage with music.
 
@@ -84,18 +84,23 @@ People also move when *listening* to music, not just when performing. These move
 These bodily responses are not merely byproducts of listening—they are integral to musical perception and cognition. Moving to music can enhance memory, emotional response, and even social connection, illustrating the deep link between body and sound in musical experience.
 
 
-## Anatomy and biomechanics
+## Anatomy and Biomechanics
 
-Anatomy is a broad field, but here we provide a concise overview relevant to movement analysis.Anatomy studies the structure of the body. To describe locations and relationships consistently, we use the *anatomical position*: the body stands upright, head and eyes forward, arms at the sides with palms facing forward, and feet parallel and pointing ahead.
+Before exploring motion capture in detail, it is essential to understand how the human body is structured and how it moves. This section provides a concise overview of anatomy and biomechanics relevant to movement analysis.
+
+### Anatomical Position and Body Regions
+
+Anatomy studies the structure of the body. To ensure consistency when describing locations and movements, we use the *anatomical position*: standing upright, head and eyes forward, arms at the sides with palms facing forward, and feet parallel and pointing ahead.
 
 ![A body in the standard anatomical position.](https://ugc.futurelearn.com/uploads/assets/f5/64/f56435b9-17e8-4670-8bcd-577c5c2ec9ed.png)
 
-
-The body is divided into regions: head, neck, trunk, upper limb, and lower limb, each with further subregions. For movement analysis, distinguishing between areas like the arm and forearm or thigh and leg is important.
+The body is divided into regions: head, neck, trunk, upper limbs, and lower limbs, each with further subdivisions. For movement analysis, distinguishing between areas such as the arm and forearm or thigh and leg is important.
 
 ![A body in the anatomical position. Regions of the body are named.](https://ugc.futurelearn.com/uploads/assets/96/c3/96c35d42-f05f-4305-8f85-f1f2b6f5625c.png)
 
-To describe positions and movements in three dimensions, we use *anatomical planes*—imaginary sheets dividing the body:
+### Anatomical Planes and Directional Terms
+
+To describe positions and movements in three dimensions, we use *anatomical planes*—imaginary divisions of the body:
 
 - **Sagittal plane:** Divides the body into left and right sections (the median plane is exactly in the middle).
 - **Frontal (coronal) plane:** Divides the body into front and back sections.
@@ -103,9 +108,9 @@ To describe positions and movements in three dimensions, we use *anatomical plan
 
 The reference point is typically the belly button for the whole body, but can be adjusted for specific segments.
 
-![A picture of a body. The three anatomical planes are shown.](https://ugc.futurelearn.com/uploads/assets/34/26/3426a263-9771-4f4e-bba7-f536bd234cf3.png)
+![A picture of a body. The three anatomical planes are shown.](https://ugc.futurelearn.com/uploads/assets/34/26/3426a263-9771-4f4e-bba7-f536bd234cf3e.png)
 
-Standardized directional terms describe locations relative to other body parts. The default reference is the belly button, but other points can be used as needed.
+Standardized directional terms describe locations relative to other body parts:
 
 | Term        | Meaning                                 |
 |-------------|-----------------------------------------|
@@ -120,70 +125,65 @@ Standardized directional terms describe locations relative to other body parts. 
 | Superficial | Toward the surface                      |
 | Deep        | Away from the surface (internal)        |
 
-The figure below illustrates these terms on a body in anatomical position.
-
-![A picture of the same body in an anatomical position and sideways. The directional terms are shown.](https://ugc.futurelearn.com/uploads/assets/67/b7/67b70756-2fbc-484c-b3ff-e6a899f18311.png)
+![Directional terms illustrated on a body.](https://ugc.futurelearn.com/uploads/assets/67/b7/67b70756-2fbc-484c-b3ff-e6a899f18311.png)
 
 ### The Musculoskeletal System
 
-The body can be divided into 11 systems, but for movement, the most relevant are:
+Of the body’s 11 systems, the most relevant for movement are:
 
 - **Skeletal system:** Bones, joints, and cartilage; provides structure and protection.
 - **Muscular system:** Muscles that act on the skeleton to move or position body parts.
 
-Together, these form the *musculoskeletal system*, which is fundamental for producing and controlling movement.
-### The Muscular System
+Together, these form the *musculoskeletal system*, fundamental for producing and controlling movement.
 
-The human body contains three types of muscle tissue: **cardiac** (found in the heart), **smooth** (found in organs such as the digestive tract), and **skeletal** (attached to bones, such as the biceps). Here, we focus on skeletal muscles, which are responsible for voluntary movement by acting on the bones at the joints.
+#### The Muscular System
 
-A skeletal muscle consists of a thick, red **muscle belly** and narrow, white **tendons** at each end. The tendons anchor the muscle to bones. When a muscle contracts, its fibers shorten, pulling on the tendons and moving the attached bone. This process is illustrated below:
+There are three types of muscle tissue: **cardiac** (heart), **smooth** (organs), and **skeletal** (attached to bones). Skeletal muscles are responsible for voluntary movement.
 
-![A muscle that contracts, pulling the bone, which equals movement.](https://ugc.futurelearn.com/uploads/assets/18/67/18676079-6e3f-440a-a5ef-9bb9757e39d2.jpg "OpenStax, CC BY 4.0 , https://commons.wikimedia.org/wiki/File:1015_Types_of_Contraction_new.jpg")
+A skeletal muscle consists of a thick, red **muscle belly** and narrow, white **tendons** at each end, which anchor the muscle to bones. When a muscle contracts, it pulls on the tendons, moving the attached bone.
 
-Muscles can only pull—they cannot push. Movement often involves several muscles working together:
+![A muscle that contracts, pulling the bone, which equals movement.](https://ugc.futurelearn.com/uploads/assets/18/67/18676079-6e3f-440a-a5ef-9bb9757e39d2.jpg)
 
-- The **agonist** (prime mover) is the main muscle responsible for a specific movement.
-- **Synergists** assist the agonist, sometimes acting as **fixators** to stabilize the origin bone.
-- The **antagonist** produces the opposite action to the agonist, allowing controlled movement.
+Muscles can only pull, not push. Movement often involves several muscles working together:
 
-With over 600 skeletal muscles in the human body, we will only highlight some of the major superficial muscles. The figure below shows key muscle groups from the front and back:
+- **Agonist:** Main muscle responsible for a movement.
+- **Synergists:** Assist the agonist, sometimes stabilizing the origin bone (**fixators**).
+- **Antagonist:** Produces the opposite action, allowing controlled movement.
 
-![A body seen from the front, an anatomical position, and the back. Muscles are named.](https://ugc.futurelearn.com/uploads/assets/e5/d8/e5d85739-f8dc-460d-baad-19c5da4fedd5.png "OpenStax & Tomáš Kebert & umimeto.org, CC BY-SA 4.0 https://commons.wikimedia.org/wiki/File:Muscles_front_and_back.svg")
+With over 600 skeletal muscles, only major superficial muscles are highlighted here:
 
-### The Skeletal System
+![Key muscle groups from the front and back.](https://ugc.futurelearn.com/uploads/assets/e5/d8/e5d85739-f8dc-460d-baad-19c5da4fedd5.png)
 
-The adult human skeleton consists of approximately 206 bones, forming the structural framework of the body. The image below identifies the major bones and bone groups:
+#### The Skeletal System
 
-![The skeletal system, shown from the front and back. Major bones and groups of bones are named.](https://ugc.futurelearn.com/uploads/assets/80/22/80225b63-e657-4c93-8e82-b59139f076e7.jpg "OpenStax College, CC BY 3.0 https://commons.wikimedia.org/wiki/File:701_Axial_Skeleton-01.jpg")
+The adult skeleton has about 206 bones, forming the body’s framework. Bones serve as **levers** for movement and provide attachment points for muscles. Many bones have distinct **landmarks**—features that serve as sites for muscle attachment and can often be felt on your own body.
 
-Bones serve as **levers** for movement and provide attachment points for muscles. Many bones have distinct **landmarks**—features that serve as sites for muscle attachment and can often be felt (palpated) on your own body. Here are a few examples:
+Examples:
 
-- **Ankles:** The prominent bumps on each side are the *malleoli*—the lateral malleolus (on the fibula) and the medial malleolus (on the tibia).
-- **Pelvis:** At the upper, outer edge, trace forward to the pointy bump known as the *anterior superior iliac spine*.
-- **Elbow:** In the anatomical position, the bony bumps on either side are the *medial* and *lateral epicondyles* of the *humerus*. On the back of the elbow, the large bump is the *olecranon process* of the *ulna*.
+- **Ankles:** The *malleoli*—lateral (fibula) and medial (tibia).
+- **Pelvis:** The *anterior superior iliac spine* at the upper, outer edge.
+- **Elbow:** The *medial* and *lateral epicondyles* of the *humerus* (sides), and the *olecranon process* of the *ulna* (back).
 
-These anatomical features are important reference points for understanding movement and for locating muscle attachments.
+![Major bones and bone groups.](https://ugc.futurelearn.com/uploads/assets/80/22/80225b63-e657-4c93-8e82-b59139f076e7.jpg)
 
-### Joints
+### Joints and Movement
 
-Joints are the connections between bones that enable movement and provide structural support. They can be classified in two main ways:
+Joints connect bones and enable movement. They are classified:
 
-- **Structurally:** Based on how the bones are joined—by fibrous tissue, cartilage, or within a fluid-filled *joint cavity*.
-- **Functionally:** Based on the degree of movement allowed—ranging from immovable, to slightly movable, to freely movable joints.
+- **Structurally:** By how bones are joined (fibrous tissue, cartilage, or joint cavity).
+- **Functionally:** By the degree of movement allowed (immovable, slightly movable, freely movable).
 
-The structure of a joint determines its range and type of motion. Understanding joint types is essential for analyzing human movement, as each type allows specific movements. The illustration below shows six major types of freely movable (synovial) joints and their characteristic motion:
+The structure of a joint determines its range and type of motion. The illustration below shows six major types of freely movable (synovial) joints:
 
-![The six different types of joints and how they rotate: pivot joint, saddle joint, plane joint, hinge joint, condyloid joint, and ball and socket joint.](https://ugc.futurelearn.com/uploads/assets/c4/8a/c48a7d76-6425-4d58-a426-7fa5f149cf7b.png "Colourbox.com / VectorMine / ID:41693444")
+![Types of synovial joints and their motion.](https://ugc.futurelearn.com/uploads/assets/c4/8a/c48a7d76-6425-4d58-a426-7fa5f149cf7b.png)
 
-Joint movements are described in pairs, always relative to the anatomical position. The primary types of movement in each anatomical plane are:
+Joint movements are described in pairs, always relative to the anatomical position:
 
 - **Flexion** and **extension** (sagittal plane)
 - **Abduction** and **adduction** (frontal plane)
 - **Internal (medial) rotation** and **external (lateral) rotation** (transverse plane)
 
-The figure below illustrates these major movement types:
-
-![Different types of movement.](https://ugc.futurelearn.com/uploads/assets/ed/87/ed87c0c8-4476-4348-b7e2-07a5ebd6303e.jpg "Connexions, CC BY 3.0, https://commons.wikimedia.org/wiki/File:Flexion_and_extension.jpg https://commons.wikimedia.org/wiki/File:Ab_add_and_circumduction.jpg https://commons.wikimedia.org/wiki/File:Rotation_CMX.jpg")
+![Major movement types.](https://ugc.futurelearn.com/uploads/assets/ed/87/ed87c0c8-4476-4348-b7e2-07a5ebd6303e.jpg)
 
 | Movement           | Description                                                        |
 |--------------------|--------------------------------------------------------------------|
@@ -202,75 +202,71 @@ Certain joints allow specialized movements:
 - **Inversion–Eversion:** Turning the sole of the foot inward (inversion) or outward (eversion).
 - **Elevation–Depression:** Upward (elevation) or downward (depression) movement, typically of the shoulder or jaw.
 
-These specialized movements are shown below:
-
-![The types of specialized movement.](https://ugc.futurelearn.com/uploads/assets/fc/8e/fc8ecf48-c563-46f9-87a6-26bca7880e8b.jpg "Connexions, CC BY 3.0,  https://commons.wikimedia.org/wiki/File:Pronation_and_supination.jpg https://commons.wikimedia.org/wiki/File:Dorsiplantar.jpg https://commons.wikimedia.org/wiki/File:Eversion_and_inversion.jpg https://commons.wikimedia.org/wiki/File:Elevation_and_Depression.jpg")
+![Specialized joint movements.](https://ugc.futurelearn.com/uploads/assets/fc/8e/fc8ecf48-c563-46f9-87a6-26bca7880e8b.jpg)
 
 Understanding joint structure and movement is fundamental for analyzing how the body produces and controls motion, especially in activities like music performance where precise and expressive movements are essential.
+
 ### Degrees of Freedom and Range of Motion
 
-*Degrees of freedom* (DoF) refer to the number of independent directions in which a joint can move. Each degree of freedom represents a specific type of movement, such as flexion/extension, abduction/adduction, or rotation. *Range of motion* (RoM) describes the extent or distance a joint can move within each of its degrees of freedom, typically measured in degrees.
+*Degrees of freedom* (DoF) refer to the number of independent directions in which a joint can move. Each DoF represents a specific type of movement (e.g., flexion/extension, abduction/adduction, rotation). *Range of motion* (RoM) describes how far a joint can move within each DoF, typically measured in degrees.
 
-For example, the elbow is a hinge joint that primarily allows flexion and extension—movement in a single plane—so it has one degree of freedom. In contrast, the shoulder is a ball-and-socket joint with three degrees of freedom: flexion–extension, abduction–adduction, and internal–external rotation. The figure below shows the elbow’s range of motion, which typically spans from 0° (fully extended) to about 140° (fully flexed).
+- **Example:** The elbow is a hinge joint with one DoF (flexion/extension). The shoulder is a ball-and-socket joint with three DoF (flexion–extension, abduction–adduction, internal–external rotation).
 
-![The range of motion of the elbow joint.](https://ugc.futurelearn.com/uploads/assets/31/89/3189dda8-23d6-4584-9e94-da91e934eafe.png "Colourbox.com / Supplier:105053 / ID:8815139")
+![Elbow range of motion.](https://ugc.futurelearn.com/uploads/assets/31/89/3189dda8-23d6-4584-9e94-da91e934eafe.png)
 
-Understanding degrees of freedom and range of motion is essential for analyzing joint function, movement capabilities, and limitations in both everyday activities and specialized tasks like music performance.
+Understanding DoF and RoM is essential for analyzing joint function, movement capabilities, and limitations in both everyday activities and specialized tasks like music performance.
 
+### Biomechanics: Principles of Human Movement
 
-### Biomechanics
+*Biomechanics* applies mechanical principles to biological systems, explaining how and why the human body moves. It integrates knowledge from biology, medicine, engineering, and physics.
 
-*Mechanics* is the branch of physics that studies the motion of physical objects. *Biomechanics* applies these mechanical principles to biological systems, aiming to explain how and why the human body moves as it does. As illustrated below, biomechanics integrates knowledge from biology, medicine, engineering, and physics.
+![Biomechanics diagram.](https://ugc.futurelearn.com/uploads/assets/67/de/67de5366-5f8f-4954-879a-d963ac592e3d.png)
 
-![A model on biomechanics, illustrating the various other fields included in biomechanics.](https://ugc.futurelearn.com/uploads/assets/67/de/67de5366-5f8f-4954-879a-d963ac592e3d.png "Biomechanics diagram")
+Key branches and concepts:
 
-As in anatomy, using precise terminology is crucial for clear communication in biomechanics. Many terms are borrowed from physics and engineering. The following sections introduce key concepts and vocabulary to ensure a shared understanding when describing human movement.
+- **Statics:** Study of bodies at rest (e.g., sitting, standing).
+- **Dynamics:** Study of bodies in motion (e.g., running, playing an instrument).
+- **Kinematics:** Describes motion (what you can see)—position, velocity, acceleration.
+- **Kinetics:** Explains the causes of motion (forces and torques).
 
-The *statics* branch of biomechanics deals with resting bodies, such as when sitting or standing. During rest, the body is in equilibrium due to balanced forces. *Dynamics* is concerned with bodies in motion, such as when running or climbing. This motion results from unbalanced forces. For example, you can start running by leaning forwards.
+#### Reference Frames
 
-*Kinematics* is the description of motion; it is sometimes called the "geometry of motion". *Kinetics* is the cause of the motion, meaning what causes the body to move the way it does. Simply put, kinematics you can see, kinetics you can’t. We will look at both of these more closely in a later section. 
+A *reference frame* is needed to describe motion. This can be:
 
-Just as for the anatomical planes, we also need a *reference frame* when studying human motion. This can be either *global* or *local*. When working with a motion capture system in a lab, we often define the coordinate system relative to the lab space. This can be the centre of the room, from which all other positions are calculated. 
+- **Global:** Relative to the environment (e.g., lab space).
+- **Local:** Relative to a body segment.
 
-### Kinematics
+#### Kinematics
 
-Kinematics uses common physics-based variables to describe motion concerning space and time. These variables can refer to a single point, a body segment, a joint, a limb, or the whole body. The main basic kinematic variables in biomechanics are *position*, *velocity*, and *acceleration*. Each of them can be linear or angular. They can also be either local or global. 
+Kinematics uses variables such as:
 
-The *position* is the location of an object at a particular time. Therefore, it is a scalar variable and only tells about *where* the object is located in space. In a three-dimensional motion capture system, the position is usually described in terms of its X, Y, and Z coordinates. It is the calibration of the system that decides how the three coordinates relate to the physical space. We will look more at that shortly.
+- **Position:** Location in space (X, Y, Z coordinates).
+- **Displacement:** Change in position (vector).
+- **Distance:** Total path length (scalar).
+- **Speed:** How fast an object moves (scalar).
+- **Velocity:** Speed with direction (vector).
+- **Acceleration:** Change in velocity.
 
-As can be seen in the figure below, the *displacement* tells about how far an object has moved in space. It is a vector and is represented by both a location and a direction. The *distance* travelled is a scalar value describing the total amount of movement. 
+![Position, displacement, and distance.](https://ugc.futurelearn.com/uploads/assets/14/6a/146abc62-fe15-4264-b47a-456191432b55.png)
 
-![Graphical Explanation of Position Displacement Distance.](https://ugc.futurelearn.com/uploads/assets/14/6a/146abc62-fe15-4264-b47a-456191432b55.png "Position Displacement Distance Graphical Explanation")
+#### Kinetics
 
-The distance travelled is often longer than the displacement. In fact, if one walks around in a room and ends up in the same spot that one started, the distance travelled can be large while the displacement is zero. 
+Kinetics focuses on forces that cause movement:
 
-The *speed* describes how fast an object is moving. It is a scalar quantity calculated from the distance travelled. The *velocity* is a vector and is calculated from the displacement. It can be used to look at how fast and in what direction a part of the body moves in space. 
+- **Force:** A push or pull that changes motion. Muscles generate force; gravity is an external force.
+- **Torque (Moment):** A force that causes rotation around a joint.
+- **Power:** Work done over time.
+- **Balance:** Ability to maintain equilibrium (static or dynamic).
+- **Center of Gravity (CoG):** Point where body weight is evenly distributed.
+- **Base of Support:** Area beneath the body that supports weight.
 
-The *acceleration* describes the change in velocity of an object. It is beneficial for detecting changes in the movement direction.
+A person is balanced when the line of gravity from their CoG falls within their base of support.
 
+![Balance and base of support.](https://ugc.futurelearn.com/uploads/assets/61/1e/611e086e-b950-4b59-9c10-4940cdbdccf9.png)
 
-### Kinetics
+---
 
-Kinetics focuses on how forces make the body move. The musculoskeletal system is responsible for generating forces that move the human body and prevent any unwanted motion.
-
-As shown in the figure below, a *force* is the push or pull that alters the state of motion of a body. Without forces being applied, there will be no change in motion. In the musculoskeletal system, the muscles generate force that acts upon bones and leads to motion. Gravity is an example of an external force that affects the human body.
-
-![Different types of forces.](https://ugc.futurelearn.com/uploads/assets/48/50/4850f139-9c99-46ed-841a-3daef7a13327.png "Colourbox.com / VectorMine / ID:44041054")
-
-When a force rotates a body segment, it is called *torque* or a *moment* of force. The moment is defined by the length of the rotating object, the force applied, and the angle between the force vector and the object. In biomechanics, they can tell us what muscle group is dominant, so flexors or extensors perform work. 
-
-The force and moment can be used to calculate the *power* used, defined as the work done over time. We will not dive into this here, but interested readers can check out some of the references below. 
-
-*Balance* is the ability to control equilibrium or stability. In biomechanics, *static balance* refers to the ability to control the body when stationary. *Dynamic balance* is the ability to control the body during motion. 
-
-*Center of gravity* (CoG) is simply the point where the distribution of the weight of the body is equal in all directions. As the name suggests, CoG depends on gravity, which means that the location will change with movement. For example, if a person bends forward, their CoG will shift anteriorly. 
-
-*Base of support* is the region beneath a person connecting points of contact with the supporting surface. If the person is standing, the region would include the feet and the space between. 
-
-A person is considered in balance when the line of gravity originating from their center of gravity is within their base of support. The figure below illustrates the relationship between body position, CoG and the resulting line of gravity, base of support, and balance. 
-
-![Four bodies showing four different lines of gravity with relation to the base of support and balance.](https://ugc.futurelearn.com/uploads/assets/61/1e/611e086e-b950-4b59-9c10-4940cdbdccf9.png "Colourbox.com / Supplier:253220 /ID:27042285 27042297 27042301")
-
+A solid grasp of anatomy and biomechanics is crucial for understanding and analyzing human movement, especially in music, where subtle and complex motions are essential for performance and expression.
 
 ## Human Movement Analysis
 
