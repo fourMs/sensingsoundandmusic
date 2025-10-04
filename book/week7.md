@@ -86,11 +86,11 @@ These bodily responses are not merely byproducts of listening—they are integra
 
 ## Anatomy and Biomechanics
 
-Before exploring motion capture in detail, it is essential to understand how the human body is structured and how it moves. This section provides a concise overview of anatomy and biomechanics relevant to movement analysis.
+Before introducing different approaches to motion capture, it is essential to understand how the human body is structured and how it moves. This section provides an overview of [anatomy](https://en.wikipedia.org/wiki/Anatomy) and [biomechanics](https://en.wikipedia.org/wiki/Biomechanics) relevant to [movement analysis](https://en.wikipedia.org/wiki/Motion_analysis).
 
-### Anatomical Position and Body Regions
+### Anatomical position and planes
 
-Anatomy studies the structure of the body. To ensure consistency when describing locations and movements, we use the *anatomical position*: standing upright, head and eyes forward, arms at the sides with palms facing forward, and feet parallel and pointing ahead.
+Anatomy studies the structure of the body. To ensure consistency when describing locations and movements, we use the *[anatomical position](https://en.wikipedia.org/wiki/Anatomical_position)*: standing upright, head and eyes forward, arms at the sides with palms facing forward, and feet parallel and pointing ahead. 
 
 ![A body in the standard anatomical position.](https://ugc.futurelearn.com/uploads/assets/f5/64/f56435b9-17e8-4670-8bcd-577c5c2ec9ed.png)
 
@@ -98,9 +98,7 @@ The body is divided into regions: head, neck, trunk, upper limbs, and lower limb
 
 ![A body in the anatomical position. Regions of the body are named.](https://ugc.futurelearn.com/uploads/assets/96/c3/96c35d42-f05f-4305-8f85-f1f2b6f5625c.png)
 
-### Anatomical Planes and Directional Terms
-
-To describe positions and movements in three dimensions, we use *anatomical planes*—imaginary divisions of the body:
+To describe positions and movements in three dimensions, we use *[anatomical planes](https://en.wikipedia.org/wiki/Anatomical_plane)*—imaginary divisions of the body.
 
 - **Sagittal plane:** Divides the body into left and right sections (the median plane is exactly in the middle).
 - **Frontal (coronal) plane:** Divides the body into front and back sections.
@@ -127,34 +125,32 @@ Standardized directional terms describe locations relative to other body parts:
 
 ![Directional terms illustrated on a body.](https://ugc.futurelearn.com/uploads/assets/67/b7/67b70756-2fbc-484c-b3ff-e6a899f18311.png)
 
-### The Musculoskeletal System
+### The Muscular system
 
 Of the body’s 11 systems, the most relevant for movement are:
 
-- **Skeletal system:** Bones, joints, and cartilage; provides structure and protection.
 - **Muscular system:** Muscles that act on the skeleton to move or position body parts.
+- **Skeletal system:** Bones, joints, and cartilage; provides structure and protection.
 
-Together, these form the *musculoskeletal system*, fundamental for producing and controlling movement.
+Together, these form the [musculoskeletal system](https://en.wikipedia.org/wiki/Musculoskeletal_system), fundamental for producing and controlling movement. We will begin with looking at the muscular system. 
 
-#### The Muscular System
+There are three types of muscle tissue: [cardiac](https://en.wikipedia.org/wiki/Cardiac_muscle) (heart), [smooth](https://en.wikipedia.org/wiki/Smooth_muscle) (organs), and [skeletal](https://en.wikipedia.org/wiki/Skeletal_muscle) (attached to bones). Skeletal muscles are responsible for voluntary movement.
 
-There are three types of muscle tissue: **cardiac** (heart), **smooth** (organs), and **skeletal** (attached to bones). Skeletal muscles are responsible for voluntary movement.
-
-A skeletal muscle consists of a thick, red **muscle belly** and narrow, white **tendons** at each end, which anchor the muscle to bones. When a muscle contracts, it pulls on the tendons, moving the attached bone.
+A skeletal muscle consists of a thick, red [muscle belly](https://en.wikipedia.org/wiki/Muscle#Skeletal_muscle) and narrow, white [tendons](https://en.wikipedia.org/wiki/Tendon) at each end, which anchor the muscle to bones. When a muscle contracts, it pulls on the tendons, moving the attached bone.
 
 ![A muscle that contracts, pulling the bone, which equals movement.](https://ugc.futurelearn.com/uploads/assets/18/67/18676079-6e3f-440a-a5ef-9bb9757e39d2.jpg)
 
 Muscles can only pull, not push. Movement often involves several muscles working together:
 
 - **Agonist:** Main muscle responsible for a movement.
-- **Synergists:** Assist the agonist, sometimes stabilizing the origin bone (**fixators**).
+- **Synergists:** Assist the agonist, sometimes stabilizing the origin bone (*fixators*).
 - **Antagonist:** Produces the opposite action, allowing controlled movement.
 
 With over 600 skeletal muscles, only major superficial muscles are highlighted here:
 
 ![Key muscle groups from the front and back.](https://ugc.futurelearn.com/uploads/assets/e5/d8/e5d85739-f8dc-460d-baad-19c5da4fedd5.png)
 
-#### The Skeletal System
+### The Skeletal System
 
 The adult skeleton has about 206 bones, forming the body’s framework. Bones serve as **levers** for movement and provide attachment points for muscles. Many bones have distinct **landmarks**—features that serve as sites for muscle attachment and can often be felt on your own body.
 
@@ -168,16 +164,36 @@ Examples:
 
 ### Joints and Movement
 
-Joints connect bones and enable movement. They are classified:
+Joints are the connections between bones that allow the skeleton to move. The structure and type of each joint determine the possible directions and range of motion. Understanding joint movement is essential for analyzing how the body produces complex actions, such as those involved in music performance.
 
-- **Structurally:** By how bones are joined (fibrous tissue, cartilage, or joint cavity).
-- **Functionally:** By the degree of movement allowed (immovable, slightly movable, freely movable).
+Joint movements are typically described in pairs of opposite actions, always referenced from the anatomical position:
 
-The structure of a joint determines its range and type of motion. The illustration below shows six major types of freely movable (synovial) joints:
+- **Flexion** and **extension** (sagittal plane)
+- **Abduction** and **adduction** (frontal plane)
+- **Internal (medial) rotation** and **external (lateral) rotation** (transverse plane)
 
-![Types of synovial joints and their motion.](https://ugc.futurelearn.com/uploads/assets/c4/8a/c48a7d76-6425-4d58-a426-7fa5f149cf7b.png)
+![Major movement types.](https://ugc.futurelearn.com/uploads/assets/ed/87/ed87c0c8-4476-4348-b7e2-07a5ebd6303e.jpg)
 
-Joint movements are described in pairs, always relative to the anatomical position:
+| Movement           | Description                                                        |
+|--------------------|--------------------------------------------------------------------|
+| Flexion            | Bending movement that decreases the joint angle                    |
+| Extension          | Straightening movement that increases the joint angle              |
+| Abduction          | Movement away from the midline of the body                         |
+| Adduction          | Movement toward the midline of the body                            |
+| Circumduction      | Circular movement combining flexion, extension, abduction, adduction|
+| Internal Rotation  | Rotation toward the midline                                        |
+| External Rotation  | Rotation away from the midline                                     |
+
+Certain joints allow specialized movements:
+
+- **Supination–Pronation:** Rotation of the forearm, turning the palm up (supination) or down (pronation).
+- **Dorsiflexion–Plantar Flexion:** Upward (dorsiflexion) or downward (plantar flexion) movement of the ankle.
+- **Inversion–Eversion:** Turning the sole of the foot inward (inversion) or outward (eversion).
+- **Elevation–Depression:** Upward (elevation) or downward (depression) movement, typically of the shoulder or jaw.
+
+![Specialized joint movements.](https://ugc.futurelearn.com/uploads/assets/fc/8e/fc8ecf48-c563-46f9-87a6-26bca7880e8b.jpg)
+
+Understanding the types of joints and their movements is fundamental for analyzing human motion, especially in activities that require precision and coordination, such as playing a musical instrument or dancing.
 
 - **Flexion** and **extension** (sagittal plane)
 - **Abduction** and **adduction** (frontal plane)
