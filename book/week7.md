@@ -241,7 +241,7 @@ This approach uses cameras&mdash;either standard video cameras or specialised sy
 
 ![motion capture](figures/motion-capture.jpg)
 
-*An example of an infrared, marker-based motion capture system, allowing for precise measurements of the body-*
+*An example of an infrared, marker-based motion capture system, allowing for precise measurements of the body.*
 
 At the University of Oslo, we have multiple camera-based systems available, both at RITMO and at the Department of Musicology. Here you can get a sneak peek into one of the mocap labs: 
 
