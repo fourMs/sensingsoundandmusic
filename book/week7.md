@@ -10,42 +10,43 @@ exports:
   - format: pdf
 ---
 
-Up until now, we have mainly considered sensing of sound and music as an auditory phenomenon. And, yes, the *sound* of music is important, but it is important to remember that we also sense sound and music through our bodies. This week, we will delve into the body's role in music perception and cognition. Then, we will get an overview of the body's anatomy and biomechanics, before considering various approaches to analysing human body movement. 
-
+Until now, we have primarily focused on sensing sound and music as auditory experiences. While *hearing* is central, it is equally important to recognize that we also perceive sound and music through our bodies. This week, we will explore how the body shapes music perception and cognition. We will begin by examining the body's role in musical experience, then review key aspects of anatomy and biomechanics, and finally consider different methods for analyzing human movement.
 
 ## Embodied music cognition
 
-Recall that you have been introduced to the theories of [embodied music cognition](https://fourms.github.io/sensingsoundandmusic/week1/#embodied-music-cognition) in the beginning of this course. An embodied approach to music cognition emphasizes the role of the body in producing, perceiving, and understanding music. Rather than viewing musical experience as purely mental or abstract, this approach highlights how bodily sensations, movements, and actions are integral to musical meaning. 
+Recall that you have been introduced to the theories of [embodied music cognition](https://fourms.github.io/sensingsoundandmusic/week1/#embodied-music-cognition) in the beginning of this course. An embodied approach to music cognition emphasizes the role of the body in producing, perceiving, and understanding music. Rather than viewing musical experience as only and auditory phenomenon&mdash;orpurely mental or abstract&mdash;this approach highlights how bodily sensations, movements, and actions are integral to musical meaning. 
 
 Some key ideas in embodied music cognition include:
 
-- **Sensorimotor coupling:** Listening to music frequently elicits spontaneous bodily responses—such as tapping your foot, nodding your head, or swaying—demonstrating the tight connection between perception and action. This coupling underpins the *action–perception loop*, where perceiving music can trigger movement, and movement, in turn, shapes how music is experienced. Such interactions are fundamental to musical engagement, learning, and expression.
+- **Sensorimotor coupling:** Listening to music frequently elicits spontaneous bodily responses&mdash;such as tapping your foot, nodding your head, or swaying&mdash;demonstrating the tight connection between perception and action. This coupling underpins the *action–perception loop*, where perceiving music can trigger movement, and movement, in turn, shapes how music is experienced. Such interactions are fundamental to musical engagement, learning, and expression.
 
 - **Multimodal integration:** Musical experience is inherently multimodal, involving the simultaneous processing and integration of auditory (sound), visual (sight), and kinesthetic (movement and bodily sensation) information. The body acts as a central hub for these sensory streams, allowing us to coordinate what we hear, see, and feel. For example, watching a performer’s gestures can enhance our understanding of musical phrasing, while feeling vibrations or movement can deepen our sense of rhythm and timing.
 
-- **Gesture and imagery:** Expressive body movements—ranging from large gestures to subtle motion—are essential in music performance, aiding in communication, phrasing, and emotional expression. These gestures not only shape the sound produced but also influence how performers and listeners mentally represent music. Even in the absence of overt movement, musicians and listeners often engage in *motor imagery*: mentally simulating gestures or actions associated with music, which can support learning, memory, and interpretation.
+- **Gesture and imagery:** Expressive body movements&mdash;ranging from large gestures to subtle motion&mdash;are essential in music performance, aiding in communication, phrasing, and emotional expression. These gestures not only shape the sound produced but also influence how performers and listeners mentally represent music. Even in the absence of overt movement, musicians and listeners often engage in *motor imagery*: mentally simulating gestures or actions associated with music, which can support learning, memory, and interpretation.
+
+The Belgian systematic musicology professor [Marc Leman](https://research.flw.ugent.be/en/marc.leman) popularized the term embodied music cognition in the early 2000s. In a book with the same name, he made an illustration of the different processes in the bodies of both performers and perceivers. Here, he described how musical intentionality is based on sonic and visual communication between performer and perceiver:  
 
 ![Leman model of embodied music cognition](https://raw.githubusercontent.com/alexarje/sound-actions/refs/heads/main/figures/14-leman-model-crop.png)
 
-*An illustration of Marc Leman's model of embodied music cognition*
+*An illustration of Marc Leman's model of embodied music cognition.*
 
-Embodied music cognition is explored through multiple disciplines, including musicology, psychology, neuroscience, and human movement science. As a result, the literature presents a variety of perspectives and methodologies. Most research in this area relies on empirical studies&mdash;systematically collecting and analyzing data about musical experiences and bodily responses. This interdisciplinary approach enriches our understanding of how the body shapes musical perception, performance, and meaning.
+Embodied music cognition is explored through multiple disciplines, including [musicology](https://en.wikipedia.org/wiki/Musicology), [psychology](https://en.wikipedia.org/wiki/Psychology), [neuroscience](https://en.wikipedia.org/wiki/Neuroscience), and [human movement science](https://en.wikipedia.org/wiki/Human_movement_science). As a result, the literature presents a variety of perspectives and methodologies. Most research in this area relies on [empirical studies](https://en.wikipedia.org/wiki/Empirical_research)&mdash;systematically collecting and analyzing data about musical experiences and bodily responses. This interdisciplinary approach enriches our understanding of how the body shapes musical perception, performance, and meaning.
 
 ### 4E Cognition
 
-In recent years, *4E cognition* has emerged as a new direction, building on the "embodied turn" but extending it further. The concept originates from developments in cognitive science and philosophy of mind, particularly in response to traditional views that treated cognition as a process confined to the brain. Researchers such as Francisco Varela, Evan Thompson, Alva Noë, and Andy Clark have argued that understanding cognition requires considering the body, the environment, and the dynamic interactions between them. The "4E" framework—standing for Embodied, Embedded, Enactive, and Extended cognition—emphasizes that cognitive processes are not only shaped by bodily experiences but are also situated in specific contexts, enacted through interaction, and can be distributed across tools and technologies. 
+In recent years, the concept of *[4E cognition](https://en.wikipedia.org/wiki/4E_cognition)* has gained prominence, building on the "embodied turn" in cognitive science and philosophy of mind. The 4E framework—standing for [Embodied](https://en.wikipedia.org/wiki/Embodied_cognition), [Embedded](https://en.wikipedia.org/wiki/Embedded_cognition), [Enactive](https://en.wikipedia.org/wiki/Enactivism_(psychology)), and [Extended cognition](https://en.wikipedia.org/wiki/Extended_mind_thesis)—challenges traditional views that treat cognition as a process confined solely to the brain.
 
-The 4 "Es" are: 
+Pioneering researchers such as [Francisco Varela](https://en.wikipedia.org/wiki/Francisco_Varela), [Evan Thompson](https://en.wikipedia.org/wiki/Evan_Thompson), [Alva Noë](https://en.wikipedia.org/wiki/Alva_No%C3%AB), and [Andy Clark](https://en.wikipedia.org/wiki/Andy_Clark) have argued that understanding cognition requires considering the body, the environment, and the dynamic interactions between them. According to the 4E perspective, cognitive processes are:
 
 - **Embodied:** Our perception and understanding of music are deeply rooted in the body. The way we move, breathe, and physically interact with instruments or our environment shapes how we experience and interpret sound. For example, tapping your foot to a beat or feeling vibrations through your body are embodied ways of sensing music.
 
-- **Embedded:** Musical experience is shaped by the context in which it occurs. Our interactions with sound are influenced by the physical and social environment—such as the acoustics of a concert hall, the presence of other listeners, or the cultural setting. These factors embed our musical cognition within a broader context.
+- **Embedded:** Musical experience is shaped by the context in which it occurs. Our interactions with sound are influenced by the physical and social environment&mdash;such as the acoustics of a concert hall, the presence of other listeners, or the cultural setting. These factors embed our musical cognition within a broader context.
 
 - **Enactive:** We actively participate in creating musical meaning through our actions. Listening is not passive; we anticipate, move, and respond to music, co-constructing the experience. For instance, a performer’s gestures or a listener’s dance movements are examples of enactive engagement with music.
 
 - **Extended:** Tools and technologies can extend our cognitive processes. Musical instruments, recording devices, and even smartphones become part of the system through which we sense, produce, and understand music. Motion capture systems, for example, extend our ability to analyze and reflect on musical movement.
 
-The 4E cognition perspective encourages us to study music as a holistic, interactive process—one that involves the whole person, situated in a specific context, engaging with both physical and digital tools.
+The 4E cognition perspective encourages us to study music as a holistic, interactive process&mdash;one that involves the whole person, situated in a specific context, engaging with both physical and digital tools.
 
 
 ### Music-Related Body Motion
@@ -54,7 +55,7 @@ In this section, we focus on how the body is involved in both performing and per
 
 ### Performing Music
 
-Music performance is inherently physical. Musicians use coordinated movements—ranging from large gestures to subtle finger motion—to produce sound, shape musical phrases, and communicate with others. The body acts as both the source and the interpreter of musical ideas, translating intention into audible and visible actions. This physicality is present in all forms of music-making, including singing, playing instruments, conducting, and dancing.
+Music performance is inherently physical. Musicians use coordinated movements&mdash;ranging from large gestures to subtle finger motion&mdash;to produce sound, shape musical phrases, and communicate with others. The body acts as both the source and the interpreter of musical ideas, translating intention into audible and visible actions. This physicality is present in all forms of music-making, including singing, playing instruments, conducting, and dancing.
 
 We can categorize music-related body motion in performers into four main types:
 
@@ -81,7 +82,7 @@ People also move when *listening* to music, not just when performing. These move
 - **Finger-tapping:** Tapping fingers on a surface or in the air to mark the beat or rhythm. This is a common, often unconscious, response that helps listeners synchronize with the music and anticipate changes.
 - **Involuntary swaying or nodding:** Subtle body movements, such as swaying, head-nodding, or foot-tapping, that occur without conscious intent. These responses are linked to the brain's sensorimotor coupling with musical rhythm and can be observed across cultures and age groups.
 
-These bodily responses are not merely byproducts of listening—they are integral to musical perception and cognition. Moving to music can enhance memory, emotional response, and even social connection, illustrating the deep link between body and sound in musical experience.
+These bodily responses are not merely byproducts of listening&mdash;they are integral to musical perception and cognition. Moving to music can enhance memory, emotional response, and even social connection, illustrating the deep link between body and sound in musical experience.
 
 
 ## Anatomy and Biomechanics
@@ -98,7 +99,7 @@ The body is divided into regions: head, neck, trunk, upper limbs, and lower limb
 
 ![A body in the anatomical position. Regions of the body are named.](https://ugc.futurelearn.com/uploads/assets/96/c3/96c35d42-f05f-4305-8f85-f1f2b6f5625c.png)
 
-To describe positions and movements in three dimensions, we use *[anatomical planes](https://en.wikipedia.org/wiki/Anatomical_plane)*—imaginary divisions of the body.
+To describe positions and movements in three dimensions, we use *[anatomical planes](https://en.wikipedia.org/wiki/Anatomical_plane)*&mdash;imaginary divisions of the body.
 
 - **Sagittal plane:** Divides the body into left and right sections (the median plane is exactly in the middle).
 - **Frontal (coronal) plane:** Divides the body into front and back sections.
@@ -152,11 +153,11 @@ With over 600 skeletal muscles, only major superficial muscles are highlighted h
 
 ### The Skeletal System
 
-The adult skeleton has about 206 bones, forming the body’s framework. Bones serve as **levers** for movement and provide attachment points for muscles. Many bones have distinct **landmarks**—features that serve as sites for muscle attachment and can often be felt on your own body.
+The adult skeleton has about 206 bones, forming the body’s framework. Bones serve as **levers** for movement and provide attachment points for muscles. Many bones have distinct **landmarks**&mdash;features that serve as sites for muscle attachment and can often be felt on your own body.
 
 Examples:
 
-- **Ankles:** The *malleoli*—lateral (fibula) and medial (tibia).
+- **Ankles:** The *malleoli*&mdash;lateral (fibula) and medial (tibia).
 - **Pelvis:** The *anterior superior iliac spine* at the upper, outer edge.
 - **Elbow:** The *medial* and *lateral epicondyles* of the *humerus* (sides), and the *olecranon process* of the *ulna* (back).
 
@@ -221,7 +222,7 @@ Understanding joint structure and movement is fundamental for analyzing how the 
 
 - **[Statics](https://en.wikipedia.org/wiki/Statics):** Examines bodies at rest or in equilibrium (e.g., standing, holding a posture).
 - **[Dynamics](https://en.wikipedia.org/wiki/Dynamics_(mechanics))**: Focuses on bodies in motion (e.g., walking, playing an instrument).
-  - **[Kinematics](https://en.wikipedia.org/wiki/Kinematics):** Describes motion itself—how body parts move in terms of position, velocity, and acceleration, without considering the forces involved.
+  - **[Kinematics](https://en.wikipedia.org/wiki/Kinematics):** Describes motion itself&mdash;how body parts move in terms of position, velocity, and acceleration, without considering the forces involved.
   - **[Kinetics](https://en.wikipedia.org/wiki/Kinetics_(physics)):** Investigates the forces and torques that cause or result from movement.
 
 To analyze movement, we often refer to a *reference frame*, which provides a coordinate system for describing positions and motions. A *[global reference frame](https://en.wikipedia.org/wiki/Frame_of_reference#In_physics)* is fixed relative to the environment, such as the laboratory or stage, and serves as an external standard for measuring movement. In contrast, a *[local reference frame](https://en.wikipedia.org/wiki/Frame_of_reference#Attached_to_a_body)* is attached to a specific body segment, such as the hand relative to the forearm, allowing for the analysis of motion in relation to other parts of the body. Using both global and local reference frames enables precise and context-sensitive descriptions of human movement.
@@ -285,7 +286,7 @@ Motion capture (often abbreviated as "mocap") is a technique used to record the 
 
 We can differentiate between two main types of motion capture:
 
-- **Camera-based motion capture:** This approach uses cameras—either standard video cameras or specialized systems (such as infrared or depth cameras)—to record and analyze movement. Markers may be placed on the body to help track specific points, or markerless systems can use computer vision algorithms to estimate body positions. Camera-based systems are widely used in biomechanics, animation, and music research because they can capture detailed, full-body motion in three dimensions. However, they often require controlled environments, careful calibration, and can be sensitive to lighting and occlusion.
+- **Camera-based motion capture:** This approach uses cameras&mdash;either standard video cameras or specialized systems (such as infrared or depth cameras)&mdash;to record and analyze movement. Markers may be placed on the body to help track specific points, or markerless systems can use computer vision algorithms to estimate body positions. Camera-based systems are widely used in biomechanics, animation, and music research because they can capture detailed, full-body motion in three dimensions. However, they often require controlled environments, careful calibration, and can be sensitive to lighting and occlusion.
 
 - **Sensor-based motion capture:** This method relies on wearable sensors attached directly to the body. Common sensor types include inertial measurement units (IMUs), accelerometers, gyroscopes, magnetometers, and sometimes physiological sensors (such as EMG for muscle activity). Sensor-based systems are generally more portable and less dependent on the environment, making them suitable for field studies or situations where cameras are impractical. They can provide precise data on joint angles, acceleration, and orientation, but may require careful placement and calibration, and can be affected by sensor drift or interference.
 
