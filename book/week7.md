@@ -184,15 +184,6 @@ Joint movements are typically described in pairs of opposite actions, always ref
 | Internal Rotation  | Rotation toward the midline                                        |
 | External Rotation  | Rotation away from the midline                                     |
 
-Certain joints allow specialized movements:
-
-- **Supination–Pronation:** Rotation of the forearm, turning the palm up (supination) or down (pronation).
-- **Dorsiflexion–Plantar Flexion:** Upward (dorsiflexion) or downward (plantar flexion) movement of the ankle.
-- **Inversion–Eversion:** Turning the sole of the foot inward (inversion) or outward (eversion).
-- **Elevation–Depression:** Upward (elevation) or downward (depression) movement, typically of the shoulder or jaw.
-
-![Specialized joint movements.](https://ugc.futurelearn.com/uploads/assets/fc/8e/fc8ecf48-c563-46f9-87a6-26bca7880e8b.jpg)
-
 Understanding the types of joints and their movements is fundamental for analyzing human motion, especially in activities that require precision and coordination, such as playing a musical instrument or dancing.
 
 - **Flexion** and **extension** (sagittal plane)
@@ -222,67 +213,46 @@ Certain joints allow specialized movements:
 
 Understanding joint structure and movement is fundamental for analyzing how the body produces and controls motion, especially in activities like music performance where precise and expressive movements are essential.
 
-### Degrees of Freedom and Range of Motion
-
-*Degrees of freedom* (DoF) refer to the number of independent directions in which a joint can move. Each DoF represents a specific type of movement (e.g., flexion/extension, abduction/adduction, rotation). *Range of motion* (RoM) describes how far a joint can move within each DoF, typically measured in degrees.
-
-- **Example:** The elbow is a hinge joint with one DoF (flexion/extension). The shoulder is a ball-and-socket joint with three DoF (flexion–extension, abduction–adduction, internal–external rotation).
-
-![Elbow range of motion.](https://ugc.futurelearn.com/uploads/assets/31/89/3189dda8-23d6-4584-9e94-da91e934eafe.png)
-
-Understanding DoF and RoM is essential for analyzing joint function, movement capabilities, and limitations in both everyday activities and specialized tasks like music performance.
+*Degrees of freedom* ([DoF](https://en.wikipedia.org/wiki/Degrees_of_freedom_(mechanics))) refer to the number of independent directions in which a joint can move. Each DoF represents a specific type of movement (e.g., flexion/extension, abduction/adduction, rotation). *Range of motion* ([RoM](https://en.wikipedia.org/wiki/Range_of_motion)) describes how far a joint can move within each DoF, typically measured in degrees Understanding DoF and RoM is essential for analyzing joint function, movement capabilities, and limitations in both everyday activities and specialized tasks like music performance.
 
 ### Biomechanics: Principles of Human Movement
 
-*Biomechanics* applies mechanical principles to biological systems, explaining how and why the human body moves. It integrates knowledge from biology, medicine, engineering, and physics.
+*Biomechanics* is the study of how mechanical principles apply to living organisms, particularly the human body. Key areas and concepts in biomechanics include:
 
-![Biomechanics diagram.](https://ugc.futurelearn.com/uploads/assets/67/de/67de5366-5f8f-4954-879a-d963ac592e3d.png)
+- **[Statics](https://en.wikipedia.org/wiki/Statics):** Examines bodies at rest or in equilibrium (e.g., standing, holding a posture).
+- **[Dynamics](https://en.wikipedia.org/wiki/Dynamics_(mechanics))**: Focuses on bodies in motion (e.g., walking, playing an instrument).
+  - **[Kinematics](https://en.wikipedia.org/wiki/Kinematics):** Describes motion itself—how body parts move in terms of position, velocity, and acceleration, without considering the forces involved.
+  - **[Kinetics](https://en.wikipedia.org/wiki/Kinetics_(physics)):** Investigates the forces and torques that cause or result from movement.
 
-Key branches and concepts:
-
-- **Statics:** Study of bodies at rest (e.g., sitting, standing).
-- **Dynamics:** Study of bodies in motion (e.g., running, playing an instrument).
-- **Kinematics:** Describes motion (what you can see)—position, velocity, acceleration.
-- **Kinetics:** Explains the causes of motion (forces and torques).
-
-#### Reference Frames
-
-A *reference frame* is needed to describe motion. This can be:
-
-- **Global:** Relative to the environment (e.g., lab space).
-- **Local:** Relative to a body segment.
+To analyze movement, we often refer to a *reference frame*, which provides a coordinate system for describing positions and motions. A *[global reference frame](https://en.wikipedia.org/wiki/Frame_of_reference#In_physics)* is fixed relative to the environment, such as the laboratory or stage, and serves as an external standard for measuring movement. In contrast, a *[local reference frame](https://en.wikipedia.org/wiki/Frame_of_reference#Attached_to_a_body)* is attached to a specific body segment, such as the hand relative to the forearm, allowing for the analysis of motion in relation to other parts of the body. Using both global and local reference frames enables precise and context-sensitive descriptions of human movement.
 
 #### Kinematics
 
-Kinematics uses variables such as:
+Kinematics deals with the measurable aspects of movement:
 
-- **Position:** Location in space (X, Y, Z coordinates).
-- **Displacement:** Change in position (vector).
-- **Distance:** Total path length (scalar).
-- **Speed:** How fast an object moves (scalar).
-- **Velocity:** Speed with direction (vector).
-- **Acceleration:** Change in velocity.
+- **Position:** The location of a point or segment in space (X, Y, Z coordinates).
+- **Displacement:** The straight-line change in position from start to end (vector).
+- **Distance:** The total length of the path traveled (scalar).
+- **Speed:** How fast something moves, regardless of direction (scalar).
+- **Velocity:** Speed in a specific direction (vector).
+- **Acceleration:** The rate of change of velocity.
 
 ![Position, displacement, and distance.](https://ugc.futurelearn.com/uploads/assets/14/6a/146abc62-fe15-4264-b47a-456191432b55.png)
 
 #### Kinetics
 
-Kinetics focuses on forces that cause movement:
+Kinetics explores the forces that produce or modify movement:
 
-- **Force:** A push or pull that changes motion. Muscles generate force; gravity is an external force.
-- **Torque (Moment):** A force that causes rotation around a joint.
-- **Power:** Work done over time.
-- **Balance:** Ability to maintain equilibrium (static or dynamic).
-- **Center of Gravity (CoG):** Point where body weight is evenly distributed.
-- **Base of Support:** Area beneath the body that supports weight.
+- **Force:** A push or pull that can change the motion of a body. Muscles generate internal forces; gravity and contact with objects are external forces.
+- **Torque (Moment):** A force that causes rotation around a joint or axis.
+- **Power:** The rate at which work is performed or energy is transferred.
+- **Balance:** The ability to maintain the body’s center of mass over its base of support, whether stationary or moving.
+- **Center of Gravity (CoG):** The point where the body’s mass is evenly distributed in all directions.
+- **Base of Support:** The area beneath the body that provides stability (e.g., the space between your feet when standing).
 
-A person is balanced when the line of gravity from their CoG falls within their base of support.
+A person remains balanced as long as the line of gravity from their CoG falls within their base of support.
 
 ![Balance and base of support.](https://ugc.futurelearn.com/uploads/assets/61/1e/611e086e-b950-4b59-9c10-4940cdbdccf9.png)
-
----
-
-A solid grasp of anatomy and biomechanics is crucial for understanding and analyzing human movement, especially in music, where subtle and complex motions are essential for performance and expression.
 
 ## Human Movement Analysis
 
