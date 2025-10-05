@@ -24,11 +24,11 @@ Some key ideas in embodied music cognition include:
 
 - **Gesture and imagery:** Expressive body movements&mdash;ranging from large gestures to subtle motion&mdash;are essential in music performance, aiding in communication, phrasing, and emotional expression. These gestures not only shape the sound produced but also influence how performers and listeners mentally represent music. Even in the absence of overt movement, musicians and listeners often engage in *motor imagery*: mentally simulating gestures or actions associated with music, which can support learning, memory, and interpretation.
 
-The Belgian systematic musicology professor [Marc Leman](https://research.flw.ugent.be/en/marc.leman) popularized the term embodied music cognition in the early 2000s. In a book with the same name, he made an illustration of the different processes in the bodies of both performers and perceivers. Here, he described how musical intentionality is based on sonic and visual communication between performer and perceiver:  
+The Belgian systematic musicology professor [Marc Leman](https://research.flw.ugent.be/en/marc.leman) popularized the term embodied music cognition in the early 2000s. In his book [Embodied Music Cognition and Mediation Technology](https://direct.mit.edu/books/monograph/3170/Embodied-Music-Cognition-and-Mediation-Technology), he made an illustration of the different processes in the bodies of both performers and perceivers. Here, he described how musical intentionality is based on sonic and visual communication between performer and perceiver:  
 
 ![Leman model of embodied music cognition](https://raw.githubusercontent.com/alexarje/sound-actions/refs/heads/main/figures/14-leman-model-crop.png)
 
-*An illustration of Marc Leman's model of embodied music cognition.*
+*An illustration of Marc Leman's model of embodied music cognition. (Illustration from [Sound Actions](https://mitpress.mit.edu/9780262544634/sound-actions/))*.
 
 Embodied music cognition is explored through multiple disciplines, including [musicology](https://en.wikipedia.org/wiki/Musicology), [psychology](https://en.wikipedia.org/wiki/Psychology), [neuroscience](https://en.wikipedia.org/wiki/Neuroscience), and [human movement science](https://en.wikipedia.org/wiki/Human_movement_science). As a result, the literature presents a variety of perspectives and methodologies. Most research in this area relies on [empirical studies](https://en.wikipedia.org/wiki/Empirical_research)&mdash;systematically collecting and analyzing data about musical experiences and bodily responses. This interdisciplinary approach enriches our understanding of how the body shapes musical perception, performance, and meaning.
 
@@ -48,7 +48,7 @@ Pioneering researchers such as [Francisco Varela](https://en.wikipedia.org/wiki/
 
 The 4E cognition perspective encourages us to study music as a holistic, interactive process&mdash;one that involves the whole person, situated in a specific context, engaging with both physical and digital tools.
 
-Despite its influence, the 4E cognition framework has faced several criticisms and ongoing debates. Critics point out that the definitions of "embodied," "embedded," "enactive," and "extended" can be vague or overlapping, making it difficult to distinguish 4E cognition from traditional cognitive science in practice. Some question whether there is sufficient empirical evidence for all aspects of the framework, particularly the claim that cognition can be genuinely "extended" into tools or the environment. Others warn against overextending the concept, attributing cognitive status to objects or processes (such as smartphones or musical instruments) that may not truly participate in cognition. Additionally, some argue that 4E approaches can underplay the central role of neural mechanisms emphasized in traditional neuroscience, and philosophical disagreements persist about whether 4E cognition represents a radical shift or simply reframes existing ideas about mind, body, and environment. Nevertheless, the 4E perspective has stimulated valuable interdisciplinary discussion and inspired new research directions in music cognition and related fields.
+Despite its influence, the 4E cognition framework has faced several criticisms and ongoing debates, wich have also been discussed in the recent [Handbook of 4E Cognition](https://academic.oup.com/edited-volume/28083?login=false). Critics point out that the definitions of "embodied," "embedded," "enactive," and "extended" can be vague or overlapping, making it difficult to distinguish 4E cognition from traditional cognitive science in practice. Some question whether there is sufficient empirical evidence for all aspects of the framework, particularly the claim that cognition can be genuinely "extended" into tools or the environment. Others warn against overextending the concept, attributing cognitive status to objects or processes (such as smartphones or musical instruments) that may not truly participate in cognition. Additionally, some argue that 4E approaches can underplay the central role of neural mechanisms emphasized in traditional neuroscience, and philosophical disagreements persist about whether 4E cognition represents a radical shift or simply reframes existing ideas about mind, body, and environment. Nevertheless, the 4E perspective has stimulated valuable interdisciplinary discussion and inspired new research directions in music cognition and related fields.
 
 
 ### Performing Music
@@ -244,13 +244,10 @@ Key applications include:
 Motion capture provides a powerful tool for bridging the gap between physical movement and musical expression, supporting both scientific research and creative exploration.
 
 
-
-
-
 ## Questions
 
-1. Describe the anatomical position and explain why it is important for movement analysis.
-2. What are the main differences between qualitative and quantitative approaches to human movement analysis? Provide examples of each.
-3. How do camera-based and sensor-based motion capture systems differ in their applications and limitations?
-4. Explain the concept of degrees of freedom in joint motion and give an example from the human body.
-5. Discuss how the vestibular system contributes to balance and movement in musical performance.
+1. What are the four main types of music-related body motion in performers, and how do they differ?
+2. How does the 4E cognition framework expand our understanding of music perception and performance?
+3. What is the difference between kinematics and kinetics in the context of biomechanics?
+4. Describe the advantages and limitations of camera-based versus sensor-based motion capture systems.
+5. Why are both qualitative and quantitative approaches important in the study of music-related movement?
