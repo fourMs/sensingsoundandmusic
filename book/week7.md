@@ -99,28 +99,23 @@ Before introducing different approaches to motion capture, it is essential to un
 
 Anatomy studies the structure of the body. To ensure consistency when describing locations and actions, we use the *[anatomical position](https://en.wikipedia.org/wiki/Anatomical_position)*: standing upright, head and eyes forward, arms at the sides with palms facing forward, and feet parallel and pointing ahead. 
 
-![A body in the anatomical position. Regions of the body are named.](book/figures/anatomical-parts.png)
+![A body in the anatomical position. Regions of the body are named.](figures/anatomical-parts.png)
 
 The body is divided into regions: head, neck, trunk, upper limbs, and lower limbs, each with further subdivisions. For movement analysis, distinguishing between areas such as the arm and forearm or thigh and leg is important.
 
-To describe positions and movements in three dimensions, we use *[anatomical planes](book/figures/anatomical-planes.png)*&mdash;imaginary divisions of the body.
+To describe positions and movements in three dimensions, we use *[anatomical planes](figures/anatomical-planes.png)*&mdash;imaginary divisions of the body.
 
 - **Sagittal plane:** Divides the body into left and right sections (the median plane is exactly in the middle).
 - **Frontal (coronal) plane:** Divides the body into front and back sections.
 - **Transverse plane:** Divides the body horizontally into upper and lower parts.
 To describe movement directions, the belly button (navel) is often used as a reference point for the whole body, although other anatomical landmarks may be chosen for specific body segments. Movements are typically characterized along three primary axes: medial–lateral (side-to-side or left–right), anterior–posterior (front-to-back), and superior–inferior (up–down). These axes correspond to the anatomical planes—sagittal, frontal, and transverse—and help standardize descriptions of motion in both research and clinical contexts.
 
-![A picture of a body. The three anatomical planes are shown.](book/figures/motion-directions.png)
+![A picture of a body. The three anatomical planes are shown.](figures/motion-directions.png)
 
 
 ### The Muscular system
 
-Of the body’s 11 systems, the most relevant for movement are:
-
-- **Muscular system:** Muscles that act on the skeleton to move or position body parts.
-- **Skeletal system:** Bones, joints, and cartilage; provides structure and protection.
-
-Together, these form the [musculoskeletal system](https://en.wikipedia.org/wiki/Musculoskeletal_system), fundamental for producing and controlling movement. We will begin with looking at the muscular system. 
+The [musculoskeletal system](https://en.wikipedia.org/wiki/Musculoskeletal_system) is fundamental for producing and controlling movement, comprising two main components: the [muscular system](https://en.wikipedia.org/wiki/Muscular_system) and the [skeletal system](https://en.wikipedia.org/wiki/Skeletal_system). The muscular system consists of [muscles](https://en.wikipedia.org/wiki/Muscle) that act on the skeleton to move or position body parts, while the skeletal system includes [bones](https://en.wikipedia.org/wiki/Bone), [joints](https://en.wikipedia.org/wiki/Joint_(anatomy)), and [cartilage](https://en.wikipedia.org/wiki/Cartilage) that provide structure and protection. In the following section, we will begin by looking at the muscular system.
 
 There are three types of muscle tissue: [cardiac](https://en.wikipedia.org/wiki/Cardiac_muscle) (heart), [smooth](https://en.wikipedia.org/wiki/Smooth_muscle) (organs), and [skeletal](https://en.wikipedia.org/wiki/Skeletal_muscle) (attached to bones). Skeletal muscles are responsible for voluntary movement.
 
