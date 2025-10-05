@@ -12,6 +12,11 @@ exports:
 
 Until now, we have primarily focused on sensing sound and music as auditory experiences. While *hearing* is central, it is equally important to recognise that we also perceive sound and music through our bodies. This week, we will explore how the body shapes music perception and cognition. We will begin by examining the body's role in musical experience, then review key aspects of anatomy and biomechanics, and finally consider different methods for analysing human movement.
 
+```{admonition} Question
+:class: question
+How do you think about your own body in relation to music performance or perception?
+```
+
 ## Embodied music cognition
 
 Recall that you have been introduced to the theories of [embodied music cognition](https://fourms.github.io/sensingsoundandmusic/week1/#embodied-music-cognition) at the beginning of this course. An embodied approach to music cognition emphasises the role of the body in producing, perceiving, and understanding music. Rather than viewing musical experience as only and auditory phenomenon&mdash;orpurely mental or abstract&mdash;this approach highlights how bodily sensations, movements, and actions are integral to musical meaning. 
@@ -24,7 +29,7 @@ Some key ideas in embodied music cognition include:
 
 - **Gesture and imagery:** Expressive body movements&mdash;ranging from large gestures to subtle motion&mdash;are essential in music performance, aiding in communication, phrasing, and emotional expression. These gestures not only shape the sound produced but also influence how performers and listeners mentally represent music. Even in the absence of overt movement, musicians and listeners often engage in *motor imagery*: mentally simulating gestures or actions associated with music, which can support learning, memory, and interpretation.
 
-The Belgian systematic musicology professor [Marc Leman](https://research.flw.ugent.be/en/marc.leman) popularised the term embodied music cognition in the early 2000s. In his book, [Embodied Music Cognition and Mediation Technology](https://direct.mit.edu/books/monograph/3170/Embodied-Music-Cognition-and-Mediation-Technology), he illustrates the different processes in the bodies of both performers and perceivers. Here, he described how musical intentionality is based on sonic and visual communication between performer and perceiver:  
+The Belgian systematic musicology professor [Marc Leman](https://research.flw.ugent.be/en/marc.leman) popularised the term embodied music cognition in the early 2000s. In his book, [Embodied Music Cognition and Mediation Technology](https://doi.org/10.7551/mitpress/7476.001.0001), he illustrates the different processes in the bodies of both performers and perceivers. Here, he described how musical intentionality is based on sonic and visual communication between performer and perceiver:  
 
 ![Leman model of embodied music cognition](https://raw.githubusercontent.com/alexarje/sound-actions/refs/heads/main/figures/14-leman-model-crop.png)
 
@@ -200,6 +205,10 @@ Understanding kinetics helps analyse how musicians generate, control, and coordi
 
 There are various ways to study human body motion. While many associate "motion capture" with suits, markers, or sensors, the term can be interpreted more broadly to include any method that systematically records human movement. This encompasses both qualitative and quantitative approaches. In practice, qualitative and quantitative methods are often combined. For example, researchers may use both video and sensors, and analyses may include both interpretive and numerical components. For clarity, this course distinguishes between qualitative and quantitative methods, while acknowledging that mixed-method approaches are also common.
 
+```{note} 
+We often distinguish between *movement* and *motion* to clarify our perspective. *Movement* refers to the subjective, experiential, or expressive aspects—how we feel or perceive bodily actions. In contrast, *motion* is used in a scientific or technical sense, focusing on the measurable, physical properties of moving objects. In other words, we experience and interpret movement, but we analyse and quantify motion.
+```
+
 ### Qualitative approaches
 
 Qualitative motion analysis focuses on understanding movement through observation, reflection, and descriptive frameworks rather than numerical measurement.
@@ -243,6 +252,17 @@ Key applications include:
 
 Motion capture provides a powerful tool for bridging the gap between physical movement and musical expression, supporting both scientific research and creative exploration.
 
+```{exercise}
+:topic: IMU
+Download the app [Sensor Logger](https://www.tszheichoi.com/sensorlogger), which can record data from all sensors on your phone. 
+
+In pairs: 
+
+1. Take turns in moving with your mobile phone in your hand while recording and watching the other move. 
+2. Try to understand the differences between these data types: Accelerometer, Gravity, Gyroscope, Orientation, Magnetometer Compass.
+```
+
+[Sensor Logger — Kelvin Choi](https://www.tszheichoi.com/sensorlogger)
 
 ## Questions
 
