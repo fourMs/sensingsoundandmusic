@@ -123,11 +123,7 @@ A skeletal muscle consists of a thick, red [muscle belly](https://en.wikipedia.o
 
 ![A muscle that contracts, pulling the bone, which equals movement.](https://ugc.futurelearn.com/uploads/assets/18/67/18676079-6e3f-440a-a5ef-9bb9757e39d2.jpg)
 
-Muscles can only pull, not push. Movement often involves several muscles working together:
-
-- **Agonist:** Main muscle responsible for a movement.
-- **Synergists:** Assist the agonist, sometimes stabilizing the origin bone (*fixators*).
-- **Antagonist:** Produces the opposite action, allowing controlled movement.
+Muscles can only pull, not push, so movement typically involves several muscles working together in coordinated roles. The *agonist* is the main muscle responsible for generating a specific movement, while *synergists* assist the agonist by adding force or stabilizing the origin bone (sometimes called *fixators*). In contrast, the *antagonist* produces the opposite action, allowing for controlled and smooth movement by balancing or resisting the agonist's force.
 
 With over 600 skeletal muscles, only major superficial muscles are highlighted here:
 
@@ -135,17 +131,9 @@ With over 600 skeletal muscles, only major superficial muscles are highlighted h
 
 ### The Skeletal System
 
-The adult skeleton has about 206 bones, forming the body’s framework. Bones serve as **levers** for movement and provide attachment points for muscles. Many bones have distinct **landmarks**&mdash;features that serve as sites for muscle attachment and can often be felt on your own body.
-
-Examples:
-
-- **Ankles:** The *malleoli*&mdash;lateral (fibula) and medial (tibia).
-- **Pelvis:** The *anterior superior iliac spine* at the upper, outer edge.
-- **Elbow:** The *medial* and *lateral epicondyles* of the *humerus* (sides), and the *olecranon process* of the *ulna* (back).
+The adult skeleton has about 206 bones, forming the body’s framework. Bones serve as *levers* for movement and provide attachment points for muscles. Many bones have distinct *landmarks*&mdash;features that serve as sites for muscle attachment and can often be felt on your own body.
 
 ![Major bones and bone groups.](https://ugc.futurelearn.com/uploads/assets/80/22/80225b63-e657-4c93-8e82-b59139f076e7.jpg)
-
-### Joints and Movement
 
 Joints are the connections between bones that allow the skeleton to move. The structure and type of each joint determine the possible directions and range of motion. Understanding joint movement is essential for analyzing how the body produces complex actions, such as those involved in music performance.
 
@@ -157,44 +145,6 @@ Joint movements are typically described in pairs of opposite actions, always ref
 
 ![Major movement types.](https://ugc.futurelearn.com/uploads/assets/ed/87/ed87c0c8-4476-4348-b7e2-07a5ebd6303e.jpg)
 
-| Movement           | Description                                                        |
-|--------------------|--------------------------------------------------------------------|
-| Flexion            | Bending movement that decreases the joint angle                    |
-| Extension          | Straightening movement that increases the joint angle              |
-| Abduction          | Movement away from the midline of the body                         |
-| Adduction          | Movement toward the midline of the body                            |
-| Circumduction      | Circular movement combining flexion, extension, abduction, adduction|
-| Internal Rotation  | Rotation toward the midline                                        |
-| External Rotation  | Rotation away from the midline                                     |
-
-Understanding the types of joints and their movements is fundamental for analyzing human motion, especially in activities that require precision and coordination, such as playing a musical instrument or dancing.
-
-- **Flexion** and **extension** (sagittal plane)
-- **Abduction** and **adduction** (frontal plane)
-- **Internal (medial) rotation** and **external (lateral) rotation** (transverse plane)
-
-![Major movement types.](https://ugc.futurelearn.com/uploads/assets/ed/87/ed87c0c8-4476-4348-b7e2-07a5ebd6303e.jpg)
-
-| Movement           | Description                                                        |
-|--------------------|--------------------------------------------------------------------|
-| Flexion            | Bending movement that decreases the joint angle                    |
-| Extension          | Straightening movement that increases the joint angle              |
-| Abduction          | Movement away from the midline of the body                         |
-| Adduction          | Movement toward the midline of the body                            |
-| Circumduction      | Circular movement combining flexion, extension, abduction, adduction|
-| Internal Rotation  | Rotation toward the midline                                        |
-| External Rotation  | Rotation away from the midline                                     |
-
-Certain joints allow specialized movements:
-
-- **Supination–Pronation:** Rotation of the forearm, turning the palm up (supination) or down (pronation).
-- **Dorsiflexion–Plantar Flexion:** Upward (dorsiflexion) or downward (plantar flexion) movement of the ankle.
-- **Inversion–Eversion:** Turning the sole of the foot inward (inversion) or outward (eversion).
-- **Elevation–Depression:** Upward (elevation) or downward (depression) movement, typically of the shoulder or jaw.
-
-![Specialized joint movements.](https://ugc.futurelearn.com/uploads/assets/fc/8e/fc8ecf48-c563-46f9-87a6-26bca7880e8b.jpg)
-
-Understanding joint structure and movement is fundamental for analyzing how the body produces and controls motion, especially in activities like music performance where precise and expressive movements are essential.
 
 *Degrees of freedom* ([DoF](https://en.wikipedia.org/wiki/Degrees_of_freedom_(mechanics))) refer to the number of independent directions in which a joint can move. Each DoF represents a specific type of movement (e.g., flexion/extension, abduction/adduction, rotation). *Range of motion* ([RoM](https://en.wikipedia.org/wiki/Range_of_motion)) describes how far a joint can move within each DoF, typically measured in degrees Understanding DoF and RoM is essential for analyzing joint function, movement capabilities, and limitations in both everyday activities and specialized tasks like music performance.
 
@@ -209,8 +159,6 @@ Understanding joint structure and movement is fundamental for analyzing how the 
 
 To analyze movement, we often refer to a *reference frame*, which provides a coordinate system for describing positions and motions. A *[global reference frame](https://en.wikipedia.org/wiki/Frame_of_reference#In_physics)* is fixed relative to the environment, such as the laboratory or stage, and serves as an external standard for measuring movement. In contrast, a *[local reference frame](https://en.wikipedia.org/wiki/Frame_of_reference#Attached_to_a_body)* is attached to a specific body segment, such as the hand relative to the forearm, allowing for the analysis of motion in relation to other parts of the body. Using both global and local reference frames enables precise and context-sensitive descriptions of human movement.
 
-#### Kinematics
-
 Kinematics deals with the measurable aspects of movement:
 
 - **Position:** The location of a point or segment in space (X, Y, Z coordinates).
@@ -221,8 +169,6 @@ Kinematics deals with the measurable aspects of movement:
 - **Acceleration:** The rate of change of velocity.
 
 ![Position, displacement, and distance.](https://ugc.futurelearn.com/uploads/assets/14/6a/146abc62-fe15-4264-b47a-456191432b55.png)
-
-#### Kinetics
 
 Kinetics explores the forces that produce or modify movement:
 
