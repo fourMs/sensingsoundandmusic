@@ -108,15 +108,17 @@ Anatomy studies the structure of the body. To ensure consistency when describing
 
 The body is divided into regions: head, neck, trunk, upper limbs, and lower limbs, each with further subdivisions. For movement analysis, distinguishing between areas such as the arm and forearm, or the thigh and leg, is essential.
 
-To describe positions and movements in three dimensions, we use *[anatomical planes](figures/anatomical-planes.png)*&mdash;imaginary divisions of the body.
+To describe positions and movements in three dimensions, we use *anatomical planes*—imaginary divisions of the body that provide standard reference points for anatomical terminology and motion analysis. The [sagittal plane](https://en.wikipedia.org/wiki/Sagittal_plane) divides the body into left and right sections (with the median plane being exactly in the middle), the [frontal (coronal) plane](https://en.wikipedia.org/wiki/Coronal_plane) separates the body into front (anterior) and back (posterior) portions, and the [transverse plane](https://en.wikipedia.org/wiki/Transverse_plane) divides the body horizontally into upper (superior) and lower (inferior) parts. These planes are essential for accurately describing the direction and type of movement in both clinical and research contexts.
 
-- **Sagittal plane:** Divides the body into left and right sections (the median plane is precisely in the middle).
-- **Frontal (coronal) plane:** Divides the body into front and back sections.
-- **Transverse plane:** Divides the body horizontally into upper and lower parts.
+![Anatomical planes](figures/anatomical-planes.png)
+
+*The three main anatomical planes: sagittal (divides left and right), frontal/coronal (divides front and back), and transverse (divides upper and lower parts of the body).*
+
 To describe movement directions, the belly button (navel) is often used as a reference point for the whole body, although other anatomical landmarks may be chosen for specific body segments. Movements are typically characterised along three primary axes: medial–lateral (side-to-side or left–right), anterior–posterior (front-to-back), and superior–inferior (up–down). These axes correspond to the anatomical planes—sagittal, frontal, and transverse—and help standardise descriptions of motion in both research and clinical contexts.
 
-![A picture of a body. The three anatomical planes are shown.](figures/motion-directions.png)
+![Motion directions](figures/motion-directions.png)
 
+*Common directions of human body motion, illustrated with arrows.*
 
 ### The Muscular System
 
@@ -128,17 +130,23 @@ A skeletal muscle consists of a thick, red [muscle belly](https://en.wikipedia.o
 
 ![A muscle that contracts, pulling the bone, which equals movement.](https://ugc.futurelearn.com/uploads/assets/18/67/18676079-6e3f-440a-a5ef-9bb9757e39d2.jpg)
 
-Muscles can only pull, not push, so movement typically involves several muscles working together in coordinated roles. The *agonist* is the main muscle responsible for generating a specific movement, while *synergists* assist the agonist by adding force or stabilising the origin bone (sometimes called *fixators*). In contrast, the *antagonist* produces the opposite action, allowing for controlled and smooth movement by balancing or resisting the agonist's force.
+*When a skeletal muscle contracts, it pulls on the attached bone via tendons, resulting in movement at the joint.*
+
+[Muscles](https://en.wikipedia.org/wiki/Muscle) can only pull, not push, so movement typically involves several muscles working together in coordinated roles. The *[agonist](https://en.wikipedia.org/wiki/Agonist_muscle)* is the main muscle responsible for generating a specific movement, while *[synergists](https://en.wikipedia.org/wiki/Synergist_muscle)* assist the agonist by adding force or stabilising the origin bone (sometimes called *[fixators](https://en.wikipedia.org/wiki/Fixator_(muscle))*). In contrast, the *[antagonist](https://en.wikipedia.org/wiki/Antagonist_muscle)* produces the opposite action, allowing for controlled and smooth movement by balancing or resisting the agonist's force.
 
 With over 600 skeletal muscles, only the major superficial muscles are highlighted here:
 
 ![Key muscle groups from the front and back.](https://ugc.futurelearn.com/uploads/assets/e5/d8/e5d85739-f8dc-460d-baad-19c5da4fedd5.png)
+
+*Major muscle groups of the human body, shown from the front (left) and back (right).*
 
 ### The Skeletal System
 
 The adult skeleton consists of approximately 206 bones, which form the body’s framework. Bones serve as *levers* for movement and provide attachment points for muscles. Many bones have distinct *landmarks*&mdash;features that serve as sites for muscle attachment and can often be felt on your own body.
 
 ![Major bones and bone groups.](https://ugc.futurelearn.com/uploads/assets/80/22/80225b63-e657-4c93-8e82-b59139f076e7.jpg)
+
+*Major bones and bone groups of the human body, shown from the front (left) and back (right).*
 
 Joints are the connections between bones that allow the skeleton to move. The structure and each joint determine the possible directions and range of motion. Understanding joint movement is essential for analysing how the body produces complex actions, such as those involved in music performance.
 

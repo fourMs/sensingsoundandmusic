@@ -120,11 +120,11 @@ The current textbook comprises the core curriculum for this course. Interested r
 <details>
 <summary>Some short introduction books</summary>
 
-- **[Music Psychology: A Very Short Introduction](https://doi.org/10.1093/actrade/9780198722944.001.0001)**: *Elizabeth Hellmuth Margulis* (2018), Oxford: Oxford University Press. A concise introduction to the field of music psychology, exploring how music affects the mind and behavior.
+- **[Music Psychology: A Very Short Introduction](https://doi.org/10.1093/actrade/9780190640156.001.0001)**: *Elizabeth Hellmuth Margulis* (2018), Oxford: Oxford University Press. A concise introduction to the field of music psychology, exploring how music affects the mind and behavior.
 
-- **[Music and Technology: A Very Short Introduction](https://doi.org/10.1093/actrade/9780198723910.001.0001)**: *Mark Katz* (2014), Oxford: Oxford University Press. An accessible overview of the relationship between music and technology, examining its impact on creation, performance, and listening.
+- **[Music and Technology: A Very Short Introduction](https://doi.org/10.1093/actrade/9780199946983.001.0001)**: *Mark Katz* (2014), Oxford: Oxford University Press. An accessible overview of the relationship between music and technology, examining its impact on creation, performance, and listening.
 
-- **[Ways of Listening: An Ecological Approach to the Perception of Musical Meaning](https://doi.org/10.1093/acprof:oso/9780195151945.001.0001)**: *Eric F. Clarke* (2005), Oxford: Oxford University Press. A unique perspective on how listeners perceive and interpret musical meaning in ecological contexts.
+- **[Ways of Listening: An Ecological Approach to the Perception of Musical Meaning](https://doi.org/10.1093/acprof:oso/9780195151947.001.0001)**: *Eric F. Clarke* (2005), Oxford: Oxford University Press. A unique perspective on how listeners perceive and interpret musical meaning in ecological contexts.
 
 - **[Sound Actions: Conceptualizing Musical Instruments](https://doi.org/10.7551/mitpress/14220.001.0001)**: *Alexander Refsum Jensenius* (2022), Cambridge: The MIT Press. An insightful examination of musical instruments as tools for interaction, creativity, and expression.
 </details>
@@ -133,11 +133,11 @@ The current textbook comprises the core curriculum for this course. Interested r
 <summary>Some large reference works</summary>
 Some books serve more as large-scale references of their respective fields: 
 
-- **[Handbook of Systematic Musicology](https://doi.org/10.1007/978-3-030-17567-4)**: *Edited by multiple authors* (2020), Springer. A detailed reference for interdisciplinary approaches to the study of musicology.
+- **[Handbook of Systematic Musicology](https://doi.org/10.1007/978-3-662-55004-5)**: *Edited by multiple authors* (2020), Springer. A detailed reference for interdisciplinary approaches to the study of musicology.
 
-- **[The Oxford Handbook of Music Psychology](https://doi.org/10.1093/oxfordhb/9780198818838.001.0001)**: Edited by *Susan Hallam, Michael Thaut, Ian Cross* (2018), Oxford: Oxford University Press. A comprehensive overview of research and theories in music psychology.
+- **[The Oxford Handbook of Music Psychology](https://doi.org/10.1093/oxfordhb/9780198722946.001.0001)**: Edited by *Susan Hallam, Michael Thaut, Ian Cross* (2018), Oxford: Oxford University Press. A comprehensive overview of research and theories in music psychology.
 
-- **[The Computer Music Tutorial, Second Edition](https://doi.org/10.7551/mitpress/14261.001.0001)**: *Curtis Roads* (2023), Cambridge: The MIT Press. An extensively updated and expanded reference covering the latest developments in computer music, including new technologies, techniques, and applications.
+- **[The Computer Music Tutorial, Second Edition](https://isbnsearch.org/isbn/9780262044912)**: *Curtis Roads* (2023), Cambridge: The MIT Press. An extensively updated and expanded reference covering the latest developments in computer music, including new technologies, techniques, and applications.
 </details>
 
 <details>
