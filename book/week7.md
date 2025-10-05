@@ -48,6 +48,8 @@ Pioneering researchers such as [Francisco Varela](https://en.wikipedia.org/wiki/
 
 The 4E cognition perspective encourages us to study music as a holistic, interactive process&mdash;one that involves the whole person, situated in a specific context, engaging with both physical and digital tools.
 
+Despite its influence, the 4E cognition framework has faced several criticisms and ongoing debates. Critics point out that the definitions of "embodied," "embedded," "enactive," and "extended" can be vague or overlapping, making it difficult to distinguish 4E cognition from traditional cognitive science in practice. Some question whether there is sufficient empirical evidence for all aspects of the framework, particularly the claim that cognition can be genuinely "extended" into tools or the environment. Others warn against overextending the concept, attributing cognitive status to objects or processes (such as smartphones or musical instruments) that may not truly participate in cognition. Additionally, some argue that 4E approaches can underplay the central role of neural mechanisms emphasized in traditional neuroscience, and philosophical disagreements persist about whether 4E cognition represents a radical shift or simply reframes existing ideas about mind, body, and environment. Nevertheless, the 4E perspective has stimulated valuable interdisciplinary discussion and inspired new research directions in music cognition and related fields.
+
 
 ### Music-Related Body Motion
 
