@@ -1,5 +1,5 @@
 ---
-title: "Week 7: Body"
+title: "Week 7: The Body"
 subtitle: Exploring the Role of the Body in Music Performance, Perception, and Analysis
 authors: 
   - name: Alexander Refsum Jensenius
@@ -252,6 +252,14 @@ Key applications include:
 
 Motion capture provides a powerful tool for bridging the gap between physical movement and musical expression, supporting both scientific research and creative exploration.
 
+### Infrared motion capture
+
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/oIvEElSGfGk?si=B3Pn8OfLaCpzXO_Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+
+### Inertial measurement units
+
 ```{exercise}
 :topic: IMU
 Download the app [Sensor Logger](https://www.tszheichoi.com/sensorlogger), which can record data from all sensors on your phone. 
@@ -262,7 +270,18 @@ In pairs:
 2. Try to understand the differences between these data types: Accelerometer, Gravity, Gyroscope, Orientation, Magnetometer Compass.
 ```
 
-[Sensor Logger — Kelvin Choi](https://www.tszheichoi.com/sensorlogger)
+
+### Video visualisation
+
+While it is impossible to get much useful information from 
+
+```{exercise}
+:topic: Video visualisation
+Download [VideoAnalysis](https://www.uio.no/ritmo/english/research/labs/fourms/research/software/VideoAnalysis/) for OSX or Windows. Load a short video and run the analysis. What do you see?
+```
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/-Eb2lh_ZIcM?si=XbvC8KOTx3hulkdn" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 
 ## Questions
 
