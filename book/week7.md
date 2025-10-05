@@ -93,44 +93,25 @@ Research shows that bodily engagement while listening to music can aid in rhythm
 
 ## Anatomy and Biomechanics
 
-Before introducing different approaches to motion capture, it is essential to understand how the human body is structured and how it moves. This section provides an overview of [anatomy](https://en.wikipedia.org/wiki/Anatomy) and [biomechanics](https://en.wikipedia.org/wiki/Biomechanics) relevant to [movement analysis](https://en.wikipedia.org/wiki/Motion_analysis).
+Before introducing different approaches to motion capture, it is essential to understand how the human body is structured and how it moves. This section provides an overview of [anatomy](https://en.wikipedia.org/wiki/Anatomy) and [biomechanics](https://en.wikipedia.org/wiki/Biomechanics) relevant to [motion analysis](https://en.wikipedia.org/wiki/Motion_analysis).
 
 ### Anatomical position and planes
 
-Anatomy studies the structure of the body. To ensure consistency when describing locations and movements, we use the *[anatomical position](https://en.wikipedia.org/wiki/Anatomical_position)*: standing upright, head and eyes forward, arms at the sides with palms facing forward, and feet parallel and pointing ahead. 
+Anatomy studies the structure of the body. To ensure consistency when describing locations and actions, we use the *[anatomical position](https://en.wikipedia.org/wiki/Anatomical_position)*: standing upright, head and eyes forward, arms at the sides with palms facing forward, and feet parallel and pointing ahead. 
 
-![A body in the standard anatomical position.](https://ugc.futurelearn.com/uploads/assets/f5/64/f56435b9-17e8-4670-8bcd-577c5c2ec9ed.png)
+![A body in the anatomical position. Regions of the body are named.](book/figures/anatomical-parts.png)
 
 The body is divided into regions: head, neck, trunk, upper limbs, and lower limbs, each with further subdivisions. For movement analysis, distinguishing between areas such as the arm and forearm or thigh and leg is important.
 
-![A body in the anatomical position. Regions of the body are named.](https://ugc.futurelearn.com/uploads/assets/96/c3/96c35d42-f05f-4305-8f85-f1f2b6f5625c.png)
-
-To describe positions and movements in three dimensions, we use *[anatomical planes](https://en.wikipedia.org/wiki/Anatomical_plane)*&mdash;imaginary divisions of the body.
+To describe positions and movements in three dimensions, we use *[anatomical planes](book/figures/anatomical-planes.png)*&mdash;imaginary divisions of the body.
 
 - **Sagittal plane:** Divides the body into left and right sections (the median plane is exactly in the middle).
 - **Frontal (coronal) plane:** Divides the body into front and back sections.
 - **Transverse plane:** Divides the body horizontally into upper and lower parts.
+To describe movement directions, the belly button (navel) is often used as a reference point for the whole body, although other anatomical landmarks may be chosen for specific body segments. Movements are typically characterized along three primary axes: medial–lateral (side-to-side or left–right), anterior–posterior (front-to-back), and superior–inferior (up–down). These axes correspond to the anatomical planes—sagittal, frontal, and transverse—and help standardize descriptions of motion in both research and clinical contexts.
 
-The reference point is typically the belly button for the whole body, but can be adjusted for specific segments.
+![A picture of a body. The three anatomical planes are shown.](book/figures/motion-directions.png)
 
-![A picture of a body. The three anatomical planes are shown.](https://ugc.futurelearn.com/uploads/assets/34/26/3426a263-9771-4f4e-bba7-f536bd234cf3e.png)
-
-Standardized directional terms describe locations relative to other body parts:
-
-| Term        | Meaning                                 |
-|-------------|-----------------------------------------|
-| Medial      | Toward the midline                      |
-| Lateral     | Away from the midline                   |
-| Anterior    | Toward the front                        |
-| Posterior   | Toward the back                         |
-| Superior    | Above or toward the head                |
-| Inferior    | Below or toward the feet                |
-| Proximal    | Closer to the trunk or point of origin  |
-| Distal      | Farther from the trunk or origin        |
-| Superficial | Toward the surface                      |
-| Deep        | Away from the surface (internal)        |
-
-![Directional terms illustrated on a body.](https://ugc.futurelearn.com/uploads/assets/67/b7/67b70756-2fbc-484c-b3ff-e6a899f18311.png)
 
 ### The Muscular system
 
