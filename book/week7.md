@@ -267,33 +267,24 @@ In pairs:
 2. Try to understand the differences between these data types: Accelerometer, Gravity, Gyroscope, Orientation, Magnetometer Compass.
 ```
 
-#### Motion capture in music research
-
-Motion capture is increasingly used in music research to study the motion of performers. By tracking body motion, researchers can analyse how musicians interact with their instruments, coordinate with other performers, and express musical ideas through movement.
-
-Key applications include:
-
-- **Performance analysis:** Mocap helps researchers understand the biomechanics of playing instruments, such as finger, hand, and arm movements in [pianists](https://www.frontiersin.org/articles/10.3389/fpsyg.2017.00207/full) or [violinists](https://www.sciencedirect.com/science/article/pii/S0007681318300994). This can inform pedagogy, ergonomics, and injury prevention.
-- **Gesture recognition:** By capturing expressive gestures, mocap enables the study of how movement relates to musical phrasing, dynamics, and emotion. See [gesture in music performance](https://en.wikipedia.org/wiki/Gesture_in_music_performance) for more background.
-- **Interactive systems:** Motion data can be used to control electronic sounds or visual effects in real time, allowing for [new forms of musical expression](https://link.springer.com/book/10.1007/978-3-319-47214-0) and live performance. Examples include [motion-controlled instruments](https://en.wikipedia.org/wiki/Motion-controlled_instrument) and [augmented music interfaces](https://www.nime.org/).
-- **Ensemble coordination:** Mocap can reveal how musicians synchronise their movements during group performances, providing insights into [communication and timing](https://www.frontiersin.org/articles/10.3389/fpsyg.2019.00262/full) within ensembles.
-
-Motion capture provides a powerful tool for bridging the gap between physical movement and musical expression, supporting both scientific research and creative exploration.
-
-
-
-
 ### Video visualisation
 
-While it is impossible to get much useful information from 
+Video visualisation can be seen as a middle ground between qualitative and quantitative approaches. It is based on regular video recordings, but aims to extract relevant features from the video stream. Instead of simply watching and describing movement, video visualisation techniques use computational tools to analyse and represent motion data visually. 
+
+For example, software can track the position of specific body parts or objects frame by frame, generating plots of movement trajectories, velocity, or acceleration over time. Other techniques include motion history images, which overlay multiple frames to highlight areas of frequent movement, or heatmaps that show where most activity occurs. These visualisations help reveal patterns, timing, and coordination in musical performance or listening that may not be obvious through observation alone.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/-Eb2lh_ZIcM?si=XbvC8KOTx3hulkdn" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+Video visualisation is particularly useful for identifying subtle or complex movement features, comparing performances, or communicating findings to others. It also allows for the integration of both subjective interpretation and objective measurement, making it a valuable tool in interdisciplinary research on music-related movement.
 
 ```{exercise}
 :topic: Video visualisation
 Download [VideoAnalysis](https://www.uio.no/ritmo/english/research/labs/fourms/research/software/VideoAnalysis/) for OSX or Windows. Load a short video and run the analysis. What do you see?
 ```
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/-Eb2lh_ZIcM?si=XbvC8KOTx3hulkdn" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+## Summary
 
+In summary, the body plays a fundamental role in shaping how we perform, perceive, and analyse music. By considering embodied and 4E cognition frameworks, we recognise that musical experience is not confined to the mind or ears alone, but emerges from dynamic interactions between the body, environment, and technology. Understanding anatomy and biomechanics provides essential context for analysing movement, while both qualitative and quantitative motion capture methods offer complementary insights into the complexities of music-related actions. Integrating these perspectives allows for a richer, more holistic understanding of the interplay between sound, movement, and meaning in musical practice.
 
 ## Questions
 
