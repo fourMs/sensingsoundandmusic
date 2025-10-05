@@ -51,13 +51,11 @@ The 4E cognition perspective encourages us to study music as a holistic, interac
 Despite its influence, the 4E cognition framework has faced several criticisms and ongoing debates. Critics point out that the definitions of "embodied," "embedded," "enactive," and "extended" can be vague or overlapping, making it difficult to distinguish 4E cognition from traditional cognitive science in practice. Some question whether there is sufficient empirical evidence for all aspects of the framework, particularly the claim that cognition can be genuinely "extended" into tools or the environment. Others warn against overextending the concept, attributing cognitive status to objects or processes (such as smartphones or musical instruments) that may not truly participate in cognition. Additionally, some argue that 4E approaches can underplay the central role of neural mechanisms emphasized in traditional neuroscience, and philosophical disagreements persist about whether 4E cognition represents a radical shift or simply reframes existing ideas about mind, body, and environment. Nevertheless, the 4E perspective has stimulated valuable interdisciplinary discussion and inspired new research directions in music cognition and related fields.
 
 
-### Music-Related Body Motion
-
-In this section, we focus on how the body is involved in both performing and perceiving music. The roles of performers and perceivers are distinct, yet both rely on bodily processes to engage with music.
-
 ### Performing Music
 
-Music performance is inherently physical. Musicians use coordinated movements&mdash;ranging from large gestures to subtle finger motion&mdash;to produce sound, shape musical phrases, and communicate with others. The body acts as both the source and the interpreter of musical ideas, translating intention into audible and visible actions. This physicality is present in all forms of music-making, including singing, playing instruments, conducting, and dancing.
+When it comes to *music-related body motion*, we can generally separate between *performers* and *perceivers*. Their roles are distinct, yet both rely on bodily processes to engage with music. Let us begin with performers. 
+
+Music performance is inherently physical. Musicians use coordinated *[actions](https://en.wikipedia.org/wiki/Action_(philosophy))*&mdash;goal-directed and time-limited motion sequences&mdash;to produce sound, shape musical phrases, and communicate with others. The body acts as both the source and the interpreter of musical ideas, translating intention into audible and visible actions. This physicality is present in all forms of music-making, including singing, playing instruments, conducting, and dancing.
 
 We can categorize music-related body motion in performers into four main types:
 
@@ -69,22 +67,28 @@ We can categorize music-related body motion in performers into four main types:
 
 - **Communicative Gestures:** Gestures intended to convey meaning, emotion, or instructions to other performers or the audience. These may be expressive, regulatory, or linguistic. Examples: a conductor’s baton movements, a nod to cue an entrance, or expressive hand gestures to convey emotion.
 
+These categories of action and motion can be understood as existing along a continuum of connection to musical sound, as illustrated below:
+
 ![Link between motion and sound](https://raw.githubusercontent.com/alexarje/sound-actions/refs/heads/main/figures/25-sound-link-crop.png)
 
-*Link between motion and sound (Illustration: Jensenius 2022)*
+*Relationship between motion and sound (Illustration: Jensenius 2022)*
 
-Physical engagement with music also supports learning and memory. Through practice, performers develop muscle memory, allowing them to execute complex passages with precision and fluidity. The body’s involvement shapes not only technical execution but also the expressive and emotional qualities of a performance.
+While we distinguish these categories for clarity, in practice they frequently overlap and interact. For example, sound-facilitating actions are often inseparable from sound-producing actions, and performers may use communicative gestures simultaneously with playing. Recognizing this interplay is essential for a holistic understanding of music-related body motion.
 
 ### Perceiving Music
 
-People also move when *listening* to music, not just when performing. These movements can be both voluntary and involuntary, and they play a significant role in how we experience and understand music. Examples include:
+Many of the same types of actions can be found in *perceivers*, people "listening" to music. Here we use "listen" to emphasize that we experience music with our whole body, which is at the core of embodied music cognition. Perceivers also make sound during performance, whether involuntary (body sounds like breathing) or voluntary (clapping, singing along, etc.).
 
-- **Dancing:** Engaging the whole body in rhythmic movement, often in response to the beat, melody, or emotional content of the music. Dance can be highly structured (as in ballroom or folk dance) or spontaneous and improvised.
-- **Air performance:** Imitating the actions of playing an instrument or singing, such as "air guitar," "air drumming," or lip-syncing. These gestures reflect an embodied connection to the music and can enhance engagement and enjoyment.
-- **Finger-tapping:** Tapping fingers on a surface or in the air to mark the beat or rhythm. This is a common, often unconscious, response that helps listeners synchronize with the music and anticipate changes.
-- **Involuntary swaying or nodding:** Subtle body movements, such as swaying, head-nodding, or foot-tapping, that occur without conscious intent. These responses are linked to the brain's sensorimotor coupling with musical rhythm and can be observed across cultures and age groups.
+Music-related perceiver motion can be both voluntary and involuntary, and they play a significant role in how we experience and understand music. Examples include:
 
-These bodily responses are not merely byproducts of listening&mdash;they are integral to musical perception and cognition. Moving to music can enhance memory, emotional response, and even social connection, illustrating the deep link between body and sound in musical experience.
+- **Dancing:** Engaging the whole body in rhythmic movement, often in response to the beat, melody, or emotional content of the music. Dance can be highly structured (as in ballroom or folk dance) or spontaneous and improvised. Dancing is a direct way for listeners to physically embody musical structure, rhythm, and emotion, and is a universal aspect of musical cultures.
+- **Air performance:** Imitating the actions of playing an instrument or singing, such as "air guitar," "air drumming," or lip-syncing. These gestures reflect an embodied connection to the music and can enhance engagement and enjoyment. Air performance allows listeners to simulate the experience of being a performer, reinforcing their understanding of musical gestures and techniques.
+- **Finger-tapping or foot-stamping:** Involuntarily or deliberately tapping fingers on a surface, or stamping feet to the beat or rhythm of the music. These actions are widespread, often automatic responses that help listeners synchronize with musical timing and structure. Finger-tapping, in particular, is widely used in research as a behavioral measure of beat perception and sensorimotor synchronization, providing insight into how the brain and body interact during music listening.
+- **Involuntary swaying or nodding:** Subtle body motion, such as swaying or head-nodding, that occur without conscious intent. These responses are often linked to the brain's sensorimotor coupling with musical rhythm and can be observed across cultures and age groups. Such movements often arise spontaneously and reflect the deep integration of auditory and motor systems.
+
+These bodily responses are not merely byproducts of listening—they are integral to musical perception and cognition. Moving to music can enhance memory, emotional response, and even social connection, illustrating the deep link between body and sound in musical experience.
+
+Research shows that bodily engagement while listening to music can aid in rhythm and beat perception by helping listeners internalize and predict rhythmic patterns, making it easier to follow complex or syncopated music. Movement also enhances emotional engagement, intensifying responses such as joy, excitement, or nostalgia. Additionally, gestures and movement support learning and memory for melodies, lyrics, and rhythms, which is why movement is often used in music education. Finally, group movement—such as dancing or clapping together—facilitates social bonding by fostering a sense of unity and shared experience among listeners.
 
 
 ## Anatomy and Biomechanics
