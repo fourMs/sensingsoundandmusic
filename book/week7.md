@@ -196,46 +196,43 @@ Key concepts in kinetics include:
 Understanding kinetics helps analyze how musicians generate, control, and coordinate movement, as well as for preventing injury and optimizing performance.
 
 
-## Human Movement Analysis
+## Motion capture
 
 There are various ways to study human body motion. While many associate "motion capture" with suits, markers, or sensors, the term can be interpreted more broadly to include any method that systematically records human movement. This encompasses both qualitative and quantitative approaches. In practice, qualitative and quantitative methods are often combined. For example, researchers may use both video and sensors, and analyses may include both interpretive and numerical components. For clarity, this course distinguishes between qualitative and quantitative methods, but acknowledges that mixed-method approaches are common.
 
-
 ### Qualitative approaches
 
-Qualitative motion analysis involves introspection and observation:
+Qualitative motion analysis focuses on understanding movement through observation, reflection, and descriptive frameworks rather than numerical measurement.
 
-- **Introspection:** Reflecting on one's own movement experience, such as evaluating performance or noticing discomfort.
-- **Observation:** Watching others move, either directly or via video, and systematically annotating features of their motion. Although some may not consider this "proper" motion capture, it is a structured way to document movement without advanced technology.
+- **Introspection:** Involves self-reflection on one’s own movement experiences. Musicians and researchers may evaluate their own performance, notice sensations of effort or discomfort, or describe how certain movements feel during music-making.
+- **Observation:** Entails systematically watching others move—either live or via video—and annotating features of their motion. This can include noting posture, gesture, timing, and expressiveness. While some may not consider observation "proper" motion capture, it is a structured and repeatable way to document movement without specialized technology.
 
-Observation-based methods are common in clinical, sports, and training settings. Video recordings are increasingly used, allowing repeated playback and slow-motion review to analyze details.
+Observation-based methods are widely used in clinical, educational, sports, and artistic settings. The use of video recordings allows for repeated viewing, slow-motion analysis, and collaborative review, making it easier to identify subtle details and patterns.
 
-Qualitative methods emphasize observing and describing motion, often using established frameworks:
+Music researchers have been inspired by the qualitative analysis methods developed by the dancer and choreographer [Rudolf Laban](https://en.wikipedia.org/wiki/Rudolf_Laban). He developed two influential systems:
 
-- **[Labanotation](https://en.wikipedia.org/wiki/Labanotation):** A symbolic notation system for recording human movement, particularly in dance. It uses a set of symbols to represent body parts, directions, levels, and timing, allowing detailed documentation and analysis of movement sequences.
-- **[Laban Movement Analysis (LMA)](https://en.wikipedia.org/wiki/Laban_Movement_Analysis):** A comprehensive system for analyzing the qualities of movement, focusing on four main components: body (what moves), effort (how it moves), shape (the form the body takes), and space (where it moves). The "effort" category is especially relevant in music contexts, describing motion in terms of space (direct/indirect), time (quick/sustained), weight (strong/light), and flow (bound/free).
+- **[Labanotation](https://en.wikipedia.org/wiki/Labanotation):** A symbolic notation system for recording and analyzing human movement, especially in dance. It uses standardized symbols to represent body parts, directions, levels, and timing, enabling detailed documentation of movement sequences.
+- **[Laban Movement Analysis (LMA)](https://en.wikipedia.org/wiki/Laban_Movement_Analysis):** A comprehensive framework for describing the qualitative aspects of movement. LMA focuses on four main components: body (what moves), effort (how it moves), shape (the form the body takes), and space (where it moves). The "effort" component is particularly relevant in music, describing motion in terms of space (direct/indirect), time (quick/sustained), weight (strong/light), and flow (bound/free).
 
-These qualitative approaches provide valuable insights into the expressive and communicative aspects of movement, complementing quantitative motion capture techniques.
+Qualitative approaches are valuable for capturing the expressive, communicative, and contextual dimensions of movement. They often complement quantitative methods by providing insights into aspects of motion that are difficult to measure numerically, such as emotion, intention, and style.
 
 ### Quantitative approaches
 
-Quantitative methods rely on numerical representations of motion. For example, video can serve as a quantitative tool if features are extracted and measured, rather than just observed. Quantitative analysis often involves plotting measurements and applying statistical or machine learning techniques. Various technologies for quantitative motion capture will be discussed in later sections.
-
-### Motion capture
-
-Motion capture (often abbreviated as "mocap") is a technique used to record the movement of objects or people. In software and animation, it's commonly used to capture the movements of actors and apply them to digital characters.
+Quantitative methods rely on numerical representations of motion. For example, video can serve as a quantitative tool if features are extracted and measured, rather than just observed. Quantitative analysis often involves plotting measurements and applying statistical or machine learning techniques. 
 
 We can differentiate between two main types of motion capture:
 
 - **Camera-based motion capture:** This approach uses cameras&mdash;either standard video cameras or specialized systems (such as infrared or depth cameras)&mdash;to record and analyze movement. Markers may be placed on the body to help track specific points, or markerless systems can use computer vision algorithms to estimate body positions. Camera-based systems are widely used in biomechanics, animation, and music research because they can capture detailed, full-body motion in three dimensions. However, they often require controlled environments, careful calibration, and can be sensitive to lighting and occlusion.
 
+![motion capture](figures/motion-capture.jpg)
+
 - **Sensor-based motion capture:** This method relies on wearable sensors attached directly to the body. Common sensor types include inertial measurement units (IMUs), accelerometers, gyroscopes, magnetometers, and sometimes physiological sensors (such as EMG for muscle activity). Sensor-based systems are generally more portable and less dependent on the environment, making them suitable for field studies or situations where cameras are impractical. They can provide precise data on joint angles, acceleration, and orientation, but may require careful placement and calibration, and can be affected by sensor drift or interference.
+
+![alt text](figures/p1030669.jpg)
 
 Both approaches have their strengths and limitations, and the choice between them depends on the research context, required precision, and practical considerations.
 
-### Motion Capture in Music Research
-
-Motion capture (mocap) is increasingly used in music research to study the physical gestures and movements of performers. By tracking body motion, researchers can analyze how musicians interact with their instruments, coordinate with other performers, and express musical ideas through movement.
+Motion capture is increasingly used in music research to study the motion of performers. By tracking body motion, researchers can analyze how musicians interact with their instruments, coordinate with other performers, and express musical ideas through movement.
 
 Key applications include:
 
@@ -247,20 +244,7 @@ Key applications include:
 Motion capture provides a powerful tool for bridging the gap between physical movement and musical expression, supporting both scientific research and creative exploration.
 
 
-### Key Considerations
 
-There is no one-size-fits-all solution. The choice depends on research questions, environment, available technology, and the balance between ecological validity and data precision. Video-based methods are accessible and unobtrusive, while sensor-based systems offer higher precision but may be more invasive or require controlled settings.
-
-When planning to study music-related body motion, consider:
-
-- **Aim:** What is the purpose of studying motion? Is it to analyze sound–human, human–sound, or human–human interaction?
-- **Subjects:** Who will be studied? Consider demographics, abilities, and whether participants act individually or in groups.
-- **Type of Motion:** What body parts are involved? Are movements large/small, fast/slow, stationary/mobile?
-- **Environment:** Is the study in a controlled lab or a natural setting? What are the lighting and power conditions?
-- **Equipment:** What instruments or tools are involved? How will they be captured and synchronized?
-- **Audio/Video:** What are the requirements for sound and video recording (channels, resolution, frame rate, synchronization)?
-- **Data Handling:** How will data be synchronized, stored, and shared? What formats and software will be used?
-- **Analysis:** Will the analysis be descriptive (kinematics, spatial/temporal features) or functional (sound-producing/accompanying actions)? Most studies benefit from both qualitative and quantitative approaches.
 
 
 ## Questions
