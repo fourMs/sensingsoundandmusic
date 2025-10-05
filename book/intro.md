@@ -24,8 +24,6 @@ Having completed the course, you will:
 - be able to process, synthesize, and analyze sound.
 :::
 
-
-
 ## Pedagogical Strategy
 
 Students in the course typically have mixed backgrounds. Everyone usually has some kind of musical background, ranging from classical performance on acoustic instruments to electronic studio production. Some come from musicology, others from psychology, informatics, media studies, philosophy, linguistics, medicine, and more. Everyone is welcome! In-class activities will be adjusted to cater to the collective knowledge and experience of the student group. 
@@ -144,11 +142,11 @@ Some books serve more as large-scale references of their respective fields:
 <summary>Relevant Norwegian-language books</summary>
 There are not many relevant books in Norwegian, but here are some:
 
-- **[Musikkvitenskap: Introduksjon og Perspektiver](https://doi.org/10.18261/9788215007295-2005)**: *Even Ruud* (2005), Oslo: Universitetsforlaget. An introductory Norwegian textbook covering key perspectives and approaches in musicology.
+- **[Musikkvitenskap: Introduksjon og Perspektiver](https://www.universitetsforlaget.no/musikkvitenskap-1)**: *Even Ruud* (2005), Oslo: Universitetsforlaget. An introductory Norwegian textbook covering key perspectives and approaches in musicology.
 
-- **[Musikk og Bevegelse](https://www.duo.uio.no/handle/10852/25589)**: *Alexander Refsum Jensenius* (2009), Oslo: Unipub. A Norwegian book exploring the relationship between music and movement.
+- **[Musikk og Bevegelse](https://alexarje.github.io/musikkogbevegelse/)**: *Alexander Refsum Jensenius* (2009), Oslo: Unipub. A Norwegian book exploring the relationship between music and movement.
 
-- **[Lydlandskap: Om Bruk og Misbruk av Musikk](https://doi.org/10.18261/9788245010140-2005)**: *Even Ruud* (2005), Bergen: Fagbokforlaget. A Norwegian book discussing the use and misuse of music in various contexts.
+- **[Lydlandskap: Om Bruk og Misbruk av Musikk](https://www.fagbokforlaget.no/Lydlandskap/I9788245000140)**: *Even Ruud* (2005), Bergen: Fagbokforlaget. A Norwegian book discussing the use and misuse of music in various contexts.
 </details>
 
 

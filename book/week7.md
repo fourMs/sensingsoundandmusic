@@ -56,7 +56,7 @@ The 4E cognition perspective encourages us to study music as a holistic, interac
 Despite its influence, the 4E cognition framework has faced several criticisms and ongoing debates, which have also been discussed in the recent [Handbook of 4E Cognition](https://doi.org/10.1093/oxfordhb/9780198735410.001.0001). Critics point out that the definitions of "embodied," "embedded," "enactive," and "extended" can be vague or overlapping, making it challenging to distinguish 4E cognition from traditional cognitive science in practice. Some question whether there is sufficient empirical evidence for all aspects of the framework, particularly the claim that cognition can be genuinely "extended" into tools or the environment. Others warn against overextending the concept, attributing cognitive status to objects or processes (such as smartphones or musical instruments) that may not truly participate in cognition. Additionally, some argue that 4E approaches can underplay the central role of neural mechanisms emphasised in traditional neuroscience, and philosophical disagreements persist about whether 4E cognition represents a radical shift or reframes existing ideas about mind, body, and environment. Nevertheless, the 4E perspective has stimulated valuable interdisciplinary discussion and inspired new research directions in music cognition and related fields.
 
 
-### Performing Music
+### The body in music performance
 
 When it comes to *music-related body motion*, we can generally separate between *performers* and *perceivers*. Their roles are distinct, yet both rely on bodily processes to engage with music. Let us begin with performers. 
 
@@ -76,11 +76,11 @@ These categories of action and motion can be understood as existing along a cont
 
 ![Link between motion and sound](https://raw.githubusercontent.com/alexarje/sound-actions/refs/heads/main/figures/25-sound-link-crop.png)
 
-*Relationship between motion and sound (Illustration: Jensenius 2022)*
+*Relationship between motion and sound (Illustration: [Jensenius 2022](https://doi.org/10.7551/mitpress/14220.001.0001))*
 
 While we distinguish these categories for clarity, in practice, they frequently overlap and interact. For example, sound-facilitating actions are often inseparable from sound-producing actions, and performers may use communicative gestures simultaneously with playing. Recognising this interplay is essential for a holistic understanding of music-related body motion.
 
-### Perceiving Music
+### The body in music perception
 
 Many of the same types of actions can be found in *perceivers*, people "listening" to music. Here we use "listen" to emphasise that we experience music with our whole body, which is at the core of embodied music cognition. Perceivers also make sounds during performance, whether involuntary (body sounds like breathing) or voluntary (clapping, singing along, etc.).
 
