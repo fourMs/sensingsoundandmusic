@@ -105,6 +105,7 @@ Before introducing different approaches to motion capture, it is essential to un
 Anatomy studies the structure of the body. To ensure consistency when describing locations and actions, we use the *[anatomical position](https://en.wikipedia.org/wiki/Anatomical_position)*: standing upright, head and eyes forward, arms at the sides with palms facing forward, and feet parallel and pointing ahead. 
 
 ![A body in the anatomical position. Regions of the body are named.](figures/anatomical-parts.png)
+*The human body in the anatomical position, with labelled regions.*
 
 The body is divided into regions: head, neck, trunk, upper limbs, and lower limbs, each with further subdivisions. For movement analysis, distinguishing between areas such as the arm and forearm, or the thigh and leg, is essential.
 
@@ -150,14 +151,11 @@ The adult skeleton consists of approximately 206 bones, which form the body’s 
 
 Joints are the connections between bones that allow the skeleton to move. The structure and each joint determine the possible directions and range of motion. Understanding joint movement is essential for analysing how the body produces complex actions, such as those involved in music performance.
 
-Joint movements are typically described in pairs of opposite actions, always referenced from the anatomical position:
-
-- **Flexion** and **extension** (sagittal plane)
-- **Abduction** and **adduction** (frontal plane)
-- **Internal (medial) rotation** and **external (lateral) rotation** (transverse plane)
+Joint movements are commonly described as pairs of opposite actions, always referenced from the anatomical position. These include *flexion* and *extension*, which occur in the sagittal plane; *abduction* and *adduction*, which take place in the frontal plane; and *internal (medial) rotation* and *external (lateral) rotation*, which are movements in the transverse plane.
 
 ![Major movement types.](https://ugc.futurelearn.com/uploads/assets/ed/87/ed87c0c8-4476-4348-b7e2-07a5ebd6303e.jpg)
 
+*Major movement types at the joints, including flexion/extension, abduction/adduction, and internal/external rotation. Movements are always described relative to the anatomical position.*
 
 *Degrees of freedom* ([DoF](https://en.wikipedia.org/wiki/Degrees_of_freedom_(mechanics))) refer to the number of independent directions in which a joint can move. Each DoF represents a specific type of movement (e.g., flexion/extension, abduction/adduction, rotation). *Range of motion* ([RoM](https://en.wikipedia.org/wiki/Range_of_motion)) describes how far a joint can move within each DoF, typically measured in degrees. Understanding DoF and RoM is essential for analysing joint function, movement capabilities, and limitations in both everyday activities and specialised tasks, such as music performance.
 
@@ -168,7 +166,7 @@ Joint movements are typically described in pairs of opposite actions, always ref
 - **[Statics](https://en.wikipedia.org/wiki/Statics):** Examines bodies at rest or in equilibrium (e.g., standing, holding a posture).
 - **[Dynamics](https://en.wikipedia.org/wiki/Dynamics_(mechanics))**: Focuses on bodies in motion (e.g., walking, playing an instrument). It can be subdivided into kinematics and kinetics. 
 
-To analyse movement, we often refer to a *reference frame*, which provides a coordinate system for describing positions and motions. A *[global reference frame](https://en.wikipedia.org/wiki/Frame_of_reference#In_physics)* is fixed relative to the environment, such as the laboratory or stage, and serves as an external standard for measuring movement. In contrast, a *[local reference frame](https://en.wikipedia.org/wiki/Frame_of_reference#Attached_to_a_body)* is attached to a specific body segment, such as the hand relative to the forearm, allowing for the analysis of motion in relation to other parts of the body. Using both global and local reference frames enables the creation of precise and context-sensitive descriptions of human movement.
+To analyse movement, we often refer to a *reference frame*, which provides a coordinate system for describing positions and motions. A *global reference frame* is fixed relative to the environment, such as the laboratory or stage, and serves as an external standard for measuring movement. In contrast, a *local reference frame* is attached to a specific body segment, such as the hand relative to the forearm, allowing for the analysis of motion in relation to other parts of the body. Using both global and local reference frames enables the creation of precise and context-sensitive descriptions of human movement.
 
 #### Kinematics
 
@@ -226,7 +224,7 @@ Qualitative motion analysis focuses on understanding movement through observatio
 
 Observation-based methods are widely used in clinical, educational, sports, and artistic settings. The use of video recordings allows for repeated viewing, slow-motion analysis, and collaborative review, making it easier to identify subtle details and patterns.
 
-Music researchers have been inspired by the qualitative analysis methods developed by the dancer and choreographer [Rudolf Laban](https://en.wikipedia.org/wiki/Rudolf_Laban). He created two influential systems:
+Music researchers have been inspired by the qualitative analysis methods developed by the dancer and choreographer [Rudolf Laban](https://en.wikipedia.org/wiki/Rudolf_Laban) (1879–1958). He created two influential systems in the early to mid-20th century:
 
 - **[Labanotation](https://en.wikipedia.org/wiki/Labanotation):** A symbolic notation system for recording and analysing human movement, especially in dance. It uses standardised symbols to represent body parts, directions, levels, and timing, enabling detailed documentation of movement sequences.
 - **[Laban Movement Analysis (LMA)](https://en.wikipedia.org/wiki/Laban_Movement_Analysis):** A comprehensive framework for describing the qualitative aspects of movement. LMA focuses on four main components: body (what moves), effort (how it moves), shape (the form the body takes), and space (where it moves). The "effort" component is particularly relevant in music, describing motion in terms of space (direct/indirect), time (quick/sustained), weight (strong/light), and flow (bound/free).
@@ -235,19 +233,41 @@ Qualitative approaches are valuable for capturing the expressive, communicative,
 
 ### Quantitative approaches
 
-Quantitative methods rely on numerical representations of motion. For example, video can serve as a quantitative tool if features are extracted and measured, rather than just observed. Quantitative analysis often involves plotting measurements and applying statistical or machine learning techniques. 
+Quantitative methods rely on numerical representations of motion. For example, video can serve as a quantitative tool if features are extracted and measured, rather than just observed. Quantitative analysis often involves plotting measurements and applying statistical or machine learning techniques. We can differentiate between two main types of motion capture: camera-based and sensor-based motion capture. Both approaches have their strengths and limitations, and the choice between them depends on the research context, required precision, and practical considerations.
 
-We can differentiate between two main types of motion capture:
+#### Camera-based motion capture
 
-- **Camera-based motion capture:** This approach uses cameras&mdash;either standard video cameras or specialised systems (such as infrared or depth cameras)&mdash;to record and analyse movement. Markers may be placed on the body to help track specific points, or markerless systems can use computer vision algorithms to estimate body positions. Camera-based systems are widely used in biomechanics, animation, and music research because they can capture detailed, full-body motion in three dimensions. However, they often require controlled environments, careful calibration, and can be sensitive to lighting and occlusion.
+This approach uses cameras&mdash;either standard video cameras or specialised systems (such as infrared, stereo, or depth cameras)&mdash;to record and analyse movement. Markers may be placed on the body to help track specific points, or markerless systems can use computer vision algorithms to estimate body positions. Camera-based systems are widely used in biomechanics, animation, and music research because they can capture detailed, full-body motion in three dimensions. However, they often require controlled environments, careful calibration, and can be sensitive to lighting and occlusion.
 
 ![motion capture](figures/motion-capture.jpg)
 
-- **Sensor-based motion capture:** This method relies on wearable sensors attached directly to the body. Standard sensor types include inertial measurement units (IMUs), accelerometers, gyroscopes, magnetometers, and sometimes physiological sensors (such as EMG for muscle activity). Sensor-based systems are generally more portable and less dependent on the environment, making them suitable for field studies or situations where cameras are impractical. They can provide precise data on joint angles, acceleration, and orientation, but may require careful placement and calibration, and can be affected by sensor drift or interference.
+*An example of an infrared, marker-based motion capture system, allowing for precise measurements of the body-*
+
+At the University of Oslo, we have multiple camera-based systems available, both at RITMO and at the Department of Musicology. Here you can get a sneak peek into one of the mocap labs: 
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/oIvEElSGfGk?si=B3Pn8OfLaCpzXO_Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+
+#### Sensor-based motion capture
+
+This method relies on wearable sensors attached directly to the body. Standard sensor types include inertial measurement units (IMUs), accelerometers, gyroscopes, magnetometers, and sometimes physiological sensors (such as EMG for muscle activity). Sensor-based systems are generally more portable and less dependent on the environment, making them suitable for field studies or situations where cameras are impractical. They can provide precise data on joint angles, acceleration, and orientation, but may require careful placement and calibration, and can be affected by sensor drift or interference.
 
 ![alt text](figures/p1030669.jpg)
 
-Both approaches have their strengths and limitations, and the choice between them depends on the research context, required precision, and practical considerations.
+*An example of a sensor-based motion capture suit used in a performance with the Stavanger Symphony Orchestra in 2023.*
+
+
+```{exercise}
+:topic: IMU
+Download the app [Sensor Logger](https://www.tszheichoi.com/sensorlogger), which can record data from all sensors on your phone. 
+
+In pairs: 
+
+1. Take turns in moving with your mobile phone in your hand while recording and watching the other move. 
+2. Try to understand the differences between these data types: Accelerometer, Gravity, Gyroscope, Orientation, Magnetometer Compass.
+```
+
+#### Motion capture in music research
 
 Motion capture is increasingly used in music research to study the motion of performers. By tracking body motion, researchers can analyse how musicians interact with their instruments, coordinate with other performers, and express musical ideas through movement.
 
@@ -260,23 +280,7 @@ Key applications include:
 
 Motion capture provides a powerful tool for bridging the gap between physical movement and musical expression, supporting both scientific research and creative exploration.
 
-### Infrared motion capture
 
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/oIvEElSGfGk?si=B3Pn8OfLaCpzXO_Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-
-### Inertial measurement units
-
-```{exercise}
-:topic: IMU
-Download the app [Sensor Logger](https://www.tszheichoi.com/sensorlogger), which can record data from all sensors on your phone. 
-
-In pairs: 
-
-1. Take turns in moving with your mobile phone in your hand while recording and watching the other move. 
-2. Try to understand the differences between these data types: Accelerometer, Gravity, Gyroscope, Orientation, Magnetometer Compass.
-```
 
 
 ### Video visualisation
