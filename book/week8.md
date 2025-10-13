@@ -92,7 +92,7 @@ graph LR
   B3 -- v32 --> C2
 ```
 
-*A simple artificial neural network with an input layer, one hidden layer, and an output layer (created with Mermaid).*
+*A simple artificial neural network with an input layer, one hidden layer, and an output layer.*
 
 In machine learning, these networks are trained on large datasets to recognize patterns, make predictions, or classify information. The "learning" process involves adjusting the connections (weights) between nodes based on the network's performance, similar to how the brain strengthens or weakens synaptic connections through experience. Deep learning, a subset of machine learning, uses neural networks with many layers (deep neural networks) to model complex relationships in data, enabling advances in fields such as speech recognition, image analysis, and music generation.
 
@@ -263,8 +263,8 @@ These applications demonstrate how understanding and harnessing brain activity c
 
 ## Questions
 
-1. What are the main brain regions involved in processing sound and music, and what roles do they play?
-2. How does EEG differ from fMRI in terms of what it measures and its strengths and limitations?
-3. In what ways does musical training influence brain function and neuroplasticity?
-4. Why might researchers choose fNIRS over fMRI for certain music neuroscience studies?
-5. How do the emotional and reward systems of the brain contribute to our experience of music?
+1. What are the main differences between EEG, MEG, fMRI, and fNIRS in terms of how they measure brain activity and their strengths and limitations?
+2. How do the auditory cortex, prefrontal cortex, motor cortex, limbic system, and nucleus accumbens each contribute to the perception and experience of music?
+3. In what ways do individual differences such as musical training, age, neurodiversity, and cultural background influence how the brain processes music?
+4. What role do mirror neurons play in music perception and why are they important for understanding musical gestures and emotions?
+5. How can brain-computer interfaces (BCIs) be used in music creation, hearing aids, and cochlear implants to enhance auditory experiences?
