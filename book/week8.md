@@ -14,19 +14,31 @@ The human brain plays a central role in how we sense, interpret, and respond to 
 
 
 ## The Human Brain
-The human brain is an extraordinarily complex organ, consisting of approximately 86 billion neurons and an even greater number of supporting glial cells. It acts as the central hub for processing all sensory input, orchestrating perception, cognition, emotion, and movement. When it comes to sound and music, several anatomical features are especially relevant:
 
-- The [cerebral cortex](https://en.wikipedia.org/wiki/Cerebral_cortex) is the outer layer of the brain, responsible for higher-order functions such as perception, reasoning, and voluntary movement. Within the cortex, the [temporal lobes](https://en.wikipedia.org/wiki/Temporal_lobe) house the primary auditory cortex, which is crucial for decoding sound features.
-- The [frontal lobes](https://en.wikipedia.org/wiki/Frontal_lobe) are involved in attention, planning, and decision-making, these regions help us focus on specific sounds and anticipate musical patterns.
-- The [brainstem](https://en.wikipedia.org/wiki/Brainstem) handles basic life functions (such as breathing and heart rate) and is the first relay station for incoming auditory signals from the ear.
+The human brain is an extraordinarily complex organ, composed of approximately 86 billion neurons and an even greater number of supporting glial cells. Serving as the central hub for processing all sensory input, it orchestrates perception, cognition, emotion, and movement. Its remarkable plasticity enables adaptation and reorganization in response to musical training, sensory experiences, and even injury, which underlies our capacity to learn new musical skills, recover from hearing loss, and develop unique musical preferences. By integrating information from both the external world and internal states, the brain allows us to interpret, respond to, and find meaning in sound and music. The main anatomical regions of the brain include:
 
-The brain’s remarkable plasticity allows it to adapt and reorganize in response to musical training, sensory experiences, and even injury. This adaptability underlies our ability to learn new musical skills, recover from hearing loss, and develop unique musical preferences.
+- **[Frontal lobe](https://en.wikipedia.org/wiki/Frontal_lobe)**: Located at the front of the brain, the frontal lobe is involved in executive functions such as decision-making, planning, problem-solving, voluntary movement, and aspects of personality and social behavior.
 
-Overall, the brain integrates information from both the external world and internal states, enabling us to interpret, respond to, and find meaning in sound and music.
+- **[Parietal lobe](https://en.wikipedia.org/wiki/Parietal_lobe)**: Situated behind the frontal lobe, the parietal lobe processes sensory information from the body, including touch, temperature, pain, and spatial orientation.
+
+- **[Temporal lobe](https://en.wikipedia.org/wiki/Temporal_lobe)**: Found beneath the frontal and parietal lobes, the temporal lobe is crucial for auditory processing, language comprehension, and memory formation.
+
+- **[Occipital lobe](https://en.wikipedia.org/wiki/Occipital_lobe)**: Located at the back of the brain, the occipital lobe is primarily responsible for visual processing.
+
+- **[Cerebellum](https://en.wikipedia.org/wiki/Cerebellum)**: Positioned underneath the occipital lobe, the cerebellum coordinates voluntary movements, balance, posture, and motor learning.
+
+- **[Cingulate gyrus](https://en.wikipedia.org/wiki/Cingulate_gyrus)**: Part of the limbic system, the cingulate gyrus plays a role in emotion formation and processing, learning, memory, and linking behavioral outcomes to motivation.
+
 
 ![The lobes of the brain](https://upload.wikimedia.org/wikipedia/commons/3/35/Gehirn%2C_medial_-_Lobi_en.svg)
 
-*Illustration of the brain's lobes ([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Gehirn,_medial_-_Lobi_en.svg)).
+*Illustration of the brain's lobes ([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Gehirn,_medial_-_Lobi_en.svg)).*
+
+
+```{note} 
+The terms *brain* and *mind* are often used interchangeably, but they refer to different concepts. The *brain* is a physical organ made up of billions of neurons and supporting cells. The *mind* refers to the set of mental processes and experiences that arise from brain activity, including thoughts, emotions, memories, consciousness, and self-awareness. The mind is not a physical object, but rather the result of complex interactions within the brain and between the brain and the environment.
+```
+
 
 ### Key Brain Regions for Sound and Music Listening
 
