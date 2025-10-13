@@ -39,8 +39,67 @@ The human brain is an extraordinarily complex organ, composed of approximately 8
 The terms *brain* and *mind* are often used interchangeably, but they refer to different concepts. The *brain* is a physical organ made up of billions of neurons and supporting cells. The *mind* refers to the set of mental processes and experiences that arise from brain activity, including thoughts, emotions, memories, consciousness, and self-awareness. The mind is not a physical object, but rather the result of complex interactions within the brain and between the brain and the environment.
 ```
 
+### Neurons
 
-### Key Brain Regions for Sound and Music Listening
+[Neurons](https://en.wikipedia.org/wiki/Neuron) are the fundamental building blocks of the brain and nervous system. These specialized cells transmit information throughout the body using both electrical and chemical signals, enabling everything from basic reflexes to complex thoughts and emotions. Each neuron consists of several main parts: the [cell body (soma)](https://en.wikipedia.org/wiki/Soma_(biology)), which contains the nucleus and essential cellular machinery; [dendrites](https://en.wikipedia.org/wiki/Dendrite), which are branch-like extensions that receive incoming signals from other neurons; and the [axon](https://en.wikipedia.org/wiki/Axon), a long projection that carries electrical impulses away from the cell body to other neurons, muscles, or glands. Communication between neurons occurs at the [synapse](https://en.wikipedia.org/wiki/Synapse), a small gap where chemical messengers called [neurotransmitters](https://en.wikipedia.org/wiki/Neurotransmitter) transmit signals from the axon terminal of one neuron to the dendrite of another.
+
+![Neuron](https://upload.wikimedia.org/wikipedia/commons/1/10/Blausen_0657_MultipolarNeuron.png)
+
+*Illustration of a multipolar neuron ([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Blausen_0657_MultipolarNeuron.png)).*
+
+Neuronal communication begins when dendrites receive signals from neighboring neurons. The cell body integrates these incoming signals, and if the combined input is strong enough, it generates an [action potential](https://en.wikipedia.org/wiki/Action_potential)—an electrical impulse that travels down the axon. When the action potential reaches the synapse, neurotransmitters are released, allowing the signal to be passed to the next neuron. Through these processes, neurons form intricate networks that enable the brain to process sensory information, control movement, and generate thoughts, emotions, and memories.
+
+### Artificial neural networks
+
+[Artificial neural networks](https://en.wikipedia.org/wiki/Neural_network_(machine_learning)) (ANNs) are computational models inspired by the structure and function of biological neurons in the brain. Just as biological neurons receive, process, and transmit information through complex networks, ANNs consist of interconnected nodes (artificial "neurons") organized in layers. Each node receives input, processes it using mathematical functions, and passes the result to nodes in the next layer.
+
+```mermaid
+graph LR
+  subgraph Input Layer
+    A1((Input 1))
+    A2((Input 2))
+    A3((Input 3))
+  end
+
+  subgraph Hidden Layer
+    B1((Hidden 1))
+    B2((Hidden 2))
+    B3((Hidden 3))
+  end
+
+  subgraph Output Layer
+    C1((Output 1))
+    C2((Output 2))
+  end
+
+  %% Input to Hidden
+  A1 -- w11 --> B1
+  A1 -- w12 --> B2
+  A1 -- w13 --> B3
+  A2 -- w21 --> B1
+  A2 -- w22 --> B2
+  A2 -- w23 --> B3
+  A3 -- w31 --> B1
+  A3 -- w32 --> B2
+  A3 -- w33 --> B3
+
+  %% Hidden to Output
+  B1 -- v11 --> C1
+  B1 -- v12 --> C2
+  B2 -- v21 --> C1
+  B2 -- v22 --> C2
+  B3 -- v31 --> C1
+  B3 -- v32 --> C2
+```
+
+*A simple artificial neural network with an input layer, one hidden layer, and an output layer (created with Mermaid).*
+
+In machine learning, these networks are trained on large datasets to recognize patterns, make predictions, or classify information. The "learning" process involves adjusting the connections (weights) between nodes based on the network's performance, similar to how the brain strengthens or weakens synaptic connections through experience. Deep learning, a subset of machine learning, uses neural networks with many layers (deep neural networks) to model complex relationships in data, enabling advances in fields such as speech recognition, image analysis, and music generation.
+
+While artificial neural networks are inspired by the brain, they are much simpler and operate differently from biological neural circuits. However, the analogy highlights how both systems can learn from experience and adapt to new information, making neural networks a powerful tool for modeling perception and cognition—including applications in sound and music analysis.
+
+
+### Key brain regions for listening
 
 Several specialized regions of the brain are crucial for processing sound and music:
 
