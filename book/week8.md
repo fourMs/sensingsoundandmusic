@@ -122,9 +122,7 @@ Together, these regions enable the perception, emotional experience, and cogniti
 
 ### Auditory Pathways
 
-As we have discussed in previous weeks, sound perception begins when sound waves enter the [outer ear](https://en.wikipedia.org/wiki/Outer_ear) and travel through the [ear canal](https://en.wikipedia.org/wiki/Ear_canal), causing the [eardrum](https://en.wikipedia.org/wiki/Eardrum) to vibrate. These vibrations are transmitted via the [ossicles](https://en.wikipedia.org/wiki/Ossicles) (tiny bones) in the [middle ear](https://en.wikipedia.org/wiki/Middle_ear) to the [cochlea](https://en.wikipedia.org/wiki/Cochlea) in the [inner ear](https://en.wikipedia.org/wiki/Inner_ear). Within the cochlea, specialized [hair cells](https://en.wikipedia.org/wiki/Hair_cell) convert mechanical vibrations into electrical signals&mdash;a process known as [transduction](https://en.wikipedia.org/wiki/Sensory_transduction).
-
-These neural signals are carried by the [auditory nerve](https://en.wikipedia.org/wiki/Cochlear_nerve) to the [brainstem](https://en.wikipedia.org/wiki/Brainstem), where they first synapse in the [cochlear nuclei](https://en.wikipedia.org/wiki/Cochlear_nucleus). From there, auditory information follows a complex, multi-stage pathway involving several key relay stations:
+As we have discussed in previous weeks, sound perception begins when sound waves enter the [outer ear](https://en.wikipedia.org/wiki/Outer_ear) and travel through the [ear canal](https://en.wikipedia.org/wiki/Ear_canal), causing the [eardrum](https://en.wikipedia.org/wiki/Eardrum) to vibrate. These vibrations are transmitted via the [ossicles](https://en.wikipedia.org/wiki/Ossicles) (tiny bones) in the [middle ear](https://en.wikipedia.org/wiki/Middle_ear) to the [cochlea](https://en.wikipedia.org/wiki/Cochlea) in the [inner ear](https://en.wikipedia.org/wiki/Inner_ear). Within the cochlea, specialized [hair cells](https://en.wikipedia.org/wiki/Hair_cell) convert mechanical vibrations into electrical signals. These signals are carried by the [auditory nerve](https://en.wikipedia.org/wiki/Cochlear_nerve) to the [brainstem](https://en.wikipedia.org/wiki/Brainstem), where they first synapse in the [cochlear nuclei](https://en.wikipedia.org/wiki/Cochlear_nucleus). From there, auditory information follows a complex, multi-stage pathway involving several key relay stations:
 
 - The [superior olivary complex](https://en.wikipedia.org/wiki/Superior_olivary_complex) is located in the brainstem, this structure is important for processing the timing and intensity differences between the ears, which helps us localize sounds in space.
 - The [inferior colliculus](https://en.wikipedia.org/wiki/Inferior_colliculus) is situated in the midbrain, the inferior colliculus integrates auditory information and is involved in reflexive responses to sound, such as orienting the head toward a noise.
@@ -149,40 +147,35 @@ After initial feature extraction, auditory information is integrated with input 
 
 Overall, the neural processing of sound involves a dynamic interplay between specialized brain regions, enabling us to interpret, enjoy, and respond to the rich variety of sounds and music in our environment.
 
-### Music Perception and Cognition
+### Music Cognition
 
-Music perception and cognition are the result of intricate interactions among multiple brain regions and systems. When we listen to music, the auditory cortex first analyzes fundamental sound features&mdash;such as pitch, rhythm, and timbre&mdash;transforming acoustic signals into meaningful patterns. Beyond this initial processing, higher-order brain areas come into play:
+Music cognition refers to the mental processes involved in understanding, interpreting, and responding to music. When we engage with music, the brain goes beyond basic sound analysis to perform complex tasks such as recognizing melodies, predicting harmonic progressions, perceiving rhythm, and recalling musical memories. Key brain regions involved in music cognition include:
 
-- The prefrontal cortex is involved in recognizing musical patterns, predicting structure, and integrating musical experiences with attention, memory, and expectation.
-- The motor cortex is often activated by rhythm, even during passive listening, reflecting our innate tendency to move or synchronize with music.
-- The limbic system&mdash;including the amygdala and hippocampus&mdash;mediates emotional responses and links music to personal memories, explaining why certain songs can evoke strong feelings or vivid recollections.
-- The reward system, particularly the nucleus accumbens, is engaged during pleasurable musical experiences, releasing dopamine and contributing to the sense of enjoyment and motivation.
+- The prefrontal cortex, which supports pattern recognition, musical expectation, and the integration of musical information with attention and working memory.
+- The motor cortex, which is engaged during rhythm perception and supports synchronization, beat tracking, and movement planning related to music.
+- The limbic system, including the amygdala and hippocampus, which links music to emotions and autobiographical memories, contributing to the personal significance of musical experiences.
+- The reward system, particularly the nucleus accumbens, which is activated during pleasurable or meaningful musical moments, reinforcing motivation and enjoyment.
 
-These interconnected processes enable us to experience music as a rich, multidimensional phenomenon that involves sensory analysis, emotional engagement, memory retrieval, and cognitive functions such as attention and decision-making. Ongoing research continues to reveal how the brain’s distributed networks work together to create the uniquely powerful effects of music on human cognition, emotion, and behavior.
+These interconnected networks allow us to analyze musical structure, anticipate changes, experience emotional responses, and connect music to past experiences. Research in music cognition continues to uncover how the brain’s specialized systems work together to support our unique ability to understand and find meaning in music.
 
+### Mirror Neurons
+
+[Mirror neurons](https://en.wikipedia.org/wiki/Mirror_neuron) are a special class of neurons that activate both when an individual performs an action and when they observe the same action performed by others. First discovered in the premotor cortex of monkeys, mirror neurons have since been identified in humans and are thought to play a key role in understanding actions, imitation, empathy, and social cognition. In the context of music, mirror neuron systems are believed to contribute to our ability to perceive and internalize musical gestures, rhythms, and emotions. For example, when we watch a musician play an instrument or observe someone dancing, our mirror neurons may fire as if we were performing those actions ourselves. This neural mirroring supports not only learning through imitation but also the emotional and embodied experience of music, helping explain why we can "feel" the beat or empathize with a performer's expression.
+
+```{note}
+Mirror neurons were first identified in the early 1990s by a team of Italian researchers studying the brains of macaque monkeys. The discovery was serendipitous: while recording neural activity in the premotor cortex, the scientists noticed that certain neurons fired not only when the monkey performed a specific action (such as grasping an object), but also when the monkey observed a human or another monkey performing the same action. This unexpected finding revealed a new class of neurons that "mirrored" observed behaviors, leading to a surge of research into their role in action understanding, imitation, and social cognition. The accidental nature of this discovery highlights how chance observations can open up entirely new fields of neuroscience.
+```
 ### Individual Differences
 
-There is significant variability in how individuals perceive and process music, shaped by a combination of genetic, developmental, experiential, and cultural factors. Some people are naturally more sensitive to pitch, rhythm, or timbre, while others may have unique abilities such as absolute pitch or heightened emotional responses to music.
+People vary widely in how they perceive and process music, with differences shaped by genetics, development, experience, and culture. Some individuals are naturally more sensitive to pitch, rhythm, or timbre, while others may possess unique abilities such as absolute pitch or heightened emotional responses to music. Musical training is a particularly influential factor, as it can enhance neural connectivity and plasticity in auditory, motor, and cognitive brain regions. Musicians often demonstrate improved auditory discrimination, better memory for musical patterns, and more efficient integration of sensory and motor information. Training can also strengthen connections between the brain’s hemispheres, supporting complex skills like reading music or improvising.
 
-#### Effects of Musical Training
+Age also affects the brain’s response to sound and music. As people grow older, changes in the auditory system and brain can lead to reduced sensitivity to certain frequencies and make it harder to distinguish speech or musical details. However, the brain’s neuroplasticity allows for compensation and adaptation, and engaging in musical activities throughout life can help maintain auditory and cognitive functions in older adults.
 
-Musical training is one of the most influential factors affecting the brain’s response to sound and music. Studies have shown that musicians often exhibit enhanced neural connectivity and greater plasticity in auditory, motor, and cognitive brain regions. This can lead to improved auditory discrimination, better memory for musical patterns, and more efficient integration of sensory and motor information. Training can also strengthen the connections between the two hemispheres of the brain, supporting complex skills such as reading music or improvising.
+Neurodiversity further contributes to individual differences in music perception. For example, people with autism spectrum disorder (ASD) may process music differently, sometimes showing enhanced pitch perception or unique emotional responses. Conversely, conditions such as amusia (musical tone deafness) can limit the ability to perceive pitch or rhythm, even when hearing and intelligence are otherwise normal.
 
-#### Age-Related Changes and Hearing Loss
+Cultural background and environmental exposure also play a significant role. Early experiences with music, language, and rhythm within a particular culture shape neural pathways and preferences, influencing how individuals perceive and appreciate unfamiliar musical styles later in life.
 
-As people age, changes in the auditory system and brain can affect the ability to process sound and music. Age-related hearing loss (presbycusis) can reduce sensitivity to certain frequencies and make it harder to distinguish speech or musical details. However, the brain often compensates through neuroplasticity&mdash;its capacity to reorganize and form new neural connections. Engaging in musical activities throughout life has been shown to help maintain auditory and cognitive functions in older adults.
-
-#### Neurodiversity and Special Populations
-
-Individual differences are also evident in neurodiverse populations. For example, people with autism spectrum disorder (ASD) may process music differently, sometimes showing enhanced pitch perception or unique emotional responses. Conversely, conditions such as amusia (musical tone deafness) can limit the ability to perceive pitch or rhythm, despite otherwise normal hearing and intelligence.
-
-#### Cultural and Environmental Influences
-
-Cultural background and exposure to different musical traditions shape how the brain interprets and values music. Early exposure to music, language, and rhythm in a particular culture can influence neural pathways and preferences, affecting how individuals perceive unfamiliar musical styles later in life.
-
-#### Adaptation and Resilience
-
-Overall, these individual differences highlight the dynamic and adaptable nature of the brain. Whether through training, experience, or adaptation to sensory challenges, the brain continually reorganizes itself in response to new demands. This neuroplasticity underlies our ability to learn new musical skills, recover from hearing loss, and develop unique musical preferences and abilities.
+Overall, these individual differences highlight the brain’s remarkable adaptability. Through training, experience, and adaptation to sensory challenges, the brain continually reorganizes itself, enabling us to learn new musical skills, recover from hearing loss, and develop unique musical preferences and abilities.
 
 ## Capturing Brain Activity
 
