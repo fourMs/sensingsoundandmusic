@@ -89,7 +89,8 @@ Eye tracking data can reveal patterns of gaze, fixations, and saccades, helping 
 
 [Gaze](https://en.wikipedia.org/wiki/Gaze) denotes the direction of a person’s visual attention and is a primary observable proxy for where cognitive resources are allocated. In music research, gaze reveals what performers and listeners attend to (hands, face, score, conductor), how information is sampled over time, and how visual cues shape auditory perception.
 
-![Gaze example](https://upload.wikimedia.org/wikipedia/commons/3/3c/Eye_tracking_software.png)
+![Gaze tracking](figures/hero_f60f7de1-4cda-47f7-98bc-f5415956abde.JPG)
+*Eye fixations of different individuals (color circles) and for different durations (size of each circle). Image credit: Bruno Laeng/UiO.*
 
 Key gaze events and properties: 
 
@@ -105,7 +106,8 @@ Gaze is a useful proxy for attention but not a perfect synonym—people can cove
 
 [Pupillometry](https://en.wikipedia.org/wiki/Pupillometry) is the measurement of pupil size and its changes over time. Because the pupil responds not only to light but also to cognitive and emotional states, pupillometry is a valuable tool for studying mental effort, arousal, and attention.
 
-![Pupillometry example](https://upload.wikimedia.org/wikipedia/commons/4/4c/Pupil_dilation.png)
+![Pupillometry example](figures/hero_7c46327d-c031-442b-81dc-32761f3c91eb.jpg)
+*Pupillometry during [MusicLab Copenhagen](https://www.uio.no/ritmo/english/projects/musiclab/2024/abels-kork/index.html).*
 
 Daniel Kahneman ([Wikipedia](https://en.wikipedia.org/wiki/Daniel_Kahneman)), Nobel laureate and author of *[Thinking, Fast and Slow](https://en.wikipedia.org/wiki/Thinking,_Fast_and_Slow)*, once remarked: 
 
