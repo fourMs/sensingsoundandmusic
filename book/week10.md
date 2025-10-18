@@ -8,103 +8,60 @@ exports:
 
 This week we explore how the body responds to sound and music, from fast autonomic reactions to slower respiratory and motor changes. We will examine physiological markers (heart rate and heart‑rate variability, skin conductance, respiration, blood pressure, and vocal/EGG measures), the physiological mechanisms that produce them (sympathetic/parasympathetic balance, entrainment, respiration–voice interactions), and methodological issues in measuring these signals in laboratory and concert settings.
 
-Learning objectives
-- Describe common physiological measures used in music research (ECG, HRV, SCR/GSR, RIP respiration, EGG) and the hypotheses they test.
-- Explain basic autonomic mechanisms (sympathetic vs parasympathetic) and how music can shift their balance.
-- Evaluate practical measurement considerations (sensor placement, movement artefacts, synchronization across performers/audience, wearable systems such as the Equivital LifeMonitor).
-- Perform simple pre‑processing and interpretation of heart‑rate and skin‑conductance time series and report findings.
-
 
 ## Physiological Reactions to Music
 
-Music has a profound impact on the human body, eliciting various physiological responses. These reactions can include changes in heart rate, blood pressure, respiration, and even skin conductance.
+### Autonomic mechanisms: sympathetic vs. parasympathetic
 
-## Skin Conductance
-Skin conductance, a measure of emotional arousal, can change in response to music. Exciting or emotionally charged music may increase skin conductance, indicating heightened emotional engagement, while calming music may reduce it.
+The autonomic nervous system (ANS) comprises two primary branches with complementary roles: the sympathetic nervous system, which mobilizes resources for action and physiological arousal (see [sympathetic nervous system](https://en.wikipedia.org/wiki/Sympathetic_nervous_system)), and the parasympathetic nervous system, which promotes restoration and calm (see [parasympathetic nervous system](https://en.wikipedia.org/wiki/Parasympathetic_nervous_system)). For an overview of the system as a whole, see [autonomic nervous system](https://en.wikipedia.org/wiki/Autonomic_nervous_system). Sympathetic activation typically increases heart rate and contractility, raises blood pressure, elevates sweat‑gland activity (skin conductance), and redistributes blood flow toward skeletal muscle; parasympathetic (largely vagal) influence slows heart rate, supports digestion, and favors low‑arousal states via the vagus nerve ([vagus nerve](https://en.wikipedia.org/wiki/Vagus_nerve)).
 
+At the physiological and biochemical level, sympathetic effects are mediated primarily by noradrenergic signaling (norepinephrine; [norepinephrine](https://en.wikipedia.org/wiki/Norepinephrine)) and are reflected in measures such as increased heart rate ([heart rate](https://en.wikipedia.org/wiki/Heart_rate)), reduced short‑term heart‑rate variability (HRV; [heart rate variability](https://en.wikipedia.org/wiki/Heart_rate_variability)), elevated skin conductance level (SCL; [galvanic skin response](https://en.wikipedia.org/wiki/Galvanic_skin_response)), and higher blood pressure ([blood pressure](https://en.wikipedia.org/wiki/Blood_pressure)). Parasympathetic or vagal influence manifests as decreased heart rate, larger respiratory‑sinus‑arrhythmia (RSA; [respiratory sinus arrhythmia](https://en.wikipedia.org/wiki/Respiratory_sinus_arrhythmia)) and increased high‑frequency components of HRV (see HRV link above), which together index rapid vagal modulation of cardiac timing.
 
-## Cardiac responses
+These two branches also differ in temporal dynamics: sympathetic adjustments often unfold over seconds to minutes as hormones and slow neural pathways modulate peripheral organs, whereas vagal (parasympathetic) effects can operate on a beat‑to‑beat timescale, producing millisecond‑level modulation of the cardiac cycle detectable in ECG and HRV metrics. For measurement, concurrent recording of ECG, respiration, and skin conductance helps dissociate fast vagal influences from slower sympathetic and metabolic changes.
 
-### Heart Rate
-Music can influence heart rate by either calming or exciting the listener. Slow, soothing music often reduces heart rate, promoting relaxation, while fast-paced or intense music can increase heart rate, reflecting heightened arousal or excitement.
+### How music shifts autonomic balance
+Acoustic features such as tempo, loudness, timbre and spectral balance strongly bias autonomic state: slow tempi, soft dynamics, smooth timbres and lower spectral centroid tend to promote parasympathetic dominance (reduced heart rate, increased HRV, and lower tonic and phasic skin conductance), whereas fast tempi, greater loudness, sharp attacks and high‑energy spectral content favor sympathetic activation (elevated heart rate, reduced HRV, and higher SCL).
 
-### Shared Absorption and Cardiac Interrelations in String Quartets
+Rhythmic regularity and tempo provide powerful entrainment cues for respiration and cardiac timing. Steady, slower musical pulses can slow breathing and enhance respiratory sinus arrhythmia (RSA), producing beat‑to‑beat vagal modulation of the heart, while faster rhythms typically accelerate respiration and heart rate and can reduce vagal indices; entrainment strength depends on rhythmic salience and the listener’s attentional engagement.
 
-Høffding et al. (2023) investigated the phenomenon of shared absorption and its impact on cardiac interrelations within expert and student string quartets. The study examined how group dynamics and collective focus influence physiological synchronization, particularly heart rate patterns, during ensemble performances. Findings suggest that shared absorption fosters a unique form of interpersonal connection, enhancing both musical cohesion and emotional engagement among performers.
+Emotional appraisal of music contributes independently via valence and arousal pathways: music experienced as relaxing or pleasant biases toward parasympathetic engagement, whereas highly arousing, suspenseful, or threatening passages drive sympathetic responses. Temporal dynamics matter too—brief surprising events often elicit phasic sympathetic bursts (SCRs) superimposed on tonic autonomic trends set by overall valence and arousal.
 
-For further details, refer to the original article: [Into the Hive-Mind: Shared Absorption and Cardiac Interrelations in Expert and Student String Quartets](https://doi.org/10.1177/20592043231168597).
+Cognitive and social context modulate these sensory effects. Attention, expectation, memory and surprise change the magnitude and timing of autonomic responses, and live or collective settings (group singing, concerts) amplify shared autonomic dynamics and increase inter‑subject synchronization through social engagement and multimodal cues.
 
-### Cardiac Oscillations in Large Ensembles
+Motor and vocal activity interact with purely auditory influences: movement, dancing or singing increases metabolic demand and alters respiration, which in turn shifts heart rate and HRV independent of acoustic features. Experimental designs should therefore separate passive listening from active, movement‑based conditions or explicitly model motor contributions.
 
-Cardiac synchronization, the phenomenon where heart rate patterns align between individuals, has been observed in various musical contexts. Research highlights its occurrence both among performers and between performers and audiences, shedding light on the physiological and emotional connections fostered by music.
-
-#### Synchronization Among Choristers
-Müller and Lindenberger (2011) demonstrated that cardiac and respiratory patterns synchronize between individuals during choir singing. This synchronization reflects the deep interpersonal connection and shared focus required in ensemble performances, emphasizing the role of collective musical engagement in fostering physiological coherence.
-
-For further details, refer to the original article: [Cardiac and Respiratory Patterns Synchronize Between Persons During Choir Singing](https://doi.org/10.1371/journal.pone.0024893).
-
-#### Audience Synchronization During Performances
-Czepiel et al. (2024) explored how piano performances can induce cardiac synchronization among audience members. Their findings suggest that audio-visual concert experiences create a shared physiological response, enhancing the collective emotional experience of the audience.
-
-For further details, refer to the original article: [Audio-Visual Concert Performances Synchronize an Audience’s Heart Rates](https://doi.org/10.1101/2024.04.10.588486).
-
-#### Open Questions
-An intriguing question remains: how does cardiac coherence between musicians and audiences relate and evolve during a performance? Understanding this dynamic could provide deeper insights into the interplay of physiological and emotional connections in live musical settings.
-
-### Heart Rate Variability
-
-Heart rate variability (HRV) refers to the variation in time intervals between consecutive heartbeats. It is an important indicator of autonomic nervous system activity and overall cardiovascular health. Music has been shown to influence HRV, with different types of music eliciting varying effects.
-
-Relaxing music, such as classical or ambient genres, can increase HRV, indicating a shift towards parasympathetic nervous system dominance, which is associated with relaxation and stress reduction. On the other hand, stimulating or high-tempo music may decrease HRV, reflecting sympathetic nervous system activation, which is linked to heightened arousal or stress.
-
-The impact of music on HRV is being explored in therapeutic contexts, such as stress management, anxiety reduction, and even cardiac rehabilitation, highlighting its potential as a non-invasive tool for improving well-being.
-
-### Blood Pressure
-Listening to music can also affect blood pressure. Relaxing music has been shown to lower blood pressure, which can be beneficial for stress relief. Conversely, loud or stimulating music may temporarily raise blood pressure.
-
-## Respiration
-Music can synchronize with breathing patterns. For example, slow tempos may encourage deeper, slower breaths, while faster tempos can lead to quicker, shallower breathing. This connection is often used in therapeutic settings to regulate respiration.
+Individual differences and situational factors determine response variability. Baseline autonomic tone (vagal tone), musical training, familiarity, cultural background, current fitness and affective state all alter sensitivity to musical features; report and, where possible, control or stratify by these factors to interpret group and within‑subject effects.
 
 
-### Effects of Lung Volume on the Electroglottographic Waveform
+## Measuring physiological reactions
 
-Ternström, D’Amario, and Selamtzis (2018) investigated how lung volume influences the electroglottographic (EGG) waveform in trained female singers. Their findings revealed that lung volume significantly affects vocal fold behavior during phonation. Specifically, higher lung volumes were associated with increased subglottal pressure, which altered the EGG waveform characteristics. These changes suggest that lung volume plays a critical role in vocal control and may impact vocal performance and technique. The study highlights the importance of understanding respiratory mechanics in vocal training and pedagogy.
+### Skin conductance
+Skin conductance (electrodermal activity; EDA) indexes sympathetic arousal and sweat‑gland activity ([electrodermal activity](https://en.wikipedia.org/wiki/Electrodermal_activity) and [galvanic skin response](https://en.wikipedia.org/wiki/Galvanic_skin_response)). Skin conductance is measured as tonic skin conductance level (SCL) and phasic skin conductance responses (SCRs) time‑locked to events; typical predictions are SCR peaks to surprising/high‑arousal moments and SCL shifts for sustained arousal. Acquire from stable palmar/plantar sites at ≥10–50 Hz (higher for precise phasic timing) with clean skin and constant electrode contact. Preprocess to remove slow drift (detrend/low‑pass), separate tonic and phasic components (e.g., deconvolution), detect SCR peaks using amplitude/latency thresholds, and visually inspect for motion artifacts. Record and control potential confounds (ambient temperature/humidity, skin hydration, electrode placement, movement, medications). Analyze using event‑related SCR windows (latency ~1–4 s), report response incidence and amplitude, normalize across participants (z‑scores or percent change), and correct for multiple trials/baselines and multiple comparisons.
 
-For further details, refer to the original article: [Effects of the Lung Volume on the Electroglottographic Waveform in Trained Female Singers](https://doi.org/10.1016/j.jvoice.2018.09.006).
+### Cardiac responses
 
-### Interperformer Coordination in Piano-Singing Duo Performances
+The standard approach for cardiac measurement is electrocardiography (ECG) ([Electrocardiography](https://en.wikipedia.org/wiki/Electrocardiography)), which yields precise R‑peak timing and inter‑beat (R–R) intervals ([RR interval](https://en.wikipedia.org/wiki/RR_interval)) used to compute instantaneous heart rate ([Heart rate](https://en.wikipedia.org/wiki/Heart_rate)) and beat‑to‑beat dynamics. Chest ECG (adhesive electrodes or straps) remains the gold standard for timing and HRV precision; typical setups range from single‑lead to multilead configurations. Optical photoplethysmography (PPG, e.g., wrist, finger, ear; [Photoplethysmography](https://en.wikipedia.org/wiki/Photoplethysmography)) can track heart rate at rest but is more motion‑sensitive and less reliable for short‑term HRV and spectral analyses. Note that chest belts with integrated ECG electrodes differ fundamentally from purely optical straps—choose form factor by required precision and participant comfort.
 
-D’Amario et al. (2023) explored the dynamics of interperformer coordination in piano-singing duo performances, focusing on how phrase structure and empathy influence synchronization. The study revealed that performers' ability to anticipate and adapt to each other's timing is crucial for achieving cohesive musical expression. Empathy between performers was found to enhance coordination, particularly during complex or expressive passages. These findings underscore the importance of interpersonal connection and shared musical understanding in collaborative performances.
+From R–R/IBI series you can derive instant HR, short‑term phasic changes (orienting, startle, or arousal) and HRV metrics. For R‑peak accuracy use high sampling rates (ECG commonly 250–1,000 Hz), robust QRS detection, artifact detection/correction (refractory/threshold rules, ectopic beat removal, interpolation) and visual inspection. Where PPG is used, verify beat alignment and apply motion‑artifact rejection.
 
-For further details, refer to the original article: [Interperformer Coordination in Piano-Singing Duo Performances: Phrase Structure and Empathy Impact](https://doi.org/10.1007/s00426-023-01818-8).
+Report baseline heart rate and apply within‑subject normalization (percent change, z‑scores, or baseline subtraction) because resting HR and reactivity vary with age, fitness, medication, circadian state and posture. Typical event analyses include event‑locked HR windows (peak/trough magnitude and latency), time‑resolved HRV, and joint modeling with respiration to separate vagal/respiratory effects from metabolic influences.
 
+Heart‑rate variability (HRV) metrics are commonly used to index autonomic balance ([Heart rate variability](https://en.wikipedia.org/wiki/Heart_rate_variability)): time‑domain measures (RMSSD, SDNN) and frequency‑domain measures (high‑frequency [HF] power, low‑frequency [LF] power, and LF/HF ratio). RMSSD and HF power largely reflect vagal (parasympathetic) influence and respiratory‑linked modulation such as respiratory sinus arrhythmia ([Respiratory sinus arrhythmia](https://en.wikipedia.org/wiki/Respiratory_sinus_arrhythmia)), but interpretations of LF and LF/HF require caution and context. Always measure respiration concurrently (or record respiratory proxies) to dissociate RSA from non‑vagal influences, and control or report posture, activity, baseline tone, medications and other confounds. Finally, report effect sizes and uncertainty (confidence intervals, bootstrap/Cohen’s d) and prefer time‑resolved, event‑locked analyses for music‑related temporal dynamics.
 
-## Measuring physiological data
+### Respiration
 
-### Equivital LifeMonitor
+Respiration is typically recorded with respiratory inductance plethysmography (RIP) or other modalities (nasal cannula, capnography, impedance pneumography) to capture breathing rate, depth and phase. See Respiratory inductance plethysmography (https://en.wikipedia.org/wiki/Respiratory_inductance_plethysmography) and Respiration (physiology) (https://en.wikipedia.org/wiki/Respiration_(physiology)). Acquire at sufficient sampling rate to resolve inspiratory/expiratory transitions and phase (commonly ≥25–50 Hz for belt signals) and synchronize timestamps with ECG/EDA and stimulus markers.
 
-The Equivital LifeMonitor is a wearable physiological monitoring device designed to capture a range of biometric data, including respiration and heart rate. It is commonly used in research, healthcare, and performance monitoring due to its accuracy and portability.
+Key respiration variables—rate, tidal depth, inspiratory/expiratory timing and instantaneous phase—are highly music‑sensitive. Slow tempi and long musical phrases tend to produce deeper, slower breaths and can enhance respiratory‑sinus‑arrhythmia (RSA), whereas fast tempi and accented phrasing often speed breathing and alter inspiratory timing. For definitions and mechanisms see Respiratory rate (https://en.wikipedia.org/wiki/Respiratory_rate) and Respiratory sinus arrhythmia (https://en.wikipedia.org/wiki/Respiratory_sinus_arrhythmia).
 
-The device uses respiratory inductance plethysmography (RIP) technology, which involves elastic bands embedded with sensors that measure the expansion and contraction of the chest and abdomen during breathing. By analyzing these movements, the LifeMonitor can determine respiratory rate and patterns.
+Respiratory dynamics also mediate cardiac effects: breathing entrainment to musical tempo and phrasing can drive heart‑rate and HRV changes via RSA and mechanical cardiorespiratory coupling. Investigate entrainment and tempo effects with references to tempo and synchronization (https://en.wikipedia.org/wiki/Tempo) (https://en.wikipedia.org/wiki/Synchronization), and always record respiration concurrently to disambiguate vagal (RSA) influences from non‑respiratory HRV components (see Heart rate variability (https://en.wikipedia.org/wiki/Heart_rate_variability)). Analyze event‑locked respiration (phase and depth relative to musical onsets) and joint respiration–ECG models to quantify entrainment and mediation.
 
-The LifeMonitor employs electrocardiography (ECG) sensors to measure the electrical activity of the heart. These sensors are integrated into the chest strap, allowing the device to detect heartbeats and calculate heart rate. The ECG data can also provide insights into heart rate variability (HRV), which is an important indicator of autonomic nervous system activity.
+### Muscle tension
 
-The Equivital LifeMonitor is valued for its ability to provide continuous, real-time physiological data, making it a versatile tool for applications such as stress analysis, physical performance assessment, and medical research.
+Electromyography (EMG) records the electrical activity produced by skeletal muscle and is widely used to index motor activation, muscle tone, facial expressions and vocal‑tract/respiratory accessory muscle activity (see https://en.wikipedia.org/wiki/Electromyography). In musical contexts EMG can disambiguate motor contributions (playing, singing, facial responses) from autonomic signals, and capture fine‑grained timing of expressive gestures. Typical setups use surface bipolar electrodes (or intramuscular electrodes for deep/specific muscles), careful skin preparation and a reference electrode. Acquire EMG at high sampling rates (commonly ≥1 kHz), apply band‑pass filtering to remove motion and DC drift (e.g., ~20–450 Hz), notch mains interference (50/60 Hz), then rectify and smooth (RMS or low‑pass envelope) for amplitude analyses. Normalize amplitudes to a task‑relevant maximum (MVC) or baseline to compare across participants. Watch for movement artifacts and crosstalk between adjacent muscles, and report electrode placement, amplifier gain, filters and preprocessing steps.
 
+### Body temperature
 
-```{note}
-Equivital LifeMonitor
-```
-
-
-
-
-## Citations
-
-the following syntax: `` {cite}`holdgraf_evidence_2014` `` 
-
-Here is the bibliography
+Body temperature distinguishes core temperatures (measured rectally, tympanically or with ingestible sensors) from peripheral/skin temperature (measured with thermistors, thermocouples or infrared sensors); see https://en.wikipedia.org/wiki/Body_temperature and https://en.wikipedia.org/wiki/Thermoregulation. In music studies wearable sensors typically capture skin temperature, which reflects thermoregulatory vasomotor changes, local perfusion and ambient influences rather than immediate autonomic phasic responses. Temperature changes are relatively slow (seconds to minutes), so lower sampling rates (e.g., 1 Hz) are usually adequate, but ensure precise synchronization with other signals. Control or record ambient temperature, clothing, physical exertion and circadian phase, since these factors strongly affect peripheral temperature. Report sensor type and placement (e.g., fingertip, chest, wrist) and consider combining temperature with ECG/EDA to interpret vasomotor versus sudomotor contributions to autonomic state. 
 
 
-```{bibliography}
-```
