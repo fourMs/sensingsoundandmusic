@@ -87,30 +87,36 @@ Eye tracking data can reveal patterns of gaze, fixations, and saccades, helping 
 
 ### Gaze tracking
 
-Gaze refers to the direction in which a person is looking and is a key indicator of attention and focus. It plays a crucial role in understanding human behavior, communication, and cognitive processes. Gaze tracking is widely used in psychological studies to analyze visual attention and social interactions. [Learn more on Wikipedia](https://en.wikipedia.org/wiki/Gaze).
+[Gaze](https://en.wikipedia.org/wiki/Gaze) denotes the direction of a person’s visual attention and is a primary observable proxy for where cognitive resources are allocated. In music research, gaze reveals what performers and listeners attend to (hands, face, score, conductor), how information is sampled over time, and how visual cues shape auditory perception.
 
 ![Gaze example](https://upload.wikimedia.org/wikipedia/commons/3/3c/Eye_tracking_software.png)
 
-Gaze motion is best described as a series of rapid jumps (saccades) from one position to another, interspersed with brief periods of fixation. Saccades are fast (about 30 ms), while fixations typically last around 300 ms. Other eye movements, such as smooth pursuit, allow the eyes to track moving objects, but this only occurs when there is an actual moving stimulus.
+Key gaze events and properties: 
 
-The neural control of gaze involves a hierarchical network, from the brainstem’s superior colliculi (which coordinate eye muscle movements) to higher cortical regions like the frontal eye fields. The lateral intraparietal area in the parietal lobe is particularly important for voluntary shifts of gaze.
+- **Fixations:** brief periods (typically ~200–400 ms, variable by task) when the fovea is held on a location and detailed processing occurs. Fixation count and duration are common measures of interest or difficulty.
+- **Saccades:** rapid relocations of gaze (tens of ms) that reorient foveal vision; saccade amplitude and direction reveal scanning strategies but carry little perceptual detail.
+- **Smooth pursuit:** continuous tracking of a moving target; occurs only when a visible moving stimulus is followed.
+- **Scanpaths and transitions:** sequences of fixations and saccades that describe viewing strategies and can be summarized with transition matrices or string-based methods.
+
+Gaze is a useful proxy for attention but not a perfect synonym—people can covertly attend without moving their eyes; calibration, sampling rate, and tracker type (mobile vs stationary) determine accuracy and which metrics are reliable (e.g., >250 Hz for precise saccade dynamics); define AOIs carefully (use dynamic AOIs for moving performers) and account for head motion in mobile settings; and always interpret gaze patterns relative to task demands, participant expertise, and stimulus timing (for example, anticipatory fixations in sight‑reading).
 
 
 ### Pupillometry
 
-Pupillometry is the measurement of pupil size and its changes over time. Because the pupil responds not only to light but also to cognitive and emotional states, pupillometry is a valuable tool for studying mental effort, arousal, and attention. [Learn more on Wikipedia](https://en.wikipedia.org/wiki/Pupillometry).
+[Pupillometry](https://en.wikipedia.org/wiki/Pupillometry) is the measurement of pupil size and its changes over time. Because the pupil responds not only to light but also to cognitive and emotional states, pupillometry is a valuable tool for studying mental effort, arousal, and attention.
 
 ![Pupillometry example](https://upload.wikimedia.org/wikipedia/commons/4/4c/Pupil_dilation.png)
 
-Daniel Kahneman, Nobel laureate and author of *Thinking, Fast and Slow*, once remarked:  
+Daniel Kahneman ([Wikipedia](https://en.wikipedia.org/wiki/Daniel_Kahneman)), Nobel laureate and author of *[Thinking, Fast and Slow](https://en.wikipedia.org/wiki/Thinking,_Fast_and_Slow)*, once remarked: 
+
 > "The pupils reflect the extent of mental effort in an incredibly precise way [...] I have never done any work in which the measurement is so precise."
 
-Research over the past decades has shown that the pupil dilates in proportion to mental workload. For example, in a classic 1964 study, psychologist Eckhard Hess found that participants' pupils increased in diameter as they solved increasingly difficult arithmetic problems.
+Research over decades shows that pupil diameter reliably tracks mental workload. In a classic study, Eckhard Hess (1964) reported systematic pupil dilation as participants solved progressively harder arithmetic problems; hundreds of subsequent studies have replicated and extended this finding, demonstrating that larger or phasic pupil responses often accompany increased cognitive and attentional demands.
 
-Hundreds of studies have confirmed that pupil dilation is a reliable, if indirect, indicator of cognitive processing and attentional demand. While the evolutionary or functional significance of these dilations is still debated, pupillometry remains a powerful, non-invasive method for probing the mind and brain.
 
 ### Eye tracking and pupillometry in music research
 
+Eye tracking is now more used in music research as hardware and software have become more accessible. Typical roles and use-cases include:
 
 - **Concert performance analysis:** Eye tracking is used to study how audience members watch performers, revealing which gestures or movements draw the most attention and how visual cues influence the perception of musical expressiveness.
 - **Music reading and learning:** Researchers use eye tracking to analyze how musicians read sheet music, identifying patterns in gaze, fixation, and saccades that relate to expertise and sight-reading ability.
