@@ -37,9 +37,13 @@ When the visual mouth movements of one speech sound are paired with the acoustic
 
 In music contexts the same principles explain why seeing a performer’s gestures, facial movements, or instrument actions can change perceived onset, articulation, or expressiveness of sound. 
 
+
+
 ## The Eye
 
-### Anatomy of the Eye
+This section gives a clear, practical overview of the eye and why it matters for studies of sound, music, and performance.
+
+### Basic anatomy and optics
 
 The [human eye](https://en.wikipedia.org/wiki/Human_eye) is a highly evolved optical organ that focuses light onto the [retina](https://en.wikipedia.org/wiki/Retina), its photosensitive inner surface, enabling us to see with remarkable clarity. The eye adapts dynamically to changing light conditions: in bright environments the pupil constricts to sharpen the image and reduce optical distortions; in dim light it dilates to maximize the number of photons reaching the retinal photoreceptors.
 
@@ -48,52 +52,18 @@ Humans, as diurnal animals, possess eyes with high optical resolution—surpasse
 The [iris](https://en.wikipedia.org/wiki/Iris_(anatomy)), a ring of pigmented muscle tissue, controls the size of the [pupil](https://en.wikipedia.org/wiki/Pupil). Its main function is not simply to regulate brightness, but to ensure optimal visual resolution under varying lighting conditions. The pupil’s diameter ranges from about 2 to 8 mm, yet natural light levels can vary by a factor of a million (e.g., from moonlight to sunlight).
 
 ![Anatomy of the Eye.](https://ugc.futurelearn.com/uploads/assets/7f/c9/7fc903cd-b4f5-4d77-a1e7-98ccae56b9bf.jpg)
-The retina has cones (three types for color), rods (low‑light sensitivity) and melanopsin cells (overall light level). These photoreceptors drive pupil control via two opposing iris muscle groups:
 
-- Radial (dilator pupillae) — sympathetic activation → dilation (mydriasis)  
-- Circular (sphincter/constrictor pupillae) — parasympathetic activation → constriction (miosis)
+### The retina
 
-Pupil size trades off light intake and visual resolution: ~3 mm gives optimal resolution; dilation toward ~8 mm increases light but reduces acuity. Pupil responses are consensual (both eyes react even if only one is lit). Sudden bright light triggers the pupillary light reflex (PLR); focusing on near objects triggers the pupillary near response (PNR), which increases depth of field. Pupils also reflect non‑visual factors: cognitive effort, emotion, or imagining brightness can cause measurable dilation or constriction.
+The retina turns light into neural signals and does early processing like enhancing contrast, finding edges, and detecting motion. It has three main light sensors: rods (very sensitive, work in dim light and see in shades of gray), cones (work in bright light, provide color vision and are packed in the fovea), and ipRGCs (intrinsically photosensitive retinal ganglion cells that help control pupil size and body rhythms). 
 
-### Gaze
 
-Gaze refers to the direction in which a person is looking and is a key indicator of attention and focus. It plays a crucial role in understanding human behavior, communication, and cognitive processes. Gaze tracking is widely used in psychological studies to analyze visual attention and social interactions. [Learn more on Wikipedia](https://en.wikipedia.org/wiki/Gaze).
+### Eye movements and attention
+Eyes move in a few basic ways: saccades are very fast jumps that put the sharp center of vision (the fovea) on a new spot, with fixations lasting around 200–400 ms; smooth pursuit lets the eyes follow a moving object smoothly when you can see it; and vergence changes the angle of the two eyes so you can focus on near versus far things. In music settings, where someone looks (for example at a face, the hands, or the score) strongly determines what visual information they pick up and that visual input can change how they hear, understand, or perform the music.
 
-![Gaze example](https://upload.wikimedia.org/wikipedia/commons/3/3c/Eye_tracking_software.png)
 
-Gaze motion is best described as a series of rapid jumps (saccades) from one position to another, interspersed with brief periods of fixation. Saccades are fast (about 30 ms), while fixations typically last around 300 ms. Other eye movements, such as smooth pursuit, allow the eyes to track moving objects, but this only occurs when there is an actual moving stimulus.
-
-The neural control of gaze involves a hierarchical network, from the brainstem’s superior colliculi (which coordinate eye muscle movements) to higher cortical regions like the frontal eye fields. The lateral intraparietal area in the parietal lobe is particularly important for voluntary shifts of gaze.
-
-### Neurophysiology of the Pupil
-
-Shifting our gaze changes what we attend to overtly, but attention can also shift covertly (without moving the eyes). Both overt and covert attention are forms of selective attention, but attention also has an "intensive" aspect—how strongly we focus. This intensity is reflected in the pupil’s movements (dilations and constrictions), which have been linked to changes in attentional focus and mental effort.
-
-The pupil appears as a dark disk in the center of the iris, surrounded by the white sclera. Unlike most animals, humans have a highly visible sclera, which enhances the visibility of gaze direction.
-
-The pupil itself is a hole, not a structure, allowing light to enter the eye and be focused onto the retina. Its size is controlled by smooth muscles in the iris, governed largely by the autonomic nervous system.
-
-The primary determinant of pupil diameter is the amount of light reaching the retina. Sudden increases in illumination trigger the **pupillary light reflex (PLR)**, a rapid constriction of the pupil, which is controlled by the parasympathetic nervous system and inhibits sympathetic activity.
-
-Pupil dilations not caused by light, but by psychological factors (such as cognitive effort or emotional arousal), are typically mediated by the locus coeruleus (LC), the brain’s main source of noradrenaline. The LC, located in the brainstem, can rapidly modulate activity across the cortex, influencing arousal and attention.
-
-### The Autonomic Nervous System
-
-The autonomic nervous system (ANS) has two branches with opposing effects on the pupil:
-
-- **Sympathetic nervous system:** Increases arousal ("fight or flight"), causing pupil dilation.
-- **Parasympathetic nervous system:** Promotes relaxation ("rest and digest"), causing pupil constriction.
-
-These effects are mediated by neurotransmitters: noradrenaline for the sympathetic system and acetylcholine for the parasympathetic system.
-
-### Neurotransmitters: Noradrenaline and Acetylcholine
-
-Neurotransmitters are chemical messengers that enable communication between neurons and muscles. Each neurotransmitter binds to specific receptors, much like a key fits a lock.
-
-- **Noradrenaline** is the primary neurotransmitter of the sympathetic nervous system, increasing arousal and pupil dilation.
-- **Acetylcholine** is the main neurotransmitter of the parasympathetic system, promoting relaxation and pupil constriction.
-
-By measuring changes in pupil size (pupillometry), researchers can infer activity in these neuromodulatory systems and gain insights into cognitive and emotional processes.
+### Pupil control
+Pupil size is set by the iris muscles and controlled by the autonomic nervous system; it balances how much light enters the eye with image sharpness (a small pupil gives more depth of field and a sharper image, a large pupil lets in more light). Pupil changes also reflect non‑visual states like mental effort, surprise, or emotional arousal — linked to brain arousal systems (for example the locus coeruleus and noradrenaline) — and these changes can be measured with pupillometry. When using or interpreting pupil measurements, remember that lighting, task difficulty, and emotional context all affect pupil size. 
 
 ## Eye Tracking and Pupillometry
 
@@ -104,14 +74,27 @@ Eye tracking is a technique used to measure where and how the eyes move, providi
 There are two main types of eye trackers:
 
 - **Mobile eye trackers:** Wearable devices (such as glasses) that allow for eye movement recording in natural, real-world environments. These are useful for studies involving movement, such as sports, navigation, or field research.  
-    ![Mobile Eye-Tracker](https://upload.wikimedia.org/wikipedia/commons/6/6e/Eye_tracking_glasses.jpg)  
-    *Figure 1: Example of mobile eye-tracking glasses. Image credit: Wikimedia Commons.*
 
-- **Stationary eye trackers:** Fixed devices, often mounted on a desk or integrated into a monitor, used in controlled laboratory settings. These are ideal for experiments on reading, visual search, or website usability.  
-    ![Stationary Eye-Tracker](https://upload.wikimedia.org/wikipedia/commons/3/3c/Eye_tracking_software.png)  
-    *Figure 2: Example of stationary eye-tracking software. Image credit: Wikimedia Commons.*
+![Mobile Eye-Tracker](book/figures/586a1627-kopi_crop.jpg)  
+*Figure 1: Mobile eye-tracking glasses in use during [MusicLab Abels KORK](https://www.uio.no/ritmo/english/projects/musiclab/2024/abels-kork/). Image credit: Simen Kjellin/UiO.*
+
+- **Stationary eye trackers:** Fixed devices, often mounted on a desk or integrated into a monitor, used in controlled laboratory settings. These are ideal for experiments on reading, visual search, or website usability.
+
+![Stationary Eye-Tracker](book/figures/_93a6401_crop.jpg)  
+*Figure 2: Example of stationary eye-tracking software.*
 
 Eye tracking data can reveal patterns of gaze, fixations, and saccades, helping researchers understand how people process visual information and allocate attention.
+
+### Gaze tracking
+
+Gaze refers to the direction in which a person is looking and is a key indicator of attention and focus. It plays a crucial role in understanding human behavior, communication, and cognitive processes. Gaze tracking is widely used in psychological studies to analyze visual attention and social interactions. [Learn more on Wikipedia](https://en.wikipedia.org/wiki/Gaze).
+
+![Gaze example](https://upload.wikimedia.org/wikipedia/commons/3/3c/Eye_tracking_software.png)
+
+Gaze motion is best described as a series of rapid jumps (saccades) from one position to another, interspersed with brief periods of fixation. Saccades are fast (about 30 ms), while fixations typically last around 300 ms. Other eye movements, such as smooth pursuit, allow the eyes to track moving objects, but this only occurs when there is an actual moving stimulus.
+
+The neural control of gaze involves a hierarchical network, from the brainstem’s superior colliculi (which coordinate eye muscle movements) to higher cortical regions like the frontal eye fields. The lateral intraparietal area in the parietal lobe is particularly important for voluntary shifts of gaze.
+
 
 ### Pupillometry
 
