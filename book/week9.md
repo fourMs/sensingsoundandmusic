@@ -17,63 +17,43 @@ Before delving into the anatomy of the eye or the use of eye tracking in music p
 
 In this course, it's important to distinguish between the terms *auditory/visual* and *audio/video*, as they refer to different domains:
 
-- **Audio/Video**: These terms relate to the technological capture, processing, and reproduction of sound and moving images.
-    - [**Audio**](https://en.wikipedia.org/wiki/Audio): Refers to the recording, transmission, and playback of sound signals, whether analog or digital. Audio is central to communication, media, and creative expression, and is often manipulated for clarity, compression, or artistic effect.
-    - [**Video**](https://en.wikipedia.org/wiki/Video): Involves the recording, processing, and display of moving images. Video is used for information sharing, storytelling, and entertainment, defined by parameters such as frame rate, resolution, and color depth.
+- **Audio/Video**: These terms relate to the technological capture, processing, and reproduction of sound and moving images. [Audio](https://en.wikipedia.org/wiki/Audio) refers to the recording, transmission, and playback of sound signals, whether analog or digital. [Video](https://en.wikipedia.org/wiki/Video) involves the recording, processing, and display of moving images. 
 
-- **Auditory/Visual**: These terms refer to the sensory modalities and the corresponding perceptual processes.
-    - [**Sound**](https://en.wikipedia.org/wiki/Sound): Mechanical vibrations transmitted through a medium (such as air or water) and detected by the auditory system. Sound is characterized by properties like frequency (pitch), amplitude (loudness), and timbre (quality).
-    - [**Light**](https://en.wikipedia.org/wiki/Light): Electromagnetic radiation within the visible spectrum, enabling us to perceive color, shape, and movement. Light’s wavelength and intensity determine our perception of brightness and color.
+- **Auditory/Visual**: These terms denote the biological sensory modalities and their perceptual processes. The [auditory system](https://en.wikipedia.org/wiki/Auditory_system) transduces air-pressure fluctuations (sound) into neural signals that encode pitch, loudness, timbre and spatial position. The [visual system](https://en.wikipedia.org/wiki/Visual_system) transduces visible electromagnetic radiation (light) into neural representations of luminance, color, form, motion and depth. Perception arises from both the physical properties of stimuli (frequency/wavelength, intensity) and neural processing (adaptation, attention, context), and underlies how we integrate cues across senses.
 
 Understanding both the physical phenomena (sound and light), how they are perceived (through auditory and visual modalities) and their technical representations (audio and video) is crucial for grasping how audiovisual systems function and how humans perceive and interact with their environment—particularly in music, where the integration of auditory and visual information shapes our experience.
 
 ### Integration of Senses
 
-- **Auditory-visual integration**: The brain's ability to combine auditory and visual information, enhancing perception and comprehension. This is crucial in activities such as speech perception and multimedia experiences. [Learn more on Wikipedia](https://en.wikipedia.org/wiki/Audiovisual)
-- **Multimodal perception**: The integration of information from multiple sensory modalities (e.g., sight, sound, touch) to form a unified understanding of the world. [Learn more on Wikipedia](https://en.wikipedia.org/wiki/Multimodal_perception)
-- **Crossmodal effects**: Interactions between different sensory modalities, such as the McGurk effect—a phenomenon where conflicting auditory and visual speech cues produce a third, distinct perception. [Learn more on Wikipedia](https://en.wikipedia.org/wiki/McGurk_effect)
+Auditory–visual integration describes the brain’s ability to combine sound and sight to enhance perception and comprehension; this process is essential for tasks like speech perception and for richer multimedia experiences. 
 
-These concepts illustrate the complex ways in which our senses work together, shaping our experiences in both everyday life and artistic contexts.
+[Multimodal perception](https://en.wikipedia.org/wiki/Multimodal_perception) refers to the integration of information from multiple sensory modalities (e.g., sight, sound, touch) to form a unified understanding of the world. 
 
+Some interesting crossmodal effects can come out of such multimodal perception. One famous example of an auditory-visual illusion is the [McGurk effect](https://en.wikipedia.org/wiki/McGurk_effect). Check this video: 
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/2k8fHR9jKVM?si=KVW2W2XM8fIrcPtR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+When the visual mouth movements of one speech sound are paired with the acoustic signal of another, observers often perceive a third, fused sound (classically: audio "ba" + visual "ga" → perceived "da"). It illustrates that vision can alter basic perceptual interpretation of sound, not just higher‑level judgments. The effect arises because the brain combines temporally coincident but conflicting cues across modalities within a limited temporal window; cortical areas such as the superior temporal sulcus are implicated in resolving the mismatch. Factors that modulate the effect include timing (asynchrony reduces fusion), signal clarity (degraded audio strengthens visual influence), attention, and individual differences (e.g., lip‑reading skill). 
+
+In music contexts the same principles explain why seeing a performer’s gestures, facial movements, or instrument actions can change perceived onset, articulation, or expressiveness of sound. 
 
 ## The Eye
 
 ### Anatomy of the Eye
 
-The human eye is a highly evolved optical organ that focuses light onto the retina, its photosensitive inner surface, enabling us to see with remarkable clarity. The eye adapts dynamically to changing light conditions: in bright environments, the pupil constricts to sharpen the image and reduce optical distortions; in dim light, it dilates to maximize the number of photons reaching the retinal photoreceptors.
+The [human eye](https://en.wikipedia.org/wiki/Human_eye) is a highly evolved optical organ that focuses light onto the [retina](https://en.wikipedia.org/wiki/Retina), its photosensitive inner surface, enabling us to see with remarkable clarity. The eye adapts dynamically to changing light conditions: in bright environments the pupil constricts to sharpen the image and reduce optical distortions; in dim light it dilates to maximize the number of photons reaching the retinal photoreceptors.
 
-Vision has independently evolved in many animal lineages since the Cambrian period (about 485 million years ago), yet all eyes share the light-sensitive molecule rhodopsin, which converts light into electrical signals within the retina’s rods and cones.
+Humans, as diurnal animals, possess eyes with high optical resolution—surpassed only by a few species, such as birds of prey. During evolution, the human [cornea](https://en.wikipedia.org/wiki/Cornea) (the transparent front surface of the eye) became the primary structure for image formation, while the [lens](https://en.wikipedia.org/wiki/Lens_(vertebrate_anatomy)), located just behind the pupil, fine-tunes the focus so that images are sharply projected onto the retina.
 
-Humans, as diurnal animals, possess eyes with high optical resolution—surpassed only by a few species, such as birds of prey.
-
-![An owl.](https://ugc.futurelearn.com/uploads/assets/d0/82/d082dbc1-9bd6-4ed8-b663-9bba01c2158f.jpg)
-
-During evolution, the human cornea (the transparent front surface of the eye) became the primary structure for image formation, while the lens, located just behind the pupil, fine-tunes the focus so that images are sharply projected onto the retina.
-
-The iris, a ring of pigmented muscle tissue, controls the size of the pupil. Its main function is not simply to regulate brightness, but to ensure optimal visual resolution under varying lighting conditions. The pupil’s diameter ranges from about 2 to 8 mm, yet natural light levels can vary by a factor of a million (e.g., from moonlight to sunlight).
+The [iris](https://en.wikipedia.org/wiki/Iris_(anatomy)), a ring of pigmented muscle tissue, controls the size of the [pupil](https://en.wikipedia.org/wiki/Pupil). Its main function is not simply to regulate brightness, but to ensure optimal visual resolution under varying lighting conditions. The pupil’s diameter ranges from about 2 to 8 mm, yet natural light levels can vary by a factor of a million (e.g., from moonlight to sunlight).
 
 ![Anatomy of the Eye.](https://ugc.futurelearn.com/uploads/assets/7f/c9/7fc903cd-b4f5-4d77-a1e7-98ccae56b9bf.jpg)
+The retina has cones (three types for color), rods (low‑light sensitivity) and melanopsin cells (overall light level). These photoreceptors drive pupil control via two opposing iris muscle groups:
 
-The retina contains three types of cones (each sensitive to different color ranges), rods (sensitive to low light), and melanopsin receptors (sensitive to overall light intensity). Based on input from these photoreceptors, the brain regulates pupil size by sending excitatory and inhibitory signals to two opposing muscle groups in the iris:
+- Radial (dilator pupillae) — sympathetic activation → dilation (mydriasis)  
+- Circular (sphincter/constrictor pupillae) — parasympathetic activation → constriction (miosis)
 
-- **Radial muscles (dilator pupillae):** Controlled by the sympathetic nervous system, these muscles dilate the pupil.
-- **Circular muscles (sphincter/constrictor pupillae):** Controlled by the parasympathetic nervous system, these muscles constrict the pupil.
-
-For example, pupil constriction (miosis) can result from activating the constrictor or inhibiting the dilator, while dilation (mydriasis) results from the opposite pattern.
-
-Optimal visual resolution in humans is achieved when the pupil is about 3 mm in diameter. As the pupil dilates toward its maximum size (about 8 mm), resolution decreases, but dilation is necessary in low-light conditions to maximize light intake.
-
-Unlike some animals that can control each pupil independently, human pupil adjustments are consensual—both pupils respond together, even if only one is exposed to light.
-
-Sudden increases in illumination (such as a camera flash) trigger the **pupillary light reflex (PLR)**—a rapid constriction of the pupil. This reflex is analogous to a camera’s aperture adjusting to light levels for optimal image capture.
-
-![A camera.](https://ugc.futurelearn.com/uploads/assets/70/14/7014765e-8c18-4290-af96-bdc13c318a74.jpg)
-
-The pupil also constricts automatically when focusing on nearby objects (within about 6 meters), a phenomenon known as the **pupillary near response (PNR)**. This increases depth of field and reduces blur, similar to how a camera’s smaller aperture brings more of a scene into focus, though at the cost of requiring more light or a longer exposure.
-
-Constriction of the pupils also serves as a protective mechanism, shielding the retina from excessive light that could cause damage.
-
-Interestingly, while we cannot voluntarily control our pupil size directly, it can be influenced indirectly by mental imagery or cognitive effort. For example, imagining a bright scene or performing mental arithmetic can cause the pupils to constrict or dilate, respectively.
+Pupil size trades off light intake and visual resolution: ~3 mm gives optimal resolution; dilation toward ~8 mm increases light but reduces acuity. Pupil responses are consensual (both eyes react even if only one is lit). Sudden bright light triggers the pupillary light reflex (PLR); focusing on near objects triggers the pupillary near response (PNR), which increases depth of field. Pupils also reflect non‑visual factors: cognitive effort, emotion, or imagining brightness can cause measurable dilation or constriction.
 
 ### Gaze
 

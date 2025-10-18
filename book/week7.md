@@ -1,10 +1,6 @@
 ---
 title: "Week 7: The Body"
 subtitle: Exploring the Role of the Body in Music Performance, Perception, and Analysis
-authors: 
-  - name: Alexander Refsum Jensenius
-    affiliation: 
-      - University of Oslo
 description: "An introduction to the fundamental role of body motion in music performance, perception, and analysis, covering anatomy, biomechanics, motion capture technologies, and research methods for studying music-related movement."
 exports:
  - format: pdf

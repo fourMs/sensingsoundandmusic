@@ -1,4 +1,19 @@
-# Week 10: Physiology
+---
+title: "Week 10: Physiology"
+subtitle: "Physiology and measurement of bodily responses to music"
+description: "Physiology and measurement of bodily responses to music: skin conductance, cardiac dynamics (heart rate, heart‑rate variability, synchronization), respiration effects, wearable monitoring methods (e.g., Equivital), and representative empirical studies and citations."
+exports:
+  - format: pdf
+---
+
+This week we explore how the body responds to sound and music, from fast autonomic reactions to slower respiratory and motor changes. We will examine physiological markers (heart rate and heart‑rate variability, skin conductance, respiration, blood pressure, and vocal/EGG measures), the physiological mechanisms that produce them (sympathetic/parasympathetic balance, entrainment, respiration–voice interactions), and methodological issues in measuring these signals in laboratory and concert settings.
+
+Learning objectives
+- Describe common physiological measures used in music research (ECG, HRV, SCR/GSR, RIP respiration, EGG) and the hypotheses they test.
+- Explain basic autonomic mechanisms (sympathetic vs parasympathetic) and how music can shift their balance.
+- Evaluate practical measurement considerations (sensor placement, movement artefacts, synchronization across performers/audience, wearable systems such as the Equivital LifeMonitor).
+- Perform simple pre‑processing and interpretation of heart‑rate and skin‑conductance time series and report findings.
+
 
 ## Physiological Reactions to Music
 
