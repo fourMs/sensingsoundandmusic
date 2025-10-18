@@ -212,6 +212,23 @@ These practitioners have contributed to both artistic and academic developments 
 
 Let us conclude this week by summarizing how we can capture and represent sound in different ways. This can include written descriptions, visual representations, and audio recordings. Each approach offers unique insights into the qualities and context of sounds.
 
+### Describing sounds
+
+1. **Soundscape vs. Sound Event:**  Decide on whether you want to describe a *soundscape* (all sounds at a location) or a *sound event* (sound from a specific source). 
+2. **Listening Modes:** Select whether you are (1) identifying the source of sound (“What was that?”), (2) listening for meaning (alarms, signals), (3) listening for features (describe sound traits). 
+
+As for the latter, one approach to doing this could be using the [DIP TiPS](https://www.nps.gov/teachers/classrooms/young-sound-seekers-dip-tips.htm) for describing sounds:
+
+| Attribute  | Description         | Range/Examples        |
+|------------|--------------------|----------------------|
+| Duration   | Length of sound    | Short – Long         |
+| Intensity  | Loudness           | Soft – Loud          |
+| Pitch      | Frequency          | Low – High           |
+| Timbre     | Sound quality      | Pure – Noisy         |
+| Pattern    | Repetition/Order   | Regular – Irregular  |
+| Speed      | Tempo              | Slow – Fast          |
+
+
 ### Writing about sound
 
 Writing about sound is a way to translate auditory experiences into language. This can involve:
@@ -222,6 +239,8 @@ Writing about sound is a way to translate auditory experiences into language. Th
 - **Analytical writing**: Break down the sound into its components (e.g., pitch, rhythm, timbre, dynamics) and discuss its structure or function.
 
 Writing helps clarify your listening experience and can be used for research, creative projects, or personal reflection.
+
+
 
 ### Drawing sounds
 
