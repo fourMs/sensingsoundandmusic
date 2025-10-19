@@ -109,7 +109,7 @@ Gaze is a useful proxy for attention but not a perfect synonym—people can cove
 
 *Checking the pupil size before [MusicLab Copenhagen](https://www.uio.no/ritmo/english/projects/musiclab/2024/abels-kork/index.html).*
 
-Daniel Kahneman ([Wikipedia](https://en.wikipedia.org/wiki/Daniel_Kahneman)), Nobel laureate and author of *[Thinking, Fast and Slow](https://en.wikipedia.org/wiki/Thinking,_Fast_and_Slow)*, once remarked: 
+[Daniel Kahneman](https://en.wikipedia.org/wiki/Daniel_Kahneman), Nobel laureate (2002) and author of *[Thinking, Fast and Slow](https://en.wikipedia.org/wiki/Thinking,_Fast_and_Slow)* (2011), once remarked:
 
 > "The pupils reflect the extent of mental effort in an incredibly precise way [...] I have never done any work in which the measurement is so precise."
 
