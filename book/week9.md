@@ -71,16 +71,14 @@ Pupil size is set by the iris muscles and controlled by the autonomic nervous sy
 
 Eye tracking is a technique used to measure where and how the eyes move, providing insights into visual attention, perception, and cognitive processes. Eye trackers are widely used in psychology, neuroscience, marketing, usability studies, and human-computer interaction.
 
-There are two main types of eye trackers:
+There are two main types of eye trackers: mobile and stationary. **Mobile eye trackers** are wearable devices (such as glasses) that allow for eye movement recording in natural, real-world environments. These are useful for studies involving movement, such as sports, navigation, or field research.  
 
-- **Mobile eye trackers:** Wearable devices (such as glasses) that allow for eye movement recording in natural, real-world environments. These are useful for studies involving movement, such as sports, navigation, or field research.  
-
-![Mobile Eye-Tracker](book/figures/586a1627-kopi_crop.jpg)  
+![Mobile Eye-Tracker](figures/586a1627-kopi_crop.jpg)  
 *Figure 1: Mobile eye-tracking glasses in use during [MusicLab Abels KORK](https://www.uio.no/ritmo/english/projects/musiclab/2024/abels-kork/). Image credit: Simen Kjellin/UiO.*
 
-- **Stationary eye trackers:** Fixed devices, often mounted on a desk or integrated into a monitor, used in controlled laboratory settings. These are ideal for experiments on reading, visual search, or website usability.
+**Stationary eye trackers** are fixed devices, often mounted on a desk or integrated into a monitor, used in controlled laboratory settings. These are ideal for experiments on reading, visual search, or website usability.
 
-![Stationary Eye-Tracker](book/figures/_93a6401_crop.jpg)  
+![Stationary Eye-Tracker](figures/_93a6401_crop.jpg)  
 *Figure 2: Example of stationary eye-tracking software.*
 
 Eye tracking data can reveal patterns of gaze, fixations, and saccades, helping researchers understand how people process visual information and allocate attention.
@@ -90,6 +88,7 @@ Eye tracking data can reveal patterns of gaze, fixations, and saccades, helping 
 [Gaze](https://en.wikipedia.org/wiki/Gaze) denotes the direction of a person’s visual attention and is a primary observable proxy for where cognitive resources are allocated. In music research, gaze reveals what performers and listeners attend to (hands, face, score, conductor), how information is sampled over time, and how visual cues shape auditory perception.
 
 ![Gaze tracking](figures/hero_f60f7de1-4cda-47f7-98bc-f5415956abde.JPG)
+
 *Eye fixations of different individuals (color circles) and for different durations (size of each circle). Image credit: Bruno Laeng/UiO.*
 
 Key gaze events and properties: 
@@ -107,7 +106,8 @@ Gaze is a useful proxy for attention but not a perfect synonym—people can cove
 [Pupillometry](https://en.wikipedia.org/wiki/Pupillometry) is the measurement of pupil size and its changes over time. Because the pupil responds not only to light but also to cognitive and emotional states, pupillometry is a valuable tool for studying mental effort, arousal, and attention.
 
 ![Pupillometry example](figures/hero_7c46327d-c031-442b-81dc-32761f3c91eb.jpg)
-*Pupillometry during [MusicLab Copenhagen](https://www.uio.no/ritmo/english/projects/musiclab/2024/abels-kork/index.html).*
+
+*Checking the pupil size before [MusicLab Copenhagen](https://www.uio.no/ritmo/english/projects/musiclab/2024/abels-kork/index.html).*
 
 Daniel Kahneman ([Wikipedia](https://en.wikipedia.org/wiki/Daniel_Kahneman)), Nobel laureate and author of *[Thinking, Fast and Slow](https://en.wikipedia.org/wiki/Thinking,_Fast_and_Slow)*, once remarked: 
 
@@ -134,5 +134,5 @@ These examples illustrate the practical applications of eye tracking and pupillo
 1. How do visual cues influence our perception and interpretation of musical performances?
 2. What are the main anatomical structures of the human eye involved in vision, and how do they contribute to image formation?
 3. Explain the difference between audio/video and auditory/visual in the context of music perception and technology.
-4. How can eye tracking and pupillometry be used to study cognitive and emotional processes during music listening or performance?
+4. How can eye tracking and pupillometry be used to study music performance and perception?
 5. What is the role of the autonomic nervous system in controlling pupil size, and how does this relate to attention and arousal?
