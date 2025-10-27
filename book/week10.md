@@ -79,7 +79,7 @@ Do you experience chills when listening to music? Are there are any particular s
 
 ### Tingling sensations
 
-[ASMR (autonomous sensory meridian response)](https://en.wikipedia.org/wiki/Autonomous_sensory_meridian_response) refers to a set of pleasurable, often tingling sensations and deep relaxation elicited by soft, intimate auditory and multimodal cues&mdash;whispering, close‑mic breathing, gentle tapping, slow movements and binaural spatialization&mdash;that overlap with some musical timbral and production techniques. 
+[Autonomous sensory meridian response)](https://en.wikipedia.org/wiki/Autonomous_sensory_meridian_response) (ASMR) is another phenomenon that has received attention in recent years. It refers to a set of pleasurable, often tingling sensations and deep relaxation elicited by soft, intimate auditory and multimodal cues&mdash;whispering, close‑mic breathing, gentle tapping, slow movements and binaural spatialization&mdash;that overlap with some musical timbral and production techniques. 
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/PThdJiPaM_g?si=zyhlrpAQA5MNLQaL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
@@ -90,23 +90,21 @@ When comparing ASMR to frisson/chills, note they can co‑occur but differ pheno
 
 ## Measuring physiological reactions
 
-There are numerous physiological measures that can be measured. Here we will look at some of the more popular ones. 
+There are numerous physiological measures that can be measured. Here we will look at some of the more popular ones that are used in music research.
 
 ### Heart activity 
 
-[Electrocardiography](https://en.wikipedia.org/wiki/Electrocardiography) ([ECG]) is the standard way to measure the heart: electrodes on the chest pick up the electrical signal of each heartbeat and give very precise R‑peak timing. From those R–R intervals you can compute instantaneous heart rate and fine beat‑to‑beat dynamics. 
+There are two main types of measuring heart activity. The classic approach is to measure the electrical signal using [electrocardiography](https://en.wikipedia.org/wiki/Electrocardiography) ([ECG]). Electrodes placed on the chest pick up the electrical signal of each heartbeat, which can be described as a PQRST signal, where the distance between the R peaks (the R–R interval) describes the heart rate. 
 
-[Photoplethysmography](https://en.wikipedia.org/wiki/Photoplethysmography) (PPG) is a different way of measuring heart activity, using wearable optical sensors on the wrist (like in sports watches), finger or ear can track heart rate comfortably and well at rest, but they are more sensitive to motion and less reliable for short‑term HRV or spectral analyses. 
+![heart signal](https://upload.wikimedia.org/wikipedia/commons/9/9e/SinusRhythmLabels.svg)
 
-In general, one should use ECG when you need millisecond timing (common sampling: 250–1000 Hz). PPG is OK for simple heart‑rate tracking (common sampling: 50–200 Hz).
+*An illustration of a typical heart signal. From [Wikipedia](https://en.wikipedia.org/wiki/Electrocardiography#/media/File:SinusRhythmLabels.svg).*
 
-Heart rate (HR) is conventionally reported in beats per minute (bpm). Typical resting adult HR is ~60–100 bpm (well‑trained athletes commonly 40–60 bpm; infants and children are considerably higher), and HR can change by a few to several tens of bpm with arousal, movement or exercise. 
+Nowadays, many people wear watches with built-in [photoplethysmography](https://en.wikipedia.org/wiki/Photoplethysmography) (PPG), which measures the heart rate using optical sensors. These are flexible in that they can measure on the wrist, finger or ear. However, they are more sensitive to motion thatn ECG and less reliable for short‑term HRV or spectral analyses. In general, one should use ECG when needing a clean and high-quality signal, while PPG is sufficient for simple heart‑rate tracking.
 
-Report each participant’s baseline heart rate and use within‑subject normalization because resting HR and reactivity vary with age, fitness, medication and posture. For experiments, typical analyses look at event‑locked heart‑rate windows (e.g., peak/trough magnitude and latency after a musical cue), and time‑resolved HRV to follow slow changes across a piece.
+Heart rate (HR) is conventionally reported in beats per minute (bpm). Typical resting adult HR is ~60–100 bpm (well‑trained athletes commonly 40–60 bpm; infants and children are considerably higher), and HR can change by a few to several tens of bpm with arousal, movement or exercise. When measuring heart rate, it is therefore important to measure a baseline heart rate and use within‑subject normalization to compensate for differences in resting HR and fitness level. 
 
-Heart‑rate variability (HRV) gives complementary information about autonomic balance. Simple time‑domain measures like RMSSD and SDNN are easy to compute; RMSSD (and high‑frequency power in the frequency domain) mainly reflect vagal (parasympathetic) influence and breathing‑linked modulation (respiratory sinus arrhythmia). Low‑frequency power and LF/HF ratios are harder to interpret and need caution. Always record respiration or a respiratory proxy to separate true vagal effects from breathing‑driven rhythms.
-
-For music studies, prefer event‑locked and time‑resolved analyses rather than only long averages, and consider joint models that include respiration and movement (EMG or accelerometry) so you can tell apart autonomic from metabolic or motor effects. Finally, report effect sizes and uncertainty (confidence intervals or bootstrapped estimates) and describe preprocessing steps clearly so results are reproducible.
+Heart‑rate variability (HRV) gives complementary information about autonomic balance. However, since it varies so much based on the heart rate, it is important to always to analyse it with respect to respiration and/or motion data to tell apart autonomic from metabolic or motor effects. 
 
 ```{admonition} Fun fact
 :class: note
