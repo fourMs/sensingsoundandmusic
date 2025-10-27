@@ -35,7 +35,28 @@ Individual differences and situational factors determine response variability. B
 
 ### Experiencing chills
 
-In recent years interest has grown in musical chills (frisson)—brief peak‑emotional responses often reported as goosebumps, shivers, or a cold sensation along the spine. These events are accompanied by transient autonomic signatures such as brief rises in skin conductance, short‑lived heart‑rate and respiration changes, pupil dilation and observable piloerection, and neuroimaging work links them to reward circuits (e.g., nucleus accumbens). Chills are typically triggered by salient musical features—unexpected harmonic shifts, climactic crescendos, intimate vocal timbres, or passages tied to personal memories—and they vary widely across listeners depending on personality, familiarity, context and attention. Empirical study benefits from combining time‑locked subjective reports with synchronized physiological measures (EDA, ECG/PPG, respiration, and, where feasible, video or specialized piloerection sensors) and using event‑related analyses to capture their rapid, phasic nature.
+In recent years interest has grown in musical chills ([frisson](https://en.wikipedia.org/wiki/Frisson)), which are brief peak‑emotional responses often reported as goosebumps, shivers, or a cold sensation along the spine. These events are accompanied by transient autonomic signatures such as brief rises in skin conductance, short‑lived heart‑rate and respiration changes, pupil dilation and observable piloerection, and neuroimaging work links them to reward circuits (e.g., nucleus accumbens). Chills are typically triggered by salient musical features—unexpected harmonic shifts, climactic crescendos, intimate vocal timbres, or passages tied to personal memories—and they vary widely across listeners depending on personality, familiarity, context and attention. 
+
+```{admonition} Question
+:class: question
+Do you experience chills when listening to music? Are there are any particular songs or musical features that more easily evoke chills?
+```
+
+
+
+### Tingling sensations
+
+[ASMR (autonomous sensory meridian response)](https://en.wikipedia.org/wiki/Autonomous_sensory_meridian_response) refers to a set of pleasurable, often tingling sensations and deep relaxation elicited by soft, intimate auditory and multimodal cues—whispering, close‑mic breathing, gentle tapping, slow movements and binaural spatialization—that overlap with some musical timbral and production techniques. 
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/PThdJiPaM_g?si=zyhlrpAQA5MNLQaL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+In sound and music research ASMR is relevant because its triggers highlight how micro‑acoustic features (low‑level dynamics, spectral detail, and spatial cues) and perceived interpersonal closeness modulate autonomic state. Many listeners report calming, parasympathetic effects (slower breathing, lowered heart rate) alongside transient markers such as piloerection and occasional phasic skin‑conductance rises. 
+
+When comparing ASMR to frisson/chills, note they can co‑occur but differ phenomenologically and physiologically: ASMR is typically soothing and prolonged, whereas frisson is brief and strongly reward‑linked, so analyses should treat them as distinct response classes and include timing, valence and arousal measures to disambiguate their profiles.
+
+### Interpersonal physiological responses
+
+Music powerfully fosters social bonding through behavioral and physiological synchrony: shared tempo, phrasing and movement can align breathing, heart rate, skin conductance and even neural activity across listeners and performers. Joint activities (singing, drumming, group listening) enhance interpersonal coupling and prosocial outcomes, with mechanisms that likely include sensorimotor entrainment, affective contagion and social appraisal, and in some cases neuroendocrine modulation (e.g., oxytocin). Empirically, interpersonal responses are operationalized as time‑resolved covariation (cross‑correlation, windowed coherence, phase‑locking) of physiological signals and are strongest when interaction, attention and emotional engagement are high. Methodologically, studies should use dyadic and group designs that include baseline and solo controls, quantify coupling with robust statistics and permutation tests, and explicitly control for shared stimulus drives, movement artifacts and common environmental influences to distinguish true social synchronization from coincident responses to the same music.
 
 ## Measuring physiological reactions
 
