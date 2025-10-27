@@ -11,6 +11,14 @@ This week we explore how the body responds to sound and music, from fast autonom
 
 ## Physiological Reactions to Music
 
+[Physiology](https://en.wikipedia.org/wiki/Physiology) is the branch of biology that studies the functions and processes of living organisms and their parts (organs, tissues, [cells](https://en.wikipedia.org/wiki/Cell_(biology))). It explains how structures work, how they interact, and how systems maintain [homeostasis](https://en.wikipedia.org/wiki/Homeostasis). The term originates from Greek [φύσις](https://en.wikipedia.org/wiki/Physis) (physis) “nature, growth” and [λόγος](https://en.wikipedia.org/wiki/Logos) (logos) “study, account.” Classical authors, like [Aristotle](https://en.wikipedia.org/wiki/Aristotle), described bodily functions. Modern experimental physiology developed from the 17th century with influential figures such as [William Harvey](https://en.wikipedia.org/wiki/William_Harvey) (blood circulation) and [Claude Bernard](https://en.wikipedia.org/wiki/Claude_Bernard) (the concept of the “milieu intérieur” or internal environment).
+
+
+```{admonition} Question
+:class: question
+Have you experienced any physiological reactions to music?
+```
+
 ### Autonomic mechanisms: sympathetic vs. parasympathetic
 The [autonomic nervous system](https://en.wikipedia.org/wiki/Autonomic_nervous_system) (ANS) controls many automatic bodily functions. It has two main branches with generally opposite roles: the [sympathetic](https://en.wikipedia.org/wiki/Sympathetic_nervous_system) branch  mobilizes the body for action—raising heart rate and blood pressure, increasing sweating, and redirecting blood to muscles; the [parasympathetic](https://en.wikipedia.org/wiki/Parasympathetic_nervous_system) branch, chiefly via the [vagus nerve](https://en.wikipedia.org/wiki/Vagus_nerve), promotes rest and recovery—slowing the heart, aiding digestion, and supporting calm, restorative states.
 
