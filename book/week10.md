@@ -156,45 +156,16 @@ Here is a comparison of the above mentioned signals, what they capture and their
 | Skin temperature | Peripheral vasoconstriction/vasodilation, thermoregulation | Thermistors, thermocouples, infrared sensors (skin sites) | 1–10 | Reflects slow vasomotor changes; strongly affected by ambient conditions and clothing; useful for longer trends, not phasic responses |
 | EMG | Muscle activation, tension, facial expressions, vocal‑tract activity | Surface bipolar electrodes (or intramuscular for depth) | ≥1000 (typical) | High temporal resolution to dissociate motor from autonomic effects; requires careful placement, normalization, and artifact control (crosstalk, movement) |
 
-Typical study uses: cardiac (ECG/PPG) for HR/HRV and entrainment; EDA for arousal/phasic SCRs; respiration to disambiguate RSA and assess breathing entrainment; skin temp for slow autonomic/vasomotor trends; EMG to control motor confounds and capture expressive gestures; EEG for cortical correlates of perception/attention.
+At RITMO, most of our studies are based on comparing heart rate (from ECG), respiration (from RIP belts), temperature (from belts or thermal cameras), and muscle activation (from EMG). We typically also always record these in combination with accelerometry and audio/video documentation so that we are able to correct for contextual factors. 
 
-## Conclusion
+None of the physiological signals are easy to work with, so it requires a lot of pre-processing and analysis to get meaningful results. The benefit is that we can learn much more about human experience of sound and music, with signals that are at least easier to interpret than brain measurements. 
 
-ECG / PPG (heart rate, HRV): Records heartbeats and beat‑to‑beat variability and is used to index arousal and to test whether listeners’ heart rhythms entrain to music or performers; practical notes&mdash;ECG gives precise R‑peaks and is preferred for HRV, PPG is more wearable but motion‑sensitive, and heart signals are strongly affected by respiration and movement so always record respiration concurrently and minimize motion.
 
-EDA / GSR (skin conductance): Measures tiny changes in skin conductance from sweat‑gland activity and is useful because phasic peaks mark sudden arousal or surprise while tonic level indexes sustained arousal; practical notes&mdash;signals show slow baseline drift, are sensitive to room temperature and electrode contact, and require stable placement and preprocessing to separate tonic and phasic components.
-
-Respiration: Tracks breathing rate, depth and phase and is essential for determining whether heart‑rate changes arise from respiratory sinus arrhythmia or from other autonomic processes and for assessing entrainment to tempo or phrasing; practical notes&mdash;use belt or nasal sensors that resolve phase, record at sufficient sampling rate, and always synchronize respiration with ECG/EDA to disambiguate effects.
-
-Skin temperature: Measures peripheral skin temperature that reflects slow vasomotor changes (stress vs. relaxation) over minutes rather than phasic responses; practical notes&mdash;changes are gradual and strongly influenced by ambient temperature, clothing and local blood flow, so report sensor site and room conditions and use temperature mainly for longer‑term trends alongside other autonomic measures.
-
-EMG (muscle activity): Records skeletal muscle activation (face, jaw, limbs) and is useful for detecting expressive gestures and separating motor artifacts from autonomic signals; practical notes&mdash;movement creates large artifacts, electrodes require careful placement and normalization (e.g., MVC), and high sampling rates and filtering are needed to control crosstalk and noise.
-
-Keep analyses simple and reproducible: always report what you measured, exact sensor placement, sampling rates, baseline procedures and any movement or physiological controls so musical effects can be interpreted reliably.
 
 ## Questions
 
-```{admonition} Question
-:class: question
-Which combination of sensors (ECG/PPG, EDA, respiration, EMG, temperature) and sampling rates would you choose to study musical chills, and why?
-```
-
-```{admonition} Question
-:class: question
-How would you control for and analyze respiration to avoid misinterpreting respiratory sinus arrhythmia as changes in vagal tone or HRV?
-```
-
-```{admonition} Question
-:class: question
-What preprocessing steps and artifact checks would you apply to EDA and ECG/PPG data before computing SCRs, heart rate and HRV metrics?
-```
-
-```{admonition} Question
-:class: question
-Design a simple experimental contrast and control conditions to test interpersonal physiological synchronization during live ensemble performance versus solo listening.
-```
-
-```{admonition} Question
-:class: question
-Which subjective questions and objective markers would you include to reliably distinguish frisson (chills) from ASMR in your dataset?
-```
+1. What are the differences between heart rate and heart variability? 
+2. How would you design an experiment to test cardiac and respiratory entrainment to tempo changes in live performance?
+3. Which objective (physiological) and subjective measures would you combine to distinguish frisson (chills) from ASMR?
+4. What environmental and participant confounds must be controlled when using thermal imaging or skin temperature to infer autonomic responses?
+5. How would you analyze respiration to avoid misinterpreting the data? 
