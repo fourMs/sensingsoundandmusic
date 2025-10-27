@@ -102,55 +102,47 @@ There are two main types of measuring heart activity. The classic approach is to
 
 Nowadays, many people wear watches with built-in [photoplethysmography](https://en.wikipedia.org/wiki/Photoplethysmography) (PPG), which measures the heart rate using optical sensors. These are flexible in that they can measure on the wrist, finger or ear. However, they are more sensitive to motion thatn ECG and less reliable for short‑term HRV or spectral analyses. In general, one should use ECG when needing a clean and high-quality signal, while PPG is sufficient for simple heart‑rate tracking.
 
-Heart rate (HR) is conventionally reported in beats per minute (bpm). Typical resting adult HR is ~60–100 bpm (well‑trained athletes commonly 40–60 bpm; infants and children are considerably higher), and HR can change by a few to several tens of bpm with arousal, movement or exercise. When measuring heart rate, it is therefore important to measure a baseline heart rate and use within‑subject normalization to compensate for differences in resting HR and fitness level. 
-
-Heart‑rate variability (HRV) gives complementary information about autonomic balance. However, since it varies so much based on the heart rate, it is important to always to analyse it with respect to respiration and/or motion data to tell apart autonomic from metabolic or motor effects. 
-
 ```{admonition} Fun fact
 :class: note
 The heart pumps around 7,500 liters per day for an average adult at rest.
 ```
 
+Heart rate (HR) is conventionally reported in beats per minute (bpm). Typical resting adult HR is ~60–100 bpm (well‑trained athletes commonly 40–60 bpm; infants and children are considerably higher), and HR can change by a few to several tens of bpm with arousal, movement or exercise. When measuring heart rate, it is therefore important to measure a baseline heart rate and use within‑subject normalization to compensate for differences in resting HR and fitness level. 
+
+Heart‑rate variability (HRV) gives complementary information about autonomic balance. However, since it varies so much based on the heart rate, it is important to always to analyse it with respect to respiration and/or motion data to tell apart autonomic from metabolic or motor effects. 
+
 
 ### Respiration
 
-Respiration is the record of how people breathe&mdash;how fast (breathing rate), how deep (tidal volume), and when they inhale and exhale (timing/phase). Common measurement methods include [spirometry](https://en.wikipedia.org/wiki/Spirometer) (direct airflow and volume measurements), respiratory inductance plethysmography (RIP) belts, nasal cannula or capnography, and impedance pneumography. Spirometers give precise flow/volume but require a mouthpiece and are intrusive. RIP belts are comfortable and robust for phase and timing but less accurate for absolute volume. Nasal/capnography provide precise airflow timing but can feel intrusive. For music studies using a belt is often most feasible.
+[Respiration](https://en.wikipedia.org/wiki/Respiration_(physiology)) is the record of how people breathe. The main respiration variables to look at are breathing rate (how many breaths per minute), tidal depth (how big each breath is), the timing of inhalation versus exhalation, and instantaneous breathing phase (where in the breath cycle you are at any moment). Typical resting adult values to report: breathing rate ≈ 12–20 breaths/min, tidal volume ≈ 400–600 mL per breath, and an inspiratory:expiratory ratio around 1:2 (inspiration ≈1.5–2.0 s, expiration ≈2.5–3.5 s at ~12 bpm). 
 
-The main respiration variables to look at are breathing rate (how many breaths per minute), tidal depth (how big each breath is), the timing of inhalation versus exhalation, and instantaneous breathing phase (where in the breath cycle you are at any moment). Typical resting adult values to report: breathing rate ≈ 12–20 breaths/min, tidal volume ≈ 400–600 mL per breath, and an inspiratory:expiratory ratio around 1:2 (inspiration ≈1.5–2.0 s, expiration ≈2.5–3.5 s at ~12 bpm). 
+A common respiration measurement device is the [spirometer](https://en.wikipedia.org/wiki/Spirometer), which give precise measurements of air flow/volume. However, it requires a mouthpiece and are therefore not very practical for musical purposes. Then, a [respiratory inductance plethysmography](https://en.wikipedia.org/wiki/Plethysmograph) (RIP) belt is more practical as it can be fit around the chest. It captures respiration phase and timing well, but is less accurate for absolute long volume. 
 
-Music changes breathing in intuitive ways: slow, calm music and long phrases tend to slow breathing and make breaths deeper, while fast or strongly accented music tends to speed breathing and shift when people inhale. These changes can be subtle and depend on attention, task (listening vs. singing/dancing), and individual differences, so include control or baseline recordings when possible.
+![Equivital](https://equivital.com/wp-content/uploads/2020/07/product-points-eqlifemonitor.jpg)
 
-Respiration matters not only on its own but because it affects the heart. Breathing rhythms produce respiratory sinus arrhythmia (RSA), a regular heart‑rate fluctuation linked to inhalation/exhalation, so cardiac measures (HR, HRV) can look different depending on breathing. To avoid misinterpreting heart effects as purely autonomic, always record respiration alongside ECG/PPG, analyze respiration phase and depth relative to musical onsets, and consider joint analyses or simple mediation checks to see whether breathing explains heart‑rate changes or true autonomic shifts.
-
-### Skin conductance
-
-Skin conductance (also called electrodermal activity, EDA) is a simple way to see sympathetic arousal: when people get surprised, excited, or stressed, sweat‑gland activity changes and the skin conducts electricity differently. In recordings we separate a slow baseline level (skin conductance level, SCL) from quick event‑linked peaks (skin conductance responses, SCRs). In music studies you typically expect SCR peaks after surprising or high‑arousal moments, and SCL shifts when arousal stays up for longer.
-
-Record EDA from stable sites such as the palms or soles, where the signal is strongest. Use good skin contact, clean the skin, and sample at least 10–50 Hz (higher if you need very precise timing). Try to keep the participant still and the electrodes steady, because movement and poor contact make the signal noisy.
-
-Before analysis remove slow drifts and separate tonic and phasic parts of the signal (this can be done with simple filtering or with deconvolution methods). Find SCRs using clear amplitude and timing rules and always visually inspect the data to remove obvious motion artifacts. SCRs to brief musical events usually appear with a latency around 1–4 seconds after the event.
-
-When reporting results use event‑related windows (report latency, amplitude, and how often responses occur). Normalize measures across participants (for example z‑scores or percent change) so differences in baseline skin conductance do not dominate. Also record and report likely confounds &mdash; room temperature and humidity, skin hydration, electrode placement, movement, and relevant medications &mdash; and correct statistically for multiple trials or comparisons where needed.
-
-### Muscle tension
-
-Electromyography (EMG) measures the tiny electrical signals that muscles make when they contract. In music research it is useful for separating motor activity (playing an instrument, singing, tapping, or expressive facial movements) from purely autonomic responses like heart rate or skin conductance. EMG can show when muscles activate and the relative strength and timing of those activations, which helps explain how movement and expression interact with musical perception or performance.
-
-Typical EMG recordings use surface bipolar electrodes placed on the skin over the muscle of interest; sometimes fine (intramuscular) electrodes are used for deep or very specific muscles. Good skin preparation and a reference electrode reduce noise and improve signal quality. Record at a high sampling rate (commonly ≥1000 Hz) so the fast muscle signals are captured.
-
-Raw EMG is noisy, so preprocessing is important: apply a band‑pass filter (for example ~20–450 Hz) to remove slow drift and high‑frequency noise, use a notch filter at mains frequency (50/60 Hz) if needed, then rectify (take the absolute value) and smooth (for example compute an RMS or low‑pass envelope) to produce an amplitude signal that is easier to interpret. Normalize EMG amplitudes to a task‑relevant maximum (MVC, maximum voluntary contraction) or to a baseline level so you can compare across participants and conditions.
-
-Be aware of common problems: large movement artifacts, electrode slipping, and crosstalk from nearby muscles can contaminate the signal. Always report exact electrode sites, amplifier settings/gain, filter parameters, sampling rate, and the normalization method used so others can interpret and reproduce your results.
+*We have a large number of EQ02 LifeMonitor sensor vests from EquiVital that measure both respiration, heart rate, and accelerometry in one device.*
 
 ### Body temperature
 
-Core temperature (measured rectally or tympanically) reflects true internal body heat. Most wearable sensors used in music studies measure skin (peripheral) temperature instead; skin temperature primarily indicates local blood flow near the sensor and is strongly influenced by the surrounding environment, so it does not reliably track very fast emotional reactions.
+Body temperature is not traditionally studied very much in music research. However, since our sensor vests can capture this information, it is relevant to explore it further. For medical applications, it is often common to measure body temperature rectally or tympanically. However, for musical purposes it is more relevant to measure skin temperature. Then, the relative temperature is more important than the absolute value. Also, since the skin temperature changes relatively slowly&mdash;over seconds to minutes&mdash;you should expect gradual trends rather than sharp, moment‑to‑moment peaks in response to musical events. 
 
-Skin temperature changes relatively slowly&mdash;over seconds to minutes&mdash;so you should expect gradual trends rather than sharp, moment‑to‑moment peaks in response to musical events. For most musicology applications a sampling rate of about 1 Hz (one sample per second) is sufficient to capture relevant variation.
+We have also began exploring capturing body temperature using [thermal cameras](https://en.wikipedia.org/wiki/Thermography#Cameras). They have the benefit that you can capture a large group of people, such as a whole orchestra or audience group, using a single camera. Since these cameras only capture temperature, they also effectively anonymizes the data. Until recently, the resolution of such cameras was too poor to be useful. However, the latest cameras have full HD resolution, which makes it much more useful for various analysis.
 
-Sensor placement matters: common sites are the fingertip, wrist, or chest, and you should always report exactly where you placed the sensor. Also record or control ambient factors that strongly affect skin temperature, such as room temperature, clothing, recent physical activity, and time of day (circadian effects).
 
-For interpretation, combine skin temperature with other autonomic measures (for example ECG and EDA) so you can distinguish vasomotor/blood‑flow changes from other autonomic activity. When reporting results, always state sensor type, placement, sampling rate, and the ambient conditions so others can interpret slow temperature changes in your music experiments.
+### Skin conductance
+
+Skin conductance (also called [electrodermal activity](https://en.wikipedia.org/wiki/Electrodermal_activity), EDA) is a simple way to index sympathetic arousal: when people are surprised, excited, or stressed, sweat‑gland activity changes and the skin conducts electricity differently. In recordings we separate a slow baseline level (skin conductance level, SCL) from quick event‑linked peaks ([skin conductance responses](https://en.wikipedia.org/wiki/Skin_conductance_response), SCRs). In music studies you typically expect SCR peaks after surprising or high‑arousal moments, and SCL shifts when arousal remains elevated.
+
+EDA is best captured from stable sites such as the palms, where the signal is strongest. The participant should sit still, because motion make the signal noisy. It is also important to record and report likely confounds&mdash;room temperature and humidity, skin hydration, electrode placement, movement, and relevant medications&mdash;and correct statistically for multiple trials or comparisons where needed.
+
+### Muscle tension
+
+[Electromyography](https://en.wikipedia.org/wiki/Electromyography) (EMG) measures the tiny electrical signals produced by muscle activation and is commonly used to index the timing and amplitude of motor events. In music research it helps separate motor activity (playing an instrument, singing, tapping, or expressive facial movements) from autonomic responses like heart rate or skin conductance.
+
+Typical EMG recordings use surface bipolar electrodes placed on the skin over the muscle of interest. Raw EMG is noisy, so preprocessing is important. It is also important to be aware how motion influences the result. However, with good filtering, it is possible to get meaningful data from EMG. At UiO, we have also explored how it is possible to use EMG data in various types of interactive music systems: 
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/L98pL8CEftA?si=5UeApe7h5JdejUGZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 
 ### Comparison
 
