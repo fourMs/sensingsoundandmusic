@@ -23,7 +23,7 @@ Acoustic features such as tempo, loudness, timbre and spectral balance strongly 
 
 Rhythmic regularity and tempo provide powerful entrainment cues for respiration and cardiac timing. Steady, slower musical pulses can slow breathing and enhance respiratory sinus arrhythmia (RSA), producing beat‑to‑beat vagal modulation of the heart, while faster rhythms typically accelerate respiration and heart rate and can reduce vagal indices; entrainment strength depends on rhythmic salience and the listener’s attentional engagement.
 
-```{Note}
+```{Note} 
 [Entrainment](https://en.wikipedia.org/wiki/Entrainment) is the tendency of oscillating systems to align their timing with one another or with an external rhythm. In physics it is described by coupled oscillators and resonance, where weak interactions produce phase‑locking or frequency pulling. In music it explains how listeners and performers synchronize tapping, movement and perceptual expectancies to a beat. In physiology entrainment occurs when bodily rhythms—neural oscillations, respiration, heart rate, and motor activity—come to track external auditory pulses or each other via sensory‑motor coupling and autonomic adjustments, producing effects such as respiration and cardiac phase alignment to tempo or neural phase‑locking to rhythmic structure. Entrainment spans timescales from millisecond neural synchrony to second‑scale breathing changes and minute‑scale autonomic shifts, and its strength depends on stimulus salience, attention, motor involvement and individual baseline rhythms, making it a key concept for explaining coordinated performance, collective synchrony, and music‑driven bodily change.
 ```
 
@@ -42,8 +42,6 @@ In recent years interest has grown in musical chills ([frisson](https://en.wikip
 Do you experience chills when listening to music? Are there are any particular songs or musical features that more easily evoke chills?
 ```
 
-
-
 ### Tingling sensations
 
 [ASMR (autonomous sensory meridian response)](https://en.wikipedia.org/wiki/Autonomous_sensory_meridian_response) refers to a set of pleasurable, often tingling sensations and deep relaxation elicited by soft, intimate auditory and multimodal cues—whispering, close‑mic breathing, gentle tapping, slow movements and binaural spatialization—that overlap with some musical timbral and production techniques. 
@@ -56,7 +54,14 @@ When comparing ASMR to frisson/chills, note they can co‑occur but differ pheno
 
 ### Interpersonal physiological responses
 
-Music powerfully fosters social bonding through behavioral and physiological synchrony: shared tempo, phrasing and movement can align breathing, heart rate, skin conductance and even neural activity across listeners and performers. Joint activities (singing, drumming, group listening) enhance interpersonal coupling and prosocial outcomes, with mechanisms that likely include sensorimotor entrainment, affective contagion and social appraisal, and in some cases neuroendocrine modulation (e.g., oxytocin). Empirically, interpersonal responses are operationalized as time‑resolved covariation (cross‑correlation, windowed coherence, phase‑locking) of physiological signals and are strongest when interaction, attention and emotional engagement are high. Methodologically, studies should use dyadic and group designs that include baseline and solo controls, quantify coupling with robust statistics and permutation tests, and explicitly control for shared stimulus drives, movement artifacts and common environmental influences to distinguish true social synchronization from coincident responses to the same music.
+Music often brings bodies into sync. A common beat can make people breathe together, and when breathing becomes shared, heart rate, skin conductance and even brain activity can start to look more similar across listeners or performers.
+
+There are a few simple ways this happens. Sensorimotor entrainment ([sensorimotor synchronization](https://en.wikipedia.org/wiki/Sensorimotor_synchronization)) means that moving, tapping or dancing together aligns bodily rhythms. [Emotional contagion](https://en.wikipedia.org/wiki/Emotional_contagion)) describes how emotion spreads through a group and changes autonomic signals like heart rate and skin conductance. [Social appraisal](https://en.wikipedia.org/wiki/Appraisal_theory) and hormonal responses — for example feeling connected or safe, sometimes linked to [oxytocin](https://en.wikipedia.org/wiki/Oxytocin) — can also increase physiological similarity.
+
+Researchers measure this by looking for time‑by‑time similarity between signals such as heart rate, electrodermal activity (EDA) and respiration. Common tools are cross‑correlation (checking whether two signals rise and fall together, possibly with a delay), windowed coherence or windowed correlation (testing similarity in short time windows to see when coupling appears), and phase‑locking (checking whether rhythmic signals keep a stable phase relationship).
+
+Coupling tends to be stronger when people interact directly, pay attention to the same thing, or are emotionally engaged with the music. To study this robustly, use dyads or small groups and include baseline (no music) and solo listening controls. Record respiration and movement (accelerometers) so that shared breathing or joint motion can be separated from true social coupling. Control for shared stimulus effects by comparing real pairs with shuffled or surrogate pairs to rule out responses driven only by the same music. Preprocess signals carefully: remove motion artifacts, align timestamps across devices, and reject noisy segments. Use robust statistics such as permutation tests or bootstrapping to assess whether observed coupling is greater than chance.
+
 
 ## Measuring physiological reactions
 
