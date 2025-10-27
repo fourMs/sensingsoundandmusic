@@ -23,7 +23,8 @@ Acoustic features such as tempo, loudness, timbre and spectral balance strongly 
 
 Rhythmic regularity and tempo provide powerful entrainment cues for respiration and cardiac timing. Steady, slower musical pulses can slow breathing and enhance respiratory sinus arrhythmia (RSA), producing beat‑to‑beat vagal modulation of the heart, while faster rhythms typically accelerate respiration and heart rate and can reduce vagal indices; entrainment strength depends on rhythmic salience and the listener’s attentional engagement.
 
-```{Note} 
+```{admonition} Entrainment
+:class: note
 [Entrainment](https://en.wikipedia.org/wiki/Entrainment) is the tendency of oscillating systems to align their timing with one another or with an external rhythm. In physics it is described by coupled oscillators and resonance, where weak interactions produce phase‑locking or frequency pulling. In music it explains how listeners and performers synchronize tapping, movement and perceptual expectancies to a beat. In physiology entrainment occurs when bodily rhythms—neural oscillations, respiration, heart rate, and motor activity—come to track external auditory pulses or each other via sensory‑motor coupling and autonomic adjustments, producing effects such as respiration and cardiac phase alignment to tempo or neural phase‑locking to rhythmic structure. Entrainment spans timescales from millisecond neural synchrony to second‑scale breathing changes and minute‑scale autonomic shifts, and its strength depends on stimulus salience, attention, motor involvement and individual baseline rhythms, making it a key concept for explaining coordinated performance, collective synchrony, and music‑driven bodily change.
 ```
 
