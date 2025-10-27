@@ -13,7 +13,6 @@ This week we explore how the body responds to sound and music, from fast autonom
 
 [Physiology](https://en.wikipedia.org/wiki/Physiology) is the branch of biology that studies the functions and processes of living organisms and their parts (organs, tissues, [cells](https://en.wikipedia.org/wiki/Cell_(biology))). It explains how structures work, how they interact, and how systems maintain [homeostasis](https://en.wikipedia.org/wiki/Homeostasis). The term originates from Greek [φύσις](https://en.wikipedia.org/wiki/Physis) (physis) “nature, growth” and [λόγος](https://en.wikipedia.org/wiki/Logos) (logos) “study, account.” Classical authors, like [Aristotle](https://en.wikipedia.org/wiki/Aristotle), described bodily functions. Modern experimental physiology developed from the 17th century with influential figures such as [William Harvey](https://en.wikipedia.org/wiki/William_Harvey) (blood circulation) and [Claude Bernard](https://en.wikipedia.org/wiki/Claude_Bernard) (the concept of the “milieu intérieur” or internal environment).
 
-
 ```{admonition} Question
 :class: question
 Have you experienced any physiological reactions to music?
@@ -80,26 +79,27 @@ Coupling tends to be stronger when people interact directly, pay attention to th
 
 There are numerous physiological measures that can be measured. Here we will look at some of the more popular ones. 
 
-### Skin conductance
-
-Skin conductance (also called electrodermal activity, EDA) is a simple way to see sympathetic arousal: when people get surprised, excited, or stressed, sweat‑gland activity changes and the skin conducts electricity differently. In recordings we separate a slow baseline level (skin conductance level, SCL) from quick event‑linked peaks (skin conductance responses, SCRs). In music studies you typically expect SCR peaks after surprising or high‑arousal moments, and SCL shifts when arousal stays up for longer.
-
-Record EDA from stable sites such as the palms or soles, where the signal is strongest. Use good skin contact, clean the skin, and sample at least 10–50 Hz (higher if you need very precise timing). Try to keep the participant still and the electrodes steady, because movement and poor contact make the signal noisy.
-
-Before analysis remove slow drifts and separate tonic and phasic parts of the signal (this can be done with simple filtering or with deconvolution methods). Find SCRs using clear amplitude and timing rules and always visually inspect the data to remove obvious motion artifacts. SCRs to brief musical events usually appear with a latency around 1–4 seconds after the event.
-
-When reporting results use event‑related windows (report latency, amplitude, and how often responses occur). Normalize measures across participants (for example z‑scores or percent change) so differences in baseline skin conductance do not dominate. Also record and report likely confounds — room temperature and humidity, skin hydration, electrode placement, movement, and relevant medications — and correct statistically for multiple trials or comparisons where needed.
-
 ### Heart activity 
-Electrocardiography (ECG) is the standard way to measure the heart: electrodes on the chest pick up the electrical signal of each heartbeat and give very precise R‑peak timing. From those R–R intervals you can compute instantaneous heart rate and fine beat‑to‑beat dynamics. Wearable optical sensors (photoplethysmography, PPG) on the wrist, finger or ear can track heart rate comfortably and well at rest, but they are more sensitive to motion and less reliable for short‑term HRV or spectral analyses. Choose ECG when you need millisecond timing (common sampling: 250–1000 Hz); PPG is OK for simple heart‑rate tracking (common sampling: 50–200 Hz).
 
-To get useful measures you must clean the heartbeat series. Use a robust QRS/beat detector, remove or correct ectopic beats and clear artifacts (by rules and visual inspection), and interpolate short gaps so HR and HRV are not distorted. If you use PPG, check that beats align with ECG where possible and reject epochs with motion artifacts. Report the sensor type, placement and sampling rate so others can judge data quality.
+[Electrocardiography](https://en.wikipedia.org/wiki/Electrocardiography) ([ECG]) is the standard way to measure the heart: electrodes on the chest pick up the electrical signal of each heartbeat and give very precise R‑peak timing. From those R–R intervals you can compute instantaneous heart rate and fine beat‑to‑beat dynamics. 
 
-Report each participant’s baseline heart rate and use within‑subject normalization (percent change, z‑scores, or baseline subtraction) because resting HR and reactivity vary with age, fitness, medication and posture. For experiments, typical analyses look at event‑locked heart‑rate windows (e.g., peak/trough magnitude and latency after a musical cue), and time‑resolved HRV to follow slow changes across a piece.
+[Photoplethysmography](https://en.wikipedia.org/wiki/Photoplethysmography) (PPG) is a different way of measuring heart activity, using wearable optical sensors on the wrist (like in sports watches), finger or ear can track heart rate comfortably and well at rest, but they are more sensitive to motion and less reliable for short‑term HRV or spectral analyses. 
+
+In general, one should use ECG when you need millisecond timing (common sampling: 250–1000 Hz). PPG is OK for simple heart‑rate tracking (common sampling: 50–200 Hz).
+
+Heart rate (HR) is conventionally reported in beats per minute (bpm). Typical resting adult HR is ~60–100 bpm (well‑trained athletes commonly 40–60 bpm; infants and children are considerably higher), and HR can change by a few to several tens of bpm with arousal, movement or exercise. 
+
+Report each participant’s baseline heart rate and use within‑subject normalization because resting HR and reactivity vary with age, fitness, medication and posture. For experiments, typical analyses look at event‑locked heart‑rate windows (e.g., peak/trough magnitude and latency after a musical cue), and time‑resolved HRV to follow slow changes across a piece.
 
 Heart‑rate variability (HRV) gives complementary information about autonomic balance. Simple time‑domain measures like RMSSD and SDNN are easy to compute; RMSSD (and high‑frequency power in the frequency domain) mainly reflect vagal (parasympathetic) influence and breathing‑linked modulation (respiratory sinus arrhythmia). Low‑frequency power and LF/HF ratios are harder to interpret and need caution. Always record respiration or a respiratory proxy to separate true vagal effects from breathing‑driven rhythms.
 
 For music studies, prefer event‑locked and time‑resolved analyses rather than only long averages, and consider joint models that include respiration and movement (EMG or accelerometry) so you can tell apart autonomic from metabolic or motor effects. Finally, report effect sizes and uncertainty (confidence intervals or bootstrapped estimates) and describe preprocessing steps clearly so results are reproducible.
+
+```{admonition} Fun fact
+:class: note
+The heart pumps around 7,500 liters per day for an average adult at rest.
+```
+
 
 ### Respiration
 
@@ -110,6 +110,16 @@ The main respiration variables to look at are breathing rate (how many breaths p
 Music changes breathing in intuitive ways: slow, calm music and long phrases tend to slow breathing and make breaths deeper, while fast or strongly accented music tends to speed breathing and shift when people inhale. These changes can be subtle and depend on attention, task (listening vs. singing/dancing), and individual differences, so include control or baseline recordings when possible.
 
 Respiration matters not only on its own but because it affects the heart. Breathing rhythms produce respiratory sinus arrhythmia (RSA), a regular heart‑rate fluctuation linked to inhalation/exhalation, so cardiac measures (HR, HRV) can look different depending on breathing. To avoid misinterpreting heart effects as purely autonomic, always record respiration alongside ECG/PPG, analyze respiration phase and depth relative to musical onsets, and consider joint analyses or simple mediation checks to see whether breathing explains heart‑rate changes or true autonomic shifts.
+
+### Skin conductance
+
+Skin conductance (also called electrodermal activity, EDA) is a simple way to see sympathetic arousal: when people get surprised, excited, or stressed, sweat‑gland activity changes and the skin conducts electricity differently. In recordings we separate a slow baseline level (skin conductance level, SCL) from quick event‑linked peaks (skin conductance responses, SCRs). In music studies you typically expect SCR peaks after surprising or high‑arousal moments, and SCL shifts when arousal stays up for longer.
+
+Record EDA from stable sites such as the palms or soles, where the signal is strongest. Use good skin contact, clean the skin, and sample at least 10–50 Hz (higher if you need very precise timing). Try to keep the participant still and the electrodes steady, because movement and poor contact make the signal noisy.
+
+Before analysis remove slow drifts and separate tonic and phasic parts of the signal (this can be done with simple filtering or with deconvolution methods). Find SCRs using clear amplitude and timing rules and always visually inspect the data to remove obvious motion artifacts. SCRs to brief musical events usually appear with a latency around 1–4 seconds after the event.
+
+When reporting results use event‑related windows (report latency, amplitude, and how often responses occur). Normalize measures across participants (for example z‑scores or percent change) so differences in baseline skin conductance do not dominate. Also record and report likely confounds — room temperature and humidity, skin hydration, electrode placement, movement, and relevant medications — and correct statistically for multiple trials or comparisons where needed.
 
 ### Muscle tension
 
@@ -161,8 +171,27 @@ Keep analyses simple and reproducible: always report what you measured, exact se
 
 ## Questions
 
-1. How does musical tempo and rhythmic regularity affect heart rate and HRV, and how would you design an experiment to test cardiac entrainment while controlling for respiration and movement?
-2. Which EDA measures (tonic SCL vs. phasic SCRs) best capture arousal and surprise in music, and what preprocessing and detection criteria ensure reliable SCR identification?
-3. What analytic approaches can separate respiration‑driven RSA from vagal modulation in HRV when music alters breathing rate and depth?
-4. How can EMG and accelerometry be combined to dissociate motor activity (singing, tapping, dancing) from autonomic changes in ECG/EDA recordings during live or interactive music tasks?
-5. For field or concert studies, what sensor types, placements, and sampling rates are recommended for concurrent ECG/PPG, EDA, respiration and skin temperature, and how should motion, ambient temperature, and contact quality confounds be handled?
+```{admonition} Question
+:class: question
+Which combination of sensors (ECG/PPG, EDA, respiration, EMG, temperature) and sampling rates would you choose to study musical chills, and why?
+```
+
+```{admonition} Question
+:class: question
+How would you control for and analyze respiration to avoid misinterpreting respiratory sinus arrhythmia as changes in vagal tone or HRV?
+```
+
+```{admonition} Question
+:class: question
+What preprocessing steps and artifact checks would you apply to EDA and ECG/PPG data before computing SCRs, heart rate and HRV metrics?
+```
+
+```{admonition} Question
+:class: question
+Design a simple experimental contrast and control conditions to test interpersonal physiological synchronization during live ensemble performance versus solo listening.
+```
+
+```{admonition} Question
+:class: question
+Which subjective questions and objective markers would you include to reliably distinguish frisson (chills) from ASMR in your dataset?
+```
