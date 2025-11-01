@@ -6,53 +6,45 @@ exports:
   - format: pdf
 ---
 
-This week we will explore machine listening, a field where music psychology meets music technology to turn sound into structured information. We will survey the full signal-to-symbol pipeline—from capture and preprocessing through feature extraction, segmentation, classification, and temporal modelling—and emphasise how perceptual principles inform algorithm design and evaluation. 
-
-Learning goals
-- Understand common preprocessing steps and why they matter for downstream analysis.
-- Be able to extract and interpret core audio features (MFCCs, chroma, spectral descriptors, onsets, F0).
-- Compare segmentation, classification, source separation, and transcription approaches and choose appropriate evaluation metrics.
-- Appreciate practical constraints (latency, dataset bias, licensing) and ethical considerations when working with audio and user data.
-
-Hands-on activities
-- Guided notebooks: feature extraction with librosa and basic visualization (spectrograms, chroma, onset plots).
-- Small projects: (a) implement an onset detector and evaluate it on sample recordings; (b) train a simple instrument/genre classifier using a provided dataset; (c) prototype a realtime pitch-monitoring visualizer.
-- Experiments with augmentation and robustness: time-stretch, pitch-shift, noise injection, and their effects on model performance.
-
-Tools & resources
-- Recommended libraries: librosa, torchaudio, PyTorch/TensorFlow, Essentia, madmom.
-- Example datasets for experiments: GTZAN, MusicNet, IRMAS, AudioSet (use according to licensing).
-- Further reading and demos will be provided in the course notes and linked notebooks.
-
+This week explores machine listening: the intersection of music perception, signal processing, and machine learning for converting sound into structured representations. We survey the full signal→symbol pipeline—robust audio capture and preprocessing; feature extraction (spectral, timbral, harmonic, temporal); segmentation and event detection; classification and temporal modeling—and situate these techniques within Music Information Retrieval and contemporary AI approaches. Emphasis is on perceptual principles that inform feature design and evaluation, practical trade‑offs (latency, data quality, interpretability), and reproducible workflows. Hands‑on work will use common tools and datasets to build, evaluate, and compare pipelines for tasks in music and speech, combining objective metrics with human‑centred validation.
 
 ## Machine Listening
 
-[Computer audition](https://en.wikipedia.org/wiki/Computer_audition) or Machine listening is the practice of converting sound (music, speech, or environmental audio) into structured, usable information. At a high level this means capturing reliable audio, extracting features that reflect perceptual properties, detecting events and boundaries, mapping patterns to labels, modeling how sound evolves over time, combining cues into higher‑level interpretations, and presenting results in ways people or other systems can use.
+[Computer audition](https://en.wikipedia.org/wiki/Computer_audition) or machine listening is the practice of converting sound (music, speech, or environmental audio) into structured, usable information. At a high level this means capturing reliable audio, extracting features that reflect perceptual properties, detecting events and boundaries, mapping patterns to labels, modeling how sound evolves over time, combining cues into higher‑level interpretations, and presenting results in ways people or other systems can use.
 
-It starts with robust **audio input and preprocessing**. Whether audio comes from microphones, interfaces, or files, common steps like resampling, DC removal, level normalization, denoising and de‑clicking make subsequent analysis more stable and fair across recordings. These operations increase signal‑to‑noise ratio, remove systematic artifacts (for example a low‑frequency hum), and ensure that feature extraction operates on comparable data.
+### Audio input and preprocessing
 
-**Feature extraction** converts waveforms into compact descriptors that are easier to work with and that better reflect hearing. Typical features include spectral measures (centroid, bandwidth), timbral representations (MFCCs), harmonic summaries (chroma, F0 contours), and temporal cues (onset strength, tempo). Choosing sensible parameters—window size, hop, number of mel bands, and normalization—shapes what information the model can access and directly affects downstream performance.
+Whether audio arrives from microphones, interfaces, or files, reliable analysis begins with preprocessing: resampling, DC removal, level normalization, denoising, and de‑clicking. These operations raise signal‑to‑noise ratio, remove systematic artifacts (for example low‑frequency hum), and ensure features are comparable across recordings so downstream modules behave predictably.
 
-**Segmentation and event detection** locate meaningful boundaries and discrete events such as onsets, beats, section changes, or speech activity. Methods range from classic signal‑processing heuristics (peak‑picking on onset strength) to learned detectors and change‑point algorithms. Good segmentation makes indexing, alignment, and focused processing possible, and it is typically evaluated with event‑level metrics and tolerance windows.
+### Feature extraction
 
-**Classification and recognition map** features or learned representations to semantic labels—instrument types, genres, speech/music, or emotion—using models from SVMs and random forests to CNNs and transformers. Practical concerns include label quality, class imbalance, interpretability of decisions, and choosing metrics that fit the task (accuracy vs. precision/recall, per‑class performance, etc.). Start with simple baselines and increase model complexity as needed.
+Feature extraction converts waveforms into compact descriptors that better reflect hearing and musical structure. Common choices include spectral measures (centroid, bandwidth), timbral representations (MFCCs), harmonic summaries (chroma, F0 contours), and temporal cues (onset strength, tempo). Parameter choices—window length, hop size, mel bands, and normalization—determine temporal/spectral resolution and strongly affect model performance.
 
-**Temporal modeling** captures sequence and context: rhythm, melody, phrasing and long‑range dependencies. Approaches include HMMs, RNNs/LSTMs, temporal CNNs and transformers; they improve tasks that rely on context (transcription, expressive timing, source activity), but introduce trade‑offs in latency, model size, and training data requirements. Decide early whether your application needs realtime responsiveness or offline, higher‑accuracy processing.
+### Segmentation and event detection
 
-Finally, **higher‑level analysis** and outputs turn low‑level signals into actionable results: structure and form annotations, harmonic or mood estimates, symbolic exports (MIDI, MusicXML), visualizations, or interactive feedback (real‑time displays, haptic cues). Design outputs for the intended users—students, performers, researchers—pay attention to latency, provenance, and interoperability, and validate results with human‑grounded evaluation so outputs meaningfully reflect perception and musical practice.
+Segmentation and event detection locate boundaries and discrete events such as onsets, beats, section changes, or speech activity. Methods span signal‑processing heuristics (peak‑picking on onset strength), change‑point detection, and learned detectors. Good segmentation enables indexing, alignment, and targeted processing and is typically evaluated with event‑level metrics and tolerance windows.
+
+### Classification and recognition
+
+Classification maps features or learned representations to labels—instrument, genre, speech/music, or emotion—using models from SVMs and random forests to CNNs and transformers. Practical issues include label quality, class imbalance, interpretability, and metric selection (accuracy vs precision/recall, per‑class evaluation). Begin with simple baselines and increase model complexity only as justified by validation.
+
+### Temporal modeling
+
+Temporal modeling captures sequence and context—rhythm, melody, phrasing, and long‑range dependencies—using HMMs, RNNs/LSTMs, temporal CNNs, or transformers. These models improve tasks that rely on context (transcription, expressive timing, source activity) but introduce trade‑offs in latency, model size, and data requirements. Decide early whether realtime responsiveness or offline accuracy is the priority.
+
+### Higher‑level analysis and outputs
+
+Higher‑level analysis transforms low‑level signals into actionable results: structural annotations, harmonic or mood estimates, symbolic exports (MIDI, MusicXML), visualizations, or interactive feedback. Design outputs for intended users (students, performers, researchers), consider latency and provenance, ensure interoperability, and validate results with human‑grounded evaluation so outputs meaningfully reflect perception and musical practice.
 
 
 
 ### Resources
 
-- Evaluation: use annotated datasets (e.g., [MIREX](https://www.music-ir.org/mirex/wiki/MIREX_HOME), [DCASE](https://dcase.community/)) and standard metrics — [precision & recall](https://en.wikipedia.org/wiki/Precision_and_recall), [F1 score](https://en.wikipedia.org/wiki/F1_score), and frame/segment-level measures (see [mir_eval](https://craffel.github.io/mir_eval/) for common implementations).
+Today, most machine listening tasks are done in Python. Here are three of the most popular libraries in use: 
 
-
-- Tools & libraries: e.g., [librosa](https://librosa.org/), [Essentia](https://essentia.upf.edu/), [madmom](https://github.com/CPJKU/madmom)
-
-
-[PyTorch](https://pytorch.org/)/[TensorFlow](https://www.tensorflow.org/) for modeling.
-- Datasets (examples): [GTZAN (genre)](http://marsyas.info/?q=content/gtzan-dataset-music-genre-classification), [MusicNet](https://homes.cs.washington.edu/~thickstn/musicnet.html), [IRMAS](https://www.upf.edu/web/mtg/irmas), [AudioSet](https://research.google.com/audioset/) — check licensing and usage terms before use.
+- [librosa](https://librosa.org/): general-purpose, high-level Python library for audio / music analysis (easy prototyping, ML features).
+- [Essentia](https://essentia.upf.edu/): C++ DSP library with Python bindings (very large feature set, performance-oriented, production-ready).
+- [madmom](https://github.com/CPJKU/madmom): Python/Cython library focused on MIR tasks (beats, onsets, tempo, with pretrained NN models and pipelines).
 
 
 ## Music Information Retrieval
@@ -108,44 +100,25 @@ Machine listening relies on various types of data:
 - **Paradata**: Data about the process of data collection or analysis.
 - **User Data**: Information about user interactions and preferences.
 
+## Artificial Intelligence (AI)
 
-### Artificial Intelligence (AI)
+### Rule-based systems
+Rule-based systems use deterministic signal-processing heuristics—thresholds, peak-picking and spectral rules—to make decisions. They are lightweight and interpretable, well suited to low-latency tasks such as onset picking or simple voice activity detection, but can be brittle in noisy or out-of-domain conditions.
 
-AI techniques in machine listening span a spectrum from hand-crafted rules to large, data-driven models. Below is a concise taxonomy with practical notes and examples.
+### Learning-based systems
+Learning-based approaches range from classical supervised models (SVMs, random forests) operating on hand-crafted features (MFCCs, chroma) to deep architectures (CNNs for timbre/scene classification, RNNs/LSTMs for temporal modelling, transformers for long-range context) trained end-to-end on spectrograms or learned embeddings. Self‑ and semi‑supervised methods perform contrastive or predictive pretraining on large unlabeled audio corpora and are fine-tuned for downstream tasks, which is useful when labeled data are scarce. Examples include CNN instrument classifiers, U‑Net/Conv‑TasNet for source separation, and seq2seq/CTC models for transcription.
 
-- Rule-based systems
-    - What: deterministic heuristics and signal-processing rules (thresholds, peak-picking, spectral heuristics).
-    - When useful: lightweight, interpretable, low-latency tasks (onset picking, simple voice activity detection).
-    - Pros/cons: fast and explainable but brittle to noise and domain shifts.
+### Hybrid approaches
+Hybrid approaches combine signal-processing priors with learned components—for example, learned spectrogram post‑filters, or rule-based event grouping applied to ML-detected onsets—to balance interpretability, performance, and data requirements.
 
-- Learning-based systems
-    - Supervised classical ML: feature-to-label models (SVMs, random forests) using MFCCs, chroma, etc. Good for small data and interpretable features.
-    - Deep learning: end-to-end or feature-based models (CNNs for timbre/scene classification, RNNs/LSTMs for temporal modelling, transformers for long-range context).
-    - Self-/semi-supervised learning: pretraining (contrastive or predictive) on large unlabeled audio, then fine-tuning for downstream tasks—helps when labels are scarce.
-    - Examples: CNN instrument classifiers, U‑Net/Conv‑TasNet for source separation, seq2seq/CTC models for automatic transcription.
+### Practical considerations
+Key practical issues are annotation quality and class balance, synthetic augmentation (time-stretch, pitch-shift, noise), and domain mismatch between training and deployment. Choose evaluation metrics that match the task (precision/recall/F1, SDR/SIR, frame/segment accuracy). Deployment constraints—model size, latency, hardware limits, and update strategy—shape architecture choices, while robustness and ethics require attention to bias, adversarial/noisy inputs, and licensing/privacy compliance.
 
-- Hybrid approaches
-    - Combine signal-processing priors with learned components (e.g., learned post-filtering of spectrograms, rule-based event grouping on ML-detected onsets).
-    - Balance interpretability, performance, and data requirements.
+### Tools & libraries
+Common toolchains pair feature/DSP libraries (librosa, madmom, Essentia) with modeling frameworks and infrastructure (PyTorch, TensorFlow, torchaudio, Hugging Face) and task-specific packages (Asteroid, nnAudio, pretrained audio transformers).
 
-- Practical considerations
-    - Data: annotation quality, class balance, synthetic augmentation (pitch-shift, time-stretch, noise), and domain mismatch.
-    - Evaluation: choose metrics per task (precision/recall/F1, SDR/SIR for separation, frame/segment accuracy for transcription).
-    - Deployment: model size, latency (realtime vs offline), hardware constraints, and model update strategy.
-    - Robustness & ethics: guard against bias, adversarial/noisy inputs, and respect data licensing.
-
-- Tools & libraries (examples)
-    - Feature & DSP: [librosa](https://librosa.org/), [madmom](https://github.com/CPJKU/madmom), [Essentia](https://essentia.upf.edu/)
-    - Modeling & infra: [PyTorch](https://pytorch.org/), [TensorFlow](https://www.tensorflow.org/), [torchaudio](https://pytorch.org/audio/), [Hugging Face](https://huggingface.co/)
-    - Task-specific: [Asteroid (source separation)](https://github.com/asteroid-team/asteroid), [nnAudio](https://github.com/KinWaiCheuk/nnAudio), [pretrained audio transformers (Hugging Face models)](https://huggingface.co/models?pipeline_tag=audio-classification)
-
-- Typical workflow
-    1. Define task and metrics.
-    2. Collect/annotate/augment data.
-    3. Choose baseline (rule-based or simple ML), then iterate with deeper models.
-    4. Validate on held-out data, optimize for latency/robustness, deploy and monitor.
-
-This framing helps pick appropriate techniques given data availability, latency needs, and interpretability requirements.
+### Typical workflow
+A typical workflow: define the task and metrics; collect, annotate and augment data; pick a baseline (rule-based or simple ML) and iterate toward deeper models; validate on held-out data; optimize for latency and robustness; deploy and monitor the system.
 
 ### Time
 
