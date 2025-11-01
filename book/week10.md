@@ -161,7 +161,6 @@ At RITMO, most of our studies are based on comparing heart rate (from ECG), resp
 None of the physiological signals are easy to work with, so it requires a lot of pre-processing and analysis to get meaningful results. The benefit is that we can learn much more about human experience of sound and music, with signals that are at least easier to interpret than brain measurements. 
 
 
-
 ## Questions
 
 1. What are the differences between heart rate and heart variability? 
