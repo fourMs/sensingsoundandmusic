@@ -26,7 +26,7 @@ project:
     - file: week8.md
     - file: week9.md
     - file: week10.md
-    - file: week11.md
+    - file: week11.ipynb
     
 site:
   template: book-theme
