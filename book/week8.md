@@ -111,7 +111,7 @@ Several specialized regions of the brain are crucial for processing sound and mu
 
 Together, these regions enable the perception, emotional experience, and cognitive processing of sound and music.
 
-![Human Brain](https://upload.wikimedia.org/wikipedia/commons/c/c5/Blausen_0103_Brain_Sensory%26Motor.png)
+![Human Brain](figures/Blausen_0103_Brain_Sensory_Motor.png)
 
 *Motor and Sensory Regions of the Cerebral Cortex (Illustration: ![Blausen Medical](https://commons.wikimedia.org/wiki/File:Blausen_0103_Brain_Sensory%26Motor.png)).*
 
