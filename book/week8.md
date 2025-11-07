@@ -113,7 +113,7 @@ Together, these regions enable the perception, emotional experience, and cogniti
 
 ![Human Brain](figures/Blausen_0103_Brain_Sensory_Motor.png)
 
-*Motor and Sensory Regions of the Cerebral Cortex (Illustration: ![Blausen Medical](https://commons.wikimedia.org/wiki/File:Blausen_0103_Brain_Sensory%26Motor.png)).*
+*Motor and Sensory Regions of the Cerebral Cortex (Illustration: [Blausen Medical](https://commons.wikimedia.org/wiki/File:Blausen_0103_Brain_Sensory%26Motor.png)).*
 
 
 ### Auditory Pathways
