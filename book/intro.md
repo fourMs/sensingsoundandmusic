@@ -2,7 +2,7 @@
 title: Sensing Sound and Music
 subtitle: Intersecting musicology, psychology, and technology
 authors: 
-  - name: Alexander Refsum Jensenius (ed.)
+  - name: Lecture notes for MUS2640
     affiliation: 
       - University of Oslo
 description: "This page describes the motivation behind making a web resource for the course MUS2640 Sensing Sound and Music at the University of Oslo."
@@ -26,66 +26,66 @@ Having completed the course, you will:
 
 ## Pedagogical Strategy
 
-Students in the course typically have mixed backgrounds. Everyone usually has some kind of musical background, ranging from classical performance on acoustic instruments to electronic studio production. Some come from musicology, others from psychology, informatics, media studies, philosophy, linguistics, medicine, and more. Everyone is welcome! In-class activities will be adjusted to cater to the collective knowledge and experience of the student group. 
+you in the course typically have mixed backgrounds. Everyone usually has some kind of musical background, ranging from classical performance on acoustic instruments to electronic studio production. Some come from musicology, others from psychology, informatics, media studies, philosophy, linguistics, medicine, and more. Everyone is welcome! In-class activities will be adjusted to cater to the collective knowledge and experience of the student group. 
 
 ### Active learning and "flipped classroom"
 
-This course builds on the idea of *active learning*, an approach that emphasizes student engagement and participation in the learning process. Rather than passively receiving information through lectures, students are encouraged to interact with the material, ask questions, solve problems, and collaborate with peers. Activities may include group discussions, hands-on experiments, peer reviewing, and real-world projects. This method helps deepen understanding, improve retention, and develop critical thinking skills.
+This course builds on the idea of [active learning](https://en.wikipedia.org/wiki/Active_learning), an approach that emphasizes student engagement and participation in the learning process. Rather than passively receiving information through lectures, you are encouraged to interact with the material, ask questions, solve problems, and collaborate with peers. Activities may include group discussions, hands-on experiments, peer reviewing, and real-world projects. This method helps deepen understanding and develop critical thinking skills.
 
-We also rely on a *flipped classroom* approach, which is a teaching model where traditional lecture content is delivered outside of class, typically through readings, videos, or interactive resources. This frees up classroom time to apply concepts through discussion, exercises, and collaborative work. This structure allows students to learn foundational material at their own pace and use class sessions for deeper exploration, clarification, and practical application. The flipped classroom model fosters a more personalized and interactive learning environment, supporting diverse learning styles. 
+We also rely on a [flipped classroom](https://en.wikipedia.org/wiki/Flipped_classroom) approach, which is a teaching model where traditional lecture content is delivered outside of class, typically through readings, videos, or interactive resources. This frees up classroom time to apply concepts through discussion, exercises, and collaborative work. This structure allows you to learn foundational material at their own pace and use class sessions for deeper exploration, clarification, and practical applications.
 
 ### A research-based and research-led course
 
-This is a *research-based* course, which means that the content builds on new research results. All the teachers are active researchers and will bring in perspectives from ongoing projects. Much of this is based on scientific methods, but given the nature of the subject, we also include research that is design-centered or based in artistic practice. We will dwell on these differences at times, since understanding the different epistemological foundations for our knowledge production is important. 
+This is a *research-based* course, which means that the content builds on new research results. All the teachers are active researchers and will bring in perspectives from ongoing projects. Much of this is based on scientific methods, but given the nature of the subject, we also include research that is design-centered or based in artistic practice. We will dwell on these differences at times, since understanding the different [epistemological](https://en.wikipedia.org/wiki/Epistemology) foundations for our knowledge production is important.
 
-The course is also *research-led*, meaning that students will take part in ongoing research. This makes it possible for students to see how "real" research is conducted in practice. It is also valuable for the ongoing projects in the department. Although it is not required, you are encouraged to participate in research activities, contributing to ongoing projects or initiating new ones. This hands-on involvement helps bridge the gap between learning and research, fostering a culture of inquiry and innovation.
+The course is also *research-led*, meaning that you will take part in ongoing research. This makes it possible for you to see how "real" research is conducted in practice. It is also valuable for the ongoing projects in the [Department of Musicology](https://www.hf.uio.no/imv/english/research/) and at [RITMO](https://www.uio.no/ritmo/english/). Although it is not required, you are encouraged to participate in research activities, contributing to ongoing projects, or initiating new ones. Such hands-on involvement helps bridge the gap between learning and research, inquiry and innovation.
 
 ### Open Education
 
-The course material is developed from the perspective of Open Education, meaning that all material is freely and openly available. This approach ensures that students have unrestricted access to resources, enabling them to revisit and explore the material beyond the course duration. Open Education also promotes collaboration and sharing of knowledge within and outside the academic community. This is important for societal innovation and the legitimization of ongoing research. 
+The course material is developed from the perspective of [Open Education](https://en.wikipedia.org/wiki/Open_education), meaning that all material is freely and openly available. This approach ensures that you have unrestricted access to resources, enabling them to revisit and explore the material beyond the course duration. Open Education also promotes collaboration and sharing of knowledge within and outside the academic community. This is important for societal innovation and the legitimization of ongoing research. 
 
-Open Education aligns closely with the principles of Open Research, which emphasize transparency, accessibility, and reproducibility. In this course, we aim to integrate these principles by providing access to:
+Open Education aligns closely with the principles of [Open Research](https://en.wikipedia.org/wiki/Open_research), which emphasize transparency, accessibility, and reproducibility. In this course, we aim to integrate these principles by providing access to:
 
-- **Open Publications**: Most of the required reading materials will be openly available, either entirely free ("free as in speech") or through institutional agreements ("free as in beer"). This means that there should be no economic barrier to attaining relevant knowledge. 
+- **Open Publications**: Most of the required reading materials will be openly available, either entirely free ("free as in speech") or through institutional agreements ("free as in beer"). This means that there should be no economic barrier to attaining relevant knowledge.
 
-- **Open Data**: Wherever possible, datasets used in the course will be openly shared. This allows students to analyze, visualize, and interpret data independently, fostering a deeper understanding of the material and encouraging reproducibility in their work.
+- **Open Data**: Wherever possible, datasets used in the course will be openly shared. This allows you to analyze, visualize, and interpret data independently, fostering a deeper understanding of the material and encouraging reproducibility.
 
-- **Open Source Code**: Tools, scripts, and examples provided during the course will be shared as open-source code. This enables students to study, modify, and build upon the code, promoting a hands-on approach to learning and encouraging contributions to the broader community.
+- **Open Source Code**: Tools, scripts, and examples provided during the course will be shared as open-source code. This enables you to study, modify, and build upon the code, promoting a hands-on approach to learning and encouraging contributions to the broader community.
 
-By adopting these practices, the course not only supports students in their academic journey but also contributes to the global movement toward open and equitable access to knowledge. This approach empowers students to become active participants in the creation and dissemination of knowledge, preparing them for future roles as researchers, educators, and innovators.
+By adopting these practices, the course not only supports your academic journey but also contributes to the global movement toward open and equitable access to knowledge. This approach empowers you to become active participant in the creation and dissemination of knowledge, preparing you for future roles as researchers, educators, and innovators.
 
 ### Embracing AI
 
-In this course, we will actively explore the use of *artificial intelligence* both for exploring the content of the course but also as a pedagogical tool. There are currently many available AI tools, yet they are underexploited. We will try different tools and evaluate their effectiveness. 
+In this course, we will actively explore the use of [artificial intelligence](https://en.wikipedia.org/wiki/Artificial_intelligence) (AI) both for exploring the content of the course but also as a pedagogical tool. There are currently many available AI tools, yet they are underexplored in education settings. We will try different tools and evaluate their effectiveness.
 
-This textbook is an example of AI-based *co-creation*. Sections of the text are partly written by large language models. However, the text has been going through a human "peer review" to ensure that everything makes sense. Throughout the course, we will explore when AI can safely be used for text generation and when it fails. 
+This textbook is an example of AI-based *co-creation*. It has been co-written by different large language models and the teachers. However, the text has been going through a human "peer review" to ensure that everything makes sense. Throughout the course, we will explore when AI can safely be used for text generation and when it fails.
 
-In this class, you are encouraged to use AI actively. AI-powered platforms can adapt content and feedback to individual learning styles and paces, helping you master concepts more effectively. However, AI-based tools should be used wisely; they are there to help learning, not to replace it. After all, the exam will be performed without any tools. Then you will need to think and write on your own!
+In this class, you are encouraged to explore AI for learning. AI-powered platforms can adapt content and feedback to individual learning styles and paces, helping you master concepts more effectively. However, AI-based tools should be used wisely; they are there to help learning, not to replace it. After all, the exam will be performed without any tools. Then you will need to think and write on your own!
 
 ## Tools
 
-We will explore various tools throughout the semester. You will not learn any of these in detail, but you will see how they work and understand their applications. These tools are designed to provide a broad overview of the possibilities in music technology and sound analysis.
+We will explore various tools throughout the semester. You will not learn any of these in detail, but you will see how they work and the applications they are suitable for. These tools are designed to provide a broad overview of the possibilities in music technology and sound analysis.
 
 <details>
 <summary>PC Software</summary>
 
 We will use the following software, most of which are free and/or open source. They are also all cross-platform, that is, they work on both Windows, OSX, and Linux-based systems.  
 
-- **[Sonic Visualiser](https://www.sonicvisualiser.org/)**: A powerful application for viewing and analyzing the contents of audio files. It allows you to visualize waveforms, spectrograms, and other audio features, making it a valuable tool for music analysis and research.
+- **[Sonic Visualiser](https://www.sonicvisualiser.org/)**: A tool for viewing and analyzing the contents of audio files. It allows you to visualize waveforms, spectrograms, and extract audio features.
 
-- **[Audacity](https://www.audacityteam.org/)**: A free, open-source, cross-platform audio editor and recorder. Audacity is widely used for recording, editing, and processing audio files, making it a versatile tool for both beginners and advanced users in music and sound analysis.
+- **[Audacity](https://www.audacityteam.org/)**: A widely used tool for recording, editing, and processing audio files, making it versatile for both beginners and advanced users in music and sound analysis.
 
-- **[Python - Jupyter Notebook](https://jupyter.org/)**: An open-source web application that enables you to create and share documents containing live code, equations, visualizations, and narrative text. It is widely used for data analysis, including audio and music data.
+- **[Python - Jupyter Notebook](https://jupyter.org/)**: An open-source web application that enables you to create and share documents containing live code, equations, visualizations, and narrative text.
 
-- **[Pure Data (Pd)](https://puredata.info/)**: An open-source visual programming language for audio and multimedia. It is widely used for sound synthesis, audio processing, and interactive installations. It resembles the commercial package [Max](https://cycling74.com/products/max).
+- **[Pure Data (Pd)](https://puredata.info/)**: A visual programming language widely used for sound synthesis, audio processing, and interactive installations. It resembles the commercial software [Max](https://cycling74.com/products/max).
 
 - **[Audiostellar](https://audiostellar.xyz/)**: A unique tool for exploring and organizing sound samples using a visual interface. It helps you discover relationships between sounds and create new compositions.
 
 - **[Freesound](https://freesound.org/)**: A collaborative online database of sound samples. It provides access to a wide variety of sounds that can be used for music production, sound design, and research.
 
-- **[moises.ai](https://moises.ai/)**: An AI-powered platform for music source separation and audio processing. It allows you to isolate vocals, instruments, and other elements from audio tracks, making it useful for practice, remixing, and analysis.
+- **[moises.ai](https://moises.ai/)**: An AI-powered platform for music source separation and audio processing. It allows you to isolate vocals, instruments, and other elements from audio tracks.
 
-- **[Maître Gnome](https://asym-co.de/)**: An experimental web-based tool for exploring and manipulating sound and music. It offers creative ways to interact with audio, suitable for both educational and artistic purposes.
+- **[Maître Gnome](https://asym-co.de/)**: An experimental web-based tool for studying musical rhythms, including the ability to record tapping patterns for research applications.
 
 </details>
 
@@ -93,22 +93,24 @@ We will use the following software, most of which are free and/or open source. T
 <summary>Phone apps</summary>
 We will use these free and cross-platform apps, working on both Android and iOS devices. 
 
-- **[Noise Capture](https://noise-planet.org/noisecapture.html)**: A mobile app for recording and analyzing environmental noise. It is useful for studying soundscapes and understanding the impact of noise in different environments.
+- **[Noise Capture](https://noise-planet.org/noisecapture.html)**: A mobile app for recording, analyzing, and reporting environmental noise. 
 
-- **[SensorLogger](https://www.tszheichoi.com/sensorlogger)**: A mobile app for recording and visualizing sensor data from your smartphone, such as accelerometer, gyroscope, magnetometer, and more. SensorLogger enables you to collect, export, and analyze movement and environmental data, making it useful for experiments in sound, music, and motion research.
+- **[SensorLogger](https://www.tszheichoi.com/sensorlogger)**: A mobile app for recording and visualizing sensor data from your smartphone, such as accelerometer, gyroscope, magnetometer, and more. 
 </details>
 
 <details>
 <summary>Hardware</summary>
-We will explore these devices in class. You are not expected to purchase these yourself; we have them available to borrow. 
+We will explore these devices in class. You are not expected to purchase these yourself; we have them available to borrow.
 
 - **[LittleBits](https://littlebits.com/)**: A platform of modular electronic components that snap together to create interactive projects. It is a fun and creative way to explore sound synthesis and music-making.
 
 - **[Ambisonics - Zoom H3-VR](https://zoomcorp.com/en/us/handheld-recorders/handheld-recorders/h3-vr-handy-recorder/)**: A portable recorder designed for capturing 360-degree spatial audio. It is ideal for creating immersive soundscapes and exploring 3D audio reproduction.
 
-- **[OptiTrack Motion Capture](https://optitrack.com/)**: A high-precision motion capture system used for tracking movement in 3D space. It is widely used in research, gaming, and performance arts to analyze and visualize motion, including applications in music and sound interaction.
+- **[OptiTrack Motion Capture](https://optitrack.com/)**: A high-precision, infrared, camera-based motion capture system used for tracking motion in 3D space.
 
-- **[Equivital Life Monitors](https://www.equivital.com/)**: Wearable devices designed to monitor physiological data such as heart rate, respiration, and body temperature. These devices are useful for studying the relationship between physiological responses and musical experiences.
+- **[Equivital Life Monitors](https://www.equivital.com/)**: Wearable devices designed to monitor physiological data such as heart rate, respiration, and body temperature.
+
+- **[PupilLabs Core](https://pupil-labs.com/products/core)**: Portable eye trackers that can be used for tracking where one looks while also capturing gaze and pupil size. 
 </details>
 
 ## Curriculum
@@ -118,24 +120,24 @@ The current textbook comprises the core curriculum for this course. Interested r
 <details>
 <summary>Some short introduction books</summary>
 
-- **[Music Psychology: A Very Short Introduction](https://doi.org/10.1093/actrade/9780190640156.001.0001)**: *Elizabeth Hellmuth Margulis* (2018), Oxford: Oxford University Press. A concise introduction to the field of music psychology, exploring how music affects the mind and behavior.
+- **[Music Psychology: A Very Short Introduction](https://doi.org/10.1093/actrade/9780190640156.001.0001)**: A concise introduction to the field of music psychology, exploring how music affects the mind and behavior.
 
-- **[Music and Technology: A Very Short Introduction](https://doi.org/10.1093/actrade/9780199946983.001.0001)**: *Mark Katz* (2014), Oxford: Oxford University Press. An accessible overview of the relationship between music and technology, examining its impact on creation, performance, and listening.
+- **[Music and Technology: A Very Short Introduction](https://doi.org/10.1093/actrade/9780199946983.001.0001)**: An accessible overview of the relationship between music and technology, examining its impact on creation, performance, and listening.
 
-- **[Ways of Listening: An Ecological Approach to the Perception of Musical Meaning](https://doi.org/10.1093/acprof:oso/9780195151947.001.0001)**: *Eric F. Clarke* (2005), Oxford: Oxford University Press. A unique perspective on how listeners perceive and interpret musical meaning in ecological contexts.
+- **[Ways of Listening: An Ecological Approach to the Perception of Musical Meaning](https://doi.org/10.1093/acprof:oso/9780195151947.001.0001)**: An introduction to how listeners perceive and interpret musical meaning in ecological contexts.
 
-- **[Sound Actions: Conceptualizing Musical Instruments](https://doi.org/10.7551/mitpress/14220.001.0001)**: *Alexander Refsum Jensenius* (2022), Cambridge: The MIT Press. An insightful examination of musical instruments as tools for interaction, creativity, and expression.
+- **[Sound Actions: Conceptualizing Musical Instruments](https://doi.org/10.7551/mitpress/14220.001.0001)**: An examination of musical instruments as tools for interaction, creativity, and expression.
 </details>
 
 <details>
 <summary>Some large reference works</summary>
-Some books serve more as large-scale references of their respective fields: 
+Some books serve more as large-scale references of their respective fields:
 
-- **[Handbook of Systematic Musicology](https://doi.org/10.1007/978-3-662-55004-5)**: *Edited by multiple authors* (2020), Springer. A detailed reference for interdisciplinary approaches to the study of musicology.
+- **[Handbook of Systematic Musicology](https://doi.org/10.1007/978-3-662-55004-5)**: A detailed reference for experimental and empirial approaches to the study of music.
 
-- **[The Oxford Handbook of Music Psychology](https://doi.org/10.1093/oxfordhb/9780198722946.001.0001)**: Edited by *Susan Hallam, Michael Thaut, Ian Cross* (2018), Oxford: Oxford University Press. A comprehensive overview of research and theories in music psychology.
+- **[The Oxford Handbook of Music Psychology](https://doi.org/10.1093/oxfordhb/9780198722946.001.0001)**: A comprehensive overview of research and theories in music psychology.
 
-- **[The Computer Music Tutorial, Second Edition](https://isbnsearch.org/isbn/9780262044912)**: *Curtis Roads* (2023), Cambridge: The MIT Press. An extensively updated and expanded reference covering the latest developments in computer music, including new technologies, techniques, and applications.
+- **[The Computer Music Tutorial, Second Edition](https://isbnsearch.org/isbn/9780262044912)**: *Curtis Roads* (2023), Cambridge: The MIT Press. A large volume covering all aspects of computer music, from sound synthesis to interaction.
 </details>
 
 <details>
@@ -153,7 +155,7 @@ There are not many relevant books in Norwegian, but here are some:
 
 ## Overview
 
-This textbook is divided into chapters corresponding to the lectures in the course. 
+This textbook is divided into chapters corresponding to the lectures in the course.
 
 ```{tableofcontents}
 ```
