@@ -197,7 +197,7 @@ The approach to human psychology presented in this book is not neutral (not that
 
 Embodied music cognition was seen as radical at first but has become more mainstream over the years. Several researchers at the University of Oslo&mdash;with [Rolf Inge Godøy](https://www.hf.uio.no/imv/english/people/aca/emeriti/rolfig/index.html) in front&mdash;have been active in developing this branch of research over the last decades. The approach has been foundational to the studies of music-related body motion in the [fourMs Lab](https://fourms.uio.no) and is also at the core of many activities at [RITMO](https://www.uio.no/ritmo/english/).
 
-The core idea of embodied music cognition is that both the production and perception of music are based on integrating sensory, motor, and emotional dimensions. To paraphrase the father of [ecological psychology](https://en.wikipedia.org/wiki/Ecological_psychology), James Gibson, you explore the world with eyes in a head on a body that moves around. He was mainly interested in visual perception, but his ideas have inspired a similar thinking about other senses. Eric Clarke has been a central figure in promoting an [ecological approach](https://doi.org/10.1093/acprof:oso/9780195151947.001.0001) in musicology.
+The core idea of embodied music cognition is that both the production and perception of music are based on integrating sensory, motor, and emotional dimensions. To paraphrase the father of [ecological psychology](https://en.wikipedia.org/wiki/Ecological_psychology), James Gibson, you explore the world with eyes in a head on a body that moves around. He was mainly interested in visual perception, but his ideas have inspired a similar thinking about other senses. 
 
 A different entry point to a similar idea is the concept of [musicking](https://en.wikipedia.org/wiki/Christopher_Small#Musicking). This term was popularized by musicologist [Christopher Small](https://en.wikipedia.org/wiki/Christopher_Small), who argued that music is best understood as a verb&mdash;to music&mdash;not a noun ([Small 1997](https://doi.org/10.1080/1461380990010102)). Music is not an object or a finished product (like a song or a score), but rather an activity: something people do. When a band plays a concert, the musicians, the dancers, the audience, the sound engineers, and even the people selling tickets and cleaning the hall are all engaged in musicking. The music exists not just in the notes played, but in the shared experience and interaction.
 
@@ -244,13 +244,18 @@ The last concept we will introduce this week is the *action–perception loop*. 
 The action–perception loop is at the core of embodied music cognition. 
 ```
 
-[Eric Clarke](https://en.wikipedia.org/wiki/Eric_Clarke) has used the action–perception loop as core to his thinking about *ecological listening*. He bridges psychology, musicology, and acoustic ecology, offering insights into how humans engage with sound as part of their lived experience. In his influential book *Ways of Listening*, he argues for three different listening modes: 
+```{admonition} Question
+:class: question
+The action–perception loop is often also called *perception–action loop*. Which term do you prefer?
+```
+
+[Eric Clarke](https://en.wikipedia.org/wiki/Eric_Clarke) uses the action–perception loop as core to his thinking about *ecological listening*. He bridges psychology, musicology, and acoustic ecology, offering insights into how humans engage with sound as part of their lived experience. In his influential book *[Ways of Listening](https://doi.org/10.1093/acprof:oso/9780195151947.001.0001)*, he argues for three different listening modes: 
 
 - **Direct perception**: Listeners perceive sounds in relation to their environment without needing extensive cognitive processing.
 - **Affordances**: Sounds provide cues about actions or interactions possible within a given environment.
 - **Contextual listening**: The meaning of sounds is shaped by their environmental and situational context.
 
-As we will see next week, there are many similar ways of thinking about how we listen. 
+As we will see next week, there are many similar ways of thinking about how we listen.
 
 
 ## Questions
@@ -260,6 +265,3 @@ As we will see next week, there are many similar ways of thinking about how we l
 3. What is the distinction between hearing and listening, and why does it matter when studying music?
 4. How does embodied music cognition explain relationships between physical motion and musical experiences?
 5. What is the action-perception loop, and how does it manifest in musical activities?
-
-```{bibliography}
-```
