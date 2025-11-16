@@ -1,6 +1,6 @@
 ---
 title: "Week 2: Listening"
-subtitle: Exploring how we perceive, describe, and engage with soundscapes and sound objects
+subtitle: "Exploring how we perceive, describe, and engage with soundscapes"
 authors: 
   - name: Alexander Refsum Jensenius
     affiliation: 
@@ -12,7 +12,7 @@ exports:
 
 ## Describing sounds
 
-Recall last week's discussion about the differences between hearing and listening. We will get back to the mechanisms for both hearing in the coming weeks&mdash;focusing on both the acoustic and psychoacoustic parts&mdash;but this week will focus on how we listen, what we listen to, and how we can describe the sound and reflect on its meaning.
+Recall last week's discussion about the differences between hearing and listening. This week, will focus on how we listen, what we listen to, and how we can describe sound and reflect on its meaning.
 
 ```{exercise} Listen with closed and open eyes
 1. Find a suitable location.
@@ -23,37 +23,33 @@ Recall last week's discussion about the differences between hearing and listenin
 6. Reflect on what you heard. Did it change after opening the eyes?
 ```
 
-### Many approaches to describing sounds
+### Different sound analysis approaches
 
 Academic approaches to describing sound vary across the three main directions we are considering in this course (musicology, psychology, and technology). They each tap into various subfields (or paradigms), each offering distinct frameworks and terminologies:
 
-- **[Acoustics](https://en.wikipedia.org/wiki/Acoustics)**: Focuses on the physical properties of sound waves, such as frequency, amplitude, duration, and propagation in different media.  
-	*Example*: An acoustician might describe a clap in a concert hall as "a broadband impulse with a peak amplitude of 85 dB SPL, followed by a reverberation decay time of 1.8 seconds," using measurements and graphs to illustrate how sound behaves in the space.
+- **[Acoustics](https://en.wikipedia.org/wiki/Acoustics)** focuses on the physical properties of sound waves, such as frequency, amplitude, duration, and propagation in different media. An acoustician might describe a clap in a concert hall as "a broadband impulse with a peak amplitude of 85 dB SPL, followed by a reverberation decay time of 1.8 seconds," using measurements and graphs to illustrate how sound behaves in the space.
 
-- **[Psychoacoustics](https://en.wikipedia.org/wiki/Psychoacoustics)**: Investigates how humans perceive sound, using quantitative measures (frequency, loudness, spatial location) and perceptual attributes (brightness, roughness).  
-	*Example*: A psychoacoustic study might report that "a 1000 Hz tone at 60 dB SPL is perceived as moderately loud and bright," and compare listener responses to tones with varying roughness or spatial placement.
+- **[Psychoacoustics](https://en.wikipedia.org/wiki/Psychoacoustics)** investigates how humans perceive sound, using quantitative measures (frequency, loudness, spatial location) and perceptual attributes (brightness, roughness, etc.). A psychoacoustic study might report that "a 1000 Hz tone at 60 dB SPL is perceived as moderately loud and bright," and compare listener responses to tones with varying roughness or spatial placement.
 
-- **[Music theory](https://en.wikipedia.org/wiki/Music_theory)**: Focuses on musical parameters (pitch, rhythm, timbre, dynamics) and cultural context.  
-	*Example*: A musicologist might describe a violin tone as "a slightly sharp C, with a bright timbre, starting from pianissimo and with a gradual crescendo," using musical notation to visualize it on paper.
+- **[Music theory](https://en.wikipedia.org/wiki/Music_theory)**: focuses on musical parameters (pitch, rhythm, timbre, dynamics) and cultural context. A musicologist might describe a violin tone as "a slightly sharp C, with a bright timbre, starting from pianissimo and with a gradual crescendo," using musical notation to visualize it on paper.
 
-- **[Spectromorphology](https://en.wikipedia.org/wiki/Spectromorphology)**: This specialized form of music theory analyzes the spectral (frequency) and morphological (shape and evolution) characteristics of sounds.  
-	*Example*: A spectromorphological analysis could describe a cymbal crash as "an impulsive onset followed by a complex, evolving spectrum that decays over several seconds," visualized with a spectrogram showing frequency content over time.
+- **[Spectromorphology](https://en.wikipedia.org/wiki/Spectromorphology)** is a specialized form of music theory that analyzes the spectral (frequency) and morphological (shape and evolution) characteristics of sounds. A spectromorphological analysis could describe a cymbal crash as "an impulsive onset followed by a complex, evolving spectrum that decays over several seconds," visualized with a spectrogram showing frequency content over time.
 
-All of these descriptions focus specifically on describing the sound "itself" or how we *hear* it. There are also several (slightly overlapping) approaches to studying the effects of sound on people or environments: 
+All of these approaches focus specifically on describing the sound "itself". However, different disciplines also consider other factors in their analyses.
 
-- **[Sound Studies](https://en.wikipedia.org/wiki/Sound_studies)**: An interdisciplinary field that examines sound as a cultural, social, and material phenomenon. Sound studies draw from media studies, anthropology, history, and philosophy to explore how sound shapes and is shaped by society, technology, and everyday life.  
-	*Example*: A sound studies scholar might analyze how urban noise regulations reflect social attitudes toward public space, or investigate the role of sound in shaping collective memory and identity.
+### Fields studying sound
 
-- **[Acoustic Ecology](https://en.wikipedia.org/wiki/Acoustic_ecology)**: Emphasizes environmental context, categorizing sounds as keynote, signal, or soundmark. Soundscapes are described in terms of their ecological function and impact.  
-	*Example*: An acoustic ecologist could document a city park by noting "birdsong as a keynote, a distant siren as a signal, and the hourly chime of a church bell as a soundmark," analyzing how each sound shapes the experience of the space.
+Numerous fields study the effects of sound on people or environments:
 
-- **[Ethnography](https://en.wikipedia.org/wiki/Ethnography)**: This subbranch of [anthropology](https://en.wikipedia.org/wiki/Anthropology) uses qualitative methods such as interviews, field notes, and participatory observation to describe how communities interact with and interpret their sonic environments.  
-	*Example*: An ethnographer might record that "local residents describe the evening call to prayer as calming and unifying," supplementing this with field notes and interviews about its social significance.
+- **[Sound studies](https://en.wikipedia.org/wiki/Sound_studies)** is an interdisciplinary field that examines sound as a cultural, social, and material phenomenon. It draws on media studies, anthropology, history, and philosophy to explore how sound shapes and is shaped by society, technology, and everyday life. A sound studies scholar might analyze how urban noise regulations reflect social attitudes toward public space, or investigate the role of sound in shaping collective memory and identity.
 
-- **[Linguistics](https://en.wikipedia.org/wiki/Linguistics) and [Semiotics](https://en.wikipedia.org/wiki/Semiotics)**: Examines the meaning and communicative function of sounds, including onomatopoeia, prosody, and sound symbolism.  
-	*Example*: A linguist could analyze the word "buzz" as onomatopoeic, noting how its sound mimics the noise of a bee, or study how rising intonation in speech signals a question.
+- **[Acoustic ecology](https://en.wikipedia.org/wiki/Acoustic_ecology)** emphasizes environmental context, categorizing sounds as, for example, keynotes, signals, or soundmarks. Soundscapes are described in terms of their ecological function and impact. An acoustic ecologist could document a city park by noting "birdsong as a keynote, a distant siren as a signal, and the hourly chime of a church bell as a soundmark," analyzing how each sound shapes the experience of the space.
 
-There is no right or wrong when it comes to studying sound. All of these approaches (and more) aim to uncover various aspects of both the physical properties of sounds but also their meaning, context, and impact on listeners. Several of them are also used in various combinations. We won't have time to cover all of these in detail in this course, but we will look more closely at some of the closest ones to the fields of music psychology and technology. This week, we will focus on two main concepts that have been influential in the development of our understanding of listening: *soundscapes* and *sound objects*.
+- **[Ethnography](https://en.wikipedia.org/wiki/Ethnography)** is a subbranch of [anthropology](https://en.wikipedia.org/wiki/Anthropology) and uses qualitative methods such as interviews, field notes, and participatory observation to describe how communities interact with and interpret their sonic environments An ethnographer might record that "local residents describe the evening call to prayer as calming and unifying," supplementing this with field notes and interviews about its social significance.
+
+- **[Linguistics](https://en.wikipedia.org/wiki/Linguistics) and [semiotics](https://en.wikipedia.org/wiki/Semiotics)** examine the meaning and communicative function of sounds, including onomatopoeia, prosody, and sound symbolism. A linguist could analyze the word "buzz" as onomatopoeic, noting how its sound mimics the noise of a bee, or study how rising intonation in speech signals a question.
+
+There is no right or wrong when it comes to studying sound. All of these approaches (and more) aim to uncover various aspects of both the physical properties of sounds but also their meaning, context, and impact on listeners. Several of them are also used in various combinations. We won't have time to cover all of these in detail in this course, but we will look more closely at some of the closest ones to the fields of music psychology and technology. In particular, we will focus on two main concepts that have been influential in the development of our understanding of listening: *soundscapes* and *sound objects*.
 
 
 ## Soundscapes
