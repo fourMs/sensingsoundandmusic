@@ -56,28 +56,29 @@ There is no right or wrong when it comes to studying sound. All of these approac
 
 A *[soundscape](https://en.wikipedia.org/wiki/Soundscape)* refers to the acoustic environment as perceived or experienced by people, encompassing all the sounds that arise from both natural and human-made sources. Describing soundscapes involves several dimensions:
 
-- **Physical Properties**: Documenting the types of sounds present (e.g., birdsong, traffic, water), their frequency ranges, loudness, and temporal patterns.
-- **Ecological Function**: Identifying the roles sounds play in the environment, such as signaling, masking, or providing information about ecological health.
-- **Spatial Characteristics**: Noting how sounds are distributed in space: directionality, distance, and reverberation within the environment.
-- **Perceptual Attributes**: Describing how listeners experience the soundscape: pleasantness, annoyance, tranquility, or stimulation.
+- **Physical properties**: Documenting the types of sounds present (e.g., birdsong, traffic, water), their frequency ranges, loudness, and temporal patterns.
+- **Ecological function**: Identifying the roles sounds play in the environment, such as signaling, masking, or providing information about ecological health.
+- **Spatial characteristics**: Noting how sounds are distributed in space: directionality, distance, and reverberation within the environment.
+- **Perceptual attributes**: Describing how listeners experience the soundscape: pleasantness, annoyance, tranquility, or stimulation.
 
-A comprehensive description of a soundscape often combines "objective" measurements, such as sound level measurements and field recordings, that can be used to make spectrograms with annotated sound maps and written descriptions to capture and analyze soundscapes. Together, these objective measurements, subjective impressions, and contextual information provide a holistic understanding of the sonic environment.
+A description of a soundscape often combines "objective" measurements, such as sound level measurements and field recordings, that can be used to make spectrograms with annotated sound maps and written descriptions to capture and analyze soundscapes. Together, these objective measurements, subjective impressions, and contextual information provide a holistic understanding of the sonic environment.
 
-```{note} 
-The distinction between "objectivity" and "subjectivity" in research is complex and debated. It is important to note that the so-called objective approaches (relying on recording and measurements) are always based on context and subjective choices. Similarly, subjective note-taking and interpretation can be systematized to reduce bias. In contemporary research, we try to use multi-method approaches that combine perspectives from the "qualitative" and "quantitative" directions. Integrating both perspectives provides a richer, more nuanced understanding of soundscapes, acknowledging that scientific inquiry into sound must balance measurement with meaning.
+```{admonition} Subjective vs objective
+:class: note
+The distinction between "objectivity" and "subjectivity" in research is complex and debated. It is important to note that the so-called objective approaches (relying on recording and measurements) are always based on context and subjective choices. Similarly, subjective note-taking and interpretation can be systematized (and even quantified) to reduce bias. Nowadays, many researchers try to use multi-method approaches that combine "qualitative" and "quantitative" perspectives. This provides a more nuanced understanding of soundscapes, acknowledging that scientific inquiry into sound must balance measurement with meaning.
 ```
 
 
 ### R. Murray Schafer and Acoustic Ecology
-[R. Murray Schafer](https://en.wikipedia.org/wiki/R._Murray_Schafer) (1933–2021) was one of the pioneers of soundscape studies. He was to propose and define *[soundscape](https://en.wikipedia.org/wiki/Soundscape)* as the acoustic environment as perceived by humans. Starting from the 1960s, he led the [World Soundscape Project](https://en.wikipedia.org/wiki/World_Soundscape_Project) at Simon Fraser University in Canada, a groundbreaking research initiative focused on studying, documenting, and analyzing the sonic environments of various locations. Through this work, Schafer and his team developed new methods for field recording, sound mapping, and acoustic analysis, aiming to understand how sounds shape our experience of place and community.
+[R. Murray Schafer](https://en.wikipedia.org/wiki/R._Murray_Schafer) (1933–2021) was one of the pioneers of soundscape studies. He was the one to propose and define the term *[soundscape](https://en.wikipedia.org/wiki/Soundscape)* as the acoustic environment as perceived by humans. Starting from the 1960s, he led the [World Soundscape Project](https://en.wikipedia.org/wiki/World_Soundscape_Project) at Simon Fraser University in Canada, a groundbreaking research initiative focused on studying, documenting, and analyzing the sonic environments of various locations. Through this work, Schafer and his team developed new methods for field recording, sound mapping, and acoustic analysis, aiming to understand how sounds shape our experience of place and community.
 
-Schafer's most famous book is *[The Tuning of the World](https://www.google.no/books/edition/The_Soundscape/-FsoDwAAQBAJ?hl=no&gbpv=0)* {cite}`schaferSoundscapeOurSonic1977`, which introduced key concepts for analyzing soundscapes:
+Schafer's most famous book is *[The Tuning of the World](https://www.google.no/books/edition/The_Soundscape/-FsoDwAAQBAJ?hl=no&gbpv=0)*, which introduced key concepts for analyzing soundscapes:
 
-- **Keynote sounds**: These are background sounds that are fundamental to a particular environment, often heard unconsciously. Examples include the hum of traffic in a city or the rustling of leaves in a forest. Keynotes set the acoustic context but are not usually the focus of attention.
+- **Keynote sounds** are background sounds that are fundamental to a particular environment, often heard unconsciously. Examples include the hum of traffic in a city or the rustling of leaves in a forest. Keynotes set the acoustic context but are not usually the focus of attention.
 
-- **Signals**: Signals are foreground sounds that are listened to consciously because they carry specific information or meaning. Examples include a ringing phone, a siren, or a bird call. Signals stand out from the background and often prompt a response or action.
+- **Signals** are foreground sounds that are listened to consciously because they carry specific information or meaning. Examples include a ringing phone, a siren, or a bird call. Signals stand out from the background and often prompt a response or action.
 
-- **Soundmarks**: Soundmarks are unique or characteristic sounds that are especially valued by a community or location, similar to landmarks in the visual environment. Examples might be the chimes of a local church bell, a distinctive factory whistle, or a waterfall. Soundmarks help define the identity of a place and are often preserved or celebrated.
+- **Soundmarks** are unique or characteristic sounds that are especially valued by a community or location, similar to landmarks in the visual environment. Examples might be the chimes of a local church bell, a distinctive factory whistle, or a waterfall. Soundmarks help define the identity of a place and are often preserved or celebrated.
 
 Schafer's work laid the foundation for the field of [acoustic ecology](https://en.wikipedia.org/wiki/Acoustic_ecology) and inspired similar projects worldwide, encouraging interdisciplinary collaboration between musicians, scientists, urban planners, and environmentalists. The project advocated for the preservation of valuable soundscapes and raised awareness about the impact of noise pollution and urbanization on our acoustic environment. It also inspired the [World Forum for Acoustic Ecology (WFAE) Conference](https://www.wfae.net/), an international gathering bringing together researchers, artists, educators, and practitioners to explore the relationship between humans and their sonic environments.
 
@@ -86,12 +87,12 @@ Schafer also introduced the term [schizophonia](https://en.wikipedia.org/wiki/Sc
 
 ### Hildegard Westerkamp and Soundwalking
 
-[Hildegard Westerkamp](https://en.wikipedia.org/wiki/Hildegard_Westerkamp) (1946–) worked with Schafer in the World Soundscape Project and is famous for developing the concept of [soundwalking](https://en.wikipedia.org/wiki/Soundwalking) as a reflective practice of walking and listening to the environment. This is not only a practice of listening but also a method of engaging with the environment in a mindful and reflective way. It encourages participants to become aware of the acoustic ecology of their surroundings, fostering a deeper connection to place and community. Soundwalking can be used as a tool for artistic inspiration, environmental awareness, and even therapeutic purposes. 
+[Hildegard Westerkamp](https://en.wikipedia.org/wiki/Hildegard_Westerkamp) (1946–) worked with Schafer in the World Soundscape Project and is famous for developing [soundwalking](https://en.wikipedia.org/wiki/Soundwalking) as a reflective practice of walking and listening to the environment. This is not only a practice of listening but also a method of engaging with the environment in a mindful and reflective way. It encourages participants to become aware of the acoustic ecology of their surroundings, fostering a deeper connection to place and community. Soundwalking can be used as a tool for artistic inspiration, environmental awareness, and even therapeutic purposes.
 
 Key aspects of soundwalking include:
 
-- **Active Listening**: Paying close attention to the layers of sound in the environment, from the most prominent to the subtle.
-- **Contextual Awareness**: Understanding how sounds interact with the physical and social context of a space.
+- **Active listening**: Paying close attention to the layers of sound in the environment, from the most prominent to the subtle.
+- **Contextual awareness**: Understanding how sounds interact with the physical and social context of a space.
 - **Documentation**: Participants may choose to record sounds, take notes, or create maps to capture their auditory experience.
 
 Hildegard Westerkamp’s soundwalking practice bridges both scientific research and artistic exploration. In her scientific work, Westerkamp used soundwalks as a method for gathering data about urban and natural soundscapes. Participants documented their listening experiences, helping researchers analyze acoustic environments, identify sources of noise pollution, and understand how people perceive and interact with their sonic surroundings. These soundwalks contributed to studies in acoustic ecology, urban planning, and environmental psychology.
