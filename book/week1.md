@@ -25,33 +25,33 @@ Research in music psychology highlights how humans perceive and process sound, e
 
 ## An interdisciplinary approach
 
-This course aims to be *interdisciplinary*, meaning that it draws on methods, theories, and perspectives from multiple academic fields to address complex questions about sound and music. Interdisciplinarity goes beyond simply combining knowledge from different areas; in this case, between musicology, psychology, and technology. The idea is that by approaching sound and music from these varied viewpoints, we gain a richer understanding of how humans perceive, experience, and create music, as well as how technology can enhance and transform these processes.
+This course aims to be [interdisciplinary](https://en.wikipedia.org/wiki/Interdisciplinarity), meaning that it draws on methods, theories, and perspectives from multiple academic fields to address complex questions about sound and music. Interdisciplinarity goes beyond simply combining knowledge from different areas; in this case, between musicology, psychology, and technology. The idea is that by approaching sound and music from these varied viewpoints, we gain a richer understanding of how humans perceive, experience, and create music, as well as how technology can enhance and transform these processes.
 
 ### Some etymology
 
-[Etymology](https://en.wikipedia.org/wiki/Etymology) is the study of the origin and history of words and how their meanings and forms have changed over time. The word "etymology" is itself derived from the Ancient Greek words ἔτυμον (étymon), meaning 'true sense or sense of a truth', and the suffix -logia, denoting 'the study or logic of'. Similarly, we can investigate the three disciplines in question: 
+[Etymology](https://en.wikipedia.org/wiki/Etymology) is the scientific study of the origin and history of words and how their meanings and forms have changed over time. The word "etymology" is itself derived from the Ancient Greek words *étymon*, meaning "true sense or sense of a truth", and the suffix *logia*, denoting "the study or logic of". Similarly, we can investigate the three disciplines in question:
 
-- **Musicology**: The term "musicology" comes from the Greek words *mousikē* (music) and *-logia* (study or science). It is the scholarly study of music, covering its history, theory, and cultural context. Musicologists analyze how music is composed, performed, and understood across different societies and eras.
+- **Musicology**: The term "musicology" comes from the Greek words *mousikē* (music) and *logia* (study). It is the scholarly study of music, covering its history, theory, and cultural context. Musicologists analyze how music is composed, performed, and understood across different societies and eras.
 
-- **Psychology**: "Psychology" is derived from the Greek *psyche* (soul, mind) and *-logia* (study). It is the scientific study of the mind and behavior. In the context of music, psychology explores how people perceive, process, and respond to music emotionally and cognitively.
+- **Psychology**: "Psychology" is derived from the Greek *psyche* (soul, mind) and *logia* (study). It is the scientific study of the mind and behavior. Music psychologists explore how people perceive, process, and respond to music emotionally and cognitively.
 
-- **Technology**: The word "technology" originates from the Greek *techne* (art, craft, skill) and *-logia* (study). Technology refers to the tools, techniques, and systems humans create to solve problems or enhance capabilities. In music, technology includes instruments, recording devices, software, and other innovations that help create, analyze, or experience music.
+- **Technology**: The word "technology" originates from the Greek *techne* (art, craft, skill) and *logia* (study). Technology refers to the tools, techniques, and systems humans create to solve problems or enhance capabilities. Music technology includes development and studies of instruments, recording devices, software, and other innovations that help create, analyze, or experience music.
+
+By the end of the course, you will have learned some of the basic terminology, theories, and methods used in all these directions.
 
 ```{admonition} Question
 :class: question
 Can you think of other words with a "logy" at the end? What do they mean?
 ```
 
-By the end of the course, you will have learned some of the basic terminology, theories, and methods used in all these directions. 
-
 ### Differences between disciplinarities
 
 When approaching different disciplines, it is important to understand how they interact. Many people call all sorts of collaboration between disciplines "interdisciplinarity". However, there are some differences, highlighted in this figure: 
 
 ```{figure} https://www.arj.no/images/2022/03/01-disciplinarities-crop.pdf-1-1024x294.png
-:label: Different disciplinarities
 :alt: five circles representing disciplarinities
 :align: center
+An illustration ot different levels of disciplinarity (from [Sound Actions: Conceptualizing Musical Instruments](https://doi.org/10.7551/mitpress/14220.001.0001)).
 ```
 
 Intradisciplinary work stays within a single discipline, while crossdisciplinary approaches view one discipline from the perspective of another. Multidisciplinary collaboration involves people from different disciplines working together, each drawing on their own expertise. Interdisciplinary work integrates knowledge and methods from multiple disciplines, synthesizing approaches for a deeper understanding. Transdisciplinary approaches go further, creating unified intellectual frameworks that transcend individual disciplinary boundaries.

@@ -2,9 +2,7 @@
 title: Sensing Sound and Music
 subtitle: Intersecting musicology, psychology, and technology
 authors: 
- - name: Lecture notes for MUS2640
-    affiliation: 
- - University of Oslo
+ - name: Lecture notes for MUS2640, University of Oslo
 description: "This page describes the motivation behind making a web resource for the course MUS2640 Sensing Sound and Music at the University of Oslo."
 exports:
  - format: pdf
