@@ -228,7 +228,7 @@ Most people agree that sound is a core component of music, yet there are notable
 
 In more recent times, percussionist [Evelyn Glennie](https://en.wikipedia.org/wiki/Evelyn_Glennie) has demonstrated that musical experience and expression are not limited by the ability to hear sound through the auditory system. Glennie, who lost most of her hearing by the age of twelve, developed unique techniques to sense vibrations through her body, allowing her to perform and interpret music:
 
-<iframe width="1024" height="576" src="https://embed.ted.com/talks/evelyn_glennie_how_to_truly_listen" title="How to truly listen" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/IU3V6zNER4g?si=9eGFRcgUh-2z8cCW&amp;start=26" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ```{exercise}
 Cover your ears with earplugs and/or sound-insulating headphones. Try to play on an instrument. What do you "hear"? What do you feel?
@@ -239,7 +239,7 @@ Cover your ears with earplugs and/or sound-insulating headphones. Try to play on
 The last concept we will introduce this week is the *action–perception loop*. The idea of embodied cognition, in general, is that we sense through action and act through sensing. In music, the action-perception loop is evident in activities such as playing an instrument, where sensory feedback informs motor actions, and vice versa. For example, a pianist adjusts their touch in response to the sound they produce, creating a continuous cycle of interaction.
 
 ```{figure} figures/action-cognition.png
-:scale: 20 %
+:width: 300px
 :alt: a circle between action and perception
 The action–perception loop is at the core of embodied music cognition. 
 ```
