@@ -4,7 +4,7 @@ subtitle: "Exploring the Foundations of Music Psychology and Technology"
 authors: 
  - name: Alexander Refsum Jensenius
     affiliation: 
- - University of Oslo
+      - University of Oslo
 description: "This page introduces the foundational concepts of music psychology and technology, exploring how humans perceive, experience, and create sound and music through both psychological and technological perspectives."
 exports:
  - format: pdf
