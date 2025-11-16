@@ -1,5 +1,5 @@
 ---
-title: "Week 5: Time and Rhythm"
+title: "5. Time and Rhythm"
 subtitle: "Exploring the Structure, Perception, and Performance of Musical Time"
 authors: 
   - name: Guilherme Schmidt Câmara

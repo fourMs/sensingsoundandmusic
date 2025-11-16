@@ -1,5 +1,5 @@
 ---
-title: "Week 10: Physiology"
+title: "10. Physiology"
 subtitle: "Physiology and measurement of bodily responses to music"
 description: "Physiology and measurement of bodily responses to music: skin conductance, cardiac dynamics (heart rate, heart‑rate variability, synchronization), respiration effects, wearable monitoring methods (e.g., Equivital), and representative empirical studies and citations."
 exports:

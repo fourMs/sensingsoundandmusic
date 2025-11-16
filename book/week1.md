@@ -1,5 +1,5 @@
 ---
-title: "Week 1: Tuning in"
+title: "1. Tuning in"
 subtitle: "Exploring the Foundations of Music Psychology and Technology"
 authors: 
   - name: Alexander Refsum Jensenius
@@ -51,7 +51,7 @@ When approaching different disciplines, it is vital to understand how they inter
 ```{figure} https://www.arj.no/images/2022/03/01-disciplinarities-crop.pdf-1-1024x294.png
 :alt: five circles representing disciplinarities
 :align: center
-An illustration ot different levels of disciplinarity ([Jensenius, 2022](https://doi.org/10.7551/mitpress/14220.001.0001)).
+An illustration of different levels of disciplinarity ([Jensenius, 2022](https://doi.org/10.7551/mitpress/14220.001.0001)).
 ```
 
 *Intradisciplinary* work stays within a single discipline, while *crossdisciplinary* approaches view one discipline from the perspective of another. *Multidisciplinary* collaboration involves people from different disciplines working together, each drawing on their own expertise. *Interdisciplinary* work integrates knowledge and methods from multiple disciplines, synthesising approaches for a deeper understanding. *Transdisciplinary* approaches go further, creating unified intellectual frameworks that transcend individual disciplinary boundaries.

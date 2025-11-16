@@ -1,5 +1,5 @@
 ---
-title: "Week 2: Listening"
+title: "2. Listening"
 subtitle: "Exploring how we perceive, describe, and engage with soundscapes"
 authors: 
   - name: Alexander Refsum Jensenius
@@ -69,7 +69,7 @@ The distinction between "objectivity" and "subjectivity" in research is complex 
 ```
 
 
-### R. Murray Schafer and Acoustic Ecology
+### R. Murray Schafer and acoustic ecology
 [R. Murray Schafer](https://en.wikipedia.org/wiki/R._Murray_Schafer) (1933–2021) was one of the pioneers of soundscape studies. He was the one to propose and define the term *[soundscape](https://en.wikipedia.org/wiki/Soundscape)* as the acoustic environment as perceived by humans. Starting from the 1960s, he led the [World Soundscape Project](https://en.wikipedia.org/wiki/World_Soundscape_Project) at Simon Fraser University in Canada, a groundbreaking research initiative focused on studying, documenting, and analyzing the sonic environments of various locations. Through this work, Schafer and his team developed new methods for field recording, sound mapping, and acoustic analysis, aiming to understand how sounds shape our experience of place and community.
 
 Schafer's most famous book is *[The Tuning of the World](https://www.google.no/books/edition/The_Soundscape/-FsoDwAAQBAJ?hl=no&gbpv=0)*, which introduced key concepts for analyzing soundscapes:
@@ -84,8 +84,7 @@ Schafer's work laid the foundation for the field of [acoustic ecology](https://e
 
 Schafer also introduced the term [schizophonia](https://en.wikipedia.org/wiki/Schizophonia) to describe the separation of a sound from its source, often through recording technology. For example, when you hear a bird song played from a speaker, the sound is no longer coming from the bird itself, but from a device. This separation can change how we experience and relate to sounds, sometimes making them feel less "authentic" or connected to their natural context.
 
-
-### Hildegard Westerkamp and Soundwalking
+### Hildegard Westerkamp and soundwalking
 
 [Hildegard Westerkamp](https://en.wikipedia.org/wiki/Hildegard_Westerkamp) (1946–) worked with Schafer in the World Soundscape Project and is famous for developing [soundwalking](https://en.wikipedia.org/wiki/Soundwalking) as a reflective practice of walking and listening to the environment. This is not only a practice of listening but also a method of engaging with the environment in a mindful and reflective way. It encourages participants to become aware of the acoustic ecology of their surroundings, fostering a deeper connection to place and community. Soundwalking can be used as a tool for artistic inspiration, environmental awareness, and even therapeutic purposes.
 
@@ -95,12 +94,9 @@ Key aspects of soundwalking include:
 - **Contextual awareness**: Understanding how sounds interact with the physical and social context of a space.
 - **Documentation**: Participants may choose to record sounds, take notes, or create maps to capture their auditory experience.
 
-Hildegard Westerkamp’s soundwalking practice bridges both scientific research and artistic exploration. In her scientific work, Westerkamp used soundwalks as a method for gathering data about urban and natural soundscapes. Participants documented their listening experiences, helping researchers analyze acoustic environments, identify sources of noise pollution, and understand how people perceive and interact with their sonic surroundings. These soundwalks contributed to studies in acoustic ecology, urban planning, and environmental psychology.
+Westerkamp’s soundwalking practice bridges both scientific research and artistic exploration. In her scientific work, Westerkamp used soundwalks as a method for gathering data about urban and natural soundscapes. Participants documented their listening experiences, helping researchers analyze acoustic environments, identify sources of noise pollution, and understand how people perceive and interact with their sonic surroundings. These soundwalks have contributed to studies in acoustic ecology, urban planning, and environmental psychology.
 
-Artistically, Westerkamp transformed soundwalking into a creative process. She composed works based on field recordings and reflections gathered during soundwalks, such as her acclaimed piece *[Kits Beach Soundwalk](https://www.youtube.com/watch?v=hg96nU6ltLk)*. Her compositions often blend environmental sounds with narration, inviting listeners to experience places through attentive listening. Westerkamp’s approach encourages audiences to engage with everyday sounds as musical material, blurring the boundaries between scientific observation and artistic expression.
-
-Through soundwalking, Westerkamp demonstrated how attentive listening can deepen our understanding of environments, foster community awareness, and inspire new forms of sonic art.
-
+Artistically, Westerkamp transformed soundwalking into a creative process. She has composed works based on field recordings and reflections gathered during soundwalks, such as her acclaimed piece *[Kits Beach Soundwalk](https://www.youtube.com/watch?v=hg96nU6ltLk)*. Her compositions often blend environmental sounds with narration, inviting listeners to experience places through attentive listening. She demonstrated how attentive listening can deepen our understanding of environments, foster community awareness, and inspire new forms of sonic art.
 
 ```{exercise} Sound Walking
 1. Walk slowly in a group, without talking 
@@ -108,42 +104,38 @@ Through soundwalking, Westerkamp demonstrated how attentive listening can deepen
 3. Write a note on why you stopped and what was interesting
 ```
 
-### Steven Feld and Acoustemology
+### Steven Feld and acoustemology
 
-[Steven Feld](https://en.wikipedia.org/wiki/Steven_Feld) (1949–) is an American anthropologist and ethnomusicologist known for his pioneering work on the relationship between sound, culture, and perception. Feld introduced the concept of *[acoustemology](https://en.wikipedia.org/wiki/Acoustemology)* as a blend of "acoustics" and "epistemology" to describe how knowledge and experience are shaped through sound and listening.
+[Steven Feld](https://en.wikipedia.org/wiki/Steven_Feld) (1949–) is an ethnomusicologist known for his pioneering work on the relationship between sound, culture, and perception. Feld introduced the concept of *[acoustemology](https://en.wikipedia.org/wiki/Acoustemology)*&mdash;a blend of "acoustics" and "epistemology"&mdash;to describe how knowledge and experience are shaped through sound and listening.
 
-Acoustemology emphasizes that listening is not just a sensory act but a way of knowing and engaging with the world. Feld’s research, particularly with the Kaluli people of Papua New Guinea, demonstrates how sound is deeply embedded in social life, memory, and identity. He explored how environmental sounds, music, and language are interconnected, and how communities use sound to make sense of their surroundings.
+Acoustemology emphasizes that listening is not just a sensory act but a way of knowing and engaging with the world. Feld’s research, particularly with the Kaluli people of Papua New Guinea, demonstrated how sound is deeply embedded in social life, memory, and identity. He explored how environmental sounds, music, and language are interconnected, and how communities use sound to make sense of their surroundings.
 
-Key aspects of acoustemology include:
-
-- **Sound as Knowledge**: Understanding that sound is a primary medium for learning, communicating, and relating to place.
-- **Cultural Listening**: Recognizing that listening practices are shaped by cultural context, history, and environment.
-- **Sonic Identity**: Investigating how communities define themselves and their spaces through distinctive soundscapes and musical traditions.
-
-Feld’s work encourages researchers and listeners to consider how sound shapes experience and meaning, and how listening can be a method for understanding both local and global cultures.
-
+Key aspects of acoustemology include understanding sound as a primary medium for learning, communication, and relating to *place*. Feld argues that listening practices are shaped by cultural context, history, and environment and communities define themselves and their spaces through distinctive soundscapes and musical traditions. His work encourages researchers and listeners to consider how sound shapes experience and meaning, and to use listening as a method for understanding both local and global cultures.
 
 ## Sound objects
 
-After having considered soundscapes more broadly, let us "zoom in" and investigate specific [sound objects](https://en.wikipedia.org/wiki/Sound_object) in more detail. The development of this concept came before that of soundscapes, emerging from a French "school" of composers and theorists.
+After having considered soundscapes more broadly, let us "zoom in" and investigate specific sonic events in more detail. While soundscape studies developed in Canada in the 1970s and onwards, it was greatly inspired by the French "school" of composers and theorists working in Paris in the 1950s.
 
 ### Pierre Schaeffer and the Sound Object
 
-The concept of sound object was proposed by the French composer and musicologist [Pierre Schaeffer](https://en.wikipedia.org/wiki/Pierre_Schaeffer) (1910–1995). He is renowned for pioneering [musique concrète](https://en.wikipedia.org/wiki/Musique_concr%C3%A8te), a form of electroacoustic music that uses recorded sounds as raw material. Throughout his work, Schaeffer laid the foundation for modern sound design, electronic music, and auditory research, influencing generations of composers and sound theorists.
+The concept of [sound object](https://en.wikipedia.org/wiki/Sound_object) was proposed by the French composer and musicologist [Pierre Schaeffer](https://en.wikipedia.org/wiki/Pierre_Schaeffer) (1910–1995). In this course, we will mainly consider his influential music theories. However, he is also renowned as the pioneer of [musique concrète](https://en.wikipedia.org/wiki/Musique_concr%C3%A8te), a form of electroacoustic music that uses recorded sounds as raw material. Throug his work, Schaeffer laid the foundation for modern sound design, electronic music, and auditory research, influencing generations of composers and sound theorists.
 
-The sound object&mdash;*l'objet sonore* in French&mdash;is at the core of Schaeffer's theoretical work. His argument was that when listening to sound, we do not hear the continuous sound, but that our perception is grouped into a series of separate sound objects with specific properties. When we perceive speech, we hear words, not single phonemes. When we hear music, we hear tones and short phrases that fuse into "chunks" of sound, typically in the range of 0.5 to 5 seconds.
+The sound object&mdash;*l'objet sonore* in French&mdash;is at the core of Schaeffer's theoretical work. His argument was that when listening to sound, we do not hear the continuous sound, but that our perception is grouped into a series of separate sound objects with specific properties. For example, when we perceive speech, we hear words, not single phonemes. Similarly, when we hear music, we hear tones and short phrases that fuse into "chunks" of sound, typically in the range of 0.5 to 5 seconds ([Godøy et al. 2010](https://doi.org/10.3813/AAA.918323)).
 
-Schaeffer also introduced the idea of *reduced listening* as a way to focus on the intrinsic qualities of sound *itself* rather than its source (sound-producing objects and actions) or semantic meaning. This includes a sound's texture, tone, and dynamics. 
-
-Through reduced listening, Schaeffer developed a large *[spectromorphology](https://en.wikipedia.org/wiki/Spectromorphology)* that can be used to describe any type of sound. We will not go into the whole system, but instead look at the general characterization of sound objects. He suggested three core types:
+Schaeffer also introduced the idea of *reduced listening* as a way to focus on the intrinsic qualities of sound "itself" rather than its source (sound-producing objects and actions) or semantic meaning. This includes a sound's texture, tone, and dynamics. In his *Traité des objets musicaux*, Schaeffer developed a large *[spectromorphology](https://en.wikipedia.org/wiki/Spectromorphology)* that can be used to describe any type of sound. We will not go into the whole system, but instead look at the general characterization of sound objects. He suggested three core types:
 
 - **Impulsive**: Short, percussive sounds (e.g., a click or a drum hit).
 - **Sustained**: Continuous sounds with steady qualities (e.g., a drone or a held note).
 - **Iterative**: Rapidly repeating sounds (e.g., a tremolo or a rattling noise).
 
-The categories are coarse, but this model can still be helpful for describing the general shape of sound objects. 
+The categories are coarse, but this model can still be helpful for describing the general shape of sound objects.
 
-![Schaeffer's three sound types](figures/impulsive-sustained-iterative.png)
+```{figure} figures/impulsive-sustained-iterative.png
+:alt: Schaeffer's three sound types
+:align: center
+An illustration of Schaeffer's three sound types ([Jensenius, 2022](https://doi.org/10.7551/mitpress/14220.001.0001)).
+```
+
 
 Schaeffer's thoughts have inspired numerous theorists and composers to date. He is often considered the "father" of [electroacoustic music](https://en.wikipedia.org/wiki/Electroacoustic_music), music that incorporates electronic technology for the production, manipulation, and reproduction of sound. It often involves recorded sounds, synthesis, and digital processing, allowing composers to explore new sonic possibilities beyond traditional instruments.
 
