@@ -249,7 +249,7 @@ The action–perception loop is at the core of embodied music cognition.
 The action–perception loop is often also called *perception–action loop*. Which term do you prefer?
 ```
 
-[Eric Clarke](https://en.wikipedia.org/wiki/Eric_Clarke) uses the action–perception loop as core to his thinking about *ecological listening*. He bridges psychology, musicology, and acoustic ecology, offering insights into how humans engage with sound in their lived experience. In his influential book *[Ways of Listening](https://doi.org/10.1093/acprof:oso/9780195151947.001.0001)*, he argues for three different listening modes: 
+[Eric Clarke](https://en.wikipedia.org/wiki/Eric_Clarke_(musicologist)) uses the action–perception loop as core to his thinking about *ecological listening*. He bridges psychology, musicology, and acoustic ecology, offering insights into how humans engage with sound in their lived experience. In his influential book *[Ways of Listening](https://doi.org/10.1093/acprof:oso/9780195151947.001.0001)*, he argues for three different listening modes: 
 
 - **Direct perception**: Listeners perceive sounds in relation to their environment without needing extensive cognitive processing.
 - **Affordances**: Sounds provide cues about actions or interactions possible within a given environment.
