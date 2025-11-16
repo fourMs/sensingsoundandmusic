@@ -222,18 +222,27 @@ We will focus quite a lot on listening and auditory perception in this course. H
 | Proprioception| Kinesthetic      | Muscles, Joints        |
 :::
 
-From a psychological perspective, multimodality emphasizes how the brain combines information from these different sensory channels to create a cohesive and enriched experience. In the context of music cognition, this could involve the interplay between auditory and motor systems, such as how visual cues from a performer influence the perception of sound or how physical gestures enhance musical expression and understanding. However, the other senses are also involved. Touch provides tactile feedback for instrumentalists and singers; proprioception and balance help musicians coordinate movement and posture, especially in dance or performance; and even smell or taste can contribute to the emotional context and memory of musical events. These multisensory interactions enrich both performance and perception, deepening engagement for musicians and audiences alike.
+From a psychological perspective, multimodality emphasizes how the brain combines information from these different sensory channels to create a cohesive experience. In the context of music cognition, this could involve the interplay between auditory and motor systems, such as how visual cues from a performer influence the perception of sound or how physical gestures enhance musical expression and understanding. However, the other senses are also involved. Touch provides tactile feedback for instrumentalists and singers; proprioception and balance help musicians coordinate motion and posture, especially in dance or performance; smell or taste can contribute to the emotional context and memory of musical events.
 
-Most people agree that sound is a core component of music, yet there are notable examples of musicians and composers who have created and performed music despite significant hearing loss. [Ludwig van Beethoven](https://en.wikipedia.org/wiki/Ludwig_van_Beethoven), one of the most influential composers in Western music history, continued to compose groundbreaking works even after becoming profoundly deaf. In more recent times, percussionist [Evelyn Glennie](https://en.wikipedia.org/wiki/Evelyn_Glennie) has demonstrated that musical experience and expression are not limited by the ability to hear sound in a conventional way. Glennie, who lost most of her hearing by the age of twelve, developed unique techniques to sense vibrations through her body, allowing her to perform and interpret music at the highest level. These examples challenge traditional notions of music as purely an auditory phenomenon and highlight the importance of multimodal and embodied approaches to musical experience.
+Most people agree that sound is a core component of music, yet there are notable examples of musicians and composers who have created and performed music despite significant hearing loss. [Ludwig van Beethoven](https://en.wikipedia.org/wiki/Ludwig_van_Beethoven), one of the most influential composers in Western music history, continued to compose groundbreaking works even after becoming profoundly deaf. This was possible by relying on other senses, such as vision and touch. 
+
+In more recent times, percussionist [Evelyn Glennie](https://en.wikipedia.org/wiki/Evelyn_Glennie) has demonstrated that musical experience and expression are not limited by the ability to hear sound through the auditory system. Glennie, who lost most of her hearing by the age of twelve, developed unique techniques to sense vibrations through her body, allowing her to perform and interpret music:
 
 <iframe width="1024" height="576" src="https://embed.ted.com/talks/evelyn_glennie_how_to_truly_listen" title="How to truly listen" frameborder="0" allowfullscreen></iframe>
 
+```{exercise}
+Cover your ears with ear plugs and/or sound-insulating headphones. Try to play on an instrument. What do you "hear"? What do you feel?
+```
 
 ### Action and Perception
 
 The last concept we will introduce this week is the *action–perception loop*. The idea of embodied cognition in general is that we sense through action, and act through sensing. In music, the action-perception loop is evident in activities such as playing an instrument, where sensory feedback informs motor actions, and vice versa. For example, a pianist adjusts their touch based on the sound produced, creating a continuous cycle of interaction.
 
-![Action–perception loop](figures/action-cognition.png)
+```{figure} figures/action-cognition.png
+:scale: 50 %
+:alt: map to buried treasure
+The action–perception loop is at the core of embodied music cognition. 
+```
 
 [Eric Clarke](https://en.wikipedia.org/wiki/Eric_Clarke) has used the action–perception loop as core to his thinking about *ecological listening*. He bridges psychology, musicology, and acoustic ecology, offering insights into how humans engage with sound as part of their lived experience. In his influential book *Ways of Listening*, he argues for three different listening modes: 
 
