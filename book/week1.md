@@ -239,8 +239,8 @@ Cover your ears with earplugs and/or sound-insulating headphones. Try to play on
 The last concept we will introduce this week is the *action–perception loop*. The idea of embodied cognition, in general, is that we sense through action and act through sensing. In music, the action-perception loop is evident in activities such as playing an instrument, where sensory feedback informs motor actions, and vice versa. For example, a pianist adjusts their touch in response to the sound they produce, creating a continuous cycle of interaction.
 
 ```{figure} figures/action-cognition.png
-:scale: 50 %
-:alt: map to buried treasure
+:scale: 20 %
+:alt: a circle between action and perception
 The action–perception loop is at the core of embodied music cognition. 
 ```
 
