@@ -5,6 +5,9 @@ authors:
   - name: Alexander Refsum Jensenius
     affiliation: 
       - University of Oslo
+  - name: CoPilot
+    affiliation: 
+      - Microsoft
 description: "This chapter explores the art and science of listening, focusing on how sounds and soundscapes are described, understood, and analysed across disciplines. It introduces influential theories and thinkers, practical listening exercises, and tools for engaging with the sonic environment."
 exports:
   - format: pdf
@@ -97,6 +100,8 @@ Key aspects of soundwalking include:
 Westerkamp’s soundwalking practice bridges both scientific research and artistic exploration. In her scientific work, Westerkamp used soundwalks to gather data on urban and natural soundscapes. Participants documented their listening experiences, helping researchers analyse acoustic environments, identify sources of noise pollution, and understand how people perceive and interact with their sonic surroundings. These soundwalks have contributed to studies in acoustic ecology, urban planning, and environmental psychology.
 
 Artistically, Westerkamp transformed soundwalking into a creative process. She has composed works based on field recordings and reflections gathered during soundwalks, such as her acclaimed piece *[Kits Beach Soundwalk](https://www.youtube.com/watch?v=hg96nU6ltLk)*. Her compositions often blend environmental sounds with narration, inviting listeners to experience places through attentive listening. She demonstrated how attentive listening can deepen our understanding of environments, foster community awareness, and inspire new forms of sonic art.
+
+Hildegard Westerkamp’s use of the term "music-as-environment" frames everyday acoustic surroundings as legitimate musical material: the city, the shore, or a forest are heard as dynamic, layered soundings rather than passive backdrops. Through practices like soundwalking she encourages sustained, analytical listening that foregrounds relationships, textures, and temporal patterns in the world, treating listening itself as a creative and ecological act. This view blurs the roles of composer, performer, and audience, suggesting that attentive engagement with environmental sounds can reveal social, cultural, and ecological meanings and become the basis for artistic and communal practice.
 
 ```{exercise} Sound Walking
 1. Walk slowly in a group, without talking 

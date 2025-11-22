@@ -1,6 +1,12 @@
 ---
 title: "8. The Brain"
 subtitle: Understanding how the brain processes sound and music
+  - name: Alexander Refsum Jensenius
+    affiliation: 
+      - University of Oslo
+  - name: CoPilot
+    affiliation: 
+      - Microsoft
 description: "An overview of how the brain processes sound and music, highlighting key brain regions involved in perception, cognition, and emotion, as well as methods for capturing brain activity related to music listening and performance."
 exports:
   - format: pdf

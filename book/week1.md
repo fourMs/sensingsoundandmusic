@@ -5,6 +5,9 @@ authors:
   - name: Alexander Refsum Jensenius
     affiliation: 
       - University of Oslo
+  - name: CoPilot
+    affiliation: 
+      - Microsoft
 description: "This page introduces the foundational concepts of music psychology and technology, exploring how humans perceive, experience, and create sound and music through both psychological and technological perspectives."
 exports:
   - format: pdf
@@ -205,7 +208,9 @@ Researchers in music education and therapy have embraced the musicking concept b
 
 ### Multimodality
 
-We will focus heavily on listening and auditory perception in this course. However, it is important to remember that music is inherently *multimodal*, meaning that we&mdash;both humans and other animals&mdash;use multiple sensory modalities in the perception and understanding of the world. 
+The French composer [Edgard Varèse](https://en.wikipedia.org/wiki/Edgard_Var%C3%A8se), who famously argued that "music is organised sound" and advocated treating noise and timbre as primary compositional resources. Varèse's definition of music was important in expanding the idea of music beyond traditional melody or harmony, positing that music is any sound intentionally shaped and structured over time.
+
+In this course, however, we will expand on the idea of music. This is based on an acknowledgement of music as inherently *multimodal*, meaning that we&mdash;both humans and other animals&mdash;use multiple sensory modalities in the perception and understanding of the world.
 
 :::{table} The primary human senses, their associated sensory modalities, and the organs involved in each
 :widths: auto
@@ -255,7 +260,7 @@ The action–perception loop is often also called *perception–action loop*. Wh
 - **Affordances**: Sounds provide cues about actions or interactions possible within a given environment.
 - **Contextual listening**: The meaning of sounds is shaped by their environmental and situational context.
 
-As we will see next week, there are many similar ways of thinking about how we listen.
+He also notes that we often hear sounds as “the sound of” something, for example, “the sound of a guitar” or “the sound of a scream.” This source‑based listening fits neatly with Clarke’s three modes: identifying the source aligns with direct perception, recognising possible interactions links to affordances, and interpreting situational meaning is part of contextual listening. In short, attributing sounds to objects or events is one common way we make sense of auditory experience, and it will be one of several listening perspectives we examine next week.
 
 
 ## Questions

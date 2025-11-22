@@ -1,6 +1,12 @@
 ---
 title: "10. Physiology"
 subtitle: "Physiology and measurement of bodily responses to music"
+  - name: Alexander Refsum Jensenius
+    affiliation: 
+      - University of Oslo
+  - name: CoPilot
+    affiliation: 
+      - Microsoft
 description: "Physiology and measurement of bodily responses to music: skin conductance, cardiac dynamics (heart rate, heart‑rate variability, synchronization), respiration effects, wearable monitoring methods (e.g., Equivital), and representative empirical studies and citations."
 exports:
   - format: pdf
