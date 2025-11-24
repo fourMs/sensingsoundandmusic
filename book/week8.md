@@ -1,6 +1,7 @@
 ---
 title: "8. The Brain"
 subtitle: Understanding how the brain processes sound and music
+authors: 
   - name: Alexander Refsum Jensenius
     affiliation: 
       - University of Oslo

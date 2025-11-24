@@ -1,6 +1,7 @@
 ---
 title: "9. Vision"
 subtitle: "How vision shapes our perception and experience of sound and music"
+authors: 
   - name: Alexander Refsum Jensenius
     affiliation: 
       - University of Oslo

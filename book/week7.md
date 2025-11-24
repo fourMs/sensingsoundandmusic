@@ -1,6 +1,7 @@
 ---
 title: "7. The Body"
 subtitle: Exploring the Role of the Body in Music Performance, Perception, and Analysis
+authors: 
   - name: Alexander Refsum Jensenius
     affiliation: 
       - University of Oslo

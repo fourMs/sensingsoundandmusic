@@ -1,6 +1,7 @@
 ---
 title: "10. Physiology"
 subtitle: "Physiology and measurement of bodily responses to music"
+authors: 
   - name: Alexander Refsum Jensenius
     affiliation: 
       - University of Oslo
