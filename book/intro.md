@@ -162,12 +162,12 @@ This textbook is divided into chapters corresponding to each week's class.
 
 ::::{grid} 1 1 2 2
 :::{card} MUS2133 Music Psychology
-:link: https://www.uio.no/studier/emner/hf/imv/mus2133/
+:link: https://www.uio.no/studier/emner/hf/imv/MUS2133/
 This course explores the psychological aspects of music perception and cognition, including auditory perception, emotional responses to music, and the cognitive processes involved in musical activities such as listening, performing, and composing.
 :::
 
-:::{card} MUS2830 Computer Music
-:link: https://www.uio.no/studier/emner/hf/imv/MUS2830/
+:::{card} MUS2850 Computer Music
+:link: https://www.uio.no/studier/emner/hf/imv/MUS2850/
 This course delves into the intersection of music and technology, covering topics such as sound synthesis, digital audio processing, and algorithmic composition. Gain hands-on experience with tools and techniques used in creating and analysing music through computational methods.
 :::
 ::::
