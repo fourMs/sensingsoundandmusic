@@ -8,9 +8,6 @@ authors:
   - name: Alexander Refsum Jensenius
     affiliation: 
       - University of Oslo
-  - name: CoPilot
-    affiliation: 
-      - Microsoft
 description: This chapter explores the foundations of musical time and rhythm, covering concepts such as onset timing, perceptual centers, meter, microrhythm, groove, and entrainment. It examines how rhythm is structured, perceived, and performed, highlighting the roles of technology and analysis tools in understanding the nuances of timing and groove in various musical styles.
 exports:
   - format: pdf

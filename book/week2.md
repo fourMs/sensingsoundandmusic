@@ -1,13 +1,6 @@
 ---
 title: "2. Listening"
 subtitle: "Exploring how we perceive, describe, and engage with soundscapes"
-authors: 
-  - name: Alexander Refsum Jensenius
-    affiliation: 
-      - University of Oslo
-  - name: CoPilot
-    affiliation: 
-      - Microsoft
 description: "This chapter explores the art and science of listening, focusing on how sounds and soundscapes are described, understood, and analysed across disciplines. It introduces influential theories and thinkers, practical listening exercises, and tools for engaging with the sonic environment."
 exports:
   - format: pdf

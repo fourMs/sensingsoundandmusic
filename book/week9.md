@@ -1,13 +1,6 @@
 ---
 title: "9. Vision"
 subtitle: "How vision shapes our perception and experience of sound and music"
-authors: 
-  - name: Alexander Refsum Jensenius
-    affiliation: 
-      - University of Oslo
-  - name: CoPilot
-    affiliation: 
-      - Microsoft
 description: "This chapter explores how vision influences our perception and experience of sound and music. It examines the interplay between visual and auditory modalities, the anatomy and physiology of the eye, psychological aspects of gaze and attention, and the use of technologies such as eye-tracking and pupillometry in research. Through scientific explanations and practical examples, the chapter highlights how visual information shapes our understanding and enjoyment of music."
 exports:
   - format: pdf
