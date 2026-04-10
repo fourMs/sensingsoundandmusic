@@ -51,11 +51,11 @@ jobs:
           cd book
           myst build --pdf || true
 
-      - name: Copy PDF into HTML output for web serving
+      - name: Copy PDFs into HTML output for web serving
         run: |
           mkdir -p book/_build/html
           find book/_build/exports -name '*.pdf' \
-               -exec cp {} book/_build/html/sensing-sound-and-music.pdf \; \
+               -exec cp {} book/_build/html/ \; \
                2>/dev/null || true
 
       - name: Upload PDF as release artifact

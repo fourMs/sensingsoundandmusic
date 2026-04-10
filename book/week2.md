@@ -4,7 +4,10 @@ subtitle: "Exploring how we perceive, describe, and engage with soundscapes"
 description: "This chapter explores the art and science of listening, focusing on how sounds and soundscapes are described, understood, and analysed across disciplines. It introduces influential theories and thinkers, practical listening exercises, and tools for engaging with the sonic environment."
 exports:
   - format: pdf
+    output: week2.pdf
 ---
+
+[📄 Download this chapter as PDF](https://fourms.github.io/sensingsoundandmusic/week2.pdf)
 
 ## Describing sounds
 

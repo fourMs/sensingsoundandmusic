@@ -3,8 +3,11 @@ title: "7. The Body"
 subtitle: Exploring the Role of the Body in Music Performance, Perception, and Analysis
 description: "An introduction to the fundamental role of body motion in music performance, perception, and analysis, covering anatomy, biomechanics, motion capture technologies, and research methods for studying music-related movement."
 exports:
- - format: pdf
+  - format: pdf
+    output: week7.pdf
 ---
+
+[📄 Download this chapter as PDF](https://fourms.github.io/sensingsoundandmusic/week7.pdf)
 
 Until now, we have primarily focused on sensing sound and music as auditory experiences. While *hearing* is central, it is equally important to recognise that we also perceive sound and music through our bodies. This week, we will explore how the body shapes music perception and cognition. We will begin by examining the body's role in musical experience, then review key aspects of anatomy and biomechanics, and finally consider different methods for analysing human movement.
 

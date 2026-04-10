@@ -4,7 +4,10 @@ subtitle: Understanding how the brain processes sound and music
 description: "An overview of how the brain processes sound and music, highlighting key brain regions involved in perception, cognition, and emotion, as well as methods for capturing brain activity related to music listening and performance."
 exports:
   - format: pdf
+    output: week8.pdf
 ---
+
+[📄 Download this chapter as PDF](https://fourms.github.io/sensingsoundandmusic/week8.pdf)
 
 The human brain plays a central role in how we sense, interpret, and respond to sound and music. As we have discussed in previous weeks, from the moment sound waves enter our ears, intricate neural pathways are activated, allowing us to perceive pitch, rhythm, and timbre, as well as to experience emotions and memories linked to music. Understanding the brain’s involvement in sound and music cognition provides insight into the complex interplay between sensory processing, cognitive functions, and emotional responses. This week we will explore the key brain regions and mechanisms underlying our ability to make sense of sound and music, and examine the methods used to study brain activity during musical experiences.
 

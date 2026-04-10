@@ -11,7 +11,10 @@ authors:
 description: This chapter explores the foundations of musical time and rhythm, covering concepts such as onset timing, perceptual centers, meter, microrhythm, groove, and entrainment. It examines how rhythm is structured, perceived, and performed, highlighting the roles of technology and analysis tools in understanding the nuances of timing and groove in various musical styles.
 exports:
   - format: pdf
+    output: week5.pdf
 ---
+
+[📄 Download this chapter as PDF](https://fourms.github.io/sensingsoundandmusic/week5.pdf)
 
 ## Introduction
 

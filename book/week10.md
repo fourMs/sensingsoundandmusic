@@ -4,7 +4,10 @@ subtitle: "Physiology and measurement of bodily responses to music"
 description: "Physiology and measurement of bodily responses to music: skin conductance, cardiac dynamics (heart rate, heart‑rate variability, synchronization), respiration effects, wearable monitoring methods (e.g., Equivital), and representative empirical studies and citations."
 exports:
   - format: pdf
+    output: week10.pdf
 ---
+
+[📄 Download this chapter as PDF](https://fourms.github.io/sensingsoundandmusic/week10.pdf)
 
 This week we explore how the body responds to sound and music, from fast autonomic reactions to slower respiratory and motor changes. We will examine some physiological markers (heart rate and heart‑rate variability, skin conductance, respiration, and muscle tension), the physiological mechanisms that produce them (sympathetic/parasympathetic balance, entrainment), and methodological issues in measuring these signals in laboratory and concert settings.
 
