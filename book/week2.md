@@ -5,9 +5,10 @@ description: "This chapter explores the art and science of listening, focusing o
 exports:
   - format: pdf
     output: week2.pdf
+downloads:
+  - url: https://fourms.github.io/sensingsoundandmusic/week2.pdf
+    title: Download chapter as PDF
 ---
-
-[📄 Download this chapter as PDF](https://fourms.github.io/sensingsoundandmusic/week2.pdf)
 
 ## Describing sounds
 

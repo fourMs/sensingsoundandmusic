@@ -12,9 +12,10 @@ description: This chapter explores the foundations of musical time and rhythm, c
 exports:
   - format: pdf
     output: week5.pdf
+downloads:
+  - url: https://fourms.github.io/sensingsoundandmusic/week5.pdf
+    title: Download chapter as PDF
 ---
-
-[📄 Download this chapter as PDF](https://fourms.github.io/sensingsoundandmusic/week5.pdf)
 
 ## Introduction
 

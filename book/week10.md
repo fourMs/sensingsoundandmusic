@@ -5,9 +5,10 @@ description: "Physiology and measurement of bodily responses to music: skin cond
 exports:
   - format: pdf
     output: week10.pdf
+downloads:
+  - url: https://fourms.github.io/sensingsoundandmusic/week10.pdf
+    title: Download chapter as PDF
 ---
-
-[📄 Download this chapter as PDF](https://fourms.github.io/sensingsoundandmusic/week10.pdf)
 
 This week we explore how the body responds to sound and music, from fast autonomic reactions to slower respiratory and motor changes. We will examine some physiological markers (heart rate and heart‑rate variability, skin conductance, respiration, and muscle tension), the physiological mechanisms that produce them (sympathetic/parasympathetic balance, entrainment), and methodological issues in measuring these signals in laboratory and concert settings.
 
