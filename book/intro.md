@@ -8,11 +8,12 @@ authors:
 description: "This page describes the motivation behind making a web resource for the course MUS2640 Sensing Sound and Music at the University of Oslo."
 exports:
  - format: pdf
+downloads:
+  - url: https://fourms.github.io/sensingsoundandmusic/sensing-sound-and-music.pdf
+    title: Download complete book as PDF
 ---
 
 ![Book cover](figures/cover/20240511_141310_630_1000px.jpg)
-
-[📄 Download the complete book as PDF](https://fourms.github.io/sensingsoundandmusic/sensing-sound-and-music.pdf)
 
 ## Introduction
 

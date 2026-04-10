@@ -5,9 +5,10 @@ description: "This chapter explores how vision influences our perception and exp
 exports:
   - format: pdf
     output: week9.pdf
+downloads:
+  - url: https://fourms.github.io/sensingsoundandmusic/week9.pdf
+    title: Download chapter as PDF
 ---
-
-[📄 Download this chapter as PDF](https://fourms.github.io/sensingsoundandmusic/week9.pdf)
 
 This week, we will explore the role of vision in sound and music perception and cognition. Vision is not only essential for navigating our environment but also plays a significant part in how we experience and interpret sound and music. Visual cues can influence how we perceive auditory information, shape our expectations, and enhance our understanding of complex musical performances. For example, watching a musician's sound-producing actions or a conductor's gestures can affect how we interpret rhythm, timing, and emotional expression in music. We will discuss how the brain integrates visual and auditory information, examine phenomena such as audiovisual illusions, and consider the importance of visual feedback in musical learning and performance. Through examples and experiments, we will see how vision and hearing work together to create richer, more immersive experiences in both everyday life and artistic contexts.
 

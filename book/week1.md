@@ -5,9 +5,10 @@ description: "This page introduces the foundational concepts of music psychology
 exports:
   - format: pdf
     output: week1.pdf
+downloads:
+  - url: https://fourms.github.io/sensingsoundandmusic/week1.pdf
+    title: Download chapter as PDF
 ---
-
-[📄 Download this chapter as PDF](https://fourms.github.io/sensingsoundandmusic/week1.pdf)
 
 ## Sensing sound and music
 
