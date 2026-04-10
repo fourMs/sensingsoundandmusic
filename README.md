@@ -9,12 +9,22 @@ To run the book using a local server:
     cd book
     jupyter book start
 
-To build HTML and PDF versions of the book: 
+To build the HTML version of the book: 
 
     cd book
-    jupyter book build --all
+    myst build --html
 
-Both of these require the dependencies to be installed (check requirements.txt).
+To build both HTML and the LaTeX-based PDF:
+
+    cd book
+    myst build --all
+
+The PDF requires a working LaTeX installation. On Debian/Ubuntu:
+
+    sudo apt-get install texlive-latex-extra texlive-fonts-extra \
+        texlive-fonts-recommended texlive-science texlive-xetex latexmk lmodern
+
+The generated PDF is written to `book/_build/exports/sensing-sound-and-music.pdf`.
 
 ## Credits
 
