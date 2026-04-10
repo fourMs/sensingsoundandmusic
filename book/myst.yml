@@ -20,6 +20,7 @@ project:
     - file: week2.md
     - file: week3.ipynb
     - file: week4.ipynb
+    - file: electroacoustics.ipynb
     - file: week5.md
     - file: week6.ipynb
     - file: week7.md
