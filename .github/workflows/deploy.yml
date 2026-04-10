@@ -41,10 +41,15 @@ jobs:
             latexmk \
             lmodern
 
-      - name: Build Jupyter Book (HTML + PDF)
+      - name: Build Jupyter Book HTML
         run: |
           cd book
-          BASE_URL=/sensingsoundandmusic myst build --all
+          BASE_URL=/sensingsoundandmusic myst build --html
+
+      - name: Build PDF exports
+        run: |
+          cd book
+          myst build --pdf || true
 
       - name: Copy PDF into HTML output for web serving
         run: |
