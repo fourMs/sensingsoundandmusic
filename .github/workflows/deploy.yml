@@ -39,7 +39,8 @@ jobs:
             texlive-science \
             texlive-xetex \
             latexmk \
-            lmodern
+            lmodern \
+            imagemagick
 
       - name: Build Jupyter Book HTML
         run: |
@@ -57,12 +58,15 @@ jobs:
           find book/_build/exports -name '*.pdf' \
                -exec cp {} book/_build/html/ \; \
                2>/dev/null || true
+          find book -maxdepth 1 -name '*.pdf' \
+               -exec cp {} book/_build/html/ \; \
+               2>/dev/null || true
 
       - name: Upload PDF as release artifact
         uses: actions/upload-artifact@v4
         with:
           name: textbook-pdf
-          path: book/_build/exports/*.pdf
+          path: book/_build/html/*.pdf
           if-no-files-found: warn
 
       - name: Deploy to GitHub Pages
