@@ -45,7 +45,7 @@ jobs:
       - name: Build Jupyter Book HTML
         run: |
           cd book
-          BASE_URL=/sensingsoundandmusic myst build --html
+          BASE_URL=/sensingsoundandmusic myst build --html --execute
 
       - name: Build PDF exports
         run: |
