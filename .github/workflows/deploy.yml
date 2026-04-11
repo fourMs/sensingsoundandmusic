@@ -28,6 +28,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install "jupyter-book>=2.0.0a0"
+          # Myst 1.8.x currently rejects the upstream plain_latex template metadata.
+          # Pinning 1.6.0 keeps PDF export stable in CI.
+          pip install "mystmd==1.6.0"
           pip install ghp-import
           pip install -r requirements.txt
 

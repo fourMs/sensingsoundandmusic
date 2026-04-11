@@ -30,7 +30,6 @@ project:
     - file: vision.ipynb
     - file: physiology.ipynb
     - file: machine-listening.ipynb
-    - file: general-comments.ipynb
     
 site:
   template: book-theme
