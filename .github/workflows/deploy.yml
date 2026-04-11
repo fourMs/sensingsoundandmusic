@@ -63,6 +63,11 @@ jobs:
           find book/_build/exports -name '*.pdf' \
                -exec cp {} book/_build/html/ \; \
                2>/dev/null || true
+          # Fallback: front page expects sensing-sound-and-music.pdf.
+          # If the combined project PDF failed but index.pdf exists, publish index.pdf under that name.
+          if [ ! -f book/_build/html/sensing-sound-and-music.pdf ] && [ -f book/_build/html/index.pdf ]; then
+            cp book/_build/html/index.pdf book/_build/html/sensing-sound-and-music.pdf
+          fi
           find book -maxdepth 1 -name '*.pdf' \
                -exec cp {} book/_build/html/ \; \
                2>/dev/null || true
