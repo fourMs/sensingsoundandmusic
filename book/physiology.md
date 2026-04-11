@@ -4,9 +4,9 @@ subtitle: "Physiology and measurement of bodily responses to music"
 description: "Physiology and measurement of bodily responses to music: skin conductance, cardiac dynamics (heart rate, heart‑rate variability, synchronization), respiration effects, wearable monitoring methods (e.g., Equivital), and representative empirical studies and citations."
 exports:
   - format: pdf
-    output: week10.pdf
+    output: physiology.pdf
 downloads:
-  - url: https://fourms.github.io/sensingsoundandmusic/week10.pdf
+  - url: https://fourms.github.io/sensingsoundandmusic/physiology.pdf
     title: Download chapter as PDF
 ---
 

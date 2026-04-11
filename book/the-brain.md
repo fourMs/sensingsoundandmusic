@@ -4,9 +4,9 @@ subtitle: Understanding how the brain processes sound and music
 description: "An overview of how the brain processes sound and music, highlighting key brain regions involved in perception, cognition, and emotion, as well as methods for capturing brain activity related to music listening and performance."
 exports:
   - format: pdf
-    output: week8.pdf
+    output: the-brain.pdf
 downloads:
-  - url: https://fourms.github.io/sensingsoundandmusic/week8.pdf
+  - url: https://fourms.github.io/sensingsoundandmusic/the-brain.pdf
     title: Download chapter as PDF
 ---
 

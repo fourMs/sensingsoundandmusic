@@ -4,9 +4,9 @@ subtitle: "Exploring the Foundations of Music Psychology and Technology"
 description: "This page introduces the foundational concepts of music psychology and technology, exploring how humans perceive, experience, and create sound and music through both psychological and technological perspectives."
 exports:
   - format: pdf
-    output: week1.pdf
+    output: tuning-in.pdf
 downloads:
-  - url: https://fourms.github.io/sensingsoundandmusic/week1.pdf
+  - url: https://fourms.github.io/sensingsoundandmusic/tuning-in.pdf
     title: Download chapter as PDF
 ---
 

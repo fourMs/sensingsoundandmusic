@@ -4,9 +4,9 @@ subtitle: Exploring the Role of the Body in Music Performance, Perception, and A
 description: "An introduction to the fundamental role of body motion in music performance, perception, and analysis, covering anatomy, biomechanics, motion capture technologies, and research methods for studying music-related movement."
 exports:
   - format: pdf
-    output: week7.pdf
+    output: the-body.pdf
 downloads:
-  - url: https://fourms.github.io/sensingsoundandmusic/week7.pdf
+  - url: https://fourms.github.io/sensingsoundandmusic/the-body.pdf
     title: Download chapter as PDF
 ---
 
@@ -19,7 +19,7 @@ How do you think about your own body in relation to music performance or percept
 
 ## Embodied music cognition
 
-Recall that you have been introduced to the theories of [embodied music cognition](https://fourms.github.io/sensingsoundandmusic/week1/#embodied-music-cognition) at the beginning of this course. An embodied approach to music cognition emphasises the role of the body in producing, perceiving, and understanding music. Rather than viewing musical experience as only and auditory phenomenon&mdash;orpurely mental or abstract&mdash;this approach highlights how bodily sensations, movements, and actions are integral to musical meaning. 
+Recall that you have been introduced to the theories of [embodied music cognition](https://fourms.github.io/sensingsoundandmusic/tuning-in/#embodied-music-cognition) at the beginning of this course. An embodied approach to music cognition emphasises the role of the body in producing, perceiving, and understanding music. Rather than viewing musical experience as only and auditory phenomenon&mdash;orpurely mental or abstract&mdash;this approach highlights how bodily sensations, movements, and actions are integral to musical meaning. 
 
 Some key ideas in embodied music cognition include:
 
