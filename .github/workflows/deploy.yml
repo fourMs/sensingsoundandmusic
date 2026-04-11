@@ -50,7 +50,8 @@ jobs:
       - name: Build PDF exports
         run: |
           cd book
-          myst build --pdf || true
+          myst build --pdf
+          test -f _build/exports/sensing-sound-and-music.pdf
 
       - name: Copy PDFs into HTML output for web serving
         run: |
