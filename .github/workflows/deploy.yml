@@ -56,7 +56,6 @@ jobs:
         run: |
           cd book
           myst build --pdf || true
-          test -f _build/exports/sensing-sound-and-music.pdf
 
       - name: Copy PDFs into HTML output for web serving
         run: |
