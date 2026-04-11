@@ -63,6 +63,21 @@ jobs:
           find book/_build/exports -name '*.pdf' \
                -exec cp {} book/_build/html/ \; \
                2>/dev/null || true
+          # Also copy hashed PDFs produced under site/public (Myst may only emit hashed names there).
+          find book/_build/site/public -maxdepth 1 -name '*.pdf' \
+               -exec cp {} book/_build/html/ \; \
+               2>/dev/null || true
+
+          # Canonicalize chapter PDF filenames expected by page download links.
+          for name in index tuning-in listening acoustics psychoacoustics electroacoustics time-and-rhythm harmony-and-melody the-body the-brain vision physiology machine-listening general-comments; do
+            if [ ! -f "book/_build/html/${name}.pdf" ]; then
+              candidate=$(ls -1 book/_build/site/public/${name}-*.pdf 2>/dev/null | head -n 1 || true)
+              if [ -n "$candidate" ]; then
+                cp "$candidate" "book/_build/html/${name}.pdf"
+              fi
+            fi
+          done
+
           # Fallback: front page expects sensing-sound-and-music.pdf.
           # If the combined project PDF failed but index.pdf exists, publish index.pdf under that name.
           if [ ! -f book/_build/html/sensing-sound-and-music.pdf ] && [ -f book/_build/html/index.pdf ]; then
