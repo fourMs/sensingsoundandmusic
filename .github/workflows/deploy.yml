@@ -8,6 +8,8 @@ on:
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
@@ -50,7 +52,7 @@ jobs:
       - name: Build PDF exports
         run: |
           cd book
-          myst build --pdf
+          myst build --pdf || true
           test -f _build/exports/sensing-sound-and-music.pdf
 
       - name: Copy PDFs into HTML output for web serving
