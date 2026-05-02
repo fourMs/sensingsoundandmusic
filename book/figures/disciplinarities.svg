@@ -1,0 +1,98 @@
+<svg width="1024" height="300"
+     viewBox="0 0 1024 300"
+     xmlns="http://www.w3.org/2000/svg">
+
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7"
+            refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="black"/>
+    </marker>
+
+    <style>
+      text {
+        font-family: "Helvetica, Arial, sans-serif";
+        fill: #000;
+      }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="1024" height="300" fill="white"/>
+
+  <!-- Common parameters -->
+  <!-- Big circles centers along x: 110, 310, 510, 710, 910; y=150 -->
+  <!-- Radius ~85 -->
+
+  <!-- Intra-disciplinary -->
+  <circle cx="110" cy="150" r="85" fill="white" stroke="black" stroke-width="3"/>
+  <circle cx="110" cy="150" r="10" fill="white" stroke="black" stroke-width="2"/>
+
+  <text x="110" y="35" text-anchor="middle" font-size="30">Intra-</text>
+  <text x="110" y="65" text-anchor="middle" font-size="30">disciplinary</text>
+
+  <!-- Cross-disciplinary -->
+  <circle cx="310" cy="150" r="85" fill="white" stroke="black" stroke-width="3"/>
+
+  <!-- scattered small circles -->
+  <circle cx="280" cy="120" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="305" cy="105" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="335" cy="120" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="275" cy="155" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="310" cy="160" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="340" cy="150" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="300" cy="185" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+
+  <text x="310" y="35" text-anchor="middle" font-size="30">Cross-</text>
+  <text x="310" y="65" text-anchor="middle" font-size="30">disciplinary</text>
+
+  <!-- Multi-disciplinary -->
+  <circle cx="510" cy="150" r="85" fill="white" stroke="black" stroke-width="3"/>
+
+  <!-- cluster in middle -->
+  <circle cx="495" cy="145" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="510" cy="130" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="525" cy="145" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="495" cy="160" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="510" cy="175" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="525" cy="160" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="510" cy="145" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+
+  <text x="510" y="35" text-anchor="middle" font-size="30">Multi-</text>
+  <text x="510" y="65" text-anchor="middle" font-size="30">disciplinary</text>
+
+  <!-- Inter-disciplinary -->
+  <circle cx="710" cy="150" r="85" fill="white" stroke="black" stroke-width="3"/>
+
+  <!-- small tighter cluster -->
+  <circle cx="700" cy="145" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="715" cy="135" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="725" cy="150" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="710" cy="160" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="695" cy="155" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+
+  <text x="710" y="35" text-anchor="middle" font-size="30">Inter-</text>
+  <text x="710" y="65" text-anchor="middle" font-size="30">disciplinary</text>
+
+  <!-- Trans-disciplinary -->
+  <circle cx="910" cy="150" r="85" fill="white" stroke="black" stroke-width="3"/>
+
+  <!-- two overlapping circles -->
+  <circle cx="905" cy="145" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="915" cy="150" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+
+  <text x="910" y="35" text-anchor="middle" font-size="30">Trans-</text>
+  <text x="910" y="65" text-anchor="middle" font-size="30">disciplinary</text>
+
+  <!-- Dotted path with arrow from left circle to right bottom -->
+  <path d="
+      M 110 230
+      L 110 250
+      L 910 250
+      L 910 220"
+        fill="none"
+        stroke="black"
+        stroke-width="4"
+        stroke-dasharray="4,6"
+        marker-end="url(#arrowhead)"/>
+
+</svg>
