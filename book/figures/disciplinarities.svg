@@ -3,9 +3,9 @@
      xmlns="http://www.w3.org/2000/svg">
 
   <defs>
-    <marker id="arrowhead" markerWidth="6" markerHeight="4"
-            refX="6" refY="2" orient="auto" markerUnits="userSpaceOnUse">
-      <polygon points="0 0, 6 2, 0 4" fill="black"/>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7"
+            refX="10" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
+      <polygon points="0 0, 10 3.5, 0 7" fill="black"/>
     </marker>
 
     <style>
@@ -48,14 +48,13 @@
   <!-- Multi-disciplinary -->
   <circle cx="510" cy="150" r="85" fill="white" stroke="black" stroke-width="3"/>
 
-  <!-- cluster in middle -->
-  <circle cx="495" cy="145" r="8" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="510" cy="130" r="8" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="525" cy="145" r="8" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="495" cy="160" r="8" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="510" cy="175" r="8" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="525" cy="160" r="8" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="510" cy="145" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <!-- six small circles on a ring (R=93) around (510,150): bottom circle top at y=235 matches big-circle bottom -->
+  <circle cx="510" cy="243" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="590.5" cy="196.5" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="590.5" cy="103.5" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="510" cy="57" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="429.5" cy="103.5" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="429.5" cy="196.5" r="8" fill="white" stroke="black" stroke-width="1.5"/>
 
   <text x="510" y="24" text-anchor="middle" font-size="30">Multi-</text>
   <text x="510" y="52" text-anchor="middle" font-size="30">disciplinary</text>
