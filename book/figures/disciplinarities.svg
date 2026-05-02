@@ -85,10 +85,10 @@
 
   <!-- Dotted path with arrow pointing at intra-disciplinary (left) -->
   <path d="
-      M 910 230
-      L 910 250
-      L 110 250
-      L 110 230"
+      M 910 238
+      L 910 262
+      L 110 262
+      L 110 238"
         fill="none"
         stroke="black"
         stroke-width="4"
