@@ -27,8 +27,8 @@
   <circle cx="110" cy="150" r="85" fill="white" stroke="black" stroke-width="3"/>
   <circle cx="110" cy="150" r="10" fill="white" stroke="black" stroke-width="2"/>
 
-  <text x="110" y="35" text-anchor="middle" font-size="30">Intra-</text>
-  <text x="110" y="65" text-anchor="middle" font-size="30">disciplinary</text>
+  <text x="110" y="24" text-anchor="middle" font-size="30">Intra-</text>
+  <text x="110" y="52" text-anchor="middle" font-size="30">disciplinary</text>
 
   <!-- Cross-disciplinary -->
   <circle cx="310" cy="150" r="85" fill="white" stroke="black" stroke-width="3"/>
@@ -42,8 +42,8 @@
   <circle cx="340" cy="150" r="8" fill="white" stroke="black" stroke-width="1.5"/>
   <circle cx="300" cy="185" r="8" fill="white" stroke="black" stroke-width="1.5"/>
 
-  <text x="310" y="35" text-anchor="middle" font-size="30">Cross-</text>
-  <text x="310" y="65" text-anchor="middle" font-size="30">disciplinary</text>
+  <text x="310" y="24" text-anchor="middle" font-size="30">Cross-</text>
+  <text x="310" y="52" text-anchor="middle" font-size="30">disciplinary</text>
 
   <!-- Multi-disciplinary -->
   <circle cx="510" cy="150" r="85" fill="white" stroke="black" stroke-width="3"/>
@@ -57,8 +57,8 @@
   <circle cx="525" cy="160" r="8" fill="white" stroke="black" stroke-width="1.5"/>
   <circle cx="510" cy="145" r="8" fill="white" stroke="black" stroke-width="1.5"/>
 
-  <text x="510" y="35" text-anchor="middle" font-size="30">Multi-</text>
-  <text x="510" y="65" text-anchor="middle" font-size="30">disciplinary</text>
+  <text x="510" y="24" text-anchor="middle" font-size="30">Multi-</text>
+  <text x="510" y="52" text-anchor="middle" font-size="30">disciplinary</text>
 
   <!-- Inter-disciplinary -->
   <circle cx="710" cy="150" r="85" fill="white" stroke="black" stroke-width="3"/>
@@ -70,8 +70,8 @@
   <circle cx="710" cy="160" r="8" fill="white" stroke="black" stroke-width="1.5"/>
   <circle cx="695" cy="155" r="8" fill="white" stroke="black" stroke-width="1.5"/>
 
-  <text x="710" y="35" text-anchor="middle" font-size="30">Inter-</text>
-  <text x="710" y="65" text-anchor="middle" font-size="30">disciplinary</text>
+  <text x="710" y="24" text-anchor="middle" font-size="30">Inter-</text>
+  <text x="710" y="52" text-anchor="middle" font-size="30">disciplinary</text>
 
   <!-- Trans-disciplinary -->
   <circle cx="910" cy="150" r="85" fill="white" stroke="black" stroke-width="3"/>
@@ -80,8 +80,8 @@
   <circle cx="905" cy="145" r="10" fill="white" stroke="black" stroke-width="1.5"/>
   <circle cx="915" cy="150" r="10" fill="white" stroke="black" stroke-width="1.5"/>
 
-  <text x="910" y="35" text-anchor="middle" font-size="30">Trans-</text>
-  <text x="910" y="65" text-anchor="middle" font-size="30">disciplinary</text>
+  <text x="910" y="24" text-anchor="middle" font-size="30">Trans-</text>
+  <text x="910" y="52" text-anchor="middle" font-size="30">disciplinary</text>
 
   <!-- Dotted path with arrow pointing at intra-disciplinary (left) -->
   <path d="
