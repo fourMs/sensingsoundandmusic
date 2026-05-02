@@ -44,6 +44,9 @@ jobs:
         run: |
           cd book
           BASE_URL=/sensingsoundandmusic myst build --html --execute
+          # Myst fingerprints _static assets under /build/, which breaks stable URLs.
+          # Copy the beating demo to a stable top-level path for linking from content.
+          cp "_static/beating-demo.html" "_build/html/beating-demo.html"
 
       - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4
