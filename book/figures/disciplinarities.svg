@@ -48,13 +48,14 @@
   <!-- Multi-disciplinary -->
   <circle cx="510" cy="150" r="85" fill="white" stroke="black" stroke-width="3"/>
 
-  <!-- six small circles on a ring (R=93) around (510,150): bottom circle top at y=235 matches big-circle bottom -->
-  <circle cx="510" cy="243" r="8" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="590.5" cy="196.5" r="8" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="590.5" cy="103.5" r="8" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="510" cy="57" r="8" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="429.5" cy="103.5" r="8" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="429.5" cy="196.5" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <!-- one central + six satellites inside big circle: ring radius 50 (centers), r=8, outer extent 58 < 85 -->
+  <circle cx="510" cy="200" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="466.7" cy="175" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="466.7" cy="125" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="510" cy="100" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="553.3" cy="125" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="553.3" cy="175" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="510" cy="150" r="8" fill="white" stroke="black" stroke-width="1.5"/>
 
   <text x="510" y="24" text-anchor="middle" font-size="30">Multi-</text>
   <text x="510" y="52" text-anchor="middle" font-size="30">disciplinary</text>
