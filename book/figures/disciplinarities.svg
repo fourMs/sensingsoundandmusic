@@ -16,8 +16,7 @@
     </style>
   </defs>
 
-  <!-- Background -->
-  <rect x="0" y="0" width="1024" height="300" fill="white"/>
+  <!-- No background rect: transparent where not drawn -->
 
   <!-- Common parameters -->
   <!-- Big circles centers along x: 110, 310, 510, 710, 910; y=150 -->
