@@ -78,14 +78,14 @@
   <!-- Trans-disciplinary -->
   <circle cx="910" cy="150" r="85" fill="white" stroke="black" stroke-width="3"/>
 
-  <!-- seven nearly coincident (strong overlap); drawn in order so strokes stay visible -->
+  <!-- seven: center + hex (ring R=10); still heavily overlapping (r=10) but offsets show each circle -->
+  <circle cx="910" cy="160" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="901.3" cy="155" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="901.3" cy="145" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="910" cy="140" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="918.7" cy="145" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="918.7" cy="155" r="10" fill="white" stroke="black" stroke-width="1.5"/>
   <circle cx="910" cy="150" r="10" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="908" cy="149" r="10" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="912" cy="151" r="10" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="909" cy="151" r="10" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="911" cy="149" r="10" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="907" cy="150" r="10" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="913" cy="150" r="10" fill="white" stroke="black" stroke-width="1.5"/>
 
   <text x="910" y="24" text-anchor="middle" font-size="30">Trans-</text>
   <text x="910" y="52" text-anchor="middle" font-size="30">disciplinary</text>
