@@ -19,6 +19,20 @@ For a full local build with executed notebooks (as in CI), use:
     cd book
     myst build --html --execute
 
+Or from the repository root:
+
+    ./scripts/verify-book-build.sh
+
+### Run notebook execution before every push (optional)
+
+CI already runs `myst build --html --execute` on `main`. To run the same check locally before `git push`, enable this repository’s hooks once:
+
+    git config core.hooksPath .githooks
+
+To push without the check (e.g. a docs-only WIP branch):
+
+    SKIP_BOOK_VERIFY=1 git push
+
 ## Credits
 
 Alexander Refsum Jensenius, Guilherme Schmidt Camara, Sara D'Amario, Laura Bishop.

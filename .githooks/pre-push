@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Enable once: git config core.hooksPath .githooks
+# Emergency skip: SKIP_BOOK_VERIFY=1 git push ...
+set -euo pipefail
+
+if [[ "${SKIP_BOOK_VERIFY:-}" == "1" ]]; then
+  echo "pre-push: skipping book verify (SKIP_BOOK_VERIFY=1)"
+  exit 0
+fi
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+exec "$ROOT/scripts/verify-book-build.sh"
