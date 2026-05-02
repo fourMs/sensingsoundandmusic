@@ -63,12 +63,14 @@
   <!-- Inter-disciplinary -->
   <circle cx="710" cy="150" r="85" fill="white" stroke="black" stroke-width="3"/>
 
-  <!-- small tighter cluster -->
-  <circle cx="700" cy="145" r="8" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="715" cy="135" r="8" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="725" cy="150" r="8" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="710" cy="160" r="8" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="695" cy="155" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <!-- seven inside: center + hex ring R=12 (clear overlap, still readable) -->
+  <circle cx="710" cy="162" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="699.6" cy="156" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="699.6" cy="144" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="710" cy="138" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="720.4" cy="144" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="720.4" cy="156" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="710" cy="150" r="8" fill="white" stroke="black" stroke-width="1.5"/>
 
   <text x="710" y="24" text-anchor="middle" font-size="30">Inter-</text>
   <text x="710" y="52" text-anchor="middle" font-size="30">disciplinary</text>
@@ -76,9 +78,14 @@
   <!-- Trans-disciplinary -->
   <circle cx="910" cy="150" r="85" fill="white" stroke="black" stroke-width="3"/>
 
-  <!-- two overlapping circles -->
-  <circle cx="905" cy="145" r="10" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="915" cy="150" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+  <!-- seven nearly coincident (strong overlap); drawn in order so strokes stay visible -->
+  <circle cx="910" cy="150" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="908" cy="149" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="912" cy="151" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="909" cy="151" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="911" cy="149" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="907" cy="150" r="10" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="913" cy="150" r="10" fill="white" stroke="black" stroke-width="1.5"/>
 
   <text x="910" y="24" text-anchor="middle" font-size="30">Trans-</text>
   <text x="910" y="52" text-anchor="middle" font-size="30">disciplinary</text>
