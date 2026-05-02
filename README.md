@@ -14,17 +14,10 @@ To build the HTML version of the book:
     cd book
     myst build --html
 
-To build both HTML and the LaTeX-based PDF:
+For a full local build with executed notebooks (as in CI), use:
 
     cd book
-    myst build --all
-
-The PDF requires a working LaTeX installation. On Debian/Ubuntu:
-
-    sudo apt-get install texlive-latex-extra texlive-fonts-extra \
-        texlive-fonts-recommended texlive-science texlive-xetex latexmk lmodern
-
-The generated PDF is written to `book/_build/exports/sensing-sound-and-music.pdf`.
+    myst build --html --execute
 
 ## Credits
 

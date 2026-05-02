@@ -4,5 +4,3 @@ title: Sensing Sound and Music
 author: fourMs
 logo: figures/cover/sensing-sound-and-music-cover-300.jpg
 only_build_toc_files: true
-pdf:
-  template: springer
