@@ -1,3 +1,5 @@
+# Builds the Myst site and publishes to the gh-pages branch (classic Pages flow).
+# Repo Settings → Pages: set source to branch gh-pages, folder / (root).
 name: Deploy Jupyter Book
 
 on:
@@ -6,9 +8,7 @@ on:
       - main
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
   group: pages
@@ -17,17 +17,11 @@ concurrency:
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
-
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -51,11 +45,9 @@ jobs:
           cd book
           BASE_URL=/sensingsoundandmusic myst build --html --execute
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Deploy to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          path: book/_build/html
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./book/_build/html
+          force_orphan: true
