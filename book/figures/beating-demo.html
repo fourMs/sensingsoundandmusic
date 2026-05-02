@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Beating pure tones</title>
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; margin: 12px; max-width: 760px; color: #111; }
+    label { display: block; margin-top: 12px; font-weight: 600; }
+    .hint { font-size: 0.9rem; color: #444; margin-top: 6px; }
+    canvas { display: block; width: 100%; height: auto; border: 1px solid #ccc; border-radius: 4px; margin-top: 10px; background: #fff; }
+    .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 12px; }
+    button { padding: 8px 16px; font-size: 1rem; cursor: pointer; }
+    input[type="range"] { width: min(100%, 420px); vertical-align: middle; }
+    .vals { font-weight: normal; margin-left: 6px; }
+  </style>
+</head>
+<body>
+  <label>Base frequency <em>f</em><sub>1</sub> <span class="vals" id="f1disp"></span> Hz
+    <input type="range" id="f1" min="200" max="600" step="1" value="440" aria-label="f1 Hz"/>
+  </label>
+  <label>Beat rate |<em>f</em><sub>2</sub> − <em>f</em><sub>1</sub>| <span class="vals" id="beatdisp"></span> Hz → <em>f</em><sub>2</sub> = <span id="f2disp"></span> Hz
+    <input type="range" id="beat" min="0.2" max="8" step="0.1" value="3" aria-label="beat Hz"/>
+  </label>
+  <div class="row">
+    <button type="button" id="play">Play (2.5 s)</button>
+    <button type="button" id="stop">Stop</button>
+  </div>
+  <p class="hint">Works in the browser only (no Jupyter kernel). Click <strong>Play</strong> after changing sliders. Waveform: first ~60 ms, matching the course notebook.</p>
+  <canvas id="wave" width="900" height="180" aria-label="waveform plot"></canvas>
+  <script>
+(function () {
+  var sr = 22050;
+  var dur = 2.5;
+  var f1El = document.getElementById("f1");
+  var beatEl = document.getElementById("beat");
+  var f1disp = document.getElementById("f1disp");
+  var beatdisp = document.getElementById("beatdisp");
+  var f2disp = document.getElementById("f2disp");
+  var canvas = document.getElementById("wave");
+  var c2d = canvas.getContext("2d");
+  var ctxAudio = null;
+  var currentSource = null;
+
+  function readParams() {
+    var f1 = parseFloat(f1El.value, 10);
+    var beat = parseFloat(beatEl.value, 10);
+    var f2 = f1 + beat;
+    return { f1: f1, f2: f2, beat: beat };
+  }
+
+  function updateLabels() {
+    var p = readParams();
+    f1disp.textContent = p.f1.toFixed(1);
+    beatdisp.textContent = p.beat.toFixed(1);
+    f2disp.textContent = p.f2.toFixed(1);
+  }
+
+  function synthSamples(f1, f2) {
+    var n = Math.floor(sr * dur);
+    var out = new Float32Array(n);
+    var i, t;
+    for (i = 0; i < n; i++) {
+      t = i / sr;
+      out[i] = 0.45 * (Math.sin(2 * Math.PI * f1 * t) + Math.sin(2 * Math.PI * f2 * t));
+    }
+    return out;
+  }
+
+  function drawWaveform(f1, f2) {
+    var data = synthSamples(f1, f2);
+    var win = Math.min(data.length, Math.floor(0.06 * sr));
+    var w = canvas.width;
+    var h = canvas.height;
+    var pad = 8;
+    c2d.clearRect(0, 0, w, h);
+    c2d.fillStyle = "#fafafa";
+    c2d.fillRect(0, 0, w, h);
+    c2d.strokeStyle = "#333";
+    c2d.lineWidth = 1.2;
+    c2d.beginPath();
+    var mid = h / 2;
+    var xscale = (w - 2 * pad) / (win - 1);
+    var j, x, y;
+    for (j = 0; j < win; j++) {
+      x = pad + j * xscale;
+      y = mid - data[j] * (mid - pad - 2) * 0.95;
+      if (j === 0) c2d.moveTo(x, y);
+      else c2d.lineTo(x, y);
+    }
+    c2d.stroke();
+    c2d.fillStyle = "#666";
+    c2d.font = "13px system-ui,sans-serif";
+    c2d.fillText("Time (first " + (win / sr * 1000).toFixed(2) + " ms)", pad, h - 4);
+  }
+
+  function redraw() {
+    var p = readParams();
+    updateLabels();
+    drawWaveform(p.f1, p.f2);
+  }
+
+  function stopAudio() {
+    if (currentSource) {
+      try { currentSource.stop(); } catch (e) {}
+      currentSource = null;
+    }
+  }
+
+  function playAudio() {
+    stopAudio();
+    var p = readParams();
+    var data = synthSamples(p.f1, p.f2);
+    ctxAudio = ctxAudio || new (window.AudioContext || window.webkitAudioContext)();
+    var buffer = ctxAudio.createBuffer(1, data.length, sr);
+    buffer.copyToChannel(data, 0);
+    var src = ctxAudio.createBufferSource();
+    src.buffer = buffer;
+    src.connect(ctxAudio.destination);
+    currentSource = src;
+    src.onended = function () { currentSource = null; };
+    src.start();
+  }
+
+  f1El.addEventListener("input", redraw);
+  beatEl.addEventListener("input", redraw);
+  document.getElementById("play").addEventListener("click", function () {
+    redraw();
+    playAudio();
+  });
+  document.getElementById("stop").addEventListener("click", stopAudio);
+
+  redraw();
+})();
+  </script>
+</body>
+</html>
