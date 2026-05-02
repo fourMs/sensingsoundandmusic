@@ -83,12 +83,12 @@
   <text x="910" y="35" text-anchor="middle" font-size="30">Trans-</text>
   <text x="910" y="65" text-anchor="middle" font-size="30">disciplinary</text>
 
-  <!-- Dotted path with arrow from left circle to right bottom -->
+  <!-- Dotted path with arrow pointing at intra-disciplinary (left) -->
   <path d="
-      M 110 230
-      L 110 250
+      M 910 230
       L 910 250
-      L 910 220"
+      L 110 250
+      L 110 230"
         fill="none"
         stroke="black"
         stroke-width="4"
