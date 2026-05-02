@@ -25,7 +25,6 @@ project:
     - file: the-brain.ipynb
     - file: vision.ipynb
     - file: machine-listening.ipynb
-    - file: course-matrix.md
     - file: general-comments.ipynb
 
 site:
