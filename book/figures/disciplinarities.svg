@@ -33,14 +33,14 @@
   <!-- Cross-disciplinary -->
   <circle cx="310" cy="150" r="85" fill="white" stroke="black" stroke-width="3"/>
 
-  <!-- scattered small circles -->
-  <circle cx="280" cy="120" r="8" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="305" cy="105" r="8" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="335" cy="120" r="8" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="275" cy="155" r="8" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="310" cy="160" r="8" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="340" cy="150" r="8" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="300" cy="185" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <!-- same layout as Multi (was ring R=50): center + hex inside big circle -->
+  <circle cx="310" cy="200" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="266.7" cy="175" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="266.7" cy="125" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="310" cy="100" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="353.3" cy="125" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="353.3" cy="175" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="310" cy="150" r="8" fill="white" stroke="black" stroke-width="1.5"/>
 
   <text x="310" y="24" text-anchor="middle" font-size="30">Cross-</text>
   <text x="310" y="52" text-anchor="middle" font-size="30">disciplinary</text>
@@ -48,13 +48,13 @@
   <!-- Multi-disciplinary -->
   <circle cx="510" cy="150" r="85" fill="white" stroke="black" stroke-width="3"/>
 
-  <!-- one central + six satellites inside big circle: ring radius 50 (centers), r=8, outer extent 58 < 85 -->
-  <circle cx="510" cy="200" r="8" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="466.7" cy="175" r="8" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="466.7" cy="125" r="8" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="510" cy="100" r="8" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="553.3" cy="125" r="8" fill="white" stroke="black" stroke-width="1.5"/>
-  <circle cx="553.3" cy="175" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <!-- center + hex: ring R=16 so each r=8 satellite is tangent to center (no overlap) and tangent to neighbours -->
+  <circle cx="510" cy="166" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="496.1" cy="158" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="496.1" cy="142" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="510" cy="134" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="523.9" cy="142" r="8" fill="white" stroke="black" stroke-width="1.5"/>
+  <circle cx="523.9" cy="158" r="8" fill="white" stroke="black" stroke-width="1.5"/>
   <circle cx="510" cy="150" r="8" fill="white" stroke="black" stroke-width="1.5"/>
 
   <text x="510" y="24" text-anchor="middle" font-size="30">Multi-</text>
