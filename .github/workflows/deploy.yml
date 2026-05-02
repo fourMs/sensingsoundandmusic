@@ -103,5 +103,12 @@ jobs:
         with:
           path: book/_build/html
 
+      - name: Upload PDF build artifacts
+        uses: actions/upload-artifact@v5
+        with:
+          name: textbook-pdf
+          path: book/_build/html/*.pdf
+          if-no-files-found: warn
+
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
