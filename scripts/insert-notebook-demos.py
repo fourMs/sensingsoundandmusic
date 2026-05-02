@@ -18,7 +18,7 @@ def md(text: str) -> dict:
 def code(text: str) -> dict:
     return {
         "cell_type": "code",
-        "metadata": {"tags": []},
+        "metadata": {"tags": ["hide-input"]},
         "source": [line + "\n" for line in text.strip().split("\n")],
         "outputs": [],
         "execution_count": None,
