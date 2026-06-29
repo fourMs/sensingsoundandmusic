@@ -22,8 +22,8 @@ project:
     - file: harmony-and-melody.ipynb
     - file: the-body.ipynb
     - file: physiology.ipynb
-    - file: the-brain.ipynb
     - file: vision.ipynb
+    - file: the-brain.ipynb
     - file: machine-listening.ipynb
     - file: general-comments.ipynb
 
