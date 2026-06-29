@@ -47,6 +47,8 @@ jobs:
           # Myst fingerprints _static assets under /build/, which breaks stable URLs.
           # Copy the beating demo to a stable top-level path for linking from content.
           cp "_static/beating-demo.html" "_build/html/beating-demo.html"
+          # Copy the bundled web apps to a stable top-level path (/apps/...).
+          cp -r "apps" "_build/html/apps"
 
       - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4
