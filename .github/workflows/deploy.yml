@@ -17,6 +17,9 @@ concurrency:
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
+    # A hung Jupyter kernel otherwise burns the full 6-hour job allowance and
+    # surfaces as a "cancelled" run. Fail fast instead, so the retry can act.
+    timeout-minutes: 30
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
@@ -37,17 +40,19 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install "jupyter-book>=2.0.0a0"
-          pip install "mystmd==1.6.0"
+          # mystmd is pinned in requirements.txt (keep the two in sync).
           pip install -r requirements.txt
 
       - name: Build Jupyter Book HTML
         run: |
           cd book
-          # Execution can intermittently crash the Jupyter kernel on CI (memory
-          # pressure on heavy notebooks). Retry once; myst reuses the execution
-          # cache, so only the notebook that failed is re-executed.
-          BASE_URL=/sensingsoundandmusic myst build --html --execute \
-            || BASE_URL=/sensingsoundandmusic myst build --html --execute
+          # Execution can intermittently crash OR hang the Jupyter kernel on CI
+          # (memory pressure on heavy notebooks). Bound each attempt with
+          # `timeout` so a hang is killed and the retry can run; myst reuses the
+          # execution cache, so only the notebook that failed is re-executed.
+          # The 30-min job timeout is the final backstop.
+          timeout 12m env BASE_URL=/sensingsoundandmusic myst build --html --execute \
+            || timeout 12m env BASE_URL=/sensingsoundandmusic myst build --html --execute
           # Myst fingerprints _static assets under /build/, which breaks stable URLs.
           # Copy the beating demo to a stable top-level path for linking from content.
           cp "_static/beating-demo.html" "_build/html/beating-demo.html"

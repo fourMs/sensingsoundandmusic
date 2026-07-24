@@ -5,6 +5,6 @@ librosa
 music21
 scipy
 pandas
-mystmd
+mystmd==1.6.0
 ipywidgets
 ambiscape
