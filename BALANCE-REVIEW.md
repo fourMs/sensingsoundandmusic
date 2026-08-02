@@ -51,15 +51,15 @@ This is the single largest structural problem in the book, for three reasons:
 
 1. **It contradicts the intro.** The course schedule table in `intro.ipynb` promises an applied activity for every week, including W9 ("Relate one physiological idea to your own listening experience"), W10 ("Short clip: note where you look vs what you hear"), W11 ("Pick one finding; identify claim–evidence–method") and W12 ("Run or inspect one feature plot; discuss bias/dataset limits"). None of these exist in the chapters.
 2. **It contradicts the pedagogy.** The intro commits to active learning and a flipped classroom. The last third of the semester offers nothing to flip.
-3. **It lands at the worst moment.** Weeks 9–12 are four consecutive *methods survey* chapters — how to measure physiology, how to track eyes, how to scan brains, how to build ML pipelines. Read back to back, with no exercises, right before exams, this is where a musicology cohort is most likely to disengage.
+3. **It lands at the worst moment.** Weeks 9–12 are four consecutive *methods survey* chapters: how to measure physiology, how to track eyes, how to scan brains, how to build ML pipelines. Read back to back, with no exercises, right before exams, this is where a musicology cohort is most likely to disengage.
 
 Week 6 has the opposite problem: seven exercises, several of them heavy (install Sonic Visualiser **and** the Vamp plugin pack; register for moises.ai; two tapping tasks with data submitted via Google Forms). It is comfortably the largest homework week in the book, and it sits next to weeks with none.
 
-**Recommendation.** Move roughly three exercises' worth of work from W6 to W9–W12 — or simply write the four activities the intro already promises. This is the cheapest high-impact change available.
+**Recommendation.** Move roughly three exercises' worth of work from W6 to W9–W12, or simply write the four activities the intro already promises. This is the cheapest high-impact change available.
 
 ---
 
-## 4. Depth: the book has three registers, and they don't track the audience
+## 4. Depth: the book has three registers, and they do not track the audience
 
 The level of a chapter currently correlates with who wrote it rather than with who reads it. Three distinct registers coexist:
 
@@ -67,7 +67,7 @@ The level of a chapter currently correlates with who wrote it rather than with w
 *Tuning in, Listening, Vision, The brain.* Definitions, historical figures, arguments, cultural framing. Listening (W2) in particular is exactly the register a musicology BA expects.
 
 **(b) Undergraduate science textbook — mostly right.**
-*Acoustics, Psychoacoustics, The body, Physiology.* Psychoacoustics is the best-balanced chapter in the book: every technical idea (masking, JND, ITD/ILD, missing fundamental) is anchored to something audible and usually to an exercise.
+*Acoustics, Psychoacoustics, The body, Physiology.* Psychoacoustics is the best-balanced chapter in the book. Every technical idea (masking, JND, ITD/ILD, missing fundamental) is anchored to something audible and usually to an exercise.
 
 **(c) Professional / graduate technical — too deep as core material.**
 *Electroacoustics, Time and rhythm, Machine listening,* and parts of *Harmony and melody*.
@@ -75,9 +75,9 @@ The level of a chapter currently correlates with who wrote it rather than with w
 Concrete instances of (c):
 
 - **W5 Electroacoustics** turns into an audio-engineering manual: a microphone specification table with sensitivity in dBV/Pa, self-noise in dB(A), output impedance in Ω; signal levels in dBu; equivalent input noise; Class D efficiency; boundary loading; line arrays. Useful for a technology student, near-unusable for a musicology student, and it carries only 3 exercises across 5k words. It is also the chapter with the least perceptual or musical framing.
-- **W6 Time and rhythm** is the most research-level chapter — and the best-sourced. But P-centres, IPI vs IOI, swing ratios in ms and decimals, and JND thresholds by instrument class are presented at seminar level. The swing-ratio formula appears inline in a dense paragraph (and is mis-parenthesised, see §6).
+- **W6 Time and rhythm** is the most research-level chapter, and the best-sourced. But P-centres, IPI vs IOI, swing ratios in ms and decimals, and JND thresholds by instrument class are presented at seminar level. The swing-ratio formula appears inline in a dense paragraph (and is mis-parenthesised, see §6).
 - **W12 Machine listening** contains the most advanced prose in the book: latency arithmetic (`n_fft=2048 at sr=22050 → window ≈ 92.9 ms`), TCN dilation rates, quadratic cost of attention, SDR/SIR/SI-SNR, MUSHRA protocols. The long "Machine vs human listening" section is an abstract research-agenda essay with almost no concrete musical example. There is not one worked case a musicology student can follow end to end.
-- **W7 Harmony and melody** is bimodal: it explains what a triad is, then hands the reader a `librosa.pyin` f0-extraction error-analysis lab with a blank annotation worksheet (error type, spectrogram evidence, confidence rating). Two very different assumed backgrounds inside one chapter.
+- **W7 Harmony and melody** is bimodal. It explains what a triad is, then hands the reader a `librosa.pyin` f0-extraction error-analysis lab with a blank annotation worksheet (error type, spectrogram evidence, confidence rating). Two very different assumed backgrounds inside one chapter.
 - **W3 Acoustics** is well pitched until its tail: C50/C80 clarity indices with ISO 3382 procedure, Beranek's bass ratio, and a five-way window-function taxonomy including the Terhardt window. All core prose, none flagged as optional.
 - **W8 The body** spends a large, well-written block on generic anatomy and biomechanics (anatomical planes, agonist/antagonist/fixator, DoF and RoM, statics/dynamics, kinematics/kinetics). It is essentially a sports-science module; the music-specific payoff is thinner than its length implies.
 - **W9 Physiology**, though the second-shortest chapter, has the highest jargon density in the book — RSA, SCL/SCR, RIP belts, tonic vs phasic, SDNN, RMSSD, plus a sensor table with recommended sampling rates — with few musical examples to anchor them and no exercises.
@@ -92,7 +92,7 @@ Concrete instances of (c):
 | W7 Harmony and melody | The f0 extraction lab + annotation worksheet |
 | W12 Machine listening | Model families (HMM/RNN/TCN/transformer), realtime latency arithmetic |
 
-That keeps the technology students served while letting the musicology reading path stay continuous — which is precisely what "primarily musicology, secondarily psychology and technology" implies.
+That keeps the technology students served while letting the musicology reading path stay continuous, which is precisely what "primarily musicology, secondarily psychology and technology" implies.
 
 Two further depth-balancing moves:
 
@@ -138,13 +138,13 @@ These are worth fixing regardless of any restructuring.
    In the built output the exercise's final "Reflect:" paragraph falls **outside** the exercise box, and both cells emit a stray empty code block. Fix by using `:::` for the outer directive.
 5. `electroacoustics.ipynb` — bone-conduction bullet opens with `**[` and closes with a single `*`, so emphasis is unbalanced.
 6. `time-and-rhythm.ipynb` — the swing ratio is written `𝑅 = 𝑚 + 𝑑 / 𝑚 − 𝑑`; it needs parentheses: (m + d)/(m − d).
-7. `acoustics.ipynb` uses `text-align:centre` — invalid CSS (must be `center`); `tuning-in.ipynb` has a figure with `:align: centre`, not a valid MyST value. Both are collateral damage from the British-spelling sweep.
+7. `acoustics.ipynb` uses `text-align:centre`, which is invalid CSS (must be `center`); `tuning-in.ipynb` has a figure with `:align: centre`, not a valid MyST value. Both are collateral damage from the British-spelling sweep.
 
 **Consistency**
 
 8. Title Case headings survive mainly in `machine-listening.ipynb` ("Machine Listening", "Source Separation", "Music Data", "Rule-based vs Learning-based systems") and `vision.ipynb` ("The Eye", "Eye Tracking", "Integration of Senses"); the rest of the book is sentence case. Chapter *titles* are also mixed: "8. The Body", "11. The Brain", "12. Machine Listening" vs "3. Acoustics", "6. Time and rhythm".
 9. `harmony-and-melody.ipynb` is the only chapter still carrying a `description:` frontmatter field.
-10. `acoustics.ipynb` opens with three `###` sections before its first `##` — every other chapter starts at `##`.
+10. `acoustics.ipynb` opens with three `###` sections before its first `##`, while every other chapter starts at `##`.
 11. In `harmony-and-melody.ipynb`, six sections (Timbre, Auditory scene analysis, Gestalt theory, Auditory illusions, Texture, Listening checklist) sit *under* `## Melody`, which they are not about. The chapter has only three H2s carrying 22 H3s.
 12. `book/references.bib` holds 15 entries but no chapter uses `{cite}` anywhere. All in-text sourcing is Wikipedia links plus the per-chapter "Further reading" blocks. For a course that explicitly teaches students to read and cite empirical research (intro, "Reading empirical research"), the book currently models Wikipedia citation.
 13. Two chapters lack an "Explore interactively" block (Physiology, The brain) though all others have one.
@@ -154,7 +154,7 @@ These are worth fixing regardless of any restructuring.
 ## 7. Priority order
 
 1. Write the four missing weekly activities for W9–W12 (already promised in the intro schedule) and lighten W6 from seven exercises to about four.
-2. Fix the content mismatches and markup bugs in §6 — small, self-contained, and two of them are visible on the published site.
+2. Fix the content mismatches and markup bugs in §6. They are small, self-contained, and two of them are visible on the published site.
 3. Introduce the "dig deeper" convention and move the material listed in §4 into it.
 4. Give W12 one end-to-end worked musical example, and W9 one concrete empirical study.
 5. Decide single homes for timbre, ASA/Gestalt/illusions and the auditory pathway; cross-reference elsewhere.
@@ -196,7 +196,7 @@ Eleven **"Dig deeper"** dropdowns now hold the specialist material, with a short
 
 ### Overlap (§5)
 
-- **Auditory scene analysis** now has a single home in **W4**, with a new section covering simultaneous and sequential grouping, streaming, and the continuity illusion — plus a runnable demo (an A–B–A gallop at two frequency separations, and a tone interrupted by silence versus noise) and an exercise. W6 and W7 cross-reference it instead of re-introducing it; W7's section is now "Streams in musical textures" and applies the principles to polyphony, orchestration, and the limits of automatic transcription.
+- **Auditory scene analysis** now has a single home in **W4**, with a new section covering simultaneous and sequential grouping, streaming, and the continuity illusion, plus a runnable demo (an A–B–A gallop at two frequency separations, and a tone interrupted by silence versus noise) and an exercise. W6 and W7 cross-reference it instead of re-introducing it; W7's section is now "Streams in musical textures" and applies the principles to polyphony, orchestration, and the limits of automatic transcription.
 - **Timbre** is defined once, in W4. W5 and W7 now open by pointing there.
 - **The auditory pathway** is traced once. W11 picks the signal up at the auditory nerve rather than restarting at the outer ear.
 - W4's illusions and W7's are now distinguished explicitly (mechanisms of hearing versus illusions that need scales and intervals).

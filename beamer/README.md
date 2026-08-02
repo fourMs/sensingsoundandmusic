@@ -1,6 +1,6 @@
 # MUS2640 Beamer lecture decks
 
-One PDF deck per teaching week (12 weeks), aligned with the book’s chapter order in `book/myst.yml` and the weekly matrix in `book/intro.ipynb` (Introduction). Each deck is an **overview** for a **two-hour** session: adjust depth with live demos, audio examples, and discussion.
+One PDF deck per teaching week (12 weeks), aligned with the book’s chapter order in `book/myst.yml` and the weekly matrix in `book/intro.ipynb` (Introduction). Each deck is an overview for a two-hour session. Adjust the depth with live demos, audio examples, and discussion.
 
 | File | Book chapter |
 |------|----------------|
@@ -43,6 +43,6 @@ PDFs are written alongside the `.tex` files.
 
 - Edit `beamersettings.tex` to change theme/colours (`\usetheme`, `\usecolortheme`).
 - Add institution logo: `\logo{\includegraphics[height=8mm]{path.pdf}}` in `beamersettings.tex`.
-- Weekly slide counts are modest on purpose—expand with your own examples and chapter figures.
+- Weekly slide counts are modest on purpose. Expand them with your own examples and chapter figures.
 
-Introductory material from `book/intro.ipynb` is folded into **Week 1** slides; add a separate opening session if you dedicate the first meeting only to syllabus.
+Introductory material from `book/intro.ipynb` is folded into the Week 1 slides; add a separate opening session if you dedicate the first meeting only to syllabus.
