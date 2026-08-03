@@ -15,52 +15,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # The decks are an experimental extra, so they build in their own job and are
-  # never allowed to hold up the book. Installing TeX pulls ~73 MB from the
-  # Ubuntu mirrors, which on a bad runner has taken half an hour; when that
-  # happens this job gives up and the site still deploys, just without
-  # /slides/. Restore-keys mean a good download is reused on later runs.
-  slides:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    continue-on-error: true
-    env:
-      TEX_PKGS: texlive-latex-base texlive-latex-recommended texlive-pictures lmodern latexmk
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v5
-
-      - name: Cache the TeX packages
-        id: tex-cache
-        uses: actions/cache@v4
-        with:
-          path: /var/cache/apt/archives/*.deb
-          key: tex-debs-${{ runner.os }}-v1
-
-      - name: Install LaTeX
-        run: |
-          sudo apt-get update
-          # Keep the .deb files so the cache above can reuse them next time.
-          sudo rm -f /etc/apt/apt.conf.d/docker-clean
-          sudo apt-get install -y --no-install-recommends $TEX_PKGS
-
-      - name: Build the decks
-        run: make -C beamer all
-
-      - name: Upload the decks
-        uses: actions/upload-artifact@v4
-        with:
-          name: lecture-decks
-          path: beamer/week*.pdf
-          if-no-files-found: error
-          retention-days: 7
-
+  # The Beamer decks in beamer/ are deliberately not built here. They are an
+  # experiment, they need a ~73 MB TeX install that has taken half an hour on a
+  # bad Ubuntu mirror, and they are not linked from the book. Build them by hand
+  # when you need them: `make -C beamer all`.
   build-deploy:
     runs-on: ubuntu-latest
-    # Run even when the decks failed or timed out; the book comes first.
-    # `!cancelled()` rather than `always()` so a superseded run still stops.
-    needs: [slides]
-    if: ${{ !cancelled() }}
     # A hung Jupyter kernel otherwise burns the full 6-hour job allowance and
     # surfaces as a "cancelled" run. Fail fast instead, so the retry can act.
     timeout-minutes: 30
@@ -87,18 +47,6 @@ jobs:
           # mystmd is pinned in requirements.txt (keep the two in sync).
           pip install -r requirements.txt
 
-      # The decks ride along with the site rather than publishing themselves:
-      # the publish step below uses force_orphan, which replaces the whole
-      # gh-pages branch, so anything published separately would be wiped by the
-      # next book deploy. A missing artifact is not an error, it just means the
-      # site goes out without /slides/ this time.
-      - name: Download the lecture decks
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: lecture-decks
-          path: beamer
-
       - name: Build Jupyter Book HTML
         run: |
           cd book
@@ -114,15 +62,6 @@ jobs:
           cp "_static/beating-demo.html" "_build/html/beating-demo.html"
           # Copy the bundled web apps to a stable top-level path (/apps/...).
           cp -r "apps" "_build/html/apps"
-          # Publish the lecture decks at a stable path (/slides/weekNN-*.pdf),
-          # if the slides job managed to produce them.
-          if compgen -G "../beamer/week*.pdf" > /dev/null; then
-            mkdir -p "_build/html/slides"
-            cp ../beamer/week*.pdf "_build/html/slides/"
-            echo "Published $(ls ../beamer/week*.pdf | wc -l) lecture deck(s)."
-          else
-            echo "No lecture decks to publish; the slides job did not produce any."
-          fi
 
       - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4

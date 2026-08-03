@@ -41,28 +41,22 @@ To push without the check (e.g. a docs-only WIP branch):
 
 ## Lecture decks (experimental)
 
-One Beamer deck per teaching week, in `beamer/`. These are an experiment and are
-deliberately **not** linked from the book itself, so students do not meet them
-until they are ready. CI builds them on every push to `main` and publishes the
-PDFs alongside the site:
+One Beamer deck per teaching week, in `beamer/`, ordered to match the book. These
+are an experiment: they are not built in CI, not published with the site, and not
+linked from the book, so students do not meet them until they are ready.
 
-[1 Tuning in](https://fourms.github.io/sensingsoundandmusic/slides/week01-tuning-in.pdf) ·
-[2 Listening](https://fourms.github.io/sensingsoundandmusic/slides/week02-listening.pdf) ·
-[3 Acoustics](https://fourms.github.io/sensingsoundandmusic/slides/week03-acoustics.pdf) ·
-[4 Psychoacoustics](https://fourms.github.io/sensingsoundandmusic/slides/week04-psychoacoustics.pdf) ·
-[5 Electroacoustics](https://fourms.github.io/sensingsoundandmusic/slides/week05-electroacoustics.pdf) ·
-[6 Time and rhythm](https://fourms.github.io/sensingsoundandmusic/slides/week06-time-and-rhythm.pdf) ·
-[7 Harmony and melody](https://fourms.github.io/sensingsoundandmusic/slides/week07-harmony-and-melody.pdf) ·
-[8 The body](https://fourms.github.io/sensingsoundandmusic/slides/week08-the-body.pdf) ·
-[9 Physiology](https://fourms.github.io/sensingsoundandmusic/slides/week09-physiology.pdf) ·
-[10 Vision](https://fourms.github.io/sensingsoundandmusic/slides/week10-vision.pdf) ·
-[11 The brain](https://fourms.github.io/sensingsoundandmusic/slides/week11-the-brain.pdf) ·
-[12 Machine listening](https://fourms.github.io/sensingsoundandmusic/slides/week12-machine-listening.pdf)
-
-To build them locally you need LaTeX (`latexmk` plus `texlive-latex-base`,
-`texlive-latex-recommended`, `texlive-pictures`, and `lmodern`):
+Build them by hand when you need them. This writes `weekNN-*.pdf` next to the
+sources, and the PDFs are gitignored:
 
     make -C beamer all
+
+You need LaTeX for this: `latexmk` plus `texlive-latex-base`,
+`texlive-latex-recommended`, `texlive-pictures`, and `lmodern`. On Debian or
+Ubuntu:
+
+    sudo apt-get install --no-install-recommends \
+        texlive-latex-base texlive-latex-recommended texlive-pictures \
+        lmodern latexmk
 
 See `beamer/README.md` for the theme settings and per-deck notes.
 
