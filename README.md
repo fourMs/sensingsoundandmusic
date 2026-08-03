@@ -1,10 +1,12 @@
 # Sensing Sound and Music
 
-This is the source code for the e-book [Sensing Sound and Music](https://fourms.github.io/sensingsoundandmusic/), which contains lecture notes and materials for the [course MUS2640](https://www.uio.no/studier/emner/hf/imv/MUS2640/) at the University of Oslo (UiO). The course is primarily targeting music students, introducing basic concepts in music psychology and music technology. The integration of psychology and technology is not so common, so this book is meant to bridge the gap between two sets of literature that are often separated. 
+This is the source code for the e-book [Sensing Sound and Music](https://fourms.github.io/sensingsoundandmusic/), which contains lecture notes and materials for the [course MUS2640](https://www.uio.no/studier/emner/hf/imv/MUS2640/) at the University of Oslo (UiO). The course is primarily targeting music students, introducing basic concepts in music psychology and music technology. The integration of psychology and technology is not so common, so this book is meant to bridge the gap between two sets of literature that are often separated.
 
-The book is exploring the potential of new technologies in educational material. It has been written using [Jupyter Book](https://jupyterbook.org/) v2 and can be compiled to different formats. The use of Jupyter notebooks support inline code and figures. The book also experiments with using WebAudio-based web pages for examples. 
+The book is exploring the potential of new technologies in educational material. It has been written using [Jupyter Book](https://jupyterbook.org/) v2 and can be compiled to different formats. The [HTML build](https://fourms.github.io/sensingsoundandmusic/) is probably the one most people want to look at, but there is also a PDF option available. 
 
-Since teaching is ongoing, the material is also changing based on things that happen in class, student questions, etc. So keep returning. If you are mainly interested in the content, go to [the build](https://fourms.github.io/sensingsoundandmusic/). 
+The nice thing about building the book in Jupyter notebooks is the support for inline code and figures. The book also experiments with using WebAudio-based web pages for examples. They are also part of this repository, but are deployed as separate pages linked from the main HTML build.
+
+Since teaching is ongoing, the material is also changing based on things that happen in class, student questions, etc.
 
 ## How to run locally
 
@@ -66,4 +68,6 @@ See `beamer/README.md` for the theme settings and per-deck notes.
 
 ## Credits
 
-Alexander Refsum Jensenius, Guilherme Schmidt Camara, Sara D'Amario, Laura Bishop. AI support by Claude, Cursor, CoPilot, NotebookLM, Gemini.
+The following people have been part of teaching the course and have contributed material: Alexander Refsum Jensenius, Guilherme Schmidt Camara, Sara D'Amario, Laura Bishop, Bilge Serdar.
+
+AI support by Claude, Cursor, CoPilot, NotebookLM, Gemini.
