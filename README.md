@@ -35,4 +35,4 @@ To push without the check (e.g. a docs-only WIP branch):
 
 ## Credits
 
-Alexander Refsum Jensenius, Guilherme Schmidt Camara, Sara D'Amario, Laura Bishop.
+Alexander Refsum Jensenius, Guilherme Schmidt Camara, Sara D'Amario, Laura Bishop. AI support by Claude, Cursor, CoPilot, NotebookLM, Gemini.
