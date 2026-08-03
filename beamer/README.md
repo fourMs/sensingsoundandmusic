@@ -13,8 +13,8 @@ One PDF deck per teaching week (12 weeks), aligned with the book’s chapter ord
 | `week07-harmony-and-melody.tex` | Harmony and melody |
 | `week08-the-body.tex` | The body |
 | `week09-physiology.tex` | Physiology |
-| `week10-the-brain.tex` | The brain |
-| `week11-vision.tex` | Vision |
+| `week10-vision.tex` | Vision |
+| `week11-the-brain.tex` | The brain |
 | `week12-machine-listening.tex` | Machine listening |
 
 Shared setup is in `beamersettings.tex` (theme, fonts, macros).
