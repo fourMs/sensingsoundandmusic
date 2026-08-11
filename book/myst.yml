@@ -16,8 +16,8 @@ project:
     - file: tuning-in.ipynb
     - file: listening.ipynb
     - file: acoustics.ipynb
-    - file: psychoacoustics.ipynb
     - file: electroacoustics.ipynb
+    - file: psychoacoustics.ipynb
     - file: time-and-rhythm.ipynb
     - file: harmony-and-melody.ipynb
     - file: the-body.ipynb
