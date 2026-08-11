@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Harmonics explorer</title>
+  <style>
+    :root {
+      --bg: #fdfdfd; --fg: #1c1e21; --muted: #5a6069; --panel: #f1f2f4;
+      --border: #c9ccd1; --accent: #0b6e99; --accent-fg: #ffffff; --canvas: #ffffff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #15171b; --fg: #e6e7e9; --muted: #9aa0a8; --panel: #20242b;
+        --border: #3a3f47; --accent: #4da3c7; --accent-fg: #0d1117; --canvas: #101216;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      margin: 0 auto; padding: 16px; max-width: 780px;
+      background: var(--bg); color: var(--fg); line-height: 1.45;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 8px; }
+    p.intro { margin: 0 0 14px; }
+    .hint { font-size: 0.9rem; color: var(--muted); margin-top: 10px; }
+    fieldset {
+      border: 1px solid var(--border); border-radius: 8px;
+      margin: 0 0 12px; padding: 10px 12px; background: var(--panel);
+    }
+    legend { font-weight: 600; font-size: 0.95rem; padding: 0 6px; }
+    label { font-weight: 600; font-size: 0.9rem; }
+    .vals { font-weight: normal; color: var(--muted); margin-left: 4px; }
+    input[type="range"] { width: 100%; margin: 2px 0 4px; accent-color: var(--accent); }
+    button {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 14px; font-size: 1rem; cursor: pointer;
+    }
+    button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 10px 0; }
+    .partials { display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px; }
+    .partials .p { text-align: center; }
+    .partials .p label { display: block; font-size: 0.85rem; }
+    .partials input[type="range"] {
+      writing-mode: vertical-lr; direction: rtl;
+      width: 28px; height: 110px; margin: 4px auto;
+    }
+    @media (max-width: 520px) { .partials input[type="range"] { height: 90px; } }
+    .check { font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+    canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; background: var(--canvas); }
+  </style>
+</head>
+<body>
+  <h1>Harmonics explorer</h1>
+  <p class="intro">Build a sound by mixing the first eight harmonics of a fundamental tone. Each slider sets the loudness of one harmonic, whose frequency is a whole-number multiple of the fundamental. Try the presets, then remove the fundamental and listen to whether the pitch changes. Press <strong>Start audio</strong> first.</p>
+
+  <div class="row">
+    <button type="button" id="power" class="primary">Start audio</button>
+    <label style="flex:1; min-width:160px; margin:0;">Master volume <span class="vals" id="voldisp"></span>
+      <input type="range" id="vol" min="0" max="100" step="1" value="60" aria-label="Master volume"/>
+    </label>
+  </div>
+
+  <fieldset>
+    <legend>Fundamental</legend>
+    <label>Frequency <span class="vals" id="f0disp"></span> Hz</label>
+    <input type="range" id="f0" min="110" max="440" step="1" value="220" aria-label="Fundamental frequency"/>
+    <label class="check"><input type="checkbox" id="nofund"/> Remove the fundamental (harmonic 1 is muted)</label>
+  </fieldset>
+
+  <fieldset>
+    <legend>Harmonic amplitudes</legend>
+    <div class="partials" id="partials"></div>
+    <div class="row">
+      <span>Presets:</span>
+      <button type="button" data-preset="saw">Sawtooth</button>
+      <button type="button" data-preset="square">Square</button>
+      <button type="button" data-preset="clarinet">Clarinet-ish</button>
+      <button type="button" data-preset="sine">Sine</button>
+    </div>
+  </fieldset>
+
+  <canvas id="scope" width="900" height="300" aria-label="Waveform and spectrum display"></canvas>
+  <p class="hint">What to notice: even with harmonic 1 removed, the pitch you hear stays the same, because the ear infers the fundamental from the spacing of the remaining harmonics.</p>
+
+  <script>
+(function () {
+  "use strict";
+  var N = 8;
+  var ctx = null, master = null, analyser = null;
+  var oscs = [], gains = [];
+  var running = false;
+
+  var el = function (id) { return document.getElementById(id); };
+  var f0El = el("f0"), volEl = el("vol"), nofundEl = el("nofund");
+  var canvas = el("scope"), c2d = canvas.getContext("2d");
+
+  // build the 8 vertical sliders
+  var sliders = [];
+  var host = el("partials");
+  for (var i = 0; i < N; i++) {
+    var d = document.createElement("div");
+    d.className = "p";
+    var lab = document.createElement("label");
+    lab.textContent = String(i + 1);
+    lab.setAttribute("for", "h" + (i + 1));
+    var s = document.createElement("input");
+    s.type = "range"; s.min = "0"; s.max = "1"; s.step = "0.01";
+    s.value = i === 0 ? "1" : "0";
+    s.id = "h" + (i + 1);
+    s.setAttribute("aria-label", "Harmonic " + (i + 1) + " amplitude");
+    s.setAttribute("orient", "vertical");
+    d.appendChild(lab);
+    d.appendChild(s);
+    host.appendChild(d);
+    sliders.push(s);
+  }
+
+  function ampOf(i) {
+    var a = parseFloat(sliders[i].value);
+    if (i === 0 && nofundEl.checked) { a = 0; }
+    return a;
+  }
+
+  function ensureAudio() {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      master = ctx.createGain();
+      master.gain.value = 0;
+      analyser = ctx.createAnalyser();
+      analyser.fftSize = 4096;
+      analyser.smoothingTimeConstant = 0.7;
+      master.connect(analyser);
+      analyser.connect(ctx.destination);
+      var f0 = parseFloat(f0El.value);
+      for (var i = 0; i < N; i++) {
+        var o = ctx.createOscillator();
+        o.type = "sine";
+        o.frequency.value = f0 * (i + 1);
+        var g = ctx.createGain();
+        g.gain.value = ampOf(i) * 0.12;
+        o.connect(g);
+        g.connect(master);
+        o.start();
+        oscs.push(o);
+        gains.push(g);
+      }
+    }
+    if (ctx.state === "suspended") { ctx.resume(); }
+  }
+
+  function updateAudio() {
+    el("f0disp").textContent = f0El.value;
+    el("voldisp").textContent = volEl.value + " %";
+    if (!ctx) { return; }
+    var t = ctx.currentTime;
+    var f0 = parseFloat(f0El.value);
+    for (var i = 0; i < N; i++) {
+      oscs[i].frequency.setTargetAtTime(f0 * (i + 1), t, 0.02);
+      gains[i].gain.setTargetAtTime(ampOf(i) * 0.12, t, 0.03);
+    }
+    if (running) {
+      master.gain.setTargetAtTime(0.3 * parseFloat(volEl.value) / 100, t, 0.03);
+    }
+  }
+
+  function powerToggle() {
+    ensureAudio();
+    running = !running;
+    var t = ctx.currentTime;
+    if (running) {
+      master.gain.setTargetAtTime(0.3 * parseFloat(volEl.value) / 100, t, 0.05);
+      el("power").textContent = "Stop audio";
+      el("power").classList.remove("primary");
+    } else {
+      master.gain.setTargetAtTime(0, t, 0.05);
+      el("power").textContent = "Start audio";
+      el("power").classList.add("primary");
+    }
+  }
+
+  // presets: amplitudes for harmonics 1..8
+  var presets = {
+    saw:      [1, 0.5, 0.33, 0.25, 0.2, 0.17, 0.14, 0.13],
+    square:   [1, 0, 0.33, 0, 0.2, 0, 0.14, 0],
+    clarinet: [1, 0.04, 0.75, 0.08, 0.5, 0.04, 0.2, 0.02],
+    sine:     [1, 0, 0, 0, 0, 0, 0, 0]
+  };
+  var btns = document.querySelectorAll("button[data-preset]");
+  for (var b = 0; b < btns.length; b++) {
+    btns[b].addEventListener("click", function () {
+      var p = presets[this.getAttribute("data-preset")];
+      for (var i = 0; i < N; i++) { sliders[i].value = p[i]; }
+      updateAudio();
+    });
+  }
+
+  // ---- drawing ----
+  function theme() {
+    var d = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return d ? { bg: "#101216", grid: "#2a2f37", line: "#7fc4e0", bar: "#4da3c7", text: "#9aa0a8" }
+             : { bg: "#ffffff", grid: "#e3e5e8", line: "#0b6e99", bar: "#0b6e99", text: "#5a6069" };
+  }
+  var timeData = new Float32Array(4096);
+  var freqData = new Uint8Array(2048);
+  function draw() {
+    requestAnimationFrame(draw);
+    var th = theme();
+    var w = canvas.width, h = canvas.height, half = h / 2;
+    c2d.fillStyle = th.bg;
+    c2d.fillRect(0, 0, w, h);
+    c2d.strokeStyle = th.grid;
+    c2d.beginPath(); c2d.moveTo(0, half); c2d.lineTo(w, half); c2d.stroke();
+    if (analyser) {
+      analyser.getFloatTimeDomainData(timeData);
+      // show roughly three periods of the fundamental
+      var f0 = parseFloat(f0El.value);
+      var span = Math.min(timeData.length, Math.floor(3 * ctx.sampleRate / f0));
+      c2d.strokeStyle = th.line;
+      c2d.lineWidth = 1.5;
+      c2d.beginPath();
+      var j, x, y;
+      for (j = 0; j < span; j++) {
+        x = j / (span - 1) * w;
+        y = half / 2 - timeData[j] * (half / 2 - 8) * 2.5;
+        if (j === 0) { c2d.moveTo(x, y); } else { c2d.lineTo(x, y); }
+      }
+      c2d.stroke();
+      analyser.getByteFrequencyData(freqData);
+      // show 0 .. ~4.5 kHz so the eight harmonics are clearly separated
+      var maxHz = 4500;
+      var bins = Math.min(freqData.length, Math.floor(maxHz / (ctx.sampleRate / analyser.fftSize)));
+      var bw = w / bins;
+      c2d.fillStyle = th.bar;
+      for (j = 0; j < bins; j++) {
+        var v = freqData[j] / 255;
+        c2d.fillRect(j * bw, h - v * (half - 18), Math.max(1, bw), v * (half - 18));
+      }
+    }
+    c2d.fillStyle = th.text;
+    c2d.font = "13px system-ui, sans-serif";
+    c2d.fillText("Waveform (time)", 8, 16);
+    c2d.fillText("Spectrum (frequency, 0 to 4.5 kHz)", 8, half + 16);
+  }
+  draw();
+
+  // ---- wiring ----
+  el("power").addEventListener("click", powerToggle);
+  f0El.addEventListener("input", updateAudio);
+  volEl.addEventListener("input", updateAudio);
+  nofundEl.addEventListener("change", updateAudio);
+  for (var k = 0; k < N; k++) { sliders[k].addEventListener("input", updateAudio); }
+  updateAudio();
+})();
+  </script>
+</body>
+</html>

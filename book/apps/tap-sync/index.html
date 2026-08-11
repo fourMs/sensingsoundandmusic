@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Tap along</title>
+  <style>
+    :root {
+      --bg: #fdfdfd; --fg: #1c1e21; --muted: #5a6069; --panel: #f1f2f4;
+      --border: #c9ccd1; --accent: #0b6e99; --accent-fg: #ffffff; --canvas: #ffffff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #15171b; --fg: #e6e7e9; --muted: #9aa0a8; --panel: #20242b;
+        --border: #3a3f47; --accent: #4da3c7; --accent-fg: #0d1117; --canvas: #101216;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      margin: 0 auto; padding: 16px; max-width: 780px;
+      background: var(--bg); color: var(--fg); line-height: 1.45;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 8px; }
+    p.intro { margin: 0 0 14px; }
+    .hint { font-size: 0.9rem; color: var(--muted); margin-top: 10px; }
+    fieldset {
+      border: 1px solid var(--border); border-radius: 8px;
+      margin: 0 0 12px; padding: 10px 12px; background: var(--panel);
+    }
+    legend { font-weight: 600; font-size: 0.95rem; padding: 0 6px; }
+    label { display: block; font-weight: 600; font-size: 0.9rem; margin: 8px 0 2px; }
+    .vals { font-weight: normal; color: var(--muted); margin-left: 4px; }
+    input[type="range"] { width: 100%; margin: 2px 0 4px; accent-color: var(--accent); }
+    button {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 14px; font-size: 1rem; cursor: pointer;
+    }
+    button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+    button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px; }
+    @media (max-width: 480px) { .grid2 { grid-template-columns: 1fr; } }
+    #pad {
+      display: block; width: 100%; padding: 28px 10px; margin: 12px 0 0;
+      font-size: 1.2rem; font-weight: 700; border-radius: 10px;
+      border: 2px solid var(--accent); background: var(--panel); color: var(--fg);
+      touch-action: manipulation; user-select: none;
+    }
+    #pad:active { background: var(--accent); color: var(--accent-fg); }
+    .stats { font-size: 1.05rem; margin: 10px 0 0; font-variant-numeric: tabular-nums; }
+    canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; background: var(--canvas); }
+  </style>
+</head>
+<body>
+  <h1>Tap along</h1>
+  <p class="intro">Start the click and tap along on every beat, using the space bar or the large button. After twenty taps the app shows how early or late you tap on average (the mean asynchrony) and how consistent you are (the standard deviation). The swing section moves the off-beat click later in the beat so you can compare two swing ratios.</p>
+
+  <div class="row">
+    <button type="button" id="power" class="primary">Start click</button>
+    <button type="button" id="reset">Reset taps</button>
+    <label style="flex:1; min-width:160px; margin:0;">Master volume <span class="vals" id="voldisp"></span>
+      <input type="range" id="vol" min="0" max="100" step="1" value="60" aria-label="Master volume"/>
+    </label>
+  </div>
+
+  <fieldset>
+    <legend>Tempo</legend>
+    <label>Tempo <span class="vals" id="bpmdisp"></span> bpm</label>
+    <input type="range" id="bpm" min="60" max="180" step="1" value="100" aria-label="Tempo in beats per minute"/>
+  </fieldset>
+
+  <fieldset>
+    <legend>Swing</legend>
+    <label class="check" style="display:inline-flex; align-items:center; gap:6px;">
+      <input type="checkbox" id="swing"/> Add an off-beat click
+    </label>
+    <div class="grid2">
+      <div>
+        <label>Ratio A <span class="vals" id="ratioAdisp"></span> %</label>
+        <input type="range" id="ratioA" min="50" max="75" step="1" value="50" aria-label="Swing ratio A"/>
+      </div>
+      <div>
+        <label>Ratio B <span class="vals" id="ratioBdisp"></span> %</label>
+        <input type="range" id="ratioB" min="50" max="75" step="1" value="66" aria-label="Swing ratio B"/>
+      </div>
+    </div>
+    <div class="row">
+      <span style="font-weight:600;">Listen to:</span>
+      <button type="button" id="useA" aria-pressed="true">A</button>
+      <button type="button" id="useB" aria-pressed="false">B</button>
+      <span class="vals">50 % is straight; 67 % is a triplet feel; 75 % is hard swing.</span>
+    </div>
+  </fieldset>
+
+  <button type="button" id="pad">Tap here (or press the space bar)</button>
+  <div class="stats" id="stats">Taps: 0 of 20</div>
+  <canvas id="hist" width="900" height="220" aria-label="Histogram of tap asynchronies"></canvas>
+  <p class="hint">What to notice: most people tap slightly ahead of the click. The measurement is approximate, since the browser adds a few milliseconds of audio and input latency.</p>
+
+  <script>
+(function () {
+  "use strict";
+  var ctx = null, master = null;
+  var running = false;
+  var timer = null;
+  var nextBeatTime = 0;       // audio-clock time of the next unscheduled beat
+  var beatTimes = [];         // audio-clock times of scheduled on-beats
+  var taps = [];              // asynchronies in ms
+  var LOOKAHEAD = 0.12;       // seconds
+  var TICK_MS = 25;
+
+  var el = function (id) { return document.getElementById(id); };
+  var bpmEl = el("bpm"), volEl = el("vol");
+  var canvas = el("hist"), c2d = canvas.getContext("2d");
+  var activeRatio = "A";
+
+  function beatDur() { return 60 / parseFloat(bpmEl.value); }
+  function ratio() {
+    return parseFloat(el(activeRatio === "A" ? "ratioA" : "ratioB").value) / 100;
+  }
+
+  function ensureAudio() {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      master = ctx.createGain();
+      master.gain.value = 0.3 * parseFloat(volEl.value) / 100;
+      master.connect(ctx.destination);
+    }
+    if (ctx.state === "suspended") { ctx.resume(); }
+  }
+
+  function click(t, accent) {
+    var o = ctx.createOscillator();
+    o.type = "sine";
+    o.frequency.value = accent ? 1000 : 1600;
+    var g = ctx.createGain();
+    var peak = accent ? 1 : 0.45;
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(peak, t + 0.002);
+    g.gain.setTargetAtTime(0, t + 0.004, 0.012);
+    o.connect(g);
+    g.connect(master);
+    o.start(t);
+    o.stop(t + 0.09);
+  }
+
+  // lookahead scheduler on the AudioContext clock
+  function schedulerTick() {
+    var d = beatDur();
+    while (nextBeatTime < ctx.currentTime + LOOKAHEAD) {
+      click(nextBeatTime, true);
+      beatTimes.push(nextBeatTime);
+      if (el("swing").checked) {
+        click(nextBeatTime + d * ratio(), false);
+      }
+      nextBeatTime += d;
+    }
+    if (beatTimes.length > 64) { beatTimes = beatTimes.slice(-64); }
+  }
+
+  function start() {
+    ensureAudio();
+    running = true;
+    nextBeatTime = ctx.currentTime + 0.2;
+    beatTimes = [];
+    timer = setInterval(schedulerTick, TICK_MS);
+    el("power").textContent = "Stop click";
+    el("power").classList.remove("primary");
+  }
+  function stop() {
+    running = false;
+    if (timer) { clearInterval(timer); timer = null; }
+    el("power").textContent = "Start click";
+    el("power").classList.add("primary");
+  }
+  el("power").addEventListener("click", function () {
+    if (running) { stop(); } else { start(); }
+  });
+
+  // ---- tap capture ----
+  function audioTimeNow(perfMs) {
+    // map a performance.now() timestamp onto the AudioContext clock
+    if (ctx.getOutputTimestamp) {
+      var ts = ctx.getOutputTimestamp();
+      if (ts && typeof ts.contextTime === "number" && ts.contextTime > 0) {
+        return ts.contextTime + (perfMs - ts.performanceTime) / 1000;
+      }
+    }
+    return ctx.currentTime + (perfMs - performance.now()) / 1000;
+  }
+  function registerTap(perfMs) {
+    if (!running || beatTimes.length === 0) { return; }
+    var tapAudio = audioTimeNow(perfMs);
+    var best = null, bestAbs = Infinity;
+    for (var i = 0; i < beatTimes.length; i++) {
+      var d = tapAudio - beatTimes[i];
+      if (Math.abs(d) < bestAbs) { bestAbs = Math.abs(d); best = d; }
+    }
+    if (best === null || bestAbs > beatDur() / 2) { return; }
+    taps.push(best * 1000);
+    updateStats();
+  }
+  el("pad").addEventListener("pointerdown", function (e) {
+    e.preventDefault();
+    registerTap(performance.now());
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.code === "Space" && !e.repeat) {
+      e.preventDefault();
+      registerTap(performance.now());
+    }
+  });
+  el("reset").addEventListener("click", function () {
+    taps = [];
+    updateStats();
+  });
+
+  // ---- stats and histogram ----
+  function updateStats() {
+    var s = el("stats");
+    if (taps.length < 20) {
+      s.textContent = "Taps: " + taps.length + " of 20";
+    } else {
+      var recent = taps.slice(-20);
+      var mean = 0, i;
+      for (i = 0; i < recent.length; i++) { mean += recent[i]; }
+      mean /= recent.length;
+      var varsum = 0;
+      for (i = 0; i < recent.length; i++) {
+        varsum += (recent[i] - mean) * (recent[i] - mean);
+      }
+      var sd = Math.sqrt(varsum / (recent.length - 1));
+      s.textContent = "Last 20 taps — mean asynchrony: " + mean.toFixed(1) +
+        " ms (" + (mean < 0 ? "early" : "late") + "), standard deviation: " + sd.toFixed(1) + " ms";
+    }
+    drawHist();
+  }
+
+  function theme() {
+    var d = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return d ? { bg: "#101216", grid: "#2a2f37", bar: "#4da3c7", zero: "#e08a4f", text: "#9aa0a8" }
+             : { bg: "#ffffff", grid: "#e3e5e8", bar: "#0b6e99", zero: "#c2571a", text: "#5a6069" };
+  }
+  function drawHist() {
+    var th = theme();
+    var w = canvas.width, h = canvas.height;
+    var mB = 30, mT = 10, mL = 22, mR = 22;
+    c2d.fillStyle = th.bg;
+    c2d.fillRect(0, 0, w, h);
+    var lo = -150, hi = 150, binW = 10;
+    var nbins = (hi - lo) / binW;
+    var counts = new Array(nbins);
+    var i;
+    for (i = 0; i < nbins; i++) { counts[i] = 0; }
+    for (i = 0; i < taps.length; i++) {
+      var v = Math.max(lo, Math.min(hi - 0.01, taps[i]));
+      counts[Math.floor((v - lo) / binW)] += 1;
+    }
+    var maxC = 1;
+    for (i = 0; i < nbins; i++) { if (counts[i] > maxC) { maxC = counts[i]; } }
+    var pw = w - mL - mR, ph = h - mT - mB;
+    var bw = pw / nbins;
+    c2d.fillStyle = th.bar;
+    for (i = 0; i < nbins; i++) {
+      if (counts[i] > 0) {
+        var bh = counts[i] / maxC * ph;
+        c2d.fillRect(mL + i * bw + 1, mT + ph - bh, bw - 2, bh);
+      }
+    }
+    // zero line
+    var x0 = mL + (0 - lo) / (hi - lo) * pw;
+    c2d.strokeStyle = th.zero;
+    c2d.lineWidth = 1.5;
+    c2d.beginPath(); c2d.moveTo(x0, mT); c2d.lineTo(x0, mT + ph); c2d.stroke();
+    // labels
+    c2d.fillStyle = th.text;
+    c2d.font = "13px system-ui, sans-serif";
+    c2d.textAlign = "center";
+    var t;
+    for (t = lo; t <= hi; t += 50) {
+      var x = mL + (t - lo) / (hi - lo) * pw;
+      c2d.fillText(String(t), x, h - 8);
+    }
+    c2d.fillText("Asynchrony (ms): negative means tapping early", w / 2, mT + 14);
+    c2d.textAlign = "left";
+  }
+
+  // ---- wiring ----
+  function updateLabels() {
+    el("bpmdisp").textContent = bpmEl.value;
+    el("voldisp").textContent = volEl.value + " %";
+    el("ratioAdisp").textContent = el("ratioA").value;
+    el("ratioBdisp").textContent = el("ratioB").value;
+    if (ctx) {
+      master.gain.setTargetAtTime(0.3 * parseFloat(volEl.value) / 100, ctx.currentTime, 0.03);
+    }
+  }
+  bpmEl.addEventListener("input", function () {
+    taps = [];
+    updateLabels();
+    updateStats();
+  });
+  volEl.addEventListener("input", updateLabels);
+  el("ratioA").addEventListener("input", updateLabels);
+  el("ratioB").addEventListener("input", updateLabels);
+  el("useA").addEventListener("click", function () {
+    activeRatio = "A";
+    this.setAttribute("aria-pressed", "true");
+    el("useB").setAttribute("aria-pressed", "false");
+  });
+  el("useB").addEventListener("click", function () {
+    activeRatio = "B";
+    this.setAttribute("aria-pressed", "true");
+    el("useA").setAttribute("aria-pressed", "false");
+  });
+  updateLabels();
+  updateStats();
+})();
+  </script>
+</body>
+</html>
