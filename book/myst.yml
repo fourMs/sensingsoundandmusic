@@ -26,6 +26,8 @@ project:
     - file: the-brain.ipynb
     - file: machine-listening.ipynb
     - file: general-comments.ipynb
+    - file: spectrogram-guide.ipynb
+    - file: glossary.md
 
 site:
   template: book-theme
