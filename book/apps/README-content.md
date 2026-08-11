@@ -1,6 +1,6 @@
 # Course apps (2026)
 
-Ten small, self-contained WebAudio teaching apps written for the book. Each is
+Eleven small, self-contained WebAudio teaching apps written for the book. Each is
 a single `index.html` with inline CSS and JS (vanilla JS, Web Audio API,
 canvas), no external requests, and works on both phones and laptops. Sound
 starts only after a user gesture. Like the vendored apps, these are copied into
@@ -40,3 +40,8 @@ the deployed site under `/apps/` by the build.
 - `breath-pulse/` — no microphone or sensor: a paced-breathing guide (4–8
   breaths per minute) and a 30-second pulse-counting timer with beeps, logging
   hand-counted pulse values to an in-memory table. Chapter: *Physiology*.
+- `phase-cancellation/` — constructive and destructive interference: two sine
+  tones with a phase-offset slider (via a small delay) drawn with their sum,
+  and a music loop against its polarity-inverted copy, where a 0–5 ms delay
+  turns cancellation into audible comb filtering. Replaces the external
+  Pd-based demo. Chapter: *Acoustics*.
