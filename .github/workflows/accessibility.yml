@@ -1,0 +1,48 @@
+name: Accessibility Check (pa11y)
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  pa11y:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install "jupyter-book>=2.0.0a0"
+          pip install -r requirements.txt || true
+
+      - name: Build Jupyter Book HTML
+        run: |
+          cd book
+          myst build --html
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '20'
+
+      - name: Install pa11y and http-server
+        run: npm install -g pa11y http-server
+
+      - name: Serve built site
+        run: |
+          # Serve the built site in background and wait briefly for it to come up
+          http-server ./book/_build/html -p 8080 &
+          sleep 3
+
+      - name: Run pa11y accessibility check
+        run: |
+          pa11y http://127.0.0.1:8080 || true

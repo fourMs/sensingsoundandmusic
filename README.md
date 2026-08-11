@@ -1,5 +1,9 @@
 # Sensing Sound and Music
 
+[![Deploy Jupyter Book](https://github.com/fourMs/sensingsoundandmusic/actions/workflows/deploy.yml/badge.svg)](https://github.com/fourMs/sensingsoundandmusic/actions/workflows/deploy.yml)
+[![Link check](https://github.com/fourMs/sensingsoundandmusic/actions/workflows/linkcheck.yml/badge.svg)](https://github.com/fourMs/sensingsoundandmusic/actions/workflows/linkcheck.yml)
+[![Accessibility](https://github.com/fourMs/sensingsoundandmusic/actions/workflows/accessibility.yml/badge.svg)](https://github.com/fourMs/sensingsoundandmusic/actions/workflows/accessibility.yml)
+
 This is the source code for the e-book [Sensing Sound and Music](https://fourms.github.io/sensingsoundandmusic/), which contains lecture notes and materials for the [course MUS2640](https://www.uio.no/studier/emner/hf/imv/MUS2640/) at the University of Oslo (UiO). The course is primarily targeting music students, introducing basic concepts in music psychology and music technology. The integration of psychology and technology is not so common, so this book is meant to bridge the gap between two sets of literature that are often separated.
 
 The book is exploring the potential of new technologies in educational material. It has been written using [Jupyter Book](https://jupyterbook.org/) v2 and can be compiled to different formats. The [HTML build](https://fourms.github.io/sensingsoundandmusic/) is probably the one most people want to look at, but there is also a PDF option available. 
