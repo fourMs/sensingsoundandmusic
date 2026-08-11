@@ -23,6 +23,7 @@ jobs:
 
       - name: Run markdown link check
         run: |
-          # Check all Markdown files in the repo (skip common generated/build folders)
-          find . -name '*.md' -not -path './.git/*' -not -path './book/_build/*' -not -path './node_modules/*' -print0 \
-            | xargs -0 -n1 -I{} markdown-link-check -q {}
+          # Check all Markdown files in the repo (skip generated/build folders and
+          # vendored apps, whose upstream READMEs reference files we do not vendor)
+          find . -name '*.md' -not -path './.git/*' -not -path './book/_build/*' -not -path './node_modules/*' -not -path './book/apps/videoviz/*' -print0 \
+            | xargs -0 -I{} markdown-link-check -q {}
