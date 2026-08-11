@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Live spectrogram</title>
+  <style>
+    :root {
+      --bg: #fdfdfd; --fg: #1c1e21; --muted: #5a6069; --panel: #f1f2f4;
+      --border: #c9ccd1; --accent: #0b6e99; --accent-fg: #ffffff; --canvas: #ffffff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #15171b; --fg: #e6e7e9; --muted: #9aa0a8; --panel: #20242b;
+        --border: #3a3f47; --accent: #4da3c7; --accent-fg: #0d1117; --canvas: #101216;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      margin: 0 auto; padding: 16px; max-width: 780px;
+      background: var(--bg); color: var(--fg); line-height: 1.45;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 8px; }
+    p.intro { margin: 0 0 14px; }
+    .hint { font-size: 0.9rem; color: var(--muted); margin-top: 10px; }
+    .privacy {
+      border: 1px solid var(--border); border-radius: 8px; background: var(--panel);
+      padding: 8px 12px; margin: 0 0 14px; font-size: 0.9rem; color: var(--muted);
+    }
+    fieldset {
+      border: 1px solid var(--border); border-radius: 8px;
+      margin: 0 0 12px; padding: 10px 12px; background: var(--panel);
+    }
+    legend { font-weight: 600; font-size: 0.95rem; padding: 0 6px; }
+    button {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 14px; font-size: 1rem; cursor: pointer;
+    }
+    button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+    button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+    button:disabled { opacity: 0.5; cursor: default; }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 10px 0; }
+    .status { color: var(--muted); font-size: 0.9rem; min-height: 1.4em; margin: 6px 0 0; }
+    canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; background: var(--canvas); }
+  </style>
+</head>
+<body>
+  <h1>Live spectrogram</h1>
+  <p class="intro">A spectrogram unrolls sound in time: time runs to the right, frequency upwards, and colour shows how strong each frequency is. This one listens to your microphone, so you can watch your own voice while you hear it. Press <strong>Start microphone</strong> and allow access when the browser asks.</p>
+  <p class="privacy">Privacy: the microphone signal is analysed locally in your browser, drawn to the screen, and immediately discarded. Nothing is recorded, stored, or sent anywhere.</p>
+
+  <div class="row">
+    <button type="button" id="start" class="primary">Start microphone</button>
+    <button type="button" id="pause" disabled>Pause</button>
+  </div>
+
+  <fieldset>
+    <legend>FFT window size</legend>
+    <div class="row">
+      <button type="button" data-fft="1024" aria-pressed="false">1024 (fast, blurry pitch)</button>
+      <button type="button" data-fft="4096" aria-pressed="true">4096 (balanced)</button>
+      <button type="button" data-fft="16384" aria-pressed="false">16384 (fine pitch, smeared time)</button>
+    </div>
+  </fieldset>
+
+  <p class="status" id="status"></p>
+
+  <canvas id="spec" width="900" height="420" aria-label="Scrolling spectrogram of the microphone signal"></canvas>
+  <p class="hint">What to notice: speak a slow vowel and a stack of evenly spaced harmonic lines appears; whistle and the stack collapses to a single line; hiss and you get a broadband wash with no lines at all. Then switch window sizes: the large window sharpens the harmonics but smears fast events, the small one does the opposite.</p>
+
+  <script>
+(function () {
+  "use strict";
+  var FMIN = 60, FMAX = 8000;
+  var AXIS_W = 46;
+  var ctx = null, analyser = null, stream = null;
+  var running = false, paused = false;
+  var freqData = null;
+
+  var el = function (id) { return document.getElementById(id); };
+  var canvas = el("spec"), c2d = canvas.getContext("2d");
+
+  // same viridis stops as the window-explorer app
+  var stops = [
+    [68, 1, 84], [59, 82, 139], [33, 145, 140], [94, 201, 98], [253, 231, 37]
+  ];
+  function colour(v) { // v in 0..1
+    var p = Math.max(0, Math.min(0.9999, v)) * (stops.length - 1);
+    var i = Math.floor(p), fr = p - i;
+    return [
+      Math.round(stops[i][0] + fr * (stops[i + 1][0] - stops[i][0])),
+      Math.round(stops[i][1] + fr * (stops[i + 1][1] - stops[i][1])),
+      Math.round(stops[i][2] + fr * (stops[i + 1][2] - stops[i][2]))
+    ];
+  }
+  function theme() {
+    var d = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return d ? { bg: "#101216", text: "#9aa0a8", tick: "#3a3f47" }
+             : { bg: "#ffffff", text: "#5a6069", tick: "#c9ccd1" };
+  }
+
+  function yOf(f, h) {
+    var lo = Math.log(FMIN), hi = Math.log(FMAX);
+    return h - (Math.log(f) - lo) / (hi - lo) * h;
+  }
+  function freqAt(y, h) {
+    var lo = Math.log(FMIN), hi = Math.log(FMAX);
+    return Math.exp(lo + (1 - y / h) * (hi - lo));
+  }
+
+  function drawAxis() {
+    var th = theme();
+    var h = canvas.height;
+    c2d.fillStyle = th.bg;
+    c2d.fillRect(0, 0, AXIS_W, h);
+    c2d.strokeStyle = th.tick;
+    c2d.fillStyle = th.text;
+    c2d.font = "11px system-ui, sans-serif";
+    var labels = [[60, "60"], [100, "100"], [200, "200"], [500, "500"], [1000, "1k"], [2000, "2k"], [4000, "4k"], [8000, "8k"]];
+    for (var i = 0; i < labels.length; i++) {
+      var y = Math.max(9, Math.min(h - 2, yOf(labels[i][0], h)));
+      c2d.beginPath(); c2d.moveTo(AXIS_W - 6, y); c2d.lineTo(AXIS_W, y); c2d.stroke();
+      c2d.fillText(labels[i][1], 4, y + 4);
+    }
+    c2d.save();
+    c2d.translate(14, h / 2);
+    c2d.rotate(-Math.PI / 2);
+    c2d.fillText("Hz", -8, 0);
+    c2d.restore();
+  }
+
+  function clearPlot() {
+    var th = theme();
+    c2d.fillStyle = th.bg;
+    c2d.fillRect(AXIS_W, 0, canvas.width - AXIS_W, canvas.height);
+    drawAxis();
+  }
+
+  function setStatus(msg) { el("status").textContent = msg; }
+
+  function start() {
+    if (running) { return; }
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      setStatus("This browser does not offer microphone access here. Use a current browser over https (or localhost), or try the sound-file spectrogram in the window explorer app instead.");
+      return;
+    }
+    setStatus("Asking for microphone access...");
+    navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false } })
+      .then(function (s) {
+        stream = s;
+        ctx = new (window.AudioContext || window.webkitAudioContext)();
+        if (ctx.state === "suspended") { ctx.resume(); }
+        var srcNode = ctx.createMediaStreamSource(stream);
+        analyser = ctx.createAnalyser();
+        analyser.fftSize = currentFft();
+        analyser.smoothingTimeConstant = 0;
+        analyser.minDecibels = -90;
+        analyser.maxDecibels = -25;
+        srcNode.connect(analyser);
+        // nothing is connected to the output: the sound goes nowhere
+        freqData = new Uint8Array(analyser.frequencyBinCount);
+        running = true;
+        paused = false;
+        el("start").textContent = "Microphone running";
+        el("start").disabled = true;
+        el("start").classList.remove("primary");
+        el("pause").disabled = false;
+        setStatus("Listening. Speak, whistle, and hiss at it.");
+      })
+      .catch(function (err) {
+        if (err && (err.name === "NotAllowedError" || err.name === "SecurityError")) {
+          setStatus("Microphone access was declined. Nothing is wrong: allow access in the browser's address bar and press start again when you are ready.");
+        } else if (err && err.name === "NotFoundError") {
+          setStatus("No microphone was found on this device.");
+        } else {
+          setStatus("The microphone could not be started (" + (err && err.name ? err.name : "unknown reason") + "). Check that another app is not blocking it.");
+        }
+      });
+  }
+
+  function pauseToggle() {
+    if (!running) { return; }
+    paused = !paused;
+    el("pause").textContent = paused ? "Resume" : "Pause";
+    setStatus(paused ? "Paused: the picture stands still, the microphone stays open." : "Listening. Speak, whistle, and hiss at it.");
+  }
+
+  function currentFft() {
+    var b = document.querySelector("button[data-fft][aria-pressed=\"true\"]");
+    return b ? parseInt(b.getAttribute("data-fft"), 10) : 4096;
+  }
+
+  // ---- scrolling drawing ----
+  var col = c2d.createImageData(1, canvas.height);
+  function draw() {
+    requestAnimationFrame(draw);
+    if (!running || paused) { return; }
+    var w = canvas.width, h = canvas.height;
+    analyser.getByteFrequencyData(freqData);
+    // shift the plot area one pixel left
+    c2d.drawImage(canvas, AXIS_W + 1, 0, w - AXIS_W - 1, h, AXIS_W, 0, w - AXIS_W - 1, h);
+    // draw the new column at the right edge
+    var binHz = ctx.sampleRate / analyser.fftSize;
+    for (var y = 0; y < h; y++) {
+      var f = freqAt(y + 0.5, h);
+      var bin = Math.min(freqData.length - 1, Math.round(f / binHz));
+      var c = colour(freqData[bin] / 255);
+      var o = y * 4;
+      col.data[o] = c[0]; col.data[o + 1] = c[1]; col.data[o + 2] = c[2]; col.data[o + 3] = 255;
+    }
+    c2d.putImageData(col, w - 1, 0);
+  }
+
+  // ---- wiring ----
+  el("start").addEventListener("click", start);
+  el("pause").addEventListener("click", pauseToggle);
+  var fftBtns = document.querySelectorAll("button[data-fft]");
+  for (var i = 0; i < fftBtns.length; i++) {
+    fftBtns[i].addEventListener("click", function () {
+      for (var j = 0; j < fftBtns.length; j++) { fftBtns[j].setAttribute("aria-pressed", "false"); }
+      this.setAttribute("aria-pressed", "true");
+      if (analyser) {
+        analyser.fftSize = currentFft();
+        freqData = new Uint8Array(analyser.frequencyBinCount);
+      }
+    });
+  }
+  if (window.matchMedia) {
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", clearPlot);
+  }
+  clearPlot();
+  draw();
+})();
+  </script>
+</body>
+</html>

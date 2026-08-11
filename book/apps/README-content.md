@@ -1,6 +1,6 @@
 # Course apps (2026)
 
-Eleven small, self-contained WebAudio teaching apps written for the book. Each is
+Thirteen small, self-contained WebAudio teaching apps written for the book. Each is
 a single `index.html` with inline CSS and JS (vanilla JS, Web Audio API,
 canvas), no external requests, and works on both phones and laptops. Sound
 starts only after a user gesture. Like the vendored apps, these are copied into
@@ -45,3 +45,13 @@ the deployed site under `/apps/` by the build.
   and a music loop against its polarity-inverted copy, where a 0–5 ms delay
   turns cancellation into audible comb filtering. Replaces the external
   Pd-based demo. Chapter: *Acoustics*.
+- `room-modes/` — enter your room's length, width, and height and see its
+  first axial modes (f = c/2 · n/L) on a log-frequency axis, with stacked
+  modes from different dimensions flagged and a hear button per mode for
+  hunting the boom. Replaces the external amroc calculator. Chapter:
+  *Acoustics*.
+- `live-spectrogram/` — scrolling log-frequency spectrogram (60 Hz–8 kHz) of
+  the microphone via getUserMedia, with a selectable FFT size (1024/4096/16384)
+  and pause; audio is analysed locally and never recorded or sent. Replaces
+  the Chrome Music Lab Spectrogram links. Chapter: *Acoustics* (also used from
+  *Tuning in*, *Listening*, *Psychoacoustics*, and *Vision*).
