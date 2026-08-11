@@ -1,6 +1,6 @@
 # Course apps (2026)
 
-Five small, self-contained WebAudio teaching apps written for the book. Each is
+Ten small, self-contained WebAudio teaching apps written for the book. Each is
 a single `index.html` with inline CSS and JS (vanilla JS, Web Audio API,
 canvas), no external requests, and works on both phones and laptops. Sound
 starts only after a user gesture. Like the vendored apps, these are copied into
@@ -22,3 +22,21 @@ the deployed site under `/apps/` by the build.
 - `tap-sync/` — tap along with a click at selectable tempo; shows mean
   asynchrony and standard deviation with a histogram, plus an adjustable swing
   ratio with A/B comparison. Chapter: *Time and rhythm*.
+- `spatial-hearing/` — headphones required: move a source around the head and
+  hear the two localisation cues (ITD via per-ear delay, ILD via panning)
+  separately or together, with three synthesised sources and a top-down head
+  view. Chapter: *Psychoacoustics*.
+- `shepard/` — endless Shepard tones: rising or falling, stepped or Risset
+  glissando, with six octave components under a Gaussian loudness envelope
+  drawn live on a canvas. Chapter: *Psychoacoustics*.
+- `sampling-quantisation/` — a looped synthesised riff degraded live: simulated
+  sample rate (48 kHz down to 2 kHz, sample-and-hold in an AudioWorklet with a
+  ScriptProcessor fallback) and bit depth (16 down to 2 bits), with a zoomed
+  waveform showing the staircase. Chapter: *Electroacoustics*.
+- `interval-lab/` — two complex tones at any interval from unison to octave,
+  just intonation versus equal temperament with ratio and cent readouts, a
+  beating major-third demo, and a consonance ranking game compared with
+  typical listener ratings. Chapter: *Harmony and melody*.
+- `breath-pulse/` — no microphone or sensor: a paced-breathing guide (4–8
+  breaths per minute) and a 30-second pulse-counting timer with beeps, logging
+  hand-counted pulse values to an in-memory table. Chapter: *Physiology*.
