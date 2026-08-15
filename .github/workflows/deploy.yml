@@ -52,11 +52,25 @@ jobs:
           cd book
           # Execution can intermittently crash OR hang the Jupyter kernel on CI
           # (memory pressure on heavy notebooks). Bound each attempt with
-          # `timeout` so a hang is killed and the retry can run; myst reuses the
-          # execution cache, so only the notebook that failed is re-executed.
-          # The 30-min job timeout is the final backstop.
-          timeout 12m env BASE_URL=/sensingsoundandmusic myst build --html --execute \
-            || timeout 12m env BASE_URL=/sensingsoundandmusic myst build --html --execute
+          # `timeout` so a hang is killed and the retry can run.
+          # Limit BLAS/OpenMP thread fan-out to reduce memory pressure and
+          # stabilize notebook kernels on shared CI runners.
+          ok=0
+          for attempt in 1 2 3; do
+            echo "MyST build attempt ${attempt}/3"
+            if timeout 10m env \
+              BASE_URL=/sensingsoundandmusic \
+              OMP_NUM_THREADS=1 \
+              OPENBLAS_NUM_THREADS=1 \
+              MKL_NUM_THREADS=1 \
+              NUMEXPR_NUM_THREADS=1 \
+              myst build --html --execute; then
+              ok=1
+              break
+            fi
+            echo "Attempt ${attempt} failed; retrying..."
+          done
+          [ "$ok" -eq 1 ]
           # Myst fingerprints _static assets under /build/, which breaks stable URLs.
           # Copy the beating demo to a stable top-level path for linking from content.
           cp "_static/beating-demo.html" "_build/html/beating-demo.html"
