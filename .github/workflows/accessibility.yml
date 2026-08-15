@@ -24,15 +24,15 @@ jobs:
           pip install "jupyter-book>=2.0.0a0"
           pip install -r requirements.txt || true
 
-      - name: Build Jupyter Book HTML
-        run: |
-          cd book
-          myst build --html
-
       - name: Set up Node.js
         uses: actions/setup-node@v5
         with:
           node-version: '20'
+
+      - name: Build Jupyter Book HTML
+        run: |
+          cd book
+          myst build --html
 
       - name: Install pa11y and http-server
         run: npm install -g pa11y http-server
