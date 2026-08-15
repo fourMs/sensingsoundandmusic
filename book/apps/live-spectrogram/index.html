@@ -58,8 +58,14 @@
   <fieldset>
     <legend>FFT window size</legend>
     <div class="row">
-      <button type="button" data-fft="1024" aria-pressed="false">1024 (fast, blurry pitch)</button>
-      <button type="button" data-fft="4096" aria-pressed="true">4096 (balanced)</button>
+      <button type="button" data-fft="64" aria-pressed="false">64 (very fast, very blurry pitch)</button>
+      <button type="button" data-fft="128" aria-pressed="false">128</button>
+      <button type="button" data-fft="256" aria-pressed="false">256</button>
+      <button type="button" data-fft="512" aria-pressed="false">512</button>
+      <button type="button" data-fft="1024" aria-pressed="false">1024</button>
+      <button type="button" data-fft="2048" aria-pressed="true">2048 (balanced)</button>
+      <button type="button" data-fft="4096" aria-pressed="false">4096</button>
+      <button type="button" data-fft="8192" aria-pressed="false">8192</button>
       <button type="button" data-fft="16384" aria-pressed="false">16384 (fine pitch, smeared time)</button>
     </div>
   </fieldset>
@@ -67,7 +73,7 @@
   <p class="status" id="status"></p>
 
   <canvas id="spec" width="900" height="420" aria-label="Scrolling spectrogram of the microphone signal"></canvas>
-  <p class="hint">What to notice: speak a slow vowel and a stack of evenly spaced harmonic lines appears; whistle and the stack collapses to a single line; hiss and you get a broadband wash with no lines at all. Then switch window sizes: the large window sharpens the harmonics but smears fast events, the small one does the opposite.</p>
+  <p class="hint">What to notice: speak a slow vowel and a stack of evenly spaced harmonic lines appears; whistle and the stack collapses to a single line; hiss and you get a broadband wash with no lines at all. Then step through 64 → 128 → 256 → ... → 16384: larger windows sharpen harmonics (frequency detail) but smear rapid attacks in time, while smaller windows do the opposite.</p>
 
   <script>
 (function () {
@@ -188,7 +194,7 @@
 
   function currentFft() {
     var b = document.querySelector("button[data-fft][aria-pressed=\"true\"]");
-    return b ? parseInt(b.getAttribute("data-fft"), 10) : 4096;
+    return b ? parseInt(b.getAttribute("data-fft"), 10) : 2048;
   }
 
   // ---- scrolling drawing ----
@@ -224,6 +230,7 @@
         analyser.fftSize = currentFft();
         freqData = new Uint8Array(analyser.frequencyBinCount);
       }
+      setStatus("Window size: " + currentFft() + ". Smaller = sharper time, blurrier pitch. Larger = sharper pitch, blurrier time.");
     });
   }
   if (window.matchMedia) {
