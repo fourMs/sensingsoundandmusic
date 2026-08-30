@@ -12,6 +12,9 @@ Acousmatic listening
 Acoustics
 : The science of how sound is produced, transmitted, and received; the word also refers to the sonic qualities of a room.
 
+Action
+: The subjective experience of a movement sequence: a chunk of continuous motion with a fuzzy beginning and end, often but not always goal-directed. Actions are inferred by an observer; they cannot be read directly from motion data.
+
 Action–perception loop
 : The continuous cycle in which movement shapes what we perceive and perception shapes the next movement, central to embodied accounts of music.
 
@@ -150,6 +153,9 @@ Fundamental frequency
 Gestalt principles
 : Perceptual grouping rules such as proximity, similarity, and continuity, by which listeners organise sounds into coherent lines and phrases.
 
+Gesture
+: The meaning-bearing component of an action; "visible action as utterance." The same gesture, such as waving goodbye, can be carried out with different physical motion while keeping its meaning.
+
 Groove
 : A repeated rhythmic pattern that establishes a clear beat, and equally the pleasurable urge to move that such patterns induce.
 
@@ -219,11 +225,17 @@ Mirror neurons
 Missing fundamental
 : The phenomenon of hearing a pitch at an absent fundamental frequency inferred from the spacing of its harmonics, evidence that pitch is constructed by the auditory system.
 
+Motion
+: The physical displacement of an object or body in time and space; continuous, with no natural beginning or end, and measurable objectively with motion capture systems.
+
 Motion capture
 : Any systematic recording of body movement over time, from marker-based infrared camera systems to wearable inertial sensors and video-based pose estimation.
 
 Motiongram
 : A visualisation that compresses the motion in a video into a single image over time, allowing movement to be read somewhat like a spectrogram.
+
+Movement
+: The experienced, continuous excursions of the body in time and space; the everyday, experiential counterpart to motion, describing how moving is felt and perceived rather than measured.
 
 Music information retrieval (MIR)
 : The research field concerned with extracting structured information from musical audio and related data, from beat tracking to recommendation.
@@ -257,6 +269,15 @@ Pitch
 
 Pitch class
 : The set of all pitches that are whole octaves apart, such as every C on a keyboard, the basis of the chromagram.
+
+Pose
+: A posture with a meaning-bearing component: communication without moving. Like a gesture, but static rather than dynamic.
+
+Position
+: The physical location of a body, body part, or object in space, typically given as coordinates and measurable with a motion capture system.
+
+Posture
+: The subjective description of how a person holds their body; related to position the way action is related to motion.
 
 Precedence effect
 : The dominance of the first-arriving wavefront in determining a sound's perceived direction, which keeps room reflections from confusing localisation.
