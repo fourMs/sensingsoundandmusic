@@ -249,6 +249,9 @@ Musique concrète
 Neuroplasticity
 : The brain's capacity to reorganise its connections through experience, evident in the effects of musical training.
 
+Noise
+: In signal processing, the unwanted part of a sound or measurement, defined relative to the signal of interest; in musical contexts an aesthetic judgement rather than a physical category, as noise music shows.
+
 Nyquist frequency
 : Half the sampling rate, the highest frequency a digital system can represent without aliasing.
 
