@@ -90,6 +90,9 @@ Cross-rhythm
 Decibel
 : A logarithmic unit for expressing the ratio between two sound levels, matching the ear's compressive response to intensity.
 
+Doppler effect
+: The shift in perceived frequency when a sound source and listener move relative to each other, with pitch rising on approach and falling on retreat, exploited musically in the Leslie speaker.
+
 Dynamic attending
 : The theory that metre is a behaviour of attention, with expectancy peaking periodically so that events on strong positions become more salient.
 
