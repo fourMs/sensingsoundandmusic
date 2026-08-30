@@ -1,6 +1,6 @@
 # Course apps (2026)
 
-Fourteen small, self-contained WebAudio teaching apps written for the book. Each is
+Fifteen small, self-contained WebAudio teaching apps written for the book. Each is
 a single `index.html` with inline CSS and JS (vanilla JS, Web Audio API,
 canvas), no external requests, and works on both phones and laptops. Sound
 starts only after a user gesture. Like the vendored apps, these are copied into
@@ -16,6 +16,9 @@ the deployed site under `/apps/` by the build.
   frequency ratios, with strike/sustain modes, per-partial decay, and presets
   (harmonic, stretched, bell, gong, marimba, metal bar, drumhead).
   Chapter: *Acoustics* / *Psychoacoustics*.
+- `noise-explorer/` — the noise colours (white, pink, brownian, blue, grey)
+  as continuous textures or short impulses of adjustable length, with live
+  waveform and spectrum. Chapter: *Acoustics*.
 - `window-explorer/` — the time-frequency trade-off: test signals (clicks,
   close tones, chirp) analysed with a selectable FFT window size and drawn as a
   spectrogram (own radix-2 FFT, no libraries). Chapter: *Acoustics*.
