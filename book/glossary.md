@@ -330,6 +330,9 @@ Schizophonia
 Shepard tone
 : An illusion built from octave-spaced components that seems to rise or fall endlessly in pitch.
 
+Singer's formant
+: A resonance peak around 2,500–3,000 Hz produced by clustering the third, fourth, and fifth formants, giving classically trained voices the ring that carries over an orchestra.
+
 Sound-accompanying actions
 : Movements made to sound rather than for producing it, such as dancing or air-instrument playing, one category in the taxonomy of music-related body motion.
 
