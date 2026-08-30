@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Harmonics explorer</title>
+  <title>Inharmonicity explorer</title>
   <style>
     :root {
       --bg: #fdfdfd; --fg: #1c1e21; --muted: #5a6069; --panel: #f1f2f4;
@@ -41,52 +41,51 @@
     .partials { display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px; }
     .partials .p { text-align: center; }
     .partials .p label { display: block; font-size: 0.85rem; }
+    .partials .ratio { font-size: 0.78rem; font-weight: 600; white-space: nowrap; }
     .partials .freq { font-size: 0.72rem; color: var(--muted); white-space: nowrap; }
     .partials input[type="range"] {
       writing-mode: vertical-lr; direction: rtl;
       width: 28px; height: 110px; margin: 4px auto;
     }
     @media (max-width: 520px) { .partials input[type="range"] { height: 90px; } }
-    .check { font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
     canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; background: var(--canvas); }
   </style>
 </head>
 <body>
-  <h1>Harmonics explorer</h1>
-  <p class="intro">Build a sound by mixing the first eight harmonics of a fundamental tone. Each slider sets the loudness of one harmonic, whose frequency is a whole-number multiple of the fundamental. Try the presets, then remove the fundamental and listen to whether the pitch changes. Press <strong>Start audio</strong> first.</p>
+  <h1>Inharmonicity explorer</h1>
+  <p class="intro">Bells, gongs, and marimba bars produce <em>partials</em> that are not whole-number multiples of a fundamental. Pick a preset to load its frequency ratios (shown under each slider), set the partial amplitudes, and press <strong>Strike</strong> to hear the sound ring and decay. Compare with the harmonic preset and listen for how clear the pitch is.</p>
 
   <div class="row">
-    <button type="button" id="power" class="primary">Start audio</button>
+    <button type="button" id="strike" class="primary">Strike</button>
+    <button type="button" id="sustain">Sustain: off</button>
     <label style="flex:1; min-width:160px; margin:0;">Master volume <span class="vals" id="voldisp"></span>
       <input type="range" id="vol" min="0" max="100" step="1" value="60" aria-label="Master volume"/>
     </label>
   </div>
 
   <fieldset>
-    <legend>Fundamental</legend>
-    <label>Frequency <span class="vals" id="f0disp"></span> Hz</label>
-    <input type="range" id="f0" min="110" max="440" step="1" value="220" aria-label="Fundamental frequency"/>
-    <label class="check"><input type="checkbox" id="nofund"/> Remove the fundamental (harmonic 1 is muted)</label>
+    <legend>Strike note</legend>
+    <label>Base frequency <span class="vals" id="f0disp"></span> Hz</label>
+    <input type="range" id="f0" min="80" max="440" step="1" value="220" aria-label="Base frequency"/>
   </fieldset>
 
   <fieldset>
-    <legend>Harmonic amplitudes</legend>
+    <legend>Partial amplitudes</legend>
     <div class="partials" id="partials"></div>
     <div class="row">
       <span>Presets:</span>
-      <button type="button" data-preset="sine">Sine</button>
-      <button type="button" data-preset="flute">Flute-ish</button>
-      <button type="button" data-preset="clarinet">Clarinet-ish</button>
-      <button type="button" data-preset="oboe">Oboe-ish</button>
-      <button type="button" data-preset="trumpet">Trumpet-ish</button>
-      <button type="button" data-preset="organ">Organ-ish</button>
-      <button type="button" data-preset="saw">Sawtooth</button>
-      <button type="button" data-preset="square">Square</button>
+      <button type="button" data-preset="harmonic">Harmonic</button>
+      <button type="button" data-preset="stretched">Stretched</button>
+      <button type="button" data-preset="bell">Bell</button>
+      <button type="button" data-preset="gong">Gong</button>
+      <button type="button" data-preset="marimba">Marimba</button>
+      <button type="button" data-preset="bar">Metal bar</button>
+      <button type="button" data-preset="drum">Drumhead</button>
     </div>
   </fieldset>
 
   <canvas id="scope" width="900" height="300" aria-label="Waveform and spectrum display"></canvas>
-  <p class="hint">What to notice: even with harmonic 1 removed, the pitch you hear stays the same, because the ear infers the fundamental from the spacing of the remaining harmonics.</p>
+  <p class="hint">What to notice: the harmonic preset has an obvious pitch, the stretched piano-like preset still does, the bell has a strike note plus a lingering hum, and the gong and drumhead have no clear pitch at all. Higher partials also die away faster, which is a big part of why a struck sound mellows as it rings.</p>
 
   <script>
 (function () {
@@ -94,61 +93,90 @@
   var N = 8;
   var ctx = null, master = null, analyser = null;
   var oscs = [], gains = [];
-  var running = false;
+  var sustaining = false;
 
   var el = function (id) { return document.getElementById(id); };
-  var f0El = el("f0"), volEl = el("vol"), nofundEl = el("nofund");
+  var f0El = el("f0"), volEl = el("vol");
   var canvas = el("scope"), c2d = canvas.getContext("2d");
 
-  // build the 8 vertical sliders
-  var sliders = [];
-  var freqLabels = [];
+  // presets: frequency ratios, default amplitudes, and overall decay (seconds)
+  var presets = {
+    harmonic:  { ratios: [1, 2, 3, 4, 5, 6, 7, 8],
+                 amps:   [1, 0.5, 0.33, 0.25, 0.2, 0.17, 0.14, 0.13], decay: 2.5 },
+    stretched: { ratios: [1, 2.02, 3.05, 4.13, 5.24, 6.42, 7.66, 8.98],
+                 amps:   [1, 0.5, 0.33, 0.25, 0.2, 0.17, 0.14, 0.13], decay: 3 },
+    bell:      { ratios: [0.5, 1, 1.2, 1.5, 2, 2.52, 3, 4],
+                 amps:   [0.7, 1, 0.9, 0.5, 0.8, 0.4, 0.3, 0.25], decay: 5 },
+    gong:      { ratios: [1, 1.52, 1.94, 2.37, 2.66, 3.22, 3.98, 4.51],
+                 amps:   [1, 0.8, 0.7, 0.65, 0.55, 0.45, 0.35, 0.3], decay: 6 },
+    marimba:   { ratios: [1, 4, 10.08, 17.6, 24.5, 31.4, 38.3, 45.2],
+                 amps:   [1, 0.35, 0.15, 0.05, 0, 0, 0, 0], decay: 0.6 },
+    bar:       { ratios: [1, 2.76, 5.4, 8.93, 13.34, 18.64, 24.81, 31.87],
+                 amps:   [1, 0.6, 0.4, 0.25, 0.15, 0.08, 0.04, 0.02], decay: 1.5 },
+    drum:      { ratios: [1, 1.59, 2.14, 2.3, 2.65, 2.92, 3.16, 3.5],
+                 amps:   [1, 0.7, 0.5, 0.45, 0.35, 0.3, 0.25, 0.2], decay: 0.8 }
+  };
+  var current = "bell";
+
+  // build the 8 vertical sliders with ratio and frequency labels
+  var sliders = [], ratioLabels = [], freqLabels = [];
   var host = el("partials");
   for (var i = 0; i < N; i++) {
     var d = document.createElement("div");
     d.className = "p";
     var lab = document.createElement("label");
     lab.textContent = String(i + 1);
-    lab.setAttribute("for", "h" + (i + 1));
+    lab.setAttribute("for", "p" + (i + 1));
     var s = document.createElement("input");
     s.type = "range"; s.min = "0"; s.max = "1"; s.step = "0.01";
-    s.value = i === 0 ? "1" : "0";
-    s.id = "h" + (i + 1);
-    s.setAttribute("aria-label", "Harmonic " + (i + 1) + " amplitude");
+    s.id = "p" + (i + 1);
+    s.setAttribute("aria-label", "Partial " + (i + 1) + " amplitude");
     s.setAttribute("orient", "vertical");
+    var ra = document.createElement("div");
+    ra.className = "ratio";
     var fq = document.createElement("div");
     fq.className = "freq";
     d.appendChild(lab);
     d.appendChild(s);
+    d.appendChild(ra);
     d.appendChild(fq);
     host.appendChild(d);
-    sliders.push(s);
-    freqLabels.push(fq);
+    sliders.push(s); ratioLabels.push(ra); freqLabels.push(fq);
   }
 
-  function ampOf(i) {
-    var a = parseFloat(sliders[i].value);
-    if (i === 0 && nofundEl.checked) { a = 0; }
-    return a;
+  function partialFreq(i) {
+    return parseFloat(f0El.value) * presets[current].ratios[i];
+  }
+
+  function partialAmp(i) {
+    var f = partialFreq(i);
+    if (f > 16000) { return 0; } // out of comfortable hearing range
+    return parseFloat(sliders[i].value);
+  }
+
+  function loadPreset(name) {
+    current = name;
+    var p = presets[name];
+    for (var i = 0; i < N; i++) { sliders[i].value = p.amps[i]; }
+    updateAll();
   }
 
   function ensureAudio() {
     if (!ctx) {
       ctx = new (window.AudioContext || window.webkitAudioContext)();
       master = ctx.createGain();
-      master.gain.value = 0;
+      master.gain.value = 0.3 * parseFloat(volEl.value) / 100;
       analyser = ctx.createAnalyser();
       analyser.fftSize = 4096;
       analyser.smoothingTimeConstant = 0.7;
       master.connect(analyser);
       analyser.connect(ctx.destination);
-      var f0 = parseFloat(f0El.value);
       for (var i = 0; i < N; i++) {
         var o = ctx.createOscillator();
         o.type = "sine";
-        o.frequency.value = f0 * (i + 1);
+        o.frequency.value = partialFreq(i);
         var g = ctx.createGain();
-        g.gain.value = ampOf(i) * 0.12;
+        g.gain.value = 0;
         o.connect(g);
         g.connect(master);
         o.start();
@@ -159,58 +187,50 @@
     if (ctx.state === "suspended") { ctx.resume(); }
   }
 
-  function updateAudio() {
+  function updateAll() {
     el("f0disp").textContent = f0El.value;
     el("voldisp").textContent = volEl.value + " %";
-    var f0disp = parseFloat(f0El.value);
-    for (var m = 0; m < N; m++) {
-      freqLabels[m].textContent = Math.round(f0disp * (m + 1)) + " Hz";
+    for (var i = 0; i < N; i++) {
+      var f = partialFreq(i);
+      ratioLabels[i].textContent = "×" + presets[current].ratios[i];
+      freqLabels[i].textContent = f > 16000 ? "—" : Math.round(f) + " Hz";
     }
     if (!ctx) { return; }
     var t = ctx.currentTime;
-    var f0 = parseFloat(f0El.value);
-    for (var i = 0; i < N; i++) {
-      oscs[i].frequency.setTargetAtTime(f0 * (i + 1), t, 0.02);
-      gains[i].gain.setTargetAtTime(ampOf(i) * 0.12, t, 0.03);
+    for (var j = 0; j < N; j++) {
+      oscs[j].frequency.setTargetAtTime(Math.min(partialFreq(j), 18000), t, 0.02);
+      if (sustaining) {
+        gains[j].gain.setTargetAtTime(partialAmp(j) * 0.12, t, 0.03);
+      }
     }
-    if (running) {
-      master.gain.setTargetAtTime(0.3 * parseFloat(volEl.value) / 100, t, 0.03);
-    }
+    master.gain.setTargetAtTime(0.3 * parseFloat(volEl.value) / 100, t, 0.03);
   }
 
-  function powerToggle() {
+  function strike() {
     ensureAudio();
-    running = !running;
     var t = ctx.currentTime;
-    if (running) {
-      master.gain.setTargetAtTime(0.3 * parseFloat(volEl.value) / 100, t, 0.05);
-      el("power").textContent = "Stop audio";
-      el("power").classList.remove("primary");
-    } else {
-      master.gain.setTargetAtTime(0, t, 0.05);
-      el("power").textContent = "Start audio";
-      el("power").classList.add("primary");
+    var decay = presets[current].decay;
+    for (var i = 0; i < N; i++) {
+      var a = partialAmp(i) * 0.12;
+      // higher partials decay faster, as in real struck instruments
+      var tau = decay / (1 + 0.6 * i) / 3;
+      var g = gains[i].gain;
+      g.cancelScheduledValues(t);
+      g.setValueAtTime(g.value, t);
+      g.linearRampToValueAtTime(a, t + 0.005);
+      g.setTargetAtTime(sustaining ? a : 0, t + 0.005, tau);
     }
   }
 
-  // presets: amplitudes for harmonics 1..8
-  var presets = {
-    sine:     [1, 0, 0, 0, 0, 0, 0, 0],
-    flute:    [1, 0.4, 0.12, 0.06, 0.03, 0.02, 0.01, 0.01],
-    clarinet: [1, 0.04, 0.75, 0.08, 0.5, 0.04, 0.2, 0.02],
-    oboe:     [0.35, 0.6, 1, 0.7, 0.5, 0.35, 0.25, 0.15],
-    trumpet:  [0.8, 1, 0.95, 0.85, 0.7, 0.55, 0.4, 0.3],
-    organ:    [1, 0.85, 0.55, 0.65, 0.2, 0.45, 0.1, 0.35],
-    saw:      [1, 0.5, 0.33, 0.25, 0.2, 0.17, 0.14, 0.13],
-    square:   [1, 0, 0.33, 0, 0.2, 0, 0.14, 0]
-  };
-  var btns = document.querySelectorAll("button[data-preset]");
-  for (var b = 0; b < btns.length; b++) {
-    btns[b].addEventListener("click", function () {
-      var p = presets[this.getAttribute("data-preset")];
-      for (var i = 0; i < N; i++) { sliders[i].value = p[i]; }
-      updateAudio();
-    });
+  function sustainToggle() {
+    ensureAudio();
+    sustaining = !sustaining;
+    el("sustain").textContent = "Sustain: " + (sustaining ? "on" : "off");
+    var t = ctx.currentTime;
+    for (var i = 0; i < N; i++) {
+      gains[i].gain.cancelScheduledValues(t);
+      gains[i].gain.setTargetAtTime(sustaining ? partialAmp(i) * 0.12 : 0, t, 0.05);
+    }
   }
 
   // ---- drawing ----
@@ -231,7 +251,6 @@
     c2d.beginPath(); c2d.moveTo(0, half); c2d.lineTo(w, half); c2d.stroke();
     if (analyser) {
       analyser.getFloatTimeDomainData(timeData);
-      // show roughly three periods of the fundamental
       var f0 = parseFloat(f0El.value);
       var span = Math.min(timeData.length, Math.floor(3 * ctx.sampleRate / f0));
       c2d.strokeStyle = th.line;
@@ -245,8 +264,8 @@
       }
       c2d.stroke();
       analyser.getByteFrequencyData(freqData);
-      // show 0 .. ~4.5 kHz so the eight harmonics are clearly separated
-      var maxHz = 4500;
+      // wide range so the high bar and marimba partials stay visible
+      var maxHz = 10000;
       var bins = Math.min(freqData.length, Math.floor(maxHz / (ctx.sampleRate / analyser.fftSize)));
       var bw = w / bins;
       c2d.fillStyle = th.bar;
@@ -258,17 +277,23 @@
     c2d.fillStyle = th.text;
     c2d.font = "13px system-ui, sans-serif";
     c2d.fillText("Waveform (time)", 8, 16);
-    c2d.fillText("Spectrum (frequency, 0 to 4.5 kHz)", 8, half + 16);
+    c2d.fillText("Spectrum (frequency, 0 to 10 kHz)", 8, half + 16);
   }
   draw();
 
   // ---- wiring ----
-  el("power").addEventListener("click", powerToggle);
-  f0El.addEventListener("input", updateAudio);
-  volEl.addEventListener("input", updateAudio);
-  nofundEl.addEventListener("change", updateAudio);
-  for (var k = 0; k < N; k++) { sliders[k].addEventListener("input", updateAudio); }
-  updateAudio();
+  el("strike").addEventListener("click", strike);
+  el("sustain").addEventListener("click", sustainToggle);
+  f0El.addEventListener("input", updateAll);
+  volEl.addEventListener("input", updateAll);
+  for (var k = 0; k < N; k++) { sliders[k].addEventListener("input", updateAll); }
+  var btns = document.querySelectorAll("button[data-preset]");
+  for (var b = 0; b < btns.length; b++) {
+    btns[b].addEventListener("click", function () {
+      loadPreset(this.getAttribute("data-preset"));
+    });
+  }
+  loadPreset("bell");
 })();
   </script>
 </body>

@@ -1,6 +1,6 @@
 # Course apps (2026)
 
-Thirteen small, self-contained WebAudio teaching apps written for the book. Each is
+Fourteen small, self-contained WebAudio teaching apps written for the book. Each is
 a single `index.html` with inline CSS and JS (vanilla JS, Web Audio API,
 canvas), no external requests, and works on both phones and laptops. Sound
 starts only after a user gesture. Like the vendored apps, these are copied into
@@ -12,6 +12,10 @@ the deployed site under `/apps/` by the build.
 - `harmonics-explorer/` — additive synthesis with eight harmonic sliders over a
   variable fundamental, timbre presets, and a missing-fundamental toggle.
   Chapter: *Electroacoustics* / *Acoustics*.
+- `inharmonicity-explorer/` — struck sounds from eight partials at non-integer
+  frequency ratios, with strike/sustain modes, per-partial decay, and presets
+  (harmonic, stretched, bell, gong, marimba, metal bar, drumhead).
+  Chapter: *Acoustics* / *Psychoacoustics*.
 - `window-explorer/` — the time-frequency trade-off: test signals (clicks,
   close tones, chirp) analysed with a selectable FFT window size and drawn as a
   spectrogram (own radix-2 FFT, no libraries). Chapter: *Acoustics*.

@@ -258,8 +258,14 @@ Onset
 Organology
 : The academic study and classification of musical instruments, with the Hornbostel–Sachs system as the best-known scheme.
 
+Overtone
+: Any partial above the fundamental of a complex tone; the counting is shifted by one relative to harmonics, so the first overtone is the second harmonic.
+
 Parasympathetic nervous system
 : The calming branch of the autonomic nervous system, dominant during rest and relaxing music, and reflected in higher heart rate variability.
+
+Partial
+: Any of the sinusoidal components that make up a complex tone, whether harmonically related or not; the most general term for a tone's frequency components.
 
 Perceived and induced emotion
 : The distinction between recognising the emotion a piece of music expresses and actually feeling an emotion oneself, which any study of musical emotion must specify.
