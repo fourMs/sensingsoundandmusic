@@ -211,7 +211,7 @@ McGurk effect
 : An illusion in which seen lip movements change which speech sound is heard, demonstrating that vision participates in speech perception.
 
 Mel-frequency cepstral coefficients (MFCCs)
-: A compact numerical description of timbre based on a perceptually spaced frequency scale, long a standard feature in speech and music classification.
+: A compact numerical description of the spectral envelope on a perceptually spaced frequency scale, widely used as a correlate of timbre, long a standard feature in speech and music classification.
 
 Metre
 : A hierarchical framework of nested pulse levels, from fast subdivisions through the beat to bar-length groupings, against which rhythms are heard.
@@ -232,7 +232,7 @@ Motion
 : The physical displacement of an object or body in time and space; continuous, with no natural beginning or end, and measurable objectively with motion capture systems.
 
 Motion capture
-: Any systematic recording of body movement over time, from marker-based infrared camera systems to wearable inertial sensors and video-based pose estimation.
+: Any systematic recording of body motion over time, from marker-based infrared camera systems to wearable inertial sensors and video-based pose estimation.
 
 Motiongram
 : A visualisation that compresses the motion in a video into a single image over time, allowing movement to be read somewhat like a spectrogram.
@@ -301,7 +301,7 @@ Pupillometry
 : Measuring changes in pupil diameter as an index of arousal, attention, and mental effort, with careful control of lighting.
 
 Quantity of motion
-: A single summary measure of how much movement occurs in a recording, often computed by comparing successive video frames.
+: A single summary measure of how much motion occurs in a recording, often computed by comparing successive video frames.
 
 Reduced listening
 : Schaeffer's practice of attending to the qualities of a sound itself while setting aside its cause and meaning.
