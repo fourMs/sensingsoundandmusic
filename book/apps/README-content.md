@@ -1,6 +1,6 @@
 # Course apps (2026)
 
-Sixteen small, self-contained WebAudio teaching apps written for the book. Each is
+Seventeen small, self-contained WebAudio teaching apps written for the book. Each is
 a single `index.html` with inline CSS and JS (vanilla JS, Web Audio API,
 canvas), no external requests, and works on both phones and laptops. Sound
 starts only after a user gesture. Like the vendored apps, these are copied into
@@ -37,6 +37,11 @@ the deployed site under `/apps/` by the build.
   hear the two localisation cues (ITD via per-ear delay, ILD via panning)
   separately or together, with three synthesised sources and a top-down head
   view. Chapter: *Psychoacoustics*.
+- `mono-stereo-binaural/` — headphones required: one three-source scene (plucked
+  melody, shaker, bird chirps) rendered live as a mono sum, an equal-power
+  stereo mix, or binaurally through the browser's HRTF panner, with movable or
+  orbiting sources and a head view showing where each image forms. Chapter:
+  *Electroacoustics*.
 - `shepard/` — endless Shepard tones: rising or falling, stepped or Risset
   glissando, with six octave components under a Gaussian loudness envelope
   drawn live on a canvas. Chapter: *Psychoacoustics*.
