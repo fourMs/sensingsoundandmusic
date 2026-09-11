@@ -1,0 +1,294 @@
+.mirrored {
+  transform: scaleX(-1);
+}
+:root {
+  --bg-top: #0f1723;
+  --bg-bottom: #03060a;
+  --surface: rgba(15, 23, 35, 0.72);
+  --surface-border: rgba(115, 135, 160, 0.24);
+  --text-main: #f5f8ff;
+  --text-muted: #b8c6dd;
+  --accent: #7df9d7;
+  --accent-strong: #34d3b2;
+  --danger: #ff6d6d;
+  --shadow: 0 14px 34px rgba(0, 0, 0, 0.42);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  color: var(--text-main);
+  background:
+    radial-gradient(circle at 20% 5%, rgba(52, 211, 178, 0.12), transparent 30%),
+    radial-gradient(circle at 82% 88%, rgba(125, 249, 215, 0.08), transparent 26%),
+    linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+}
+
+.btn {
+  padding: 0.45rem 0.75rem;
+  font-size: 0.9rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--surface-border);
+  background: rgba(15, 23, 35, 0.35);
+  color: var(--text-main);
+  cursor: pointer;
+  line-height: 1;
+  min-height: 2.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  user-select: none;
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: rgba(15, 23, 35, 0.5);
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.56;
+}
+
+.btn:focus-visible {
+  outline: 2px solid rgba(125, 249, 215, 0.55);
+  outline-offset: 2px;
+}
+
+.toggle-btn.is-active {
+  border-color: rgba(125, 249, 215, 0.55);
+  background: rgba(125, 249, 215, 0.12);
+}
+
+.app-shell {
+  width: min(1100px, 94vw);
+  margin: 1.25rem auto 2rem;
+  padding: 1.5rem;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3rem);
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.page-header p {
+  margin: 0.6rem 0 1.3rem;
+  max-width: 60ch;
+  color: var(--text-muted);
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+
+.controls-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.7rem 1rem;
+  align-items: center;
+}
+
+.controls > label,
+.controls-row > label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  user-select: none;
+}
+
+.controls-row-slider {
+  width: min(700px, 100%);
+}
+
+.controls-row-slider .threshold-control {
+  width: 100%;
+  justify-content: center;
+}
+
+.controls-row-slider input[type="range"] {
+  width: min(210px, 35vw);
+}
+/* Old checkbox toggles removed in favor of buttons. */
+
+
+
+
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  justify-content: flex-start;
+  align-items: stretch;
+  margin-top: 2rem;
+}
+
+.viz-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 400px));
+  gap: 2rem;
+  align-items: start;
+  justify-content: center;
+}
+
+.viz-block {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: 1rem;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(6px);
+  padding: 1rem;
+}
+
+.viz-block canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  max-width: 400px;
+  border-radius: 0.7rem;
+  border: 1px solid rgba(125, 249, 215, 0.28);
+  background: #000;
+  image-rendering: pixelated;
+}
+
+@media (max-width: 900px) {
+  .main-content {
+    gap: 1rem;
+  }
+  .viz-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+#stopBtn {
+  background: rgba(255, 109, 109, 0.14);
+  color: #ffd1d1;
+  border-color: rgba(255, 109, 109, 0.4);
+}
+
+#stopBtn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: rgba(255, 109, 109, 0.24);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.56;
+}
+
+
+.density-control {
+  justify-self: end;
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  color: var(--text-muted);
+}
+
+
+#sampleWidthRange {
+  width: min(300px, 40vw);
+}
+
+
+#sampleWidthValue {
+  min-width: 56px;
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+
+.panels {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 1rem;
+  align-items: start;
+}
+
+.panel-video {
+  grid-column: 1;
+  grid-row: 1;
+}
+.panel-videogram-vert {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  /* Remove any width restrictions so canvas can match video width */
+}
+.panel-videogram-horiz {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+
+.main-content h2 {
+  margin: 0 0 0.2rem;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.2;
+  /* Keep layout tight and avoid wrapping-induced misalignment */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Individual videogram canvas rules are handled by `.viz-block canvas`. */
+
+@media (max-width: 900px) {
+  .controls {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .mirror-toggle {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+
+  .density-control {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+
+  .panels {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+  }
+  .panel-videogram-vert {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .panel-video {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .panel-videogram-horiz {
+    grid-column: 1;
+    grid-row: 3;
+  }
+}
