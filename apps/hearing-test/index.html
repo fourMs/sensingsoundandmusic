@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Frequency sweep explorer</title>
+  <style>
+    :root {
+      --bg: #fdfdfd; --fg: #1c1e21; --muted: #5a6069; --panel: #f1f2f4;
+      --border: #c9ccd1; --accent: #0b6e99; --accent-fg: #ffffff; --canvas: #ffffff;
+      --warn: #a4451a;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #15171b; --fg: #e6e7e9; --muted: #9aa0a8; --panel: #20242b;
+        --border: #3a3f47; --accent: #4da3c7; --accent-fg: #0d1117; --canvas: #101216;
+        --warn: #e8a173;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      margin: 0 auto; padding: 16px; max-width: 780px;
+      background: var(--bg); color: var(--fg); line-height: 1.45;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 8px; }
+    p.intro { margin: 0 0 8px; }
+    .caveat { font-size: 0.9rem; color: var(--warn); font-weight: 600; margin: 0 0 14px; }
+    .hint { font-size: 0.9rem; color: var(--muted); margin-top: 10px; }
+    fieldset {
+      border: 1px solid var(--border); border-radius: 8px;
+      margin: 0 0 12px; padding: 10px 12px; background: var(--panel);
+    }
+    legend { font-weight: 600; font-size: 0.95rem; padding: 0 6px; }
+    label { display: block; font-weight: 600; font-size: 0.9rem; margin: 8px 0 2px; }
+    .vals { font-weight: normal; color: var(--muted); margin-left: 4px; }
+    input[type="range"] { width: 100%; margin: 2px 0 4px; accent-color: var(--accent); }
+    button {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 14px; font-size: 1rem; cursor: pointer;
+    }
+    button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+    button:disabled { opacity: 0.5; cursor: default; }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+    #freqbig { font-size: 2.2rem; font-weight: 700; font-variant-numeric: tabular-nums; margin: 4px 0; }
+    #freqbig small { font-size: 1.1rem; font-weight: 400; color: var(--muted); }
+    .score { font-size: 1.05rem; margin: 8px 0; }
+    #feedback { min-height: 1.4em; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <h1>Frequency sweep explorer</h1>
+  <p class="intro">Explore the range of human hearing. Move the slider to sweep a pure tone from 20 Hz to 20 kHz, or let it sweep automatically, and note where the tone becomes hard to hear. Then try the listening game, which tests how small a frequency difference you can detect. Use headphones at a comfortable level.</p>
+  <p class="caveat">This is not a medical hearing test. What you hear depends heavily on your headphones or loudspeakers, the volume setting, and background noise.</p>
+
+  <fieldset>
+    <legend>Sweep a tone</legend>
+    <div id="freqbig">440 <small>Hz</small></div>
+    <label for="freq">Frequency (logarithmic scale)</label>
+    <input type="range" id="freq" min="0" max="2000" step="1" value="895" aria-label="Frequency"/>
+    <label for="level">Level <span class="vals" id="leveldisp"></span> dB (relative to a modest maximum)</label>
+    <input type="range" id="level" min="-60" max="0" step="1" value="-20" aria-label="Level in decibels"/>
+    <div class="row">
+      <button type="button" id="tone" class="primary">Play tone</button>
+      <button type="button" id="sweep">Auto sweep (30 s)</button>
+    </div>
+    <div class="row">
+      <span style="font-weight:600;">Landmarks:</span>
+      <button type="button" class="land" data-f="50">50 Hz hum</button>
+      <button type="button" class="land" data-f="440">440 Hz</button>
+      <button type="button" class="land" data-f="4000">4 kHz presence</button>
+      <button type="button" class="land" data-f="8000">8 kHz</button>
+      <button type="button" class="land" data-f="12000">12 kHz</button>
+      <button type="button" class="land" data-f="16000">16 kHz</button>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Listening game: same or different</legend>
+    <p style="margin:4px 0 8px;">Two short tones are played around 1000 Hz. Decide whether they are the same or different. The difference shrinks each time you correctly spot a change.</p>
+    <div class="row">
+      <button type="button" id="trial" class="primary">Play a pair</button>
+      <button type="button" id="same" disabled>Same</button>
+      <button type="button" id="diff" disabled>Different</button>
+    </div>
+    <div class="score">Score: <span id="score">0 / 0</span> &nbsp;|&nbsp; Current difference: <span id="delta"></span></div>
+    <div id="feedback" aria-live="polite"></div>
+  </fieldset>
+
+  <p class="hint">What to notice: sensitivity is not flat across frequencies, and near 1000 Hz most listeners can detect differences well below one percent.</p>
+
+  <script>
+(function () {
+  "use strict";
+  var ctx = null, master = null;
+  var osc = null, oscGain = null;
+  var toneOn = false, sweeping = false, sweepStart = 0;
+  var SWEEP_SECS = 30;
+
+  var el = function (id) { return document.getElementById(id); };
+  var freqEl = el("freq"), levelEl = el("level");
+
+  // slider 0..2000 -> 20 Hz .. 20000 Hz (log scale: 20 * 1000^(v/2000))
+  function sliderToHz(v) { return 20 * Math.pow(1000, v / 2000); }
+  function hzToSlider(f) { return 2000 * Math.log(f / 20) / Math.log(1000); }
+  function gainFromLevel() {
+    return 0.3 * Math.pow(10, parseFloat(levelEl.value) / 20);
+  }
+  function fmt(f) {
+    return f >= 1000 ? (f / 1000).toFixed(2) + " <small>kHz</small>" : Math.round(f) + " <small>Hz</small>";
+  }
+  function updateReadout() {
+    var f = sliderToHz(parseFloat(freqEl.value));
+    el("freqbig").innerHTML = fmt(f);
+    el("leveldisp").textContent = levelEl.value;
+    return f;
+  }
+
+  function ensureAudio() {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      master = ctx.createGain();
+      master.gain.value = 0.9; // per-voice gains stay at or below 0.3
+      master.connect(ctx.destination);
+    }
+    if (ctx.state === "suspended") { ctx.resume(); }
+  }
+
+  // ---- sweep tone ----
+  function startTone() {
+    ensureAudio();
+    if (toneOn) { return; }
+    var t = ctx.currentTime;
+    osc = ctx.createOscillator();
+    osc.type = "sine";
+    osc.frequency.value = sliderToHz(parseFloat(freqEl.value));
+    oscGain = ctx.createGain();
+    oscGain.gain.setValueAtTime(0, t);
+    oscGain.gain.linearRampToValueAtTime(gainFromLevel(), t + 0.05);
+    osc.connect(oscGain);
+    oscGain.connect(master);
+    osc.start(t);
+    toneOn = true;
+    el("tone").textContent = "Stop tone";
+    el("tone").classList.remove("primary");
+  }
+  function stopTone() {
+    if (!toneOn) { return; }
+    var t = ctx.currentTime;
+    oscGain.gain.cancelScheduledValues(t);
+    oscGain.gain.setTargetAtTime(0, t, 0.02);
+    osc.stop(t + 0.3);
+    osc = null; oscGain = null;
+    toneOn = false;
+    sweeping = false;
+    el("tone").textContent = "Play tone";
+    el("tone").classList.add("primary");
+    el("sweep").textContent = "Auto sweep (30 s)";
+  }
+  function applyTone() {
+    var f = updateReadout();
+    if (toneOn && ctx) {
+      var t = ctx.currentTime;
+      osc.frequency.setTargetAtTime(f, t, 0.02);
+      oscGain.gain.setTargetAtTime(gainFromLevel(), t, 0.02);
+    }
+  }
+
+  el("tone").addEventListener("click", function () {
+    if (toneOn) { stopTone(); } else { startTone(); }
+  });
+  freqEl.addEventListener("input", function () { sweeping = false; applyTone(); });
+  levelEl.addEventListener("input", applyTone);
+
+  var lands = document.querySelectorAll(".land");
+  for (var i = 0; i < lands.length; i++) {
+    lands[i].addEventListener("click", function () {
+      sweeping = false;
+      freqEl.value = String(Math.round(hzToSlider(parseFloat(this.getAttribute("data-f")))));
+      if (!toneOn) { startTone(); }
+      applyTone();
+    });
+  }
+
+  el("sweep").addEventListener("click", function () {
+    if (sweeping) { sweeping = false; this.textContent = "Auto sweep (30 s)"; return; }
+    ensureAudio();
+    if (!toneOn) { startTone(); }
+    freqEl.value = "0";
+    applyTone();
+    sweeping = true;
+    sweepStart = performance.now();
+    this.textContent = "Stop sweep";
+    requestAnimationFrame(sweepFrame);
+  });
+  function sweepFrame() {
+    if (!sweeping) { return; }
+    var elapsed = (performance.now() - sweepStart) / 1000;
+    var v = Math.min(2000, elapsed / SWEEP_SECS * 2000);
+    freqEl.value = String(Math.round(v));
+    applyTone();
+    if (v >= 2000) {
+      sweeping = false;
+      el("sweep").textContent = "Auto sweep (30 s)";
+      return;
+    }
+    requestAnimationFrame(sweepFrame);
+  }
+
+  // ---- JND game ----
+  var game = {
+    deltaPct: 6,       // current difference in percent
+    base: 1000,
+    isDifferent: false,
+    awaiting: false,
+    correct: 0,
+    total: 0
+  };
+  function beep(f, t0, dur) {
+    var o = ctx.createOscillator();
+    o.type = "sine";
+    o.frequency.value = f;
+    var g = ctx.createGain();
+    g.gain.setValueAtTime(0, t0);
+    g.gain.linearRampToValueAtTime(Math.min(0.25, gainFromLevel() + 0.05), t0 + 0.03);
+    g.gain.setValueAtTime(Math.min(0.25, gainFromLevel() + 0.05), t0 + dur - 0.05);
+    g.gain.linearRampToValueAtTime(0, t0 + dur);
+    o.connect(g);
+    g.connect(master);
+    o.start(t0);
+    o.stop(t0 + dur + 0.05);
+  }
+  function updateGameLabels() {
+    el("score").textContent = game.correct + " / " + game.total;
+    var hz = game.base * game.deltaPct / 100;
+    el("delta").textContent = game.deltaPct.toFixed(2) + " % (" + hz.toFixed(1) + " Hz)";
+  }
+  el("trial").addEventListener("click", function () {
+    ensureAudio();
+    stopTone();
+    game.isDifferent = Math.random() < 0.5;
+    game.base = 900 + Math.random() * 200; // roving base frequency near 1 kHz
+    var f2 = game.base;
+    if (game.isDifferent) {
+      var sign = Math.random() < 0.5 ? 1 : -1;
+      f2 = game.base * (1 + sign * game.deltaPct / 100);
+    }
+    var t = ctx.currentTime + 0.05;
+    beep(game.base, t, 0.6);
+    beep(f2, t + 0.85, 0.6);
+    game.awaiting = true;
+    el("feedback").textContent = "Listening…";
+    var self = this;
+    self.disabled = true;
+    setTimeout(function () {
+      el("same").disabled = false;
+      el("diff").disabled = false;
+      el("feedback").textContent = "Were the two tones the same or different?";
+      self.disabled = false;
+    }, 1600);
+  });
+  function answer(saidDifferent) {
+    if (!game.awaiting) { return; }
+    game.awaiting = false;
+    el("same").disabled = true;
+    el("diff").disabled = true;
+    game.total += 1;
+    var right = (saidDifferent === game.isDifferent);
+    if (right) { game.correct += 1; }
+    if (game.isDifferent) {
+      // adapt only on trials that carried a real difference
+      if (right) {
+        game.deltaPct = Math.max(0.05, game.deltaPct * 0.75);
+      } else {
+        game.deltaPct = Math.min(20, game.deltaPct * 1.4);
+      }
+    }
+    el("feedback").textContent = (right ? "Correct. " : "Not quite. ") +
+      (game.isDifferent ? "The tones were different." : "The tones were the same.");
+    updateGameLabels();
+  }
+  el("same").addEventListener("click", function () { answer(false); });
+  el("diff").addEventListener("click", function () { answer(true); });
+
+  updateReadout();
+  updateGameLabels();
+})();
+  </script>
+</body>
+</html>

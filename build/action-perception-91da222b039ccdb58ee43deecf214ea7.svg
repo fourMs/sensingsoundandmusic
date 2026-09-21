@@ -1,0 +1,45 @@
+<svg width="600" height="260"
+     viewBox="0 0 600 260"
+     xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Define arrowhead -->
+  <defs>
+    <marker id="arrowhead"
+            markerWidth="10" markerHeight="7"
+            refX="10" refY="3.5"
+            orient="auto"
+            markerUnits="strokeWidth">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#000" />
+    </marker>
+  </defs>
+
+  <!-- Text labels -->
+  <text x="40" y="135"
+        font-family="Helvetica, Arial, sans-serif"
+        font-size="32">Action</text>
+
+  <text x="240" y="135"
+        font-family="Helvetica, Arial, sans-serif"
+        font-size="32">Cognition</text>
+
+  <text x="440" y="135"
+        font-family="Helvetica, Arial, sans-serif"
+        font-size="32">Perception</text>
+
+  <!-- Top arc: Perception -> Action (endpoints at cap height ~y=110, centred on each word) -->
+  <path d="M 525 110
+           C 525 34, 95 34, 95 110"
+        fill="none"
+        stroke="#000"
+        stroke-width="2"
+        marker-end="url(#arrowhead)" />
+
+  <!-- Bottom arc: Action -> Perception (endpoints just below baseline ~y=140) -->
+  <path d="M 95 140
+           C 95 212, 525 212, 525 140"
+        fill="none"
+        stroke="#000"
+        stroke-width="2"
+        marker-end="url(#arrowhead)" />
+
+</svg>

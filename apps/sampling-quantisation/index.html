@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Sampling and quantisation</title>
+  <style>
+    :root {
+      --bg: #fdfdfd; --fg: #1c1e21; --muted: #5a6069; --panel: #f1f2f4;
+      --border: #c9ccd1; --accent: #0b6e99; --accent-fg: #ffffff; --canvas: #ffffff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #15171b; --fg: #e6e7e9; --muted: #9aa0a8; --panel: #20242b;
+        --border: #3a3f47; --accent: #4da3c7; --accent-fg: #0d1117; --canvas: #101216;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      margin: 0 auto; padding: 16px; max-width: 780px;
+      background: var(--bg); color: var(--fg); line-height: 1.45;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 8px; }
+    p.intro { margin: 0 0 14px; }
+    .hint { font-size: 0.9rem; color: var(--muted); margin-top: 10px; }
+    fieldset {
+      border: 1px solid var(--border); border-radius: 8px;
+      margin: 0 0 12px; padding: 10px 12px; background: var(--panel);
+    }
+    legend { font-weight: 600; font-size: 0.95rem; padding: 0 6px; }
+    label { font-weight: 600; font-size: 0.9rem; }
+    .vals { font-weight: normal; color: var(--muted); margin-left: 4px; }
+    input[type="range"] { width: 100%; margin: 2px 0 4px; accent-color: var(--accent); }
+    button {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 14px; font-size: 1rem; cursor: pointer;
+    }
+    button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 10px 0; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 520px) { .grid2 { grid-template-columns: 1fr; } }
+    canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; background: var(--canvas); }
+  </style>
+</head>
+<body>
+  <h1>Sampling and quantisation</h1>
+  <p class="intro">Digital audio measures the sound pressure many thousand times per second (the sample rate) and stores each measurement with a limited number of steps (the bit depth). This app plays a short synthesised riff and lets you lower both, so you can hear what each kind of coarseness does to the sound. Press <strong>Start audio</strong> first.</p>
+
+  <div class="row">
+    <button type="button" id="power" class="primary">Start audio</button>
+    <label style="flex:1; min-width:160px; margin:0;">Master volume <span class="vals" id="voldisp"></span>
+      <input type="range" id="vol" min="0" max="100" step="1" value="60" aria-label="Master volume"/>
+    </label>
+  </div>
+
+  <fieldset>
+    <legend>Degradation</legend>
+    <div class="grid2">
+      <div>
+        <label>Sample rate <span class="vals" id="ratedisp"></span></label>
+        <input type="range" id="rate" min="0" max="10" step="1" value="0" aria-label="Simulated sample rate"/>
+      </div>
+      <div>
+        <label>Bit depth <span class="vals" id="bitsdisp"></span></label>
+        <input type="range" id="bits" min="2" max="16" step="1" value="16" aria-label="Simulated bit depth"/>
+      </div>
+    </div>
+  </fieldset>
+
+  <canvas id="scope" width="900" height="300" aria-label="Output waveform showing the staircase at low settings"></canvas>
+  <p class="hint">What to notice: lowering the sample rate adds a metallic, whistling shimmer (aliasing: frequencies above half the sample rate fold back down as new, unrelated tones), while lowering the bit depth adds hiss and grit (quantisation error). This simple simulation deliberately leaves out the anti-aliasing filter a real converter would use, so the aliasing is easy to hear.</p>
+
+  <script>
+(function () {
+  "use strict";
+  var RATES = [48000, 44100, 32000, 24000, 16000, 12000, 8000, 6000, 4000, 3000, 2000];
+  var ctx = null, master = null, analyser = null, src = null, degrader = null;
+  var running = false;
+  var usingWorklet = false;
+  var spState = { count: 0, held: 0, hold: 1, levels: 65536 }; // ScriptProcessor fallback state
+
+  var el = function (id) { return document.getElementById(id); };
+  var rateEl = el("rate"), bitsEl = el("bits"), volEl = el("vol");
+  var canvas = el("scope"), c2d = canvas.getContext("2d");
+
+  var WORKLET_CODE = [
+    "class Degrader extends AudioWorkletProcessor {",
+    "  static get parameterDescriptors() {",
+    "    return [",
+    "      { name: 'hold', defaultValue: 1, minValue: 1, maxValue: 64 },",
+    "      { name: 'levels', defaultValue: 65536, minValue: 2, maxValue: 65536 }",
+    "    ];",
+    "  }",
+    "  constructor() { super(); this.count = 0; this.held = 0; }",
+    "  process(inputs, outputs, params) {",
+    "    const inp = inputs[0], out = outputs[0];",
+    "    if (!inp.length || !out.length) { return true; }",
+    "    const hold = Math.max(1, Math.round(params.hold[0]));",
+    "    const levels = Math.max(2, Math.round(params.levels[0]));",
+    "    const x = inp[0], y = out[0];",
+    "    for (let i = 0; i < x.length; i++) {",
+    "      if (this.count <= 0) { this.held = x[i]; this.count = hold; }",
+    "      this.count--;",
+    "      const q = Math.round((this.held * 0.5 + 0.5) * (levels - 1)) / (levels - 1) * 2 - 1;",
+    "      y[i] = q;",
+    "    }",
+    "    for (let c = 1; c < out.length; c++) { out[c].set(y); }",
+    "    return true;",
+    "  }",
+    "}",
+    "registerProcessor('degrader', Degrader);"
+  ].join("\n");
+
+  // ---- the riff: two bars, synthesised into a buffer at full rate ----
+  function buildRiff() {
+    var sr = ctx.sampleRate;
+    var eighth = 60 / 112 / 2; // 112 bpm
+    var len = Math.floor(16 * eighth * sr);
+    var buf = ctx.createBuffer(1, len, sr);
+    var d = buf.getChannelData(0);
+    var i, n, t0, dur, f, nh, h, env, ph;
+    function addTone(freq, start, seconds, gain, bright) {
+      var s0 = Math.floor(start * sr);
+      var ns = Math.floor(seconds * sr);
+      var top = bright ? 6000 : 2000;
+      var nHarm = Math.max(1, Math.min(12, Math.floor(top / freq)));
+      for (i = 0; i < ns && s0 + i < len; i++) {
+        env = Math.min(1, i / (0.008 * sr)) * Math.exp(-i / (seconds * 0.45 * sr));
+        var v = 0;
+        for (h = 1; h <= nHarm; h++) {
+          v += Math.sin(2 * Math.PI * freq * h * i / sr) / h;
+        }
+        d[s0 + i] += v * env * gain;
+      }
+    }
+    function addHat(start) {
+      var s0 = Math.floor(start * sr);
+      var ns = Math.floor(0.04 * sr);
+      for (i = 0; i < ns && s0 + i < len; i++) {
+        env = Math.exp(-i / (0.008 * sr));
+        d[s0 + i] += (Math.random() * 2 - 1) * env * 0.12;
+      }
+    }
+    var bass = [110, 110, 130.81, 146.83, 110, 110, 164.81, 146.83];
+    for (n = 0; n < 8; n++) { addTone(bass[n], n * 2 * eighth, 2 * eighth * 0.9, 0.28, false); }
+    var lead = [440, 523.25, 587.33, 659.25, 587.33, 523.25, 440, 392,
+                440, 523.25, 659.25, 783.99, 659.25, 587.33, 523.25, 440];
+    for (n = 0; n < 16; n++) { addTone(lead[n], n * eighth, eighth * 0.85, 0.10, true); }
+    for (n = 0; n < 16; n++) { addHat(n * eighth); }
+    // normalise to about 0.8 peak
+    var peak = 0;
+    for (i = 0; i < len; i++) { if (Math.abs(d[i]) > peak) { peak = Math.abs(d[i]); } }
+    if (peak > 0) { for (i = 0; i < len; i++) { d[i] *= 0.8 / peak; } }
+    return buf;
+  }
+
+  function makeScriptProcessor() {
+    var node = ctx.createScriptProcessor(1024, 1, 1);
+    node.onaudioprocess = function (e) {
+      var x = e.inputBuffer.getChannelData(0);
+      var y = e.outputBuffer.getChannelData(0);
+      for (var i = 0; i < x.length; i++) {
+        if (spState.count <= 0) { spState.held = x[i]; spState.count = spState.hold; }
+        spState.count--;
+        y[i] = Math.round((spState.held * 0.5 + 0.5) * (spState.levels - 1)) / (spState.levels - 1) * 2 - 1;
+      }
+    };
+    return node;
+  }
+
+  function connectChain() {
+    src = ctx.createBufferSource();
+    src.buffer = buildRiff();
+    src.loop = true;
+    src.connect(degrader);
+    degrader.connect(analyser);
+    analyser.connect(master);
+    master.connect(ctx.destination);
+    src.start();
+    updateAudio();
+  }
+
+  function ensureAudio() {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      master = ctx.createGain();
+      master.gain.value = 0;
+      analyser = ctx.createAnalyser();
+      analyser.fftSize = 2048;
+      analyser.smoothingTimeConstant = 0;
+      if (ctx.audioWorklet && window.AudioWorkletNode) {
+        var url = URL.createObjectURL(new Blob([WORKLET_CODE], { type: "application/javascript" }));
+        ctx.audioWorklet.addModule(url).then(function () {
+          usingWorklet = true;
+          degrader = new AudioWorkletNode(ctx, "degrader");
+          connectChain();
+        }).catch(function () {
+          degrader = makeScriptProcessor();
+          connectChain();
+        });
+      } else {
+        degrader = makeScriptProcessor();
+        connectChain();
+      }
+    }
+    if (ctx.state === "suspended") { ctx.resume(); }
+  }
+
+  function updateAudio() {
+    var simRate = RATES[parseInt(rateEl.value, 10)];
+    var bits = parseInt(bitsEl.value, 10);
+    el("ratedisp").textContent = (simRate >= 1000 ? (simRate / 1000) + " kHz" : simRate + " Hz");
+    el("bitsdisp").textContent = bits + " bits (" + Math.pow(2, bits) + " steps)";
+    el("voldisp").textContent = volEl.value + " %";
+    if (!ctx) { return; }
+    var hold = Math.max(1, Math.round(ctx.sampleRate / simRate));
+    var levels = Math.pow(2, bits);
+    if (degrader) {
+      if (usingWorklet) {
+        degrader.parameters.get("hold").setValueAtTime(hold, ctx.currentTime);
+        degrader.parameters.get("levels").setValueAtTime(levels, ctx.currentTime);
+      } else {
+        spState.hold = hold;
+        spState.levels = levels;
+      }
+    }
+    if (running) {
+      master.gain.setTargetAtTime(0.3 * parseFloat(volEl.value) / 100, ctx.currentTime, 0.03);
+    }
+  }
+
+  function powerToggle() {
+    ensureAudio();
+    running = !running;
+    var t = ctx.currentTime;
+    if (running) {
+      master.gain.setTargetAtTime(0.3 * parseFloat(volEl.value) / 100, t, 0.05);
+      el("power").textContent = "Stop audio";
+      el("power").classList.remove("primary");
+    } else {
+      master.gain.setTargetAtTime(0, t, 0.05);
+      el("power").textContent = "Start audio";
+      el("power").classList.add("primary");
+    }
+  }
+
+  // ---- drawing: zoomed output waveform ----
+  function theme() {
+    var d = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return d ? { bg: "#101216", grid: "#2a2f37", line: "#7fc4e0", text: "#9aa0a8" }
+             : { bg: "#ffffff", grid: "#e3e5e8", line: "#0b6e99", text: "#5a6069" };
+  }
+  var timeData = new Float32Array(2048);
+  function draw() {
+    requestAnimationFrame(draw);
+    var th = theme();
+    var w = canvas.width, h = canvas.height, half = h / 2;
+    c2d.fillStyle = th.bg;
+    c2d.fillRect(0, 0, w, h);
+    c2d.strokeStyle = th.grid;
+    c2d.beginPath(); c2d.moveTo(0, half); c2d.lineTo(w, half); c2d.stroke();
+    var span = 900; // samples shown (about 20 ms)
+    if (analyser) {
+      analyser.getFloatTimeDomainData(timeData);
+      c2d.strokeStyle = th.line;
+      c2d.lineWidth = 1.5;
+      c2d.beginPath();
+      for (var j = 0; j < span; j++) {
+        var x0 = j / span * w;
+        var x1 = (j + 1) / span * w;
+        var y = half - timeData[j] * (half - 10);
+        if (j === 0) { c2d.moveTo(x0, y); } else { c2d.lineTo(x0, y); }
+        c2d.lineTo(x1, y); // horizontal segment: makes the staircase visible
+      }
+      c2d.stroke();
+    }
+    c2d.fillStyle = th.text;
+    c2d.font = "13px system-ui, sans-serif";
+    var ms = ctx ? Math.round(span / ctx.sampleRate * 1000) : 20;
+    c2d.fillText("Output waveform, about " + ms + " ms. Lower the sliders and watch the staircase appear.", 8, 16);
+  }
+  draw();
+
+  // ---- wiring ----
+  el("power").addEventListener("click", powerToggle);
+  rateEl.addEventListener("input", updateAudio);
+  bitsEl.addEventListener("input", updateAudio);
+  volEl.addEventListener("input", updateAudio);
+  updateAudio();
+})();
+  </script>
+</body>
+</html>

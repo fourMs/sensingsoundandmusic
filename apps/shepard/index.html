@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Shepard tones</title>
+  <style>
+    :root {
+      --bg: #fdfdfd; --fg: #1c1e21; --muted: #5a6069; --panel: #f1f2f4;
+      --border: #c9ccd1; --accent: #0b6e99; --accent-fg: #ffffff; --canvas: #ffffff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #15171b; --fg: #e6e7e9; --muted: #9aa0a8; --panel: #20242b;
+        --border: #3a3f47; --accent: #4da3c7; --accent-fg: #0d1117; --canvas: #101216;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      margin: 0 auto; padding: 16px; max-width: 780px;
+      background: var(--bg); color: var(--fg); line-height: 1.45;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 8px; }
+    p.intro { margin: 0 0 14px; }
+    .hint { font-size: 0.9rem; color: var(--muted); margin-top: 10px; }
+    fieldset {
+      border: 1px solid var(--border); border-radius: 8px;
+      margin: 0 0 12px; padding: 10px 12px; background: var(--panel);
+    }
+    legend { font-weight: 600; font-size: 0.95rem; padding: 0 6px; }
+    label { font-weight: 600; font-size: 0.9rem; }
+    .vals { font-weight: normal; color: var(--muted); margin-left: 4px; }
+    input[type="range"] { width: 100%; margin: 2px 0 4px; accent-color: var(--accent); }
+    button {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 14px; font-size: 1rem; cursor: pointer;
+    }
+    button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+    button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 10px 0; }
+    canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; background: var(--canvas); }
+  </style>
+</head>
+<body>
+  <h1>Shepard tones</h1>
+  <p class="intro">A Shepard tone is a stack of sine components exactly one octave apart, played under a fixed loudness envelope: components fade in at the bottom, pass through a loud middle region, and fade out at the top. When the whole stack glides slowly, the pitch seems to move for ever without arriving anywhere. Press <strong>Start audio</strong> and let it run for a while.</p>
+
+  <div class="row">
+    <button type="button" id="power" class="primary">Start audio</button>
+    <label style="flex:1; min-width:160px; margin:0;">Master volume <span class="vals" id="voldisp"></span>
+      <input type="range" id="vol" min="0" max="100" step="1" value="60" aria-label="Master volume"/>
+    </label>
+  </div>
+
+  <fieldset>
+    <legend>Motion</legend>
+    <div class="row">
+      <span>Direction:</span>
+      <button type="button" data-dir="up" aria-pressed="true">Rising</button>
+      <button type="button" data-dir="down" aria-pressed="false">Falling</button>
+      <span style="width:12px;"></span>
+      <span>Mode:</span>
+      <button type="button" data-mode="step" aria-pressed="true">Steps (Shepard)</button>
+      <button type="button" data-mode="gliss" aria-pressed="false">Glissando (Risset)</button>
+    </div>
+    <label>Speed <span class="vals" id="spdisp"></span></label>
+    <input type="range" id="speed" min="0.5" max="6" step="0.1" value="1.5" aria-label="Speed in semitones per second"/>
+  </fieldset>
+
+  <canvas id="scope" width="900" height="300" aria-label="Component levels moving through the spectral envelope"></canvas>
+  <p class="hint">What to notice: the tone always seems to rise (or fall) yet never gets anywhere. Watch the dots on the curve: each component quietly leaves at one end and re-enters at the other, so the stack as a whole never changes register.</p>
+
+  <script>
+(function () {
+  "use strict";
+  var N = 6;                 // simultaneous octave components
+  var FMIN = 32.7;           // lowest frequency in the six-octave span (C1)
+  var MU = 3.0;              // Gaussian envelope centre, in octaves above FMIN
+  var SIGMA = 1.0;           // Gaussian envelope width, in octaves
+  var ctx = null, master = null;
+  var oscs = [], gains = [];
+  var running = false;
+  var dir = "up", mode = "step";
+  var phase = 0;             // 0..1, position within one octave
+  var lastTime = null;
+  var lastFreqs = [];
+
+  var el = function (id) { return document.getElementById(id); };
+  var speedEl = el("speed"), volEl = el("vol");
+  var canvas = el("scope"), c2d = canvas.getContext("2d");
+
+  function envAmp(x) {
+    // Gaussian in log-frequency; x is position in octaves, 0..N
+    var d = x - MU;
+    return Math.exp(-(d * d) / (2 * SIGMA * SIGMA));
+  }
+
+  function componentState() {
+    // effective phase: quantised to semitones in step mode
+    var p = mode === "step" ? Math.floor(phase * 12) / 12 : phase;
+    var comps = [];
+    for (var k = 0; k < N; k++) {
+      var x = (p + k) % N;
+      comps.push({ x: x, f: FMIN * Math.pow(2, x), a: envAmp(x) });
+    }
+    return comps;
+  }
+
+  function ensureAudio() {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      master = ctx.createGain();
+      master.gain.value = 0;
+      master.connect(ctx.destination);
+      for (var k = 0; k < N; k++) {
+        var o = ctx.createOscillator();
+        o.type = "sine";
+        var g = ctx.createGain();
+        g.gain.value = 0;
+        o.connect(g);
+        g.connect(master);
+        o.start();
+        oscs.push(o);
+        gains.push(g);
+        lastFreqs.push(0);
+      }
+    }
+    if (ctx.state === "suspended") { ctx.resume(); }
+  }
+
+  function tick(now) {
+    requestAnimationFrame(tick);
+    var dt = lastTime === null ? 0 : Math.min(0.1, (now - lastTime) / 1000);
+    lastTime = now;
+    if (running) {
+      var st = parseFloat(speedEl.value); // semitones per second
+      phase += (dir === "up" ? 1 : -1) * st / 12 * dt;
+      phase -= Math.floor(phase); // wrap into 0..1
+    }
+    var comps = componentState();
+    if (ctx) {
+      var t = ctx.currentTime;
+      for (var k = 0; k < N; k++) {
+        var f = comps[k].f;
+        if (lastFreqs[k] === 0 || Math.abs(f - lastFreqs[k]) > lastFreqs[k] * 0.4) {
+          oscs[k].frequency.setValueAtTime(f, t); // octave wrap: jump, do not glide
+        } else {
+          oscs[k].frequency.setTargetAtTime(f, t, 0.02);
+        }
+        lastFreqs[k] = f;
+        gains[k].gain.setTargetAtTime(comps[k].a * 0.12, t, 0.03);
+      }
+    }
+    draw(comps);
+  }
+
+  function powerToggle() {
+    ensureAudio();
+    running = !running;
+    var t = ctx.currentTime;
+    if (running) {
+      master.gain.setTargetAtTime(0.3 * parseFloat(volEl.value) / 100, t, 0.05);
+      el("power").textContent = "Stop audio";
+      el("power").classList.remove("primary");
+    } else {
+      master.gain.setTargetAtTime(0, t, 0.05);
+      el("power").textContent = "Start audio";
+      el("power").classList.add("primary");
+    }
+  }
+
+  function updateDisplays() {
+    el("spdisp").textContent = parseFloat(speedEl.value).toFixed(1) + " semitones/s";
+    el("voldisp").textContent = volEl.value + " %";
+    if (ctx && running) {
+      master.gain.setTargetAtTime(0.3 * parseFloat(volEl.value) / 100, ctx.currentTime, 0.03);
+    }
+  }
+
+  // ---- drawing ----
+  function theme() {
+    var d = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return d ? { bg: "#101216", grid: "#2a2f37", line: "#7fc4e0", dot: "#4da3c7", text: "#9aa0a8" }
+             : { bg: "#ffffff", grid: "#e3e5e8", line: "#0b6e99", dot: "#0b6e99", text: "#5a6069" };
+  }
+  function draw(comps) {
+    var th = theme();
+    var w = canvas.width, h = canvas.height;
+    var padL = 20, padR = 20, padT = 26, padB = 34;
+    var iw = w - padL - padR, ih = h - padT - padB;
+    c2d.fillStyle = th.bg;
+    c2d.fillRect(0, 0, w, h);
+    // octave grid lines and Hz labels
+    c2d.strokeStyle = th.grid;
+    c2d.fillStyle = th.text;
+    c2d.font = "12px system-ui, sans-serif";
+    for (var k = 0; k <= N; k++) {
+      var gx = padL + k / N * iw;
+      c2d.beginPath(); c2d.moveTo(gx, padT); c2d.lineTo(gx, padT + ih); c2d.stroke();
+      var hz = FMIN * Math.pow(2, k);
+      c2d.fillText(hz < 100 ? hz.toFixed(0) : Math.round(hz), gx - 10, h - 14);
+    }
+    c2d.fillText("frequency (Hz, one grid line per octave)", padL, h - 2);
+    // envelope curve
+    c2d.strokeStyle = th.line;
+    c2d.lineWidth = 2;
+    c2d.beginPath();
+    for (var i = 0; i <= 200; i++) {
+      var x = i / 200 * N;
+      var px = padL + x / N * iw;
+      var py = padT + (1 - envAmp(x)) * ih;
+      if (i === 0) { c2d.moveTo(px, py); } else { c2d.lineTo(px, py); }
+    }
+    c2d.stroke();
+    // components: stems and dots on the curve
+    for (var c = 0; c < comps.length; c++) {
+      var cx = padL + comps[c].x / N * iw;
+      var cy = padT + (1 - comps[c].a) * ih;
+      c2d.strokeStyle = th.grid;
+      c2d.beginPath(); c2d.moveTo(cx, padT + ih); c2d.lineTo(cx, cy); c2d.stroke();
+      c2d.fillStyle = th.dot;
+      c2d.beginPath(); c2d.arc(cx, cy, 7, 0, 2 * Math.PI); c2d.fill();
+    }
+    c2d.fillStyle = th.text;
+    c2d.fillText("loudness envelope", padL + 4, padT - 8);
+  }
+
+  // ---- wiring ----
+  el("power").addEventListener("click", powerToggle);
+  speedEl.addEventListener("input", updateDisplays);
+  volEl.addEventListener("input", updateDisplays);
+  var dirBtns = document.querySelectorAll("button[data-dir]");
+  var i;
+  for (i = 0; i < dirBtns.length; i++) {
+    dirBtns[i].addEventListener("click", function () {
+      for (var j = 0; j < dirBtns.length; j++) { dirBtns[j].setAttribute("aria-pressed", "false"); }
+      this.setAttribute("aria-pressed", "true");
+      dir = this.getAttribute("data-dir");
+    });
+  }
+  var modeBtns = document.querySelectorAll("button[data-mode]");
+  for (i = 0; i < modeBtns.length; i++) {
+    modeBtns[i].addEventListener("click", function () {
+      for (var j = 0; j < modeBtns.length; j++) { modeBtns[j].setAttribute("aria-pressed", "false"); }
+      this.setAttribute("aria-pressed", "true");
+      mode = this.getAttribute("data-mode");
+    });
+  }
+  updateDisplays();
+  requestAnimationFrame(tick);
+})();
+  </script>
+</body>
+</html>
