@@ -213,3 +213,6 @@ book/data/melody_extraction_error_worksheet.csv
 
 # MyST/Jupyter Book build output
 _build/
+
+# Agent session files
+.claude/

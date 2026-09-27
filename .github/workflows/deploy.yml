@@ -15,10 +15,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # The Beamer decks in beamer/ are deliberately not built here. They are an
-  # experiment, they need a ~73 MB TeX install that has taken half an hour on a
-  # bad Ubuntu mirror, and they are not linked from the book. Build them by hand
-  # when you need them: `make -C beamer all`.
   build-deploy:
     runs-on: ubuntu-latest
     # A hung Jupyter kernel otherwise burns the full 6-hour job allowance and

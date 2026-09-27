@@ -13,7 +13,7 @@ The book is written with [Jupyter Book](https://jupyterbook.org/) and combines t
     cd book
     jupyter book start
 
-See the [wiki](https://github.com/fourMs/sensingsoundandmusic/wiki) for full build instructions, CI checks, git hooks, and the experimental lecture decks.
+See the [wiki](https://github.com/fourMs/sensingsoundandmusic/wiki) for full build instructions, CI checks, and git hooks.
 
 ## Credits
 
