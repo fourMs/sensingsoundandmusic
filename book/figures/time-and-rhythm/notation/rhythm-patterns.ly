@@ -3,6 +3,7 @@
   <<
     \new RhythmicStaff \with { instrumentName = \markup { \small "tresillo 3+3+2" } } {
       \override Score.BarNumber.stencil = ##f
+      \numericTimeSignature
       \time 4/4 c4. c4. c4 | c4. c4. c4 \bar "|."
     }
     \new RhythmicStaff \with { instrumentName = \markup { \small "3+3+3+3+2+2" } } {

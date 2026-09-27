@@ -9,4 +9,4 @@
   left-margin = 2\mm
   right-margin = 2\mm
 }
-#(set-global-staff-size 20)
+#(set-global-staff-size 18)

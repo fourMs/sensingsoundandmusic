@@ -1,19 +1,32 @@
 \include "common.ily"
+row = #(define-music-function (name notes rests) (markup? ly:music? ly:music?)
+  #{
+    \new RhythmicStaff \with {
+      instrumentName = $name
+      \omit TimeSignature
+    } {
+      \override Score.BarNumber.stencil = ##f
+      \time 4/4
+      $notes \bar "|" $rests \bar "|"
+    }
+  #})
 \score {
-  \new RhythmicStaff \with { \omit TimeSignature } {
-    \override Score.BarNumber.stencil = ##f
-    \textLengthOn
-    \time 4/4
-    c1^\markup { \small "whole note" } \bar "|"
-    c2^\markup { \small "half notes" } c2 \bar "|"
-    c4^\markup { \small "quarter notes" } c4 c4 c4 \bar "|"
-    \break
-    c8^\markup { \small "eighth notes" } c8 c8 c8 c8 c8 c8 c8 \bar "|"
-    c16^\markup { \small "sixteenth notes" } c16 c16 c16 c16 c16 c16 c16 c16 c16 c16 c16 c16 c16 c16 c16 \bar "|"
-    \break
-    r1^\markup { \small "whole rest" } \bar "|"
-    r2^\markup { \small "half rest" } r4^\markup { \small "quarter rest" } r8^\markup { \small "eighth rest" } r16^\markup { \small "sixteenth rests" } r16 \bar "|"
-    c4.^\markup { \small "dotted quarter" } c8 \tuplet 3/2 { c8^\markup { \small "triplet" } c8 c8 } c4 \bar "|."
+  <<
+    \row \markup { \small "whole (semibreve)" } { c1 } { r1 }
+    \row \markup { \small "half (minim)" } { c2 c2 } { r2 r2 }
+    \row \markup { \small "quarter (crotchet)" } { c4 c4 c4 c4 } { r4 r4 r4 r4 }
+    \row \markup { \small "eighth (quaver)" } { c8[ c8] c8[ c8] c8[ c8] c8[ c8] } { r8 r8 r8 r8 r8 r8 r8 r8 }
+    \row \markup { \small "sixteenth (semiquaver)" } { c16[ c16 c16 c16] c16[ c16 c16 c16] c16[ c16 c16 c16] c16[ c16 c16 c16] } { r16 r16 r16 r16 r16 r16 r16 r16 r16 r16 r16 r16 r16 r16 r16 r16 }
+    \row \markup { \small "dotted and triplet" } { c4. c8 \tuplet 3/2 { c8[ c8 c8] } c4 } { r4. r8 \tuplet 3/2 { r8 r8 r8 } r4 }
+  >>
+  \layout {
+    indent = 34\mm
+    \context {
+      \Score
+      proportionalNotationDuration = #(ly:make-moment 1/16)
+      \override SpacingSpanner.uniform-stretching = ##t
+      \override SpacingSpanner.strict-note-spacing = ##t
+    }
+    \context { \RhythmicStaff \override VerticalAxisGroup.staff-staff-spacing.basic-distance = #7 }
   }
-  \layout { }
 }
