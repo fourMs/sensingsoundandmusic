@@ -1,6 +1,6 @@
 # Course apps (2026)
 
-Nineteen small, self-contained WebAudio teaching apps written for the book. Each is
+Twenty small, self-contained WebAudio teaching apps written for the book. Each is
 a single `index.html` with inline CSS and JS (vanilla JS, Web Audio API,
 canvas), no external requests, and works on both phones and laptops. Sound
 starts only after a user gesture. Like the vendored apps, these are copied into
@@ -30,6 +30,11 @@ the deployed site under `/apps/` by the build.
   control and landmark buttons, plus a same/different pitch-discrimination
   game with an adaptive difference. Not a medical test. Chapter:
   *Psychoacoustics*.
+- `drum-machine/` — a one-bar step sequencer with kick, snare, and closed and
+  open hi-hat on a grid of 8, 12, or 16 steps (two, three, or four subdivisions
+  per beat), three loudness levels per hit for metric accent, presets, a swing
+  ratio control, and optional clicks on beats and ticks on subdivisions.
+  Chapter: *Time and rhythm*.
 - `silent-beats/` — a looping bar of 4/4 with a pulse track and a sixteenth-note
   rhythm track; any click or event can be silenced, the pulse can drop out for
   whole bars, and the rhythm can be rotated against the beat, with a drawing of
