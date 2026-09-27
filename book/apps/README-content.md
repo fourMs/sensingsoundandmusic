@@ -1,6 +1,6 @@
 # Course apps (2026)
 
-Eighteen small, self-contained WebAudio teaching apps written for the book. Each is
+Nineteen small, self-contained WebAudio teaching apps written for the book. Each is
 a single `index.html` with inline CSS and JS (vanilla JS, Web Audio API,
 canvas), no external requests, and works on both phones and laptops. Sound
 starts only after a user gesture. Like the vendored apps, these are copied into
@@ -30,6 +30,11 @@ the deployed site under `/apps/` by the build.
   control and landmark buttons, plus a same/different pitch-discrimination
   game with an adaptive difference. Not a medical test. Chapter:
   *Psychoacoustics*.
+- `silent-beats/` — a looping bar of 4/4 with a pulse track and a sixteenth-note
+  rhythm track; any click or event can be silenced, the pulse can drop out for
+  whole bars, and the rhythm can be rotated against the beat, with a drawing of
+  the metric levels. A listening app, nothing is measured. Chapter: *Time and
+  rhythm*.
 - `spontaneous-tempo/` — tap at your own rate for 10–60 s, blind (no feedback
   until the end) or live (interval plot and running tempo), and get mean
   interval, tempo, SD, CV, and drift, with a table of runs and CSV copy.
