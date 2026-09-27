@@ -1,6 +1,6 @@
 # Course apps (2026)
 
-Seventeen small, self-contained WebAudio teaching apps written for the book. Each is
+Eighteen small, self-contained WebAudio teaching apps written for the book. Each is
 a single `index.html` with inline CSS and JS (vanilla JS, Web Audio API,
 canvas), no external requests, and works on both phones and laptops. Sound
 starts only after a user gesture. Like the vendored apps, these are copied into
@@ -30,6 +30,10 @@ the deployed site under `/apps/` by the build.
   control and landmark buttons, plus a same/different pitch-discrimination
   game with an adaptive difference. Not a medical test. Chapter:
   *Psychoacoustics*.
+- `spontaneous-tempo/` — tap at your own rate for 10–60 s, blind (no feedback
+  until the end) or live (interval plot and running tempo), and get mean
+  interval, tempo, SD, CV, and drift, with a table of runs and CSV copy.
+  Chapter: *Time and rhythm*.
 - `tap-sync/` — tap along with a click at selectable tempo; shows mean
   asynchrony and standard deviation with a histogram, plus an adjustable swing
   ratio with A/B comparison. Chapter: *Time and rhythm*.
