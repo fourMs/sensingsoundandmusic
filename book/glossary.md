@@ -66,6 +66,9 @@ Beat delay and anticipation
 Binaural audio
 : Headphone reproduction that delivers to each eardrum the signal it would receive in the recorded space, using dummy-head recording or HRTF filtering.
 
+Bouba–kiki effect
+: The near-universal pairing of a rounded shape with the word bouba and a spiky shape with kiki, the standard demonstration that cross-modal correspondences between sound and shape are shared rather than learned.
+
 Bit depth
 : The number of bits used to store each sample of a digital signal, which sets the amplitude precision and the available dynamic range.
 
