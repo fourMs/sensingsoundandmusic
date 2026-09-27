@@ -1,6 +1,6 @@
 # Course apps (2026)
 
-Twenty small, self-contained WebAudio teaching apps written for the book. Each is
+Twenty-two small, self-contained WebAudio teaching apps written for the book. Each is
 a single `index.html` with inline CSS and JS (vanilla JS, Web Audio API,
 canvas), no external requests, and works on both phones and laptops. Sound
 starts only after a user gesture. Like the vendored apps, these are copied into
@@ -30,6 +30,15 @@ the deployed site under `/apps/` by the build.
   control and landmark buttons, plus a same/different pitch-discrimination
   game with an adaptive difference. Not a medical test. Chapter:
   *Psychoacoustics*.
+- `metre-explorer/` — a cycle of pulses grouped into beats, with presets from
+  2/4 to 12/8 and additive metres such as 7/8, 11/8, and a ten-beat tala, a
+  custom grouping, clicks on pulses and beats that can be silenced after four
+  cycles, and circular and linear drawings of the cycle. Chapter: *Time and
+  rhythm*.
+- `microtiming/` — a kick, snare, and hi-hat groove on a sixteenth grid whose
+  onsets can be dragged early or late on a timeline or shifted per instrument,
+  with onset displacements, inter-instrument asynchronies, and the hi-hat swing
+  ratio read out, and a grid/shifted switch. Chapter: *Time and rhythm*.
 - `drum-machine/` — a one-bar step sequencer with kick, snare, and closed and
   open hi-hat on a grid of 8, 12, or 16 steps (two, three, or four subdivisions
   per beat), three loudness levels per hit for metric accent, presets, a swing

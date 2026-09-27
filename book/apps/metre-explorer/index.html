@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Metre explorer</title>
+  <style>
+    :root {
+      --bg: #fdfdfd; --fg: #1c1e21; --muted: #5a6069; --panel: #f1f2f4;
+      --border: #c9ccd1; --accent: #0b6e99; --accent-fg: #ffffff; --canvas: #ffffff; --group: #c2571a;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #15171b; --fg: #e6e7e9; --muted: #9aa0a8; --panel: #20242b;
+        --border: #3a3f47; --accent: #4da3c7; --accent-fg: #0d1117; --canvas: #101216; --group: #e08a4f;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      margin: 0 auto; padding: 16px; max-width: 780px;
+      background: var(--bg); color: var(--fg); line-height: 1.45;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 8px; }
+    p.intro { margin: 0 0 14px; }
+    .hint { font-size: 0.9rem; color: var(--muted); margin-top: 10px; }
+    fieldset {
+      border: 1px solid var(--border); border-radius: 8px;
+      margin: 0 0 12px; padding: 10px 12px; background: var(--panel);
+    }
+    legend { font-weight: 600; font-size: 0.95rem; padding: 0 6px; }
+    label { display: block; font-weight: 600; font-size: 0.9rem; margin: 8px 0 2px; }
+    .vals { font-weight: normal; color: var(--muted); margin-left: 4px; }
+    input[type="range"] { width: 100%; margin: 2px 0 4px; accent-color: var(--accent); }
+    input[type="text"] { font-size: 1rem; padding: 4px 6px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg); color: var(--fg); width: 10em; }
+    button {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 14px; font-size: 1rem; cursor: pointer;
+    }
+    button.small { padding: 4px 10px; font-size: 0.9rem; }
+    button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+    button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px; }
+    @media (max-width: 480px) { .grid2 { grid-template-columns: 1fr; } }
+    .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: start; }
+    @media (max-width: 600px) { .wrap { grid-template-columns: 1fr; } }
+    canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; background: var(--canvas); }
+    .desc { font-size: 1rem; margin: 10px 0 0; font-variant-numeric: tabular-nums; }
+  </style>
+</head>
+<body>
+  <h1>Metre explorer</h1>
+  <p class="intro">A metre is a cycle of pulses with a pattern of accents on top. Choose a cycle and how its pulses are grouped into beats, from the familiar 2/4, 3/4, and 4/4 to 7/8 as 2+2+3, 11/8, or a cycle of your own, and listen while the cycle is drawn as a circle. In some metres every beat is the same length; in others a beat of three pulses sits beside beats of two, and the beat level itself is uneven.</p>
+
+  <div class="row">
+    <button type="button" id="power" class="primary">Start</button>
+    <label style="flex:1; min-width:140px; margin:0;">Tempo <span class="vals" id="bpmdisp"></span> pulses per minute
+      <input type="range" id="bpm" min="120" max="480" step="4" value="240" aria-label="Tempo in pulses per minute"/>
+    </label>
+    <label style="flex:1; min-width:120px; margin:0;">Volume <span class="vals" id="voldisp"></span>
+      <input type="range" id="vol" min="0" max="100" step="1" value="60" aria-label="Volume"/>
+    </label>
+  </div>
+
+  <fieldset>
+    <legend>Metre</legend>
+    <div class="row">
+      <span style="font-weight:600;">Equal beats (pulses are eighth notes):</span>
+      <button type="button" class="small" data-g="2+2">2/4</button>
+      <button type="button" class="small" data-g="2+2+2">3/4</button>
+      <button type="button" class="small" data-g="2+2+2+2">4/4</button>
+      <button type="button" class="small" data-g="2+2+2+2+2">5/4</button>
+      <button type="button" class="small" data-g="3+3">6/8</button>
+      <button type="button" class="small" data-g="3+3+3">9/8</button>
+      <button type="button" class="small" data-g="3+3+3+3">12/8</button>
+    </div>
+    <div class="row">
+      <span style="font-weight:600;">Unequal beats:</span>
+      <button type="button" class="small" data-g="2+3">5/8 (2+3)</button>
+      <button type="button" class="small" data-g="3+2">5/8 (3+2)</button>
+      <button type="button" class="small" data-g="2+2+3">7/8 (2+2+3)</button>
+      <button type="button" class="small" data-g="3+2+2">7/8 (3+2+2)</button>
+      <button type="button" class="small" data-g="2+3+2">7/8 (2+3+2)</button>
+      <button type="button" class="small" data-g="2+2+2+3">9/8 daichovo</button>
+      <button type="button" class="small" data-g="2+2+3+2+2">11/8 kopanitsa</button>
+      <button type="button" class="small" data-g="2+3+2+3">10 jhaptal</button>
+      <button type="button" class="small" data-g="3+2+2+3+2+2+3+2+2+3">22/8 sandansko</button>
+    </div>
+    <div class="row">
+      <label for="custom" style="margin:0;">Your own grouping</label>
+      <input type="text" id="custom" value="2+2+3" aria-label="Grouping of pulses, for example 2+2+3"/>
+      <button type="button" class="small" id="apply">Apply</button>
+      <span class="vals">Sum the groups to get the pulses per cycle; each group is one beat.</span>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>What you hear</legend>
+    <div class="grid2">
+      <div>
+        <label style="display:inline-flex; align-items:center; gap:6px; font-weight:normal;"><input type="checkbox" id="hearPulse" checked/> Tick on every pulse</label><br/>
+        <label style="display:inline-flex; align-items:center; gap:6px; font-weight:normal;"><input type="checkbox" id="hearBeat" checked/> Click on every beat (group start)</label><br/>
+        <label style="display:inline-flex; align-items:center; gap:6px; font-weight:normal;"><input type="checkbox" id="hearOne" checked/> Low click on pulse 1</label>
+      </div>
+      <div>
+        <label style="display:inline-flex; align-items:center; gap:6px; font-weight:normal;"><input type="checkbox" id="showMarker" checked/> Show the moving marker</label><br/>
+        <label style="display:inline-flex; align-items:center; gap:6px; font-weight:normal;"><input type="checkbox" id="hideAfter"/> Silence the beat clicks after 4 cycles</label>
+      </div>
+    </div>
+  </fieldset>
+
+  <div class="wrap">
+    <canvas id="circle" width="420" height="420" aria-label="The cycle drawn as a circle, with beats marked"></canvas>
+    <canvas id="line" width="420" height="420" aria-label="The cycle drawn as a line, with the durations of each beat"></canvas>
+  </div>
+  <div class="desc" id="desc"></div>
+  <p class="hint">Things to try: compare 6/8 with 3/4 at the same pulse rate; they have the same six pulses and differ only in grouping. Play 7/8 as 2+2+3, then as 3+2+2, and feel where the long beat sits. Switch off the beat clicks in 2+2+3 and check whether you still hear the limp. Push the tempo up in 11/8 until you stop counting pulses and start feeling five uneven beats.</p>
+
+  <script>
+(function () {
+  "use strict";
+  var el = function (id) { return document.getElementById(id); };
+  var ctx = null, master = null;
+  var running = false, timer = null, animTimer = null;
+  var LOOKAHEAD = 0.12, TICK_MS = 25;
+  var groups = [2, 2, 3];
+  var nextTime = 0, pulse = 0, cycle = 0, startTime = 0;
+  var circle = el("circle"), cc = circle.getContext("2d");
+  var line = el("line"), lc = line.getContext("2d");
+
+  function total() { var s = 0; for (var i = 0; i < groups.length; i++) { s += groups[i]; } return s; }
+  function beatStarts() {
+    var out = [0], acc = 0;
+    for (var i = 0; i < groups.length - 1; i++) { acc += groups[i]; out.push(acc); }
+    return out;
+  }
+  function isBeatStart(p) { return beatStarts().indexOf(p) >= 0; }
+  function pulseDur() { return 60 / parseFloat(el("bpm").value); }
+
+  function setGroups(str) {
+    var parts = String(str).split(/[+,\s]+/).map(function (v) { return parseInt(v, 10); }).filter(function (v) { return v > 0; });
+    if (!parts.length || parts.reduce(function (a, b) { return a + b; }, 0) > 48) { return; }
+    groups = parts;
+    el("custom").value = groups.join("+");
+    pulse = 0;
+    describe(); draw(-1);
+  }
+  var pres = document.querySelectorAll("button[data-g]");
+  for (var p = 0; p < pres.length; p++) {
+    pres[p].addEventListener("click", function () {
+      for (var q = 0; q < pres.length; q++) { pres[q].setAttribute("aria-pressed", "false"); }
+      this.setAttribute("aria-pressed", "true");
+      setGroups(this.dataset.g);
+    });
+  }
+  el("apply").addEventListener("click", function () {
+    for (var q = 0; q < pres.length; q++) { pres[q].setAttribute("aria-pressed", "false"); }
+    setGroups(el("custom").value);
+  });
+  el("custom").addEventListener("keydown", function (e) { if (e.code === "Enter") { el("apply").click(); } });
+
+  function describe() {
+    var n = total(), equal = groups.every(function (g) { return g === groups[0]; });
+    var txt = n + " pulses per cycle, grouped " + groups.join("+") + " into " + groups.length + (groups.length === 1 ? " beat" : " beats") + ". ";
+    if (groups.length === 1) { txt += "One beat per cycle: the pulses themselves are the beats."; }
+    else if (equal) { txt += "All beats are equal, " + groups[0] + " pulses each: an isochronous beat level" + (groups[0] === 3 ? " with a compound, triple feel." : "."); }
+    else {
+      var mx = Math.max.apply(null, groups), mn = Math.min.apply(null, groups);
+      txt += "The beats are unequal, from " + mn + " to " + mx + " pulses, so the long beat is " + (mx / mn).toFixed(2).replace(/\.?0+$/, "") + " times the short one: a non-isochronous beat level.";
+    }
+    var bpmBeat = 60 / (pulseDur() * n / groups.length);
+    txt += " At " + el("bpm").value + " pulses per minute the cycle lasts " + (pulseDur() * n).toFixed(2) + " s and the mean beat rate is " + bpmBeat.toFixed(0) + " per minute.";
+    el("desc").textContent = txt;
+  }
+
+  // ---- audio ----
+  function ensureAudio() {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      master = ctx.createGain();
+      master.gain.value = 0.3 * parseFloat(el("vol").value) / 100;
+      master.connect(ctx.destination);
+    }
+    if (ctx.state === "suspended") { ctx.resume(); }
+  }
+  function click(t, freq, peak, len) {
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = "sine"; o.frequency.value = freq;
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(peak, t + 0.002);
+    g.gain.setTargetAtTime(0, t + len, 0.012);
+    o.connect(g); g.connect(master); o.start(t); o.stop(t + len + 0.1);
+  }
+  function tick() {
+    while (nextTime < ctx.currentTime + LOOKAHEAD) {
+      var beatsOn = !(el("hideAfter").checked && cycle >= 4);
+      if (pulse === 0 && el("hearOne").checked && beatsOn) { click(nextTime, 600, 1.0, 0.02); }
+      else if (isBeatStart(pulse) && el("hearBeat").checked && beatsOn) { click(nextTime, 1000, 0.8, 0.01); }
+      else if (el("hearPulse").checked) { click(nextTime, 2000, 0.25, 0.004); }
+      nextTime += pulseDur();
+      pulse += 1;
+      if (pulse >= total()) { pulse = 0; cycle += 1; }
+    }
+  }
+  function start() {
+    ensureAudio(); running = true;
+    nextTime = ctx.currentTime + 0.2; startTime = nextTime; pulse = 0; cycle = 0;
+    timer = setInterval(tick, TICK_MS); animTimer = setInterval(animate, 30);
+    el("power").textContent = "Stop"; el("power").classList.remove("primary");
+  }
+  function stop() {
+    running = false;
+    if (timer) { clearInterval(timer); timer = null; }
+    if (animTimer) { clearInterval(animTimer); animTimer = null; }
+    el("power").textContent = "Start"; el("power").classList.add("primary");
+    draw(-1);
+  }
+  el("power").addEventListener("click", function () { if (running) { stop(); } else { start(); } });
+  document.addEventListener("keydown", function (e) {
+    if (e.code === "Space" && !e.repeat && document.activeElement.tagName !== "BUTTON" && document.activeElement.tagName !== "INPUT") { e.preventDefault(); if (running) { stop(); } else { start(); } }
+  });
+  function animate() {
+    if (!el("showMarker").checked) { draw(-1); return; }
+    var frac = ((ctx.currentTime - startTime) / (pulseDur() * total())) % 1;
+    draw(frac < 0 ? -1 : frac);
+  }
+
+  // ---- drawing ----
+  function theme() {
+    var d = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return d ? { bg: "#101216", grid: "#2a2f37", pulse: "#6b7280", beat: "#4da3c7", one: "#e08a4f", text: "#9aa0a8", fg: "#e6e7e9", arc: "#3a3f47" }
+             : { bg: "#ffffff", grid: "#e3e5e8", pulse: "#b8bcc3", beat: "#0b6e99", one: "#c2571a", text: "#5a6069", fg: "#1c1e21", arc: "#dfe2e6" };
+  }
+  function draw(frac) {
+    var th = theme(), n = total(), starts = beatStarts();
+    // circle
+    var w = circle.width, h = circle.height, cx = w / 2, cy = h / 2 + 8, R = Math.min(w, h) / 2 - 40;
+    cc.fillStyle = th.bg; cc.fillRect(0, 0, w, h);
+    cc.font = "13px system-ui, sans-serif"; cc.textAlign = "center"; cc.textBaseline = "middle";
+    cc.fillStyle = th.text; cc.fillText("One cycle as a circle; clockwise from the top", cx, 14);
+    // beat arcs
+    var i;
+    for (i = 0; i < groups.length; i++) {
+      var a0 = -Math.PI / 2 + starts[i] / n * 2 * Math.PI;
+      var a1 = a0 + groups[i] / n * 2 * Math.PI;
+      cc.strokeStyle = i % 2 === 0 ? th.beat : th.arc; cc.lineWidth = 10; cc.globalAlpha = 0.35;
+      cc.beginPath(); cc.arc(cx, cy, R, a0 + 0.02, a1 - 0.02); cc.stroke();
+      cc.globalAlpha = 1;
+    }
+    for (i = 0; i < n; i++) {
+      var a = -Math.PI / 2 + i / n * 2 * Math.PI;
+      var x = cx + R * Math.cos(a), y = cy + R * Math.sin(a);
+      var isB = starts.indexOf(i) >= 0;
+      cc.fillStyle = i === 0 ? th.one : (isB ? th.beat : th.pulse);
+      cc.beginPath(); cc.arc(x, y, i === 0 ? 11 : (isB ? 9 : 5), 0, Math.PI * 2); cc.fill();
+      if (isB) {
+        cc.fillStyle = th.fg;
+        cc.fillText(String(starts.indexOf(i) + 1), cx + (R - 28) * Math.cos(a), cy + (R - 28) * Math.sin(a));
+      }
+    }
+    if (frac >= 0) {
+      var am = -Math.PI / 2 + frac * 2 * Math.PI;
+      cc.strokeStyle = th.fg; cc.lineWidth = 2;
+      cc.beginPath(); cc.moveTo(cx, cy); cc.lineTo(cx + (R - 14) * Math.cos(am), cy + (R - 14) * Math.sin(am)); cc.stroke();
+    }
+    cc.fillStyle = th.text; cc.fillText(groups.join("+") + " = " + n, cx, cy + (frac >= 0 ? 0 : 0) + 0);
+    // line
+    var lw = line.width, lh = line.height, mL = 20, mR = 20;
+    lc.fillStyle = th.bg; lc.fillRect(0, 0, lw, lh);
+    lc.font = "13px system-ui, sans-serif"; lc.textAlign = "center"; lc.textBaseline = "middle";
+    lc.fillStyle = th.text; lc.fillText("The same cycle as a line; bar length is duration", lw / 2, 14);
+    var pw = lw - mL - mR, y0 = 70, rowH = 56;
+    // pulses
+    lc.fillStyle = th.text; lc.textAlign = "left"; lc.fillText("Pulses", mL, y0 - 22);
+    for (i = 0; i < n; i++) {
+      var px = mL + (i + 0.5) / n * pw;
+      lc.fillStyle = th.pulse; lc.beginPath(); lc.arc(px, y0, 5, 0, Math.PI * 2); lc.fill();
+    }
+    // beats as bars whose length is their duration
+    lc.fillStyle = th.text; lc.fillText("Beats", mL, y0 + rowH - 22);
+    for (i = 0; i < groups.length; i++) {
+      var bx = mL + starts[i] / n * pw, bw = groups[i] / n * pw;
+      lc.fillStyle = i === 0 ? th.one : th.beat;
+      lc.fillRect(bx + 2, y0 + rowH - 10, bw - 4, 20);
+      lc.fillStyle = th.bg; lc.textAlign = "center";
+      lc.fillText(String(groups[i]), bx + bw / 2, y0 + rowH);
+      lc.textAlign = "left";
+    }
+    // beat durations in ms
+    lc.fillStyle = th.text; lc.fillText("Beat durations (ms)", mL, y0 + 2 * rowH - 22);
+    var maxG = Math.max.apply(null, groups);
+    for (i = 0; i < groups.length; i++) {
+      var gx = mL + i / groups.length * pw, gw = pw / groups.length;
+      var hgt = groups[i] / maxG * 70;
+      lc.fillStyle = i === 0 ? th.one : th.beat;
+      lc.fillRect(gx + 6, y0 + 2 * rowH + 70 - hgt, gw - 12, hgt);
+      lc.fillStyle = th.text; lc.textAlign = "center";
+      lc.fillText(Math.round(groups[i] * pulseDur() * 1000) + "", gx + gw / 2, y0 + 2 * rowH + 84);
+      lc.textAlign = "left";
+    }
+    if (frac >= 0) {
+      lc.strokeStyle = th.fg; lc.lineWidth = 2;
+      lc.beginPath(); lc.moveTo(mL + frac * pw, y0 - 12); lc.lineTo(mL + frac * pw, y0 + rowH + 14); lc.stroke();
+    }
+    lc.textBaseline = "alphabetic";
+  }
+
+  function updateLabels() {
+    el("bpmdisp").textContent = el("bpm").value;
+    el("voldisp").textContent = el("vol").value + " %";
+    if (ctx) { master.gain.setTargetAtTime(0.3 * parseFloat(el("vol").value) / 100, ctx.currentTime, 0.03); }
+    describe(); if (!running) { draw(-1); }
+  }
+  el("bpm").addEventListener("input", updateLabels);
+  el("vol").addEventListener("input", updateLabels);
+  document.querySelector('button[data-g="2+2+3"]').setAttribute("aria-pressed", "true");
+  updateLabels();
+})();
+  </script>
+</body>
+</html>
