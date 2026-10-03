@@ -1,6 +1,6 @@
 # Course apps (2026)
 
-Twenty-two small, self-contained WebAudio teaching apps written for the book. Each is
+Twenty-three small, self-contained WebAudio teaching apps written for the book. Each is
 a single `index.html` with inline CSS and JS (vanilla JS, Web Audio API,
 canvas), no external requests, and works on both phones and laptops. Sound
 starts only after a user gesture. Like the vendored apps, these are copied into
@@ -30,6 +30,11 @@ the deployed site under `/apps/` by the build.
   control and landmark buttons, plus a same/different pitch-discrimination
   game with an adaptive difference. Not a medical test. Chapter:
   *Psychoacoustics*.
+- `pulse-to-pitch/` — a band-limited impulse train at any rate from 1 to
+  1000 Hz on a log slider, with jump buttons and glides, a scale marking the
+  regions heard as pulses, flutter, and tone, the impulses in a 250 ms window,
+  the harmonic spectrum, and optional constant loudness. Chapter: *Time and
+  rhythm*.
 - `metre-explorer/` — a cycle of pulses grouped into beats, with presets from
   2/4 to 12/8 and additive metres such as 7/8, 11/8, and a ten-beat tala, a
   custom grouping, clicks on pulses and beats that can be silenced after four

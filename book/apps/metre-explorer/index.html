@@ -125,7 +125,8 @@
   var running = false, timer = null, animTimer = null;
   var LOOKAHEAD = 0.12, TICK_MS = 25;
   var groups = [2, 2, 3];
-  var nextTime = 0, pulse = 0, cycle = 0, startTime = 0;
+  var nextTime = 0, pulse = 0, cycle = 0;
+  var queued = []; // scheduled pulses {t, i, n, d}, so the marker follows the sound
   var circle = el("circle"), cc = circle.getContext("2d");
   var line = el("line"), lc = line.getContext("2d");
 
@@ -198,6 +199,7 @@
       if (pulse === 0 && el("hearOne").checked && beatsOn) { click(nextTime, 600, 1.0, 0.02); }
       else if (isBeatStart(pulse) && el("hearBeat").checked && beatsOn) { click(nextTime, 1000, 0.8, 0.01); }
       else if (el("hearPulse").checked) { click(nextTime, 2000, 0.25, 0.004); }
+      queued.push({ t: nextTime, i: pulse, n: total(), d: pulseDur() });
       nextTime += pulseDur();
       pulse += 1;
       if (pulse >= total()) { pulse = 0; cycle += 1; }
@@ -205,7 +207,7 @@
   }
   function start() {
     ensureAudio(); running = true;
-    nextTime = ctx.currentTime + 0.2; startTime = nextTime; pulse = 0; cycle = 0;
+    nextTime = ctx.currentTime + 0.2; pulse = 0; cycle = 0; queued = [];
     timer = setInterval(tick, TICK_MS); animTimer = setInterval(animate, 30);
     el("power").textContent = "Stop"; el("power").classList.remove("primary");
   }
@@ -222,8 +224,12 @@
   });
   function animate() {
     if (!el("showMarker").checked) { draw(-1); return; }
-    var frac = ((ctx.currentTime - startTime) / (pulseDur() * total())) % 1;
-    draw(frac < 0 ? -1 : frac);
+    // the time now reaching the ears, not the time being scheduled
+    var now = ctx.currentTime - (ctx.outputLatency || 0) - (ctx.baseLatency || 0);
+    while (queued.length > 1 && queued[1].t <= now) { queued.shift(); }
+    var q = queued[0];
+    if (!q || q.t > now) { draw(-1); return; }
+    draw((q.i + Math.min((now - q.t) / q.d, 1)) / q.n);
   }
 
   // ---- drawing ----

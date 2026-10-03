@@ -102,6 +102,20 @@
       <button type="button" class="small" id="clear">Clear</button>
     </div>
     <div class="row">
+      <span style="font-weight:600;">Styles:</span>
+      <button type="button" class="small" data-div="4" data-bpm="120" data-sw="50" data-k="3000300030003000" data-s="0000300000003000" data-h="1000100010001000" data-o="0030003000300030">Disco</button>
+      <button type="button" class="small" data-div="4" data-bpm="90" data-sw="58" data-k="3000000200300000" data-s="0000300000003000" data-h="2020202020202020" data-o="0000000000000000">Boom bap</button>
+      <button type="button" class="small" data-div="4" data-bpm="70" data-sw="50" data-k="3000000300100000" data-s="0000000030000000" data-h="2121212121212121" data-o="0000000000000000">Trap (half-time)</button>
+      <button type="button" class="small" data-div="4" data-bpm="172" data-sw="50" data-k="3000000000300000" data-s="0000300000003000" data-h="2020202020202020" data-o="0000000000000000">Drum and bass</button>
+      <button type="button" class="small" data-div="4" data-bpm="95" data-sw="50" data-k="3000300030003000" data-s="0003003000030030" data-h="1010101010101010" data-o="0000000000000000">Reggaeton (dembow)</button>
+      <button type="button" class="small" data-div="3" data-bpm="76" data-sw="50" data-k="000000300000" data-s="000000300000" data-h="201201201201" data-o="000000000000">Reggae one drop</button>
+      <button type="button" class="small" data-div="4" data-bpm="130" data-sw="50" data-k="3002300230023002" data-s="1001001000100100" data-h="2020202020202020" data-o="0000000000000000">Bossa nova</button>
+      <button type="button" class="small" data-div="4" data-bpm="100" data-sw="50" data-k="0000003000003000" data-s="3003003000303000" data-h="1010101010101010" data-o="0000000000000000">Son clave (3-2)</button>
+      <button type="button" class="small" data-div="3" data-bpm="140" data-sw="50" data-k="100100100100" data-s="000001000000" data-h="300302300302" data-o="000000000000">Jazz swing ride</button>
+      <button type="button" class="small" data-div="3" data-bpm="100" data-sw="50" data-k="300000300000" data-s="000000000000" data-h="202022020202" data-o="000000000000">West African bell (12/8)</button>
+    </div>
+    <span class="hint">The style presets also set the tempo and the swing. Each is a one-bar sketch of a style's core pattern, reduced to kick, snare, and hi-hats; the snare row stands in for rim, clave, or comping where the style has no backbeat, and the closed hi-hat row for ride or bell.</span>
+    <div class="row">
       <span style="font-weight:600;">Accents:</span>
       <button type="button" class="small" id="accentBeats">Strong on the beats, soft between</button>
       <button type="button" class="small" id="accentOne">Strong on beat 1 only</button>
@@ -257,6 +271,9 @@
       }
       setPattern("k", this.dataset.k); setPattern("s", this.dataset.s);
       setPattern("h", this.dataset.h); setPattern("o", this.dataset.o);
+      if (this.dataset.bpm) { el("bpm").value = this.dataset.bpm; }
+      if (this.dataset.sw) { el("swing").value = this.dataset.sw; }
+      updateLabels();
       buildGrid();
     });
   }
