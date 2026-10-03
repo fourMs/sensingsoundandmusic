@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Interval lab</title>
+  <style>
+    :root {
+      --bg: #fdfdfd; --fg: #1c1e21; --muted: #5a6069; --panel: #f1f2f4;
+      --border: #c9ccd1; --accent: #0b6e99; --accent-fg: #ffffff; --canvas: #ffffff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #15171b; --fg: #e6e7e9; --muted: #9aa0a8; --panel: #20242b;
+        --border: #3a3f47; --accent: #4da3c7; --accent-fg: #0d1117; --canvas: #101216;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      margin: 0 auto; padding: 16px; max-width: 780px;
+      background: var(--bg); color: var(--fg); line-height: 1.45;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 8px; }
+    p.intro { margin: 0 0 14px; }
+    .hint { font-size: 0.9rem; color: var(--muted); margin-top: 10px; }
+    fieldset {
+      border: 1px solid var(--border); border-radius: 8px;
+      margin: 0 0 12px; padding: 10px 12px; background: var(--panel);
+    }
+    legend { font-weight: 600; font-size: 0.95rem; padding: 0 6px; }
+    label { font-weight: 600; font-size: 0.9rem; }
+    .vals { font-weight: normal; color: var(--muted); margin-left: 4px; }
+    input[type="range"] { width: 100%; margin: 2px 0 4px; accent-color: var(--accent); }
+    select {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 6px 8px; font-size: 1rem;
+    }
+    button {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 14px; font-size: 1rem; cursor: pointer;
+    }
+    button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+    button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 10px 0; }
+    .ivgrid { display: flex; flex-wrap: wrap; gap: 6px; }
+    .ivgrid button { padding: 6px 10px; font-size: 0.9rem; }
+    .readout { margin: 8px 0 0; font-size: 0.95rem; }
+    .status { color: var(--muted); font-size: 0.9rem; min-height: 1.4em; }
+    table { border-collapse: collapse; margin-top: 10px; width: 100%; font-size: 0.9rem; }
+    th, td { border: 1px solid var(--border); padding: 4px 8px; text-align: left; }
+    th { background: var(--panel); }
+  </style>
+</head>
+<body>
+  <h1>Interval lab</h1>
+  <p class="intro">An interval is the distance between two tones, and its character depends on the ratio between their frequencies. Choose a root and an interval, compare just intonation (small whole-number ratios) with equal temperament (every semitone identical), and then test your own ears in the ranking game at the bottom.</p>
+
+  <div class="row">
+    <label style="flex:1; min-width:160px; margin:0;">Master volume <span class="vals" id="voldisp"></span>
+      <input type="range" id="vol" min="0" max="100" step="1" value="60" aria-label="Master volume"/>
+    </label>
+  </div>
+
+  <fieldset>
+    <legend>Two tones</legend>
+    <div class="row">
+      <label for="root" style="margin:0;">Root:</label>
+      <select id="root" aria-label="Root note">
+        <option value="130.81">C3</option>
+        <option value="164.81">E3</option>
+        <option value="196.00">G3</option>
+        <option value="261.63" selected>C4</option>
+      </select>
+      <span style="width:12px;"></span>
+      <button type="button" data-tune="et" aria-pressed="true">Equal temperament</button>
+      <button type="button" data-tune="ji" aria-pressed="false">Just intonation</button>
+      <span style="width:12px;"></span>
+      <button type="button" data-pmode="sim" aria-pressed="true">Together</button>
+      <button type="button" data-pmode="mel" aria-pressed="false">One after the other</button>
+    </div>
+    <div class="ivgrid" id="ivgrid"></div>
+    <div class="row">
+      <button type="button" id="play" class="primary">Play interval</button>
+      <button type="button" id="beatdemo">Beat demo: major third</button>
+    </div>
+    <p class="readout" id="readout"></p>
+    <p class="status" id="demostatus"></p>
+  </fieldset>
+
+  <fieldset>
+    <legend>Ranking game</legend>
+    <p style="margin:0 0 8px;">The app plays twelve intervals in random order. After each one, rate how smooth or restful it sounds, from 1 (rough, tense) to 5 (smooth, restful). At the end you can compare your ratings with what listeners typically report.</p>
+    <div class="row">
+      <button type="button" id="gamestart" class="primary">Start game</button>
+      <button type="button" id="gamereplay" disabled>Hear it again</button>
+      <span class="status" id="gamestatus"></span>
+    </div>
+    <div class="row" id="raterow" style="display:none;">
+      <span style="font-weight:600;">Your rating:</span>
+      <button type="button" data-rate="1">1</button>
+      <button type="button" data-rate="2">2</button>
+      <button type="button" data-rate="3">3</button>
+      <button type="button" data-rate="4">4</button>
+      <button type="button" data-rate="5">5</button>
+    </div>
+    <div id="gameresult"></div>
+  </fieldset>
+
+  <p class="hint">What to notice: in the beat demo, the equal-tempered major third wobbles (its harmonics beat against each other, since the ratio 1.2599 is close to but not exactly 5:4), while the just third settles into calm. In the game, most listeners place the octave, fifth, and fourth at the smooth end and the seconds and the tritone at the rough end, but personal and musical background shifts the middle.</p>
+
+  <script>
+(function () {
+  "use strict";
+  var INTERVALS = [
+    { n: 0,  name: "Unison",         ji: [1, 1] },
+    { n: 1,  name: "Minor second",   ji: [16, 15] },
+    { n: 2,  name: "Major second",   ji: [9, 8] },
+    { n: 3,  name: "Minor third",    ji: [6, 5] },
+    { n: 4,  name: "Major third",    ji: [5, 4] },
+    { n: 5,  name: "Perfect fourth", ji: [4, 3] },
+    { n: 6,  name: "Tritone",        ji: [45, 32] },
+    { n: 7,  name: "Perfect fifth",  ji: [3, 2] },
+    { n: 8,  name: "Minor sixth",    ji: [8, 5] },
+    { n: 9,  name: "Major sixth",    ji: [5, 3] },
+    { n: 10, name: "Minor seventh",  ji: [9, 5] },
+    { n: 11, name: "Major seventh",  ji: [15, 8] },
+    { n: 12, name: "Octave",         ji: [2, 1] }
+  ];
+  // typical ordering, smoothest first, after Malmberg (1918) and later replications
+  var TYPICAL = ["Octave", "Perfect fifth", "Perfect fourth", "Major third",
+    "Major sixth", "Minor third", "Minor sixth", "Minor seventh",
+    "Major second", "Major seventh", "Tritone", "Minor second"];
+
+  var ctx = null, master = null, wave = null;
+  var selected = 7; // perfect fifth
+  var tuning = "et", pmode = "sim";
+
+  var el = function (id) { return document.getElementById(id); };
+  var volEl = el("vol"), rootEl = el("root");
+
+  function ensureAudio() {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      master = ctx.createGain();
+      master.gain.value = 0.3 * parseFloat(volEl.value) / 100;
+      master.connect(ctx.destination);
+      // one complex tone with six harmonics, so intervals can beat like real instruments
+      var real = new Float32Array([0, 0, 0, 0, 0, 0, 0]);
+      var imag = new Float32Array([0, 1, 0.4, 0.25, 0.15, 0.1, 0.07]);
+      wave = ctx.createPeriodicWave(real, imag);
+    }
+    if (ctx.state === "suspended") { ctx.resume(); }
+  }
+
+  function playTone(freq, t0, dur, level) {
+    var o = ctx.createOscillator();
+    o.setPeriodicWave(wave);
+    o.frequency.value = freq;
+    var g = ctx.createGain();
+    g.gain.setValueAtTime(0, t0);
+    g.gain.linearRampToValueAtTime(level, t0 + 0.03);
+    g.gain.setValueAtTime(level, t0 + dur - 0.1);
+    g.gain.linearRampToValueAtTime(0, t0 + dur);
+    o.connect(g);
+    g.connect(master);
+    o.start(t0);
+    o.stop(t0 + dur + 0.05);
+  }
+
+  function upperFreq(rootF, iv, tune) {
+    return tune === "ji" ? rootF * iv.ji[0] / iv.ji[1] : rootF * Math.pow(2, iv.n / 12);
+  }
+
+  function playInterval(rootF, iv, tune, how) {
+    ensureAudio();
+    var t0 = ctx.currentTime + 0.05;
+    var f2 = upperFreq(rootF, iv, tune);
+    if (how === "sim") {
+      playTone(rootF, t0, 1.8, 0.35);
+      playTone(f2, t0, 1.8, 0.35);
+    } else {
+      playTone(rootF, t0, 0.8, 0.4);
+      playTone(f2, t0 + 0.9, 0.8, 0.4);
+    }
+  }
+
+  function centsDiff(iv) {
+    if (iv.n === 0 || iv.n === 12) { return 0; }
+    return 1200 * Math.log2((iv.ji[0] / iv.ji[1]) / Math.pow(2, iv.n / 12));
+  }
+
+  function updateReadout() {
+    var iv = INTERVALS[selected];
+    var rootF = parseFloat(rootEl.value);
+    var fJi = rootF * iv.ji[0] / iv.ji[1];
+    var fEt = rootF * Math.pow(2, iv.n / 12);
+    var c = centsDiff(iv);
+    var txt = iv.name + " above " + rootEl.options[rootEl.selectedIndex].text + ". ";
+    txt += "Just ratio " + iv.ji[0] + ":" + iv.ji[1] + " gives " + fJi.toFixed(2) + " Hz; ";
+    txt += "equal temperament (ratio " + Math.pow(2, iv.n / 12).toFixed(4) + ") gives " + fEt.toFixed(2) + " Hz. ";
+    txt += c === 0 ? "The two tunings agree exactly."
+      : "The just interval is " + Math.abs(c).toFixed(1) + " cents " + (c > 0 ? "wider" : "narrower") + " than equal temperament.";
+    el("readout").textContent = txt;
+    el("voldisp").textContent = volEl.value + " %";
+    if (ctx) {
+      master.gain.setTargetAtTime(0.3 * parseFloat(volEl.value) / 100, ctx.currentTime, 0.03);
+    }
+  }
+
+  // ---- beat demo ----
+  function beatDemo() {
+    ensureAudio();
+    var rootF = 261.63; // C4, where the beating is easy to hear
+    var iv = INTERVALS[4];
+    el("demostatus").textContent = "Equal-tempered major third: listen for the slow wobble...";
+    playInterval(rootF, iv, "et", "sim");
+    setTimeout(function () {
+      el("demostatus").textContent = "Now the just major third (5:4): the wobble is gone.";
+      playInterval(rootF, iv, "ji", "sim");
+      setTimeout(function () { el("demostatus").textContent = ""; }, 3000);
+    }, 2300);
+  }
+
+  // ---- ranking game ----
+  var game = { order: [], trial: -1, ratings: {} };
+
+  function shuffle(a) {
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  function gameRoots() { return [130.81, 164.81, 196.00, 261.63]; }
+
+  function playCurrent() {
+    if (game.trial < 0 || game.trial >= game.order.length) { return; }
+    var iv = game.order[game.trial];
+    playInterval(iv.rootF, iv, "et", "sim");
+    el("gamestatus").textContent = "Interval " + (game.trial + 1) + " of " + game.order.length + ". Rate it below.";
+  }
+
+  function startGame() {
+    ensureAudio();
+    var pool = [];
+    for (var i = 1; i < INTERVALS.length; i++) { pool.push(INTERVALS[i]); }
+    shuffle(pool);
+    var roots = gameRoots();
+    for (i = 0; i < pool.length; i++) {
+      pool[i] = Object.create(pool[i]);
+      pool[i].rootF = roots[Math.floor(Math.random() * roots.length)];
+    }
+    game.order = pool;
+    game.trial = 0;
+    game.ratings = {};
+    el("gameresult").innerHTML = "";
+    el("raterow").style.display = "";
+    el("gamereplay").disabled = false;
+    el("gamestart").textContent = "Restart game";
+    playCurrent();
+  }
+
+  function rate(v) {
+    if (game.trial < 0 || game.trial >= game.order.length) { return; }
+    game.ratings[game.order[game.trial].name] = v;
+    game.trial++;
+    if (game.trial < game.order.length) {
+      setTimeout(playCurrent, 400);
+    } else {
+      finishGame();
+    }
+  }
+
+  function finishGame() {
+    el("gamestatus").textContent = "Done. Here is your ordering next to a typical one.";
+    el("raterow").style.display = "none";
+    el("gamereplay").disabled = true;
+    // sort the intervals by the student's rating, smoothest first
+    var mine = Object.keys(game.ratings).sort(function (a, b) {
+      return game.ratings[b] - game.ratings[a];
+    });
+    var html = "<table><tr><th></th><th>Your order (rating)</th><th>Typical listener ratings</th></tr>";
+    for (var i = 0; i < TYPICAL.length; i++) {
+      html += "<tr><td>" + (i + 1) + "</td><td>" +
+        (mine[i] ? mine[i] + " (" + game.ratings[mine[i]] + ")" : "") +
+        "</td><td>" + TYPICAL[i] + "</td></tr>";
+    }
+    html += "</table><p class=\"status\">The right-hand column is the ordering typically reported in listening studies (after Malmberg 1918 and later replications), not a correct answer.</p>";
+    el("gameresult").innerHTML = html;
+    game.trial = -1;
+  }
+
+  // ---- build interval buttons and wire everything ----
+  var host = el("ivgrid");
+  INTERVALS.forEach(function (iv, idx) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.textContent = iv.name;
+    b.setAttribute("aria-pressed", idx === selected ? "true" : "false");
+    b.addEventListener("click", function () {
+      selected = idx;
+      var all = host.querySelectorAll("button");
+      for (var j = 0; j < all.length; j++) { all[j].setAttribute("aria-pressed", "false"); }
+      b.setAttribute("aria-pressed", "true");
+      updateReadout();
+    });
+    host.appendChild(b);
+  });
+
+  el("play").addEventListener("click", function () {
+    playInterval(parseFloat(rootEl.value), INTERVALS[selected], tuning, pmode);
+  });
+  el("beatdemo").addEventListener("click", beatDemo);
+  el("gamestart").addEventListener("click", startGame);
+  el("gamereplay").addEventListener("click", function () {
+    if (game.trial >= 0 && game.trial < game.order.length) { playCurrent(); }
+  });
+  var rateBtns = document.querySelectorAll("button[data-rate]");
+  var i;
+  for (i = 0; i < rateBtns.length; i++) {
+    rateBtns[i].addEventListener("click", function () {
+      rate(parseInt(this.getAttribute("data-rate"), 10));
+    });
+  }
+  var tuneBtns = document.querySelectorAll("button[data-tune]");
+  for (i = 0; i < tuneBtns.length; i++) {
+    tuneBtns[i].addEventListener("click", function () {
+      for (var j = 0; j < tuneBtns.length; j++) { tuneBtns[j].setAttribute("aria-pressed", "false"); }
+      this.setAttribute("aria-pressed", "true");
+      tuning = this.getAttribute("data-tune");
+      updateReadout();
+    });
+  }
+  var pmodeBtns = document.querySelectorAll("button[data-pmode]");
+  for (i = 0; i < pmodeBtns.length; i++) {
+    pmodeBtns[i].addEventListener("click", function () {
+      for (var j = 0; j < pmodeBtns.length; j++) { pmodeBtns[j].setAttribute("aria-pressed", "false"); }
+      this.setAttribute("aria-pressed", "true");
+      pmode = this.getAttribute("data-pmode");
+    });
+  }
+  rootEl.addEventListener("change", updateReadout);
+  volEl.addEventListener("input", updateReadout);
+  updateReadout();
+})();
+  </script>
+</body>
+</html>

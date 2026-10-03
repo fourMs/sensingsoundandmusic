@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Room modes</title>
+  <style>
+    :root {
+      --bg: #fdfdfd; --fg: #1c1e21; --muted: #5a6069; --panel: #f1f2f4;
+      --border: #c9ccd1; --accent: #0b6e99; --accent-fg: #ffffff; --canvas: #ffffff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #15171b; --fg: #e6e7e9; --muted: #9aa0a8; --panel: #20242b;
+        --border: #3a3f47; --accent: #4da3c7; --accent-fg: #0d1117; --canvas: #101216;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      margin: 0 auto; padding: 16px; max-width: 780px;
+      background: var(--bg); color: var(--fg); line-height: 1.45;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 8px; }
+    p.intro { margin: 0 0 14px; }
+    .hint { font-size: 0.9rem; color: var(--muted); margin-top: 10px; }
+    fieldset {
+      border: 1px solid var(--border); border-radius: 8px;
+      margin: 0 0 12px; padding: 10px 12px; background: var(--panel);
+    }
+    legend { font-weight: 600; font-size: 0.95rem; padding: 0 6px; }
+    label { font-weight: 600; font-size: 0.9rem; }
+    .vals { font-weight: normal; color: var(--muted); margin-left: 4px; }
+    input[type="range"] { width: 100%; margin: 2px 0 4px; accent-color: var(--accent); }
+    button {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 14px; font-size: 1rem; cursor: pointer;
+    }
+    button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+    button.hear { padding: 2px 10px; font-size: 0.85rem; }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 10px 0; }
+    .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    @media (max-width: 560px) { .grid3 { grid-template-columns: 1fr; } }
+    canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; background: var(--canvas); }
+    table { border-collapse: collapse; margin-top: 10px; width: 100%; font-size: 0.9rem; }
+    th, td { border: 1px solid var(--border); padding: 3px 8px; text-align: left; }
+    th { background: var(--panel); }
+    td.warn { font-weight: 600; }
+  </style>
+</head>
+<body>
+  <h1>Room modes</h1>
+  <p class="intro">Between two parallel walls, sound waves whose half-wavelength fits a whole number of times build up standing waves called room modes. At those frequencies some spots in the room boom and others fall almost silent. Enter the size of your own room, see where its axial modes land, and use the hear buttons to hunt the boom by walking around while a mode plays.</p>
+
+  <div class="row">
+    <label style="flex:1; min-width:160px; margin:0;">Master volume <span class="vals" id="voldisp"></span>
+      <input type="range" id="vol" min="0" max="100" step="1" value="60" aria-label="Master volume"/>
+    </label>
+  </div>
+
+  <fieldset>
+    <legend>Room size</legend>
+    <div class="grid3">
+      <div>
+        <label>Length <span class="vals" id="lendisp"></span></label>
+        <input type="range" id="len" min="2" max="15" step="0.1" value="5" aria-label="Room length in metres"/>
+      </div>
+      <div>
+        <label>Width <span class="vals" id="widdisp"></span></label>
+        <input type="range" id="wid" min="2" max="12" step="0.1" value="3" aria-label="Room width in metres"/>
+      </div>
+      <div>
+        <label>Height <span class="vals" id="heidisp"></span></label>
+        <input type="range" id="hei" min="1.8" max="6" step="0.1" value="2.4" aria-label="Room height in metres"/>
+      </div>
+    </div>
+  </fieldset>
+
+  <canvas id="axis" width="900" height="220" aria-label="Axial modes on a logarithmic frequency axis from 20 to 300 Hz"></canvas>
+
+  <div id="tablehost"></div>
+
+  <p class="hint">What to notice: modes from different dimensions that land within a few hertz of each other (flagged in the table) pile up into pronounced trouble spots. Real rooms also have tangential and oblique modes between the walls, floor, and ceiling, and absorption shifts and softens everything; the axial modes computed here are the first approximation.</p>
+
+  <script>
+(function () {
+  "use strict";
+  var C = 343;          // speed of sound in m/s
+  var NMODES = 10;      // axial modes per dimension
+  var FLO = 20, FHI = 300;
+  var CLOSE_HZ = 3;     // flag modes from different dimensions closer than this
+  var ctx = null, master = null;
+
+  var el = function (id) { return document.getElementById(id); };
+  var lenEl = el("len"), widEl = el("wid"), heiEl = el("hei"), volEl = el("vol");
+  var canvas = el("axis"), c2d = canvas.getContext("2d");
+  var modes = [];
+
+  function dimColours() {
+    var d = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return d ? { L: "#4da3c7", W: "#e0a05f", H: "#8fbf6f", bg: "#101216", grid: "#2a2f37", text: "#9aa0a8", flag: "#e6e7e9" }
+             : { L: "#0b6e99", W: "#b3541e", H: "#4a7d2b", bg: "#ffffff", grid: "#e3e5e8", text: "#5a6069", flag: "#1c1e21" };
+  }
+  var DIMNAME = { L: "length", W: "width", H: "height" };
+
+  function computeModes() {
+    var dims = { L: parseFloat(lenEl.value), W: parseFloat(widEl.value), H: parseFloat(heiEl.value) };
+    modes = [];
+    for (var dim in dims) {
+      for (var n = 1; n <= NMODES; n++) {
+        var f = C / 2 * n / dims[dim];
+        if (f >= FLO && f <= FHI) {
+          modes.push({ dim: dim, n: n, f: f, close: null });
+        }
+      }
+    }
+    modes.sort(function (a, b) { return a.f - b.f; });
+    // flag stacked modes from different dimensions
+    for (var i = 0; i < modes.length; i++) {
+      for (var j = 0; j < modes.length; j++) {
+        if (i !== j && modes[i].dim !== modes[j].dim &&
+            Math.abs(modes[i].f - modes[j].f) < CLOSE_HZ) {
+          modes[i].close = modes[j];
+          break;
+        }
+      }
+    }
+  }
+
+  // ---- audio: one short sine per hear button ----
+  function ensureAudio() {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      master = ctx.createGain();
+      master.gain.value = 0.3 * parseFloat(volEl.value) / 100;
+      master.connect(ctx.destination);
+    }
+    if (ctx.state === "suspended") { ctx.resume(); }
+  }
+  function hear(f) {
+    ensureAudio();
+    var t0 = ctx.currentTime + 0.03;
+    var o = ctx.createOscillator();
+    o.type = "sine";
+    o.frequency.value = f;
+    var g = ctx.createGain();
+    g.gain.setValueAtTime(0, t0);
+    g.gain.linearRampToValueAtTime(0.9, t0 + 0.05);
+    g.gain.setValueAtTime(0.9, t0 + 1.6);
+    g.gain.linearRampToValueAtTime(0, t0 + 1.8);
+    o.connect(g);
+    g.connect(master);
+    o.start(t0);
+    o.stop(t0 + 1.9);
+  }
+
+  // ---- rendering ----
+  function xOf(f, w, padL, padR) {
+    var lo = Math.log(FLO), hi = Math.log(FHI);
+    return padL + (Math.log(f) - lo) / (hi - lo) * (w - padL - padR);
+  }
+  function drawAxis() {
+    var th = dimColours();
+    var w = canvas.width, h = canvas.height;
+    var padL = 30, padR = 20, base = h - 44;
+    c2d.fillStyle = th.bg;
+    c2d.fillRect(0, 0, w, h);
+    c2d.strokeStyle = th.grid;
+    c2d.beginPath(); c2d.moveTo(padL, base); c2d.lineTo(w - padR, base); c2d.stroke();
+    c2d.fillStyle = th.text;
+    c2d.font = "12px system-ui, sans-serif";
+    var labels = [20, 30, 50, 70, 100, 150, 200, 300];
+    for (var i = 0; i < labels.length; i++) {
+      var lx = xOf(labels[i], w, padL, padR);
+      c2d.beginPath(); c2d.moveTo(lx, base); c2d.lineTo(lx, base + 6); c2d.stroke();
+      c2d.fillText(String(labels[i]), lx - 9, base + 20);
+    }
+    c2d.fillText("Hz (logarithmic)", padL, h - 6);
+    // one tick per mode, coloured by dimension, taller when stacked
+    for (i = 0; i < modes.length; i++) {
+      var m = modes[i];
+      var mx = xOf(m.f, w, padL, padR);
+      var tall = m.close ? 96 : 64;
+      c2d.strokeStyle = th[m.dim];
+      c2d.lineWidth = 2;
+      c2d.beginPath(); c2d.moveTo(mx, base); c2d.lineTo(mx, base - tall); c2d.stroke();
+      if (m.close) {
+        c2d.fillStyle = th.flag;
+        c2d.beginPath(); c2d.arc(mx, base - tall - 6, 3.5, 0, 2 * Math.PI); c2d.fill();
+      }
+    }
+    c2d.lineWidth = 1;
+    // legend
+    var lx0 = padL, ly = 16;
+    var dims = ["L", "W", "H"];
+    for (i = 0; i < dims.length; i++) {
+      c2d.strokeStyle = th[dims[i]];
+      c2d.lineWidth = 3;
+      c2d.beginPath(); c2d.moveTo(lx0, ly - 4); c2d.lineTo(lx0 + 18, ly - 4); c2d.stroke();
+      c2d.fillStyle = th.text;
+      c2d.fillText(DIMNAME[dims[i]], lx0 + 24, ly);
+      lx0 += 110;
+    }
+    c2d.fillText("dot: stacked modes", lx0 + 10, ly);
+    c2d.lineWidth = 1;
+  }
+
+  function renderTable() {
+    var html = "<table><tr><th>Mode</th><th>Dimension</th><th>Frequency</th><th>Stacked with</th><th></th></tr>";
+    for (var i = 0; i < modes.length; i++) {
+      var m = modes[i];
+      html += "<tr><td>" + m.n + "</td><td>" + DIMNAME[m.dim] + "</td><td>" +
+        m.f.toFixed(1) + " Hz</td><td" + (m.close ? " class=\"warn\"" : "") + ">" +
+        (m.close ? DIMNAME[m.close.dim] + " mode " + m.close.n + " (" + m.close.f.toFixed(1) + " Hz)" : "") +
+        "</td><td><button type=\"button\" class=\"hear\" data-f=\"" + m.f.toFixed(2) + "\">Hear it</button></td></tr>";
+    }
+    el("tablehost").innerHTML = html + "</table>";
+    var btns = el("tablehost").querySelectorAll("button[data-f]");
+    for (i = 0; i < btns.length; i++) {
+      btns[i].addEventListener("click", function () {
+        hear(parseFloat(this.getAttribute("data-f")));
+      });
+    }
+  }
+
+  function update() {
+    el("lendisp").textContent = parseFloat(lenEl.value).toFixed(1) + " m";
+    el("widdisp").textContent = parseFloat(widEl.value).toFixed(1) + " m";
+    el("heidisp").textContent = parseFloat(heiEl.value).toFixed(1) + " m";
+    el("voldisp").textContent = volEl.value + " %";
+    if (ctx) {
+      master.gain.setTargetAtTime(0.3 * parseFloat(volEl.value) / 100, ctx.currentTime, 0.03);
+    }
+    computeModes();
+    drawAxis();
+    renderTable();
+  }
+
+  lenEl.addEventListener("input", update);
+  widEl.addEventListener("input", update);
+  heiEl.addEventListener("input", update);
+  volEl.addEventListener("input", update);
+  if (window.matchMedia) {
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", drawAxis);
+  }
+  update();
+})();
+  </script>
+</body>
+</html>

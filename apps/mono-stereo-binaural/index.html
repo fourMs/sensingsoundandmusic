@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Mono, stereo, binaural</title>
+  <style>
+    :root {
+      --bg: #fdfdfd; --fg: #1c1e21; --muted: #5a6069; --panel: #f1f2f4;
+      --border: #c9ccd1; --accent: #0b6e99; --accent-fg: #ffffff; --canvas: #ffffff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #15171b; --fg: #e6e7e9; --muted: #9aa0a8; --panel: #20242b;
+        --border: #3a3f47; --accent: #4da3c7; --accent-fg: #0d1117; --canvas: #101216;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      margin: 0 auto; padding: 16px; max-width: 780px;
+      background: var(--bg); color: var(--fg); line-height: 1.45;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 8px; }
+    p.intro { margin: 0 0 14px; }
+    .hint { font-size: 0.9rem; color: var(--muted); margin-top: 10px; }
+    .headphones {
+      border: 2px solid var(--accent); border-radius: 8px; background: var(--panel);
+      padding: 8px 12px; margin: 0 0 14px; font-weight: 600;
+    }
+    fieldset {
+      border: 1px solid var(--border); border-radius: 8px;
+      margin: 0 0 12px; padding: 10px 12px; background: var(--panel);
+    }
+    legend { font-weight: 600; font-size: 0.95rem; padding: 0 6px; }
+    label { font-weight: 600; font-size: 0.9rem; }
+    .vals { font-weight: normal; color: var(--muted); margin-left: 4px; }
+    input[type="range"] { width: 100%; margin: 2px 0 4px; accent-color: var(--accent); }
+    input[type="checkbox"] { accent-color: var(--accent); width: 1.1em; height: 1.1em; vertical-align: -2px; }
+    button {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 14px; font-size: 1rem; cursor: pointer;
+    }
+    button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+    button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 10px 0; }
+    .modenote { font-size: 0.92rem; margin: 6px 0 0; min-height: 2.8em; }
+    .src { display: grid; grid-template-columns: 1.1em 11em 1fr; gap: 6px 10px; align-items: center; margin: 6px 0; }
+    .src .name { font-weight: 600; font-size: 0.9rem; }
+    .src .name span.swatch { display: inline-block; width: 0.8em; height: 0.8em; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+    .src input[type="range"] { margin: 0; }
+    @media (max-width: 480px) { .src { grid-template-columns: 1.1em 1fr; } .src input[type="range"] { grid-column: 1 / -1; } }
+    .readout { font-size: 0.9rem; color: var(--muted); }
+    canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; background: var(--canvas); }
+  </style>
+</head>
+<body>
+  <h1>Mono, stereo, binaural</h1>
+  <p class="headphones">Headphones required. Stereo and binaural rendering only work when each ear gets its own signal.</p>
+  <p class="intro">The same three-source scene is played in three formats. <strong>Mono</strong> sums everything into one signal. <strong>Stereo</strong> pans each source between left and right, as a channel-based mix does. <strong>Binaural</strong> filters each source with a head-related transfer function (HRTF) for its direction, so that your ears receive the timing, level, and spectral cues a real source would produce. Switch between them while the scene plays. Press <strong>Start audio</strong> first.</p>
+
+  <div class="row">
+    <button type="button" id="power" class="primary">Start audio</button>
+    <label style="flex:1; min-width:160px; margin:0;">Master volume <span class="vals" id="voldisp"></span>
+      <input type="range" id="vol" min="0" max="100" step="1" value="60" aria-label="Master volume"/>
+    </label>
+  </div>
+
+  <fieldset>
+    <legend>Playback format</legend>
+    <div class="row">
+      <button type="button" data-mode="mono" aria-pressed="true">Mono</button>
+      <button type="button" data-mode="stereo" aria-pressed="false">Stereo</button>
+      <button type="button" data-mode="binaural" aria-pressed="false">Binaural</button>
+    </div>
+    <p class="modenote" id="modenote"></p>
+  </fieldset>
+
+  <fieldset>
+    <legend>Scene</legend>
+    <div class="src">
+      <input type="checkbox" id="on0" checked aria-label="Plucked melody on"/>
+      <span class="name"><span class="swatch" style="background:#0b6e99"></span>Plucked melody <span class="vals" id="az0disp"></span></span>
+      <input type="range" id="az0" min="-180" max="180" step="1" value="-50" aria-label="Plucked melody azimuth"/>
+    </div>
+    <div class="src">
+      <input type="checkbox" id="on1" checked aria-label="Shaker on"/>
+      <span class="name"><span class="swatch" style="background:#d9822b"></span>Shaker <span class="vals" id="az1disp"></span></span>
+      <input type="range" id="az1" min="-180" max="180" step="1" value="70" aria-label="Shaker azimuth"/>
+    </div>
+    <div class="src">
+      <input type="checkbox" id="on2" checked aria-label="Bird on"/>
+      <span class="name"><span class="swatch" style="background:#2e8b57"></span>Bird <span class="vals" id="az2disp"></span></span>
+      <input type="range" id="az2" min="-180" max="180" step="1" value="150" aria-label="Bird azimuth"/>
+    </div>
+    <div class="row">
+      <button type="button" id="orbit" aria-pressed="false">Orbit the scene</button>
+      <span class="readout">Orbit slowly turns all three sources around your head.</span>
+    </div>
+  </fieldset>
+
+  <canvas id="head" width="900" height="380" aria-label="Top-down view of the head showing where each source is and where it is heard"></canvas>
+  <p class="hint">What to notice: in mono every source sits in the middle of your head. In stereo they spread along the line between your ears but stay inside the head, and a source behind you sounds the same as its mirror image in front. In binaural the sources move outside the head and, with the orbit running, pass behind you. How convincing the front and back are depends on how well the generic HRTF matches your own ears.</p>
+
+  <script>
+(function () {
+  "use strict";
+  var ctx = null, master = null, running = false;
+  var mode = "mono";
+  var orbiting = false, orbitOffset = 0, lastFrame = null;
+  var ORBIT_DEG_PER_S = 20;
+  var COLORS = ["#0b6e99", "#d9822b", "#2e8b57"];
+  var NAMES = ["melody", "shaker", "bird"];
+  var chains = []; // one per source
+
+  var NOTES = {
+    mono: "Mono: the three sources are summed into one signal that both ears receive identically. There is no spatial information at all, so everything is heard in the centre of the head.",
+    stereo: "Stereo: each source is panned between the left and right channels with an equal-power law, exactly as a pan pot on a mixing desk does. Only the level difference between the ears carries direction, so images form on a line between the ears and inside the head.",
+    binaural: "Binaural: each source is filtered with the HRTF for its direction, adding the interaural time difference and the spectral shaping of the head and outer ears. This is what a dummy-head recording would capture."
+  };
+
+  var el = function (id) { return document.getElementById(id); };
+  var volEl = el("vol");
+  var azEls = [el("az0"), el("az1"), el("az2")];
+  var onEls = [el("on0"), el("on1"), el("on2")];
+  var canvas = el("head"), c2d = canvas.getContext("2d");
+
+  // ---- inline-synthesised looping sources (mono buffers) ----
+  function makeBuffer(seconds, fill) {
+    var sr = ctx.sampleRate;
+    var buf = ctx.createBuffer(1, Math.floor(seconds * sr), sr);
+    fill(buf.getChannelData(0), sr);
+    return buf;
+  }
+  function buildMelody() {
+    // plucked pentatonic loop with a few harmonics, one note every 300 ms
+    var notes = [220, 261.63, 329.63, 293.66, 392, 329.63, 261.63, 293.66];
+    var dur = 0.3;
+    return makeBuffer(notes.length * dur, function (d, sr) {
+      for (var n = 0; n < notes.length; n++) {
+        var n0 = Math.floor(n * dur * sr);
+        var len = Math.floor(dur * sr);
+        for (var i = 0; i < len; i++) {
+          var env = Math.min(1, i / (0.005 * sr)) * Math.exp(-i / (0.14 * sr));
+          var ph = 2 * Math.PI * notes[n] * i / sr;
+          d[n0 + i] += (Math.sin(ph) + 0.5 * Math.sin(2 * ph) + 0.25 * Math.sin(3 * ph) + 0.12 * Math.sin(4 * ph)) * env * 0.3;
+        }
+      }
+    });
+  }
+  function buildShaker() {
+    // bright noise bursts in a 4/4 pattern: energy is broadband and hissy
+    return makeBuffer(2.4, function (d, sr) {
+      var hits = [0, 0.3, 0.6, 0.9, 1.2, 1.5, 1.8, 2.1];
+      for (var h = 0; h < hits.length; h++) {
+        var n0 = Math.floor(hits[h] * sr);
+        var strong = (h % 2 === 0) ? 1 : 0.55;
+        var len = Math.floor(0.12 * sr);
+        for (var i = 0; i < len; i++) {
+          var env = Math.min(1, i / (0.004 * sr)) * Math.exp(-i / (0.035 * sr));
+          d[n0 + i] += (Math.random() * 2 - 1) * env * 0.35 * strong;
+        }
+      }
+      // first-difference high-pass, so the shaker is hissy rather than rumbly
+      for (var k = d.length - 1; k > 0; k--) { d[k] = 0.7 * (d[k] - d[k - 1]); }
+    });
+  }
+  function buildBird() {
+    // two-note chirps: fast upward frequency sweeps between 2.5 and 4 kHz
+    return makeBuffer(2.0, function (d, sr) {
+      var starts = [0.1, 0.3, 0.95, 1.15, 1.35];
+      for (var s = 0; s < starts.length; s++) {
+        var n0 = Math.floor(starts[s] * sr);
+        var len = Math.floor(0.11 * sr);
+        var phase = 0;
+        for (var i = 0; i < len; i++) {
+          var frac = i / len;
+          var f = 2500 + 1500 * Math.sin(Math.PI * frac);
+          phase += 2 * Math.PI * f / sr;
+          var env = Math.sin(Math.PI * frac);
+          d[n0 + i] += Math.sin(phase) * env * env * 0.22;
+        }
+      }
+    });
+  }
+
+  // ---- audio graph: each source feeds three parallel renderers, one open at a time ----
+  function buildChain(index, buffer) {
+    var src = ctx.createBufferSource();
+    src.buffer = buffer;
+    src.loop = true;
+    var onGain = ctx.createGain();       // source on/off
+    onGain.gain.value = onEls[index].checked ? 1 : 0;
+    src.connect(onGain);
+
+    // mono: straight to master (the destination sends a mono signal to both ears)
+    var monoGain = ctx.createGain();
+    monoGain.gain.value = mode === "mono" ? 1 : 0;
+    onGain.connect(monoGain);
+    monoGain.connect(master);
+
+    // stereo: equal-power pan pot
+    var stereoGain = ctx.createGain();
+    stereoGain.gain.value = mode === "stereo" ? 1 : 0;
+    var pan = ctx.createStereoPanner ? ctx.createStereoPanner() : ctx.createGain();
+    onGain.connect(stereoGain);
+    stereoGain.connect(pan);
+    pan.connect(master);
+
+    // binaural: the browser's HRTF panner, source on a 1 m circle around the listener
+    var binGain = ctx.createGain();
+    binGain.gain.value = mode === "binaural" ? 1 : 0;
+    var hrtf = ctx.createPanner();
+    hrtf.panningModel = "HRTF";
+    hrtf.distanceModel = "linear";
+    hrtf.refDistance = 1;
+    hrtf.maxDistance = 10;
+    hrtf.rolloffFactor = 0;
+    onGain.connect(binGain);
+    binGain.connect(hrtf);
+    hrtf.connect(master);
+
+    src.start();
+    return { src: src, onGain: onGain, monoGain: monoGain, stereoGain: stereoGain, pan: pan, binGain: binGain, hrtf: hrtf };
+  }
+
+  function ensureAudio() {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      master = ctx.createGain();
+      master.gain.value = 0;
+      master.connect(ctx.destination);
+      if (ctx.listener.forwardX) {
+        ctx.listener.forwardX.value = 0; ctx.listener.forwardY.value = 0; ctx.listener.forwardZ.value = -1;
+        ctx.listener.upX.value = 0; ctx.listener.upY.value = 1; ctx.listener.upZ.value = 0;
+      } else if (ctx.listener.setOrientation) {
+        ctx.listener.setOrientation(0, 0, -1, 0, 1, 0);
+      }
+      chains = [buildChain(0, buildMelody()), buildChain(1, buildShaker()), buildChain(2, buildBird())];
+    }
+    if (ctx.state === "suspended") { ctx.resume(); }
+  }
+
+  // ---- geometry ----
+  function sceneAz(i) {
+    // azimuth in degrees, 0 = straight ahead, positive = right, wrapped to (-180, 180]
+    var a = parseFloat(azEls[i].value) + orbitOffset;
+    a = ((a + 180) % 360 + 360) % 360 - 180;
+    return a;
+  }
+  function panGains(p) {
+    var x = (p + 1) * Math.PI / 4;
+    return { l: Math.cos(x), r: Math.sin(x) };
+  }
+
+  function updateAudio() {
+    el("voldisp").textContent = volEl.value + " %";
+    el("modenote").textContent = NOTES[mode];
+    for (var i = 0; i < 3; i++) {
+      var az = sceneAz(i);
+      el("az" + i + "disp").textContent = Math.round(az) + "°";
+      if (!ctx) { continue; }
+      var t = ctx.currentTime, ch = chains[i];
+      var rad = az * Math.PI / 180;
+      ch.onGain.gain.setTargetAtTime(onEls[i].checked ? 1 : 0, t, 0.02);
+      ch.monoGain.gain.setTargetAtTime(mode === "mono" ? 0.8 : 0, t, 0.03);
+      ch.stereoGain.gain.setTargetAtTime(mode === "stereo" ? 1 : 0, t, 0.03);
+      ch.binGain.gain.setTargetAtTime(mode === "binaural" ? 1.4 : 0, t, 0.03);
+      // stereo pan: a source behind maps onto its mirror image in front
+      if (ch.pan.pan) { ch.pan.pan.setTargetAtTime(Math.sin(rad), t, 0.02); }
+      // binaural position on the unit circle; forward is -z
+      var x = Math.sin(rad), z = -Math.cos(rad);
+      if (ch.hrtf.positionX) {
+        ch.hrtf.positionX.setTargetAtTime(x, t, 0.02);
+        ch.hrtf.positionZ.setTargetAtTime(z, t, 0.02);
+      } else if (ch.hrtf.setPosition) {
+        ch.hrtf.setPosition(x, 0, z);
+      }
+    }
+    if (ctx && running) {
+      master.gain.setTargetAtTime(0.35 * parseFloat(volEl.value) / 100, ctx.currentTime, 0.03);
+    }
+  }
+
+  function powerToggle() {
+    ensureAudio();
+    running = !running;
+    var t = ctx.currentTime;
+    if (running) {
+      master.gain.setTargetAtTime(0.35 * parseFloat(volEl.value) / 100, t, 0.05);
+      el("power").textContent = "Stop audio";
+      el("power").classList.remove("primary");
+    } else {
+      master.gain.setTargetAtTime(0, t, 0.05);
+      el("power").textContent = "Start audio";
+      el("power").classList.add("primary");
+    }
+    updateAudio();
+  }
+
+  // ---- drawing: top-down head view with scene positions and perceived images ----
+  function theme() {
+    var d = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return d ? { bg: "#101216", grid: "#2a2f37", line: "#9aa0a8", text: "#9aa0a8", head: "#20242b" }
+             : { bg: "#ffffff", grid: "#e3e5e8", line: "#5a6069", text: "#5a6069", head: "#f1f2f4" };
+  }
+  function perceived(i, az, cx, cy, R, headR) {
+    // where the image roughly forms in each format
+    var rad = az * Math.PI / 180;
+    if (mode === "mono") { return { x: cx, y: cy }; }
+    if (mode === "stereo") {
+      var g = panGains(Math.sin(rad));
+      var lat = (g.r - g.l) / (g.r + g.l);          // -1 .. 1 along the interaural axis
+      return { x: cx + lat * headR * 0.85, y: cy };
+    }
+    return { x: cx + R * Math.sin(rad), y: cy - R * Math.cos(rad) };
+  }
+  function draw(ts) {
+    requestAnimationFrame(draw);
+    if (orbiting && lastFrame !== null) {
+      orbitOffset += ORBIT_DEG_PER_S * (ts - lastFrame) / 1000;
+      if (orbitOffset >= 360) { orbitOffset -= 360; }
+      updateAudio();
+    }
+    lastFrame = ts;
+    var th = theme();
+    var w = canvas.width, h = canvas.height;
+    var cx = w / 2, cy = h / 2, R = h * 0.4, headR = h * 0.17;
+    c2d.fillStyle = th.bg;
+    c2d.fillRect(0, 0, w, h);
+    c2d.strokeStyle = th.grid;
+    c2d.setLineDash([5, 5]);
+    c2d.beginPath(); c2d.arc(cx, cy, R, 0, 2 * Math.PI); c2d.stroke();
+    c2d.setLineDash([]);
+    // head, nose up = straight ahead
+    c2d.fillStyle = th.head;
+    c2d.strokeStyle = th.line;
+    c2d.lineWidth = 2;
+    c2d.beginPath(); c2d.arc(cx, cy, headR, 0, 2 * Math.PI); c2d.fill(); c2d.stroke();
+    c2d.beginPath();
+    c2d.moveTo(cx - headR * 0.25, cy - headR * 0.95);
+    c2d.lineTo(cx, cy - headR * 1.3);
+    c2d.lineTo(cx + headR * 0.25, cy - headR * 0.95);
+    c2d.stroke();
+    c2d.beginPath(); c2d.arc(cx - headR, cy, headR * 0.22, 0, 2 * Math.PI); c2d.stroke();
+    c2d.beginPath(); c2d.arc(cx + headR, cy, headR * 0.22, 0, 2 * Math.PI); c2d.stroke();
+    // sources: hollow ring = position in the scene, filled dot = where it is heard
+    for (var i = 0; i < 3; i++) {
+      if (!onEls[i].checked) { continue; }
+      var az = sceneAz(i), rad = az * Math.PI / 180;
+      var sx = cx + R * Math.sin(rad), sy = cy - R * Math.cos(rad);
+      var p = perceived(i, az, cx, cy, R, headR);
+      c2d.strokeStyle = COLORS[i];
+      c2d.lineWidth = 2;
+      c2d.setLineDash([3, 4]);
+      c2d.beginPath(); c2d.moveTo(sx, sy); c2d.lineTo(p.x, p.y); c2d.stroke();
+      c2d.setLineDash([]);
+      c2d.beginPath(); c2d.arc(sx, sy, 9, 0, 2 * Math.PI); c2d.stroke();
+      c2d.fillStyle = COLORS[i];
+      c2d.beginPath(); c2d.arc(p.x + (mode === "mono" ? (i - 1) * 7 : 0), p.y + (mode === "mono" ? 0 : (mode === "stereo" ? (i - 1) * 9 : 0)), 8, 0, 2 * Math.PI); c2d.fill();
+    }
+    c2d.fillStyle = th.text;
+    c2d.font = "13px system-ui, sans-serif";
+    c2d.fillText("front", cx - 14, cy - R - 10);
+    c2d.fillText("back", cx - 13, cy + R + 18);
+    c2d.fillText("L", cx - R - 22, cy + 4);
+    c2d.fillText("R", cx + R + 12, cy + 4);
+    c2d.fillText("ring = source in the scene, dot = where you hear it", 12, h - 12);
+  }
+  requestAnimationFrame(draw);
+
+  // ---- wiring ----
+  el("power").addEventListener("click", powerToggle);
+  volEl.addEventListener("input", updateAudio);
+  var i;
+  for (i = 0; i < 3; i++) {
+    azEls[i].addEventListener("input", updateAudio);
+    onEls[i].addEventListener("change", updateAudio);
+  }
+  var modeBtns = document.querySelectorAll("button[data-mode]");
+  for (i = 0; i < modeBtns.length; i++) {
+    modeBtns[i].addEventListener("click", function () {
+      for (var j = 0; j < modeBtns.length; j++) { modeBtns[j].setAttribute("aria-pressed", "false"); }
+      this.setAttribute("aria-pressed", "true");
+      mode = this.getAttribute("data-mode");
+      updateAudio();
+    });
+  }
+  el("orbit").addEventListener("click", function () {
+    orbiting = !orbiting;
+    this.setAttribute("aria-pressed", orbiting ? "true" : "false");
+    if (!orbiting) {
+      // fold the orbit offset into the sliders so the scene stays where it stopped
+      for (var k = 0; k < 3; k++) { azEls[k].value = Math.round(sceneAz(k)); }
+      orbitOffset = 0;
+      updateAudio();
+    }
+  });
+  updateAudio();
+})();
+  </script>
+</body>
+</html>

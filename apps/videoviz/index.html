@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VideoViz - Live Videogram</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="page-header">
+        <h1>VideoViz</h1>
+      </header>
+
+
+      <section class="controls" aria-label="Camera controls">
+        <div class="controls-row controls-row-buttons">
+          <button id="toggleCameraBtn" type="button" class="btn">Start Camera</button>
+          <button id="mirrorBtn" type="button" class="btn toggle-btn" aria-pressed="false">Mirror</button>
+          <button id="diffBtn" type="button" class="btn toggle-btn" aria-pressed="false">Frame Differencing</button>
+          <button id="normalizeBtn" type="button" class="btn toggle-btn is-active" aria-pressed="true">Normalize</button>
+        </div>
+
+        <div class="controls-row controls-row-slider">
+          <label class="threshold-control">
+            Threshold
+            <input id="diffThreshold" type="range" min="0" max="255" value="0" />
+            <span id="diffThresholdValue">0</span>
+          </label>
+        </div>
+      </section>
+
+
+
+      <section class="main-content" aria-live="polite">
+        <!-- Hidden video element is used as the camera source only -->
+        <video id="cameraVideo" autoplay playsinline muted style="display: none;"></video>
+
+        <div class="viz-grid">
+          <div class="viz-block">
+            <h2 id="videoModeTitle">Regular video</h2>
+            <canvas id="viewCanvas" width="400" height="400"></canvas>
+          </div>
+
+          <div class="viz-block">
+            <h2 id="vertGramTitle">Videogram (Vertical Avg)</h2>
+            <canvas id="videogramCanvasVert" width="400" height="400"></canvas>
+          </div>
+
+          <div class="viz-block">
+            <h2 id="horizGramTitle">Videogram (Horizontal Avg)</h2>
+            <canvas id="videogramCanvas" width="400" height="400"></canvas>
+          </div>
+
+          <div class="viz-block">
+            <h2>Self-similarity</h2>
+            <canvas id="selfSimCanvas" width="400" height="400"></canvas>
+          </div>
+        </div>
+      </section>
+
+
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
