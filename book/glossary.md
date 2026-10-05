@@ -67,7 +67,7 @@ Binaural audio
 : Headphone reproduction that delivers to each eardrum the signal it would receive in the recorded space, using dummy-head recording or HRTF filtering.
 
 Bouba–kiki effect
-: The near-universal pairing of a rounded shape with the word bouba and a spiky shape with kiki, the standard demonstration that cross-modal correspondences between sound and shape are shared rather than learned.
+: The near-universal pairing of a rounded shape with the word bouba and a spiky shape with kiki, the standard demonstration that crossmodal correspondences between sound and shape are shared rather than learned.
 
 Bit depth
 : The number of bits used to store each sample of a digital signal, which sets the amplitude precision and the available dynamic range.
@@ -108,11 +108,14 @@ Coupled oscillators
 Critical band
 : A frequency region within which the ear analyses sound as a unit, so that components falling in the same band interact and mask each other strongly.
 
-Cross-modal correspondence
+Crossmodal correspondence
 : A systematic association between the senses shared by most people, such as linking high pitch with brightness or small size.
 
 Cross-rhythm
 : The overlap of rhythmic streams whose periodicities do not fit into each other as whole numbers, such as three against two, creating metrical ambiguity.
+
+Crossmodal perception
+: The case in which one sense changes what another reports, as when seen lip movements change the heard syllable (the McGurk effect) or a seen source captures a sound's location; integration showing itself when the senses disagree.
 
 Decibel
 : A logarithmic unit for expressing the ratio between two sound levels, matching the ear's compressive response to intensity.
@@ -296,6 +299,9 @@ Motiongram
 
 Movement
 : The experienced, continuous excursions of the body in time and space; the everyday, experiential counterpart to motion, describing how moving is felt and perceived rather than measured.
+
+Multimodal perception
+: The ordinary case in which several senses contribute to one percept at the same time, as when a drummer's stroke is seen and heard as one event; each sense adds information the others lack.
 
 Music information retrieval (MIR)
 : The research field concerned with extracting structured information from musical audio and related data, from beat tracking to recommendation.
@@ -499,7 +505,7 @@ Sympathetic nervous system
 : The activating branch of the autonomic nervous system, raising heart rate and skin conductance during intense musical moments.
 
 Synaesthesia
-: A condition in which stimulation of one sense consistently triggers experiences in another, such as seeing colours for tones, distinct from the cross-modal correspondences most people share.
+: A condition in which stimulation of one sense consistently triggers experiences in another, such as seeing colours for tones, distinct from the crossmodal correspondences most people share.
 
 Synchresis
 : Chion's term for the automatic perceptual welding of a sound and a visual event that occur at the same moment, the foundation of film sound design.
