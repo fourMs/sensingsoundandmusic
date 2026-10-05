@@ -99,8 +99,8 @@ Cocktail party effect
 Communicative gestures
 : Performer movements directed at other musicians or the audience, such as cueing an entrance, one category in the taxonomy of music-related body motion.
 
-Consonance and dissonance
-: The perceived stability or tension of simultaneous pitches, shaped both by the auditory system and by cultural exposure.
+Consonance
+: The perceived stability of simultaneous pitches, as against the tension of dissonance; shaped both by the auditory system and by cultural exposure.
 
 Continuity illusion
 : Hearing a tone as continuing through an interrupting noise burst, because the auditory system reconstructs what the noise plausibly masked.
