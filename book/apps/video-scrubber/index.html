@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Video scrubber</title>
+  <style>
+    :root {
+      --bg: #fdfdfd; --fg: #1c1e21; --muted: #5a6069; --panel: #f1f2f4;
+      --border: #c9ccd1; --accent: #0b6e99; --accent-fg: #ffffff; --canvas: #ffffff;
+      --playhead: #d1301f; --wave: #0b6e99; --error: #b3261e;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #15171b; --fg: #e6e7e9; --muted: #9aa0a8; --panel: #20242b;
+        --border: #3a3f47; --accent: #4da3c7; --accent-fg: #0d1117; --canvas: #101216;
+        --playhead: #ff6b5b; --wave: #4da3c7; --error: #ff8a80;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      margin: 0 auto; padding: 16px; max-width: 780px;
+      background: var(--bg); color: var(--fg); line-height: 1.45;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 8px; }
+    p.intro { margin: 0 0 14px; }
+    .hint { font-size: 0.9rem; color: var(--muted); margin-top: 10px; }
+    .privacy {
+      border: 1px solid var(--border); border-radius: 8px; background: var(--panel);
+      padding: 8px 12px; margin: 0 0 14px; font-size: 0.9rem; color: var(--muted);
+    }
+    fieldset {
+      border: 1px solid var(--border); border-radius: 8px; min-width: 0;
+      margin: 0 0 12px; padding: 10px 12px; background: var(--panel);
+    }
+    legend { font-weight: 600; font-size: 0.95rem; padding: 0 6px; }
+    label.inl { font-weight: 600; font-size: 0.9rem; }
+    .vals { font-weight: normal; color: var(--muted); overflow-wrap: anywhere; }
+    select {
+      font-size: 1rem; padding: 6px 8px; border-radius: 6px;
+      border: 1px solid var(--border); background: var(--bg); color: var(--fg);
+    }
+    button, .filebtn {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 14px; font-size: 1rem; cursor: pointer; font-family: inherit;
+    }
+    button.small { padding: 4px 10px; font-size: 0.9rem; }
+    button.primary, .filebtn { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+    button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+    button:disabled { opacity: 0.5; cursor: default; }
+    .filebtn { display: inline-block; position: relative; }
+    .filebtn:focus-within { outline: 2px solid var(--fg); outline-offset: 2px; }
+    .filebtn input { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+    .status { font-size: 0.9rem; min-height: 1.4em; margin: 8px 0 14px; font-variant-numeric: tabular-nums; }
+    .status.err { color: var(--error); }
+    progress { width: 100%; height: 8px; accent-color: var(--accent); margin-top: 6px; }
+    video { display: block; width: 100%; max-height: 45vh; background: #000; border-radius: 6px; }
+    canvas {
+      display: block; width: 100%; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px;
+      background: var(--canvas); cursor: crosshair; touch-action: pan-y;
+    }
+    #gram { height: 170px; } #wave { height: 70px; } #spec { height: 190px; }
+    .credit { font-size: 0.85rem; color: var(--muted); margin-top: 18px; }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <h1>Video scrubber</h1>
+  <p class="intro">A video recording holds two streams of data: a sequence of pictures and a sound track. This app lays both out along the same time axis, so that you can see where things happen without watching and listening through the whole recording. The videogram squeezes each video frame into a single column of pixels, the motiongram does the same with the changes between frames, and the spectrogram shows how the frequencies in the sound change over time. Click any of them to jump to that moment in the video.</p>
+  <p class="privacy">Privacy: files you choose and clips you record stay in your browser. They are analysed on your own device and are never uploaded or stored anywhere.</p>
+
+  <fieldset>
+    <legend>Recording to analyse</legend>
+    <div class="row">
+      <label class="filebtn">Choose a video file<input type="file" id="file" accept="video/*,audio/*"/></label>
+      <span class="vals" id="fname">No file chosen</span>
+    </div>
+    <p class="hint">Most browsers read MP4 files with H.264 video and WebM files. Files up to 300 MB and 10 minutes long are accepted; longer files take longer to analyse.</p>
+    <div class="row">
+      <button type="button" id="rec">Record a clip from the camera</button>
+      <span style="white-space:nowrap;"><label class="inl" for="reclen">Length</label>
+      <select id="reclen" aria-label="Length of the camera clip">
+        <option value="5">5 s</option><option value="10" selected>10 s</option>
+        <option value="15">15 s</option><option value="20">20 s</option>
+      </select></span>
+      <button type="button" id="recstop" disabled>Stop now</button>
+      <button type="button" id="save" disabled>Save the clip</button>
+    </div>
+    <p class="hint">The browser asks for permission to use the camera and the microphone. The camera is switched off as soon as the clip is finished, and the clip is then analysed like a file. Save the clip only if you want to keep a copy on your own device.</p>
+  </fieldset>
+
+  <fieldset>
+    <legend>Display</legend>
+    <div class="row">
+      <span class="inl" style="font-weight:600; font-size:0.9rem;">Picture</span>
+      <button type="button" class="small" data-mode="videogram" aria-pressed="true">Videogram</button>
+      <button type="button" class="small" data-mode="motiongram" aria-pressed="false">Motiongram</button>
+    </div>
+    <div class="row">
+      <span class="inl" style="font-weight:600; font-size:0.9rem;">Frequency axis</span>
+      <button type="button" class="small" data-scale="log" aria-pressed="true">Logarithmic</button>
+      <button type="button" class="small" data-scale="lin" aria-pressed="false">Linear</button>
+    </div>
+    <div class="row">
+      <label class="inl" for="detail">Frames to sample</label>
+      <select id="detail" aria-label="Largest number of video frames to sample">
+        <option value="200">up to 200 (quick)</option>
+        <option value="400" selected>up to 400</option>
+        <option value="800">up to 800 (slow)</option>
+      </select>
+      <button type="button" class="small" id="clearsel" disabled>Clear the loop</button>
+    </div>
+  </fieldset>
+
+  <video id="video" playsinline preload="auto" aria-label="The recording"></video>
+  <progress id="prog" max="1" value="0" hidden></progress>
+  <p class="status" id="status" role="status">Choose a video file or record a clip to begin.</p>
+
+  <fieldset>
+    <legend id="gramtitle">Videogram</legend>
+    <canvas id="gram" aria-label="Videogram or motiongram of the recording, time running to the right"></canvas>
+    <p class="hint" id="gramhint"></p>
+    <div class="row"><button type="button" class="small" id="dlgram" disabled>Download PNG</button></div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Sound</legend>
+    <canvas id="wave" aria-label="Waveform of the sound track"></canvas>
+    <p class="hint">The waveform: how far the sound pressure swings at each moment. Loud moments are tall, silence is a flat line.</p>
+    <canvas id="spec" aria-label="Spectrogram of the sound track"></canvas>
+    <p class="hint">The spectrogram: time runs to the right, frequency upwards, and colour shows how strong each frequency is, from dark (80 dB below the loudest moment) to yellow (the loudest). A clap is a short vertical stripe across many frequencies; a sung or spoken vowel is a stack of horizontal lines, its harmonics. The logarithmic axis gives each octave the same height, closer to how we hear pitch; the linear axis gives each hertz the same height.</p>
+    <div class="row"><button type="button" class="small" id="dlspec" disabled>Download PNG</button></div>
+  </fieldset>
+
+  <p class="hint">All panels share one time axis, in seconds. Click a panel to jump to that moment; the red line follows the playback. Drag across a panel to mark a stretch of time, and playback then loops within it until you clear the loop.</p>
+  <p class="hint">Things to try: record yourself clapping three times, then waving a hand, then clapping again, and find the claps in both the motiongram and the spectrogram. Does the hand movement before each clap show up in the motiongram? Load a music video and look for the cuts in the videogram and the beat in the waveform. Record yourself speaking a sentence and then singing it, and compare the spectrograms: where are the harmonics clear and steady, and where do they glide? Switch between the logarithmic and the linear frequency axis and see where the voice ends up.</p>
+  <p class="credit">Based on <a href="https://github.com/alexarje/videoscrub">VideoScrub</a> and the <a href="https://github.com/fourMs/MGT-python">Musical Gestures Toolbox</a>.</p>
+
+  <script>
+(function () {
+  "use strict";
+  var el = function (id) { return document.getElementById(id); };
+  var MAX_MB = 300, MAX_SEC = 600;       // limits on what the app accepts
+  var SR = 22050, NFFT = 1024;           // audio analysis rate and window: 46 ms windows, 21.5 Hz between bins
+  var DB_RANGE = 80;                     // colour range of the spectrogram, below the loudest cell
+  var SPEC_ROWS = 256, MAX_SPEC_COLS = 1000, WAVE_COLS = 1000;
+  var FMIN_LOG = 40, FMAX = SR / 2;
+  var DECODE_W = 160;                    // frames are shrunk to this width before averaging
+  var MOTION_THRESH = 10;                // grey-level changes smaller than this (of 255) count as noise
+  var L = 46, R = 10, T = 6, B = 20;     // plot margins in CSS pixels, the same on every panel so the time axes line up
+  var STALE = { stale: true };
+  var video = el("video");
+
+  var st = {
+    dur: 0, name: "", blob: null, busy: false, mode: "videogram", logF: true, sel: null,
+    vCanvas: null, mCanvas: null, gramMsg: "", gramCols: 0,
+    spec: null, specCanvas: null, wave: null, specMsg: ""
+  };
+  var token = 0, objectUrl = null, stream = null, recorder = null, recTimer = null;
+  var dirty = true, lastT = -1;
+
+  var hints = {
+    videogram: "Each column is one moment of the video, squeezed sideways: every row of the frame is averaged into a single pixel. Things that stay still draw horizontal stripes, things that move up or down draw slanted or curved lines, and a cut to a new shot changes the whole column at once. The top of the panel is the top of the frame.",
+    motiongram: "The same squeezing, applied to the change between neighbouring sampled frames instead of to the frames themselves. Still parts of the picture stay black; bright marks show when something moved and at what height in the frame. Sideways movement shows up as well as up-and-down movement, but not where in the width of the frame it happened."
+  };
+
+  function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+  function setStatus(msg, isErr) { el("status").textContent = msg; el("status").className = isErr ? "status err" : "status"; }
+  function fmtS(t) { return t < 10 ? t.toFixed(1) : String(Math.round(t)); }
+
+  // ---- colour map for the spectrogram (the same viridis stops as the other apps) ----
+  var stops = [[68, 1, 84], [59, 82, 139], [33, 145, 140], [94, 201, 98], [253, 231, 37]];
+  function colour(v) {
+    var p = Math.max(0, Math.min(0.9999, v)) * (stops.length - 1);
+    var i = Math.floor(p), fr = p - i;
+    return [stops[i][0] + fr * (stops[i + 1][0] - stops[i][0]),
+            stops[i][1] + fr * (stops[i + 1][1] - stops[i][1]),
+            stops[i][2] + fr * (stops[i + 1][2] - stops[i][2])];
+  }
+
+  // ---- radix-2 FFT (in place, no libraries), as in the window explorer ----
+  function fft(re, im) {
+    var n = re.length, i, j, bit, len, half, k;
+    for (i = 1, j = 0; i < n; i++) {
+      bit = n >> 1;
+      for (; j & bit; bit >>= 1) { j ^= bit; }
+      j |= bit;
+      if (i < j) { var tr = re[i]; re[i] = re[j]; re[j] = tr; var ti = im[i]; im[i] = im[j]; im[j] = ti; }
+    }
+    for (len = 2; len <= n; len <<= 1) {
+      var ang = -2 * Math.PI / len, wr = Math.cos(ang), wi = Math.sin(ang);
+      half = len >> 1;
+      for (i = 0; i < n; i += len) {
+        var cr = 1, ci = 0;
+        for (k = 0; k < half; k++) {
+          var a = i + k, b = a + half;
+          var vr = re[b] * cr - im[b] * ci, vi = re[b] * ci + im[b] * cr;
+          re[b] = re[a] - vr; im[b] = im[a] - vi; re[a] += vr; im[a] += vi;
+          var ncr = cr * wr - ci * wi; ci = cr * wi + ci * wr; cr = ncr;
+        }
+      }
+    }
+  }
+
+  // ---- drawing ----
+  function prep(c) {
+    var dpr = window.devicePixelRatio || 1, w = c.clientWidth, h = c.clientHeight;
+    if (c.width !== Math.round(w * dpr) || c.height !== Math.round(h * dpr)) { c.width = Math.round(w * dpr); c.height = Math.round(h * dpr); }
+    var g = c.getContext("2d"); g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    g.fillStyle = css("--canvas"); g.fillRect(0, 0, w, h);
+    g.font = "11px system-ui, sans-serif"; g.textBaseline = "middle";
+    return { g: g, w: w, h: h, x0: L, y0: T, pw: Math.max(10, w - L - R), ph: Math.max(10, h - T - B) };
+  }
+  function tickStep(pxPerSec) {
+    var steps = [0.1, 0.2, 0.5, 1, 2, 5, 10, 15, 30, 60, 120, 300];
+    for (var i = 0; i < steps.length; i++) { if (steps[i] * pxPerSec >= 46) { return steps[i]; } }
+    return 600;
+  }
+  function timeAxis(o) {
+    var g = o.g, muted = css("--muted"), yb = o.y0 + o.ph;
+    g.fillStyle = muted; g.strokeStyle = css("--border"); g.lineWidth = 1;
+    g.textAlign = "right"; g.fillText("time (s)", o.x0 - 4, yb + 11);
+    if (!st.dur) { return; }
+    var step = tickStep(o.pw / st.dur), n = Math.floor(st.dur / step + 1e-6);
+    g.textAlign = "center";
+    for (var k = 0; k <= n; k++) {
+      var t = k * step, x = o.x0 + t / st.dur * o.pw;
+      g.beginPath(); g.moveTo(x, yb); g.lineTo(x, yb + 4); g.stroke();
+      var lab = step < 1 ? t.toFixed(1) : (st.dur >= 120 ? Math.floor(t / 60) + ":" + ("0" + Math.round(t % 60)).slice(-2) : String(Math.round(t)));
+      g.textAlign = k === 0 ? "left" : "center";
+      if (x + 12 < o.w) { g.fillText(lab, k === 0 ? o.x0 + 2 : x, yb + 11); }
+    }
+  }
+  function overlays(o, clean) {
+    var g = o.g;
+    if (!st.dur || clean) { return; }
+    if (st.sel) {
+      var xa = o.x0 + st.sel.t0 / st.dur * o.pw, xb = o.x0 + st.sel.t1 / st.dur * o.pw;
+      g.globalAlpha = 0.28; g.fillStyle = css("--accent"); g.fillRect(xa, o.y0, xb - xa, o.ph);
+      g.globalAlpha = 1; g.strokeStyle = css("--accent"); g.lineWidth = 1.5;
+      g.beginPath(); g.moveTo(xa, o.y0); g.lineTo(xa, o.y0 + o.ph); g.moveTo(xb, o.y0); g.lineTo(xb, o.y0 + o.ph); g.stroke();
+    }
+    if (!st.busy) {
+      var x = o.x0 + Math.min(1, video.currentTime / st.dur) * o.pw;
+      g.strokeStyle = css("--playhead"); g.lineWidth = 2;
+      g.beginPath(); g.moveTo(x, o.y0); g.lineTo(x, o.y0 + o.ph); g.stroke();
+    }
+  }
+  function message(o, msg) {
+    var g = o.g, words = msg.split(" "), lines = [], line = "";
+    g.font = "13px system-ui, sans-serif"; g.fillStyle = css("--muted"); g.textAlign = "center";
+    words.forEach(function (wd) {
+      var test = line ? line + " " + wd : wd;
+      if (g.measureText(test).width > o.pw - 16 && line) { lines.push(line); line = wd; } else { line = test; }
+    });
+    if (line) { lines.push(line); }
+    var y = o.y0 + o.ph / 2 - (lines.length - 1) * 8;
+    lines.forEach(function (ln, i) { g.fillText(ln, o.x0 + o.pw / 2, y + i * 16); });
+    g.font = "11px system-ui, sans-serif";
+  }
+  function drawGram(clean) {
+    var o = prep(el("gram")), g = o.g;
+    var img = st.mode === "motiongram" && st.mCanvas && !st.busy ? st.mCanvas : st.vCanvas;
+    if (img && !st.gramMsg) {
+      g.imageSmoothingEnabled = false; g.drawImage(img, o.x0, o.y0, o.pw, o.ph);
+    } else {
+      message(o, st.gramMsg || "The videogram appears here.");
+    }
+    g.fillStyle = css("--muted"); g.textAlign = "right";
+    g.fillText("top", o.x0 - 4, o.y0 + 6); g.fillText("bottom", o.x0 - 4, o.y0 + o.ph - 6);
+    timeAxis(o); overlays(o, clean);
+  }
+  function drawWave() {
+    var o = prep(el("wave")), g = o.g;
+    if (st.wave) {
+      var w = st.wave, mid = o.y0 + o.ph / 2, n = w.min.length;
+      g.strokeStyle = css("--border"); g.lineWidth = 1;
+      g.beginPath(); g.moveTo(o.x0, mid); g.lineTo(o.x0 + o.pw, mid); g.stroke();
+      g.fillStyle = css("--wave");
+      var colW = o.pw / n;
+      for (var i = 0; i < n; i++) {
+        var top = mid - w.max[i] / w.peak * o.ph / 2, bot = mid - w.min[i] / w.peak * o.ph / 2;
+        g.fillRect(o.x0 + i * colW, top, Math.max(1, colW), Math.max(1, bot - top));
+      }
+    } else if (st.specMsg) {
+      message(o, "No waveform.");
+    } else {
+      message(o, "The waveform appears here.");
+    }
+    timeAxis(o); overlays(o, false);
+  }
+  function freqLabels(o) {
+    var g = o.g, labs = st.logF ? [50, 100, 200, 500, 1000, 2000, 5000, 10000] : [0, 2000, 4000, 6000, 8000, 10000];
+    g.fillStyle = css("--muted"); g.strokeStyle = css("--border"); g.textAlign = "right"; g.lineWidth = 1;
+    labs.forEach(function (f) {
+      var y = o.y0 + (1 - fracOfFreq(f)) * o.ph;
+      g.beginPath(); g.moveTo(o.x0 - 3, y); g.lineTo(o.x0, y); g.stroke();
+      g.fillText(f >= 1000 ? (f / 1000) + "k" : String(f), o.x0 - 5, Math.min(o.y0 + o.ph - 5, Math.max(o.y0 + 5, y)));
+    });
+    g.save(); g.translate(9, o.y0 + o.ph / 2); g.rotate(-Math.PI / 2); g.textAlign = "center"; g.fillText("Hz", 0, 0); g.restore();
+  }
+  function drawSpec(clean) {
+    var o = prep(el("spec")), g = o.g;
+    if (st.specCanvas) {
+      g.imageSmoothingEnabled = false; g.drawImage(st.specCanvas, o.x0, o.y0, o.pw, o.ph);
+      freqLabels(o);
+    } else {
+      message(o, st.specMsg || "The spectrogram appears here.");
+    }
+    timeAxis(o); overlays(o, clean);
+  }
+  function drawAll() { drawGram(false); drawWave(); drawSpec(false); }
+
+  // ---- frequency axis mapping: fraction of the panel height from the bottom ----
+  function fracOfFreq(f) {
+    if (st.logF) { return Math.log(Math.max(f, FMIN_LOG) / FMIN_LOG) / Math.log(FMAX / FMIN_LOG); }
+    return f / FMAX;
+  }
+  function freqOfFrac(u) { return st.logF ? FMIN_LOG * Math.pow(FMAX / FMIN_LOG, u) : u * FMAX; }
+
+  function buildSpecImage() {
+    var s = st.spec;
+    if (!s) { st.specCanvas = null; return; }
+    var c = document.createElement("canvas"); c.width = s.cols; c.height = SPEC_ROWS;
+    var cx = c.getContext("2d"), img = cx.createImageData(s.cols, SPEC_ROWS), d = img.data;
+    var binHz = SR / NFFT, lo = s.top - DB_RANGE;
+    for (var y = 0; y < SPEC_ROWS; y++) {
+      var fHi = freqOfFrac(1 - y / SPEC_ROWS), fLo = freqOfFrac(1 - (y + 1) / SPEC_ROWS);
+      var b0 = Math.max(0, Math.round(fLo / binHz)), b1 = Math.min(s.bins - 1, Math.round(fHi / binHz));
+      if (b1 < b0) { b1 = b0; }
+      for (var x = 0; x < s.cols; x++) {
+        var m = -999, base = x * s.bins;
+        for (var b = b0; b <= b1; b++) { if (s.db[base + b] > m) { m = s.db[base + b]; } }
+        var rgb = colour((m - lo) / DB_RANGE), p = (y * s.cols + x) * 4;
+        d[p] = rgb[0]; d[p + 1] = rgb[1]; d[p + 2] = rgb[2]; d[p + 3] = 255;
+      }
+    }
+    cx.putImageData(img, 0, 0);
+    st.specCanvas = c;
+  }
+
+  // ---- media helpers ----
+  function waitMeta(my) {
+    return new Promise(function (resolve, reject) {
+      function ok() { cleanup(); resolve(); }
+      function bad() { cleanup(); reject(new Error("codec")); }
+      function cleanup() { video.removeEventListener("loadedmetadata", ok); video.removeEventListener("error", bad); }
+      if (video.readyState >= 1) { resolve(); return; }
+      video.addEventListener("loadedmetadata", ok); video.addEventListener("error", bad);
+    });
+  }
+  // Clips made with MediaRecorder often report an infinite duration until the browser has looked at the end.
+  function fixDuration(known) {
+    if (isFinite(video.duration) && video.duration > 0) { return Promise.resolve(video.duration); }
+    return new Promise(function (resolve) {
+      var done = false;
+      function fin() {
+        if (done) { return; } done = true;
+        video.removeEventListener("durationchange", chk); video.removeEventListener("timeupdate", chk);
+        var d = isFinite(video.duration) && video.duration > 0 ? video.duration : (known || 0);
+        video.currentTime = 0;
+        resolve(d);
+      }
+      function chk() { if (isFinite(video.duration) && video.duration > 0) { fin(); } }
+      video.addEventListener("durationchange", chk); video.addEventListener("timeupdate", chk);
+      setTimeout(fin, 5000);
+      video.currentTime = 1e7;
+    });
+  }
+  // Seek, then wait until the new frame has been decoded (requestVideoFrameCallback where available).
+  function seekTo(t) {
+    return new Promise(function (resolve) {
+      var seeked = false, framed = !video.requestVideoFrameCallback, done = false, guard = null;
+      function fin() { if (done) { return; } done = true; clearTimeout(guard); video.removeEventListener("seeked", onSeeked); resolve(); }
+      function onSeeked() { seeked = true; if (framed) { fin(); } else { setTimeout(fin, 120); } }
+      if (!framed) { video.requestVideoFrameCallback(function () { framed = true; if (seeked) { fin(); } }); }
+      video.addEventListener("seeked", onSeeked);
+      guard = setTimeout(fin, 3000);
+      video.currentTime = t;
+    });
+  }
+
+  // ---- frames: videogram and motiongram ----
+  function analyseFrames(my) {
+    var vw = video.videoWidth, vh = video.videoHeight;
+    if (!vw || !vh) { st.gramMsg = "This file has no picture, so there is no videogram or motiongram."; return Promise.resolve(); }
+    var dur = st.dur, maxCols = parseInt(el("detail").value, 10);
+    var cols = Math.max(2, Math.min(maxCols, Math.round(dur * 30)));   // at most about one column per frame at 30 frames per second
+    var dw = DECODE_W, dh = Math.max(8, Math.min(240, Math.round(dw * vh / vw)));
+    var work = document.createElement("canvas"); work.width = dw; work.height = dh;
+    var wctx = work.getContext("2d", { willReadFrequently: true });
+    var vc = document.createElement("canvas"); vc.width = cols; vc.height = dh;
+    var vctx = vc.getContext("2d"), vimg = vctx.createImageData(cols, dh);
+    var motion = new Float32Array(cols * dh), prev = null, grey = new Float32Array(dw * dh);
+    st.vCanvas = vc; st.gramCols = cols;
+    var i = 0;
+    function step() {
+      if (my !== token) { return Promise.reject(STALE); }
+      if (i >= cols) { buildMotion(motion, cols, dh); return Promise.resolve(); }
+      return seekTo((i + 0.5) * dur / cols).then(function () {
+        if (my !== token) { throw STALE; }
+        wctx.drawImage(video, 0, 0, dw, dh);
+        var d = wctx.getImageData(0, 0, dw, dh).data;
+        for (var y = 0; y < dh; y++) {
+          var sr = 0, sg = 0, sb = 0, sm = 0;
+          for (var x = 0; x < dw; x++) {
+            var p = y * dw + x, q = p * 4, r = d[q], gg = d[q + 1], b = d[q + 2];
+            var lum = 0.299 * r + 0.587 * gg + 0.114 * b;
+            sr += r; sg += gg; sb += b;
+            if (prev) { var df = Math.abs(lum - prev[p]); if (df > MOTION_THRESH) { sm += df; } }
+            grey[p] = lum;
+          }
+          var o = (y * cols + i) * 4;
+          vimg.data[o] = sr / dw; vimg.data[o + 1] = sg / dw; vimg.data[o + 2] = sb / dw; vimg.data[o + 3] = 255;
+          motion[y * cols + i] = prev ? sm / dw : 0;
+        }
+        if (!prev) { prev = grey; grey = new Float32Array(dw * dh); } else { var tmp = prev; prev = grey; grey = tmp; }
+        i++;
+        el("prog").value = i / cols;
+        setStatus("Reading frames: " + i + " of " + cols + ". " + st.audioNote);
+        if (i % 8 === 0 || i === cols) { vctx.putImageData(vimg, 0, 0); drawGram(false); }
+        return step();
+      });
+    }
+    return step();
+  }
+  function buildMotion(motion, cols, rows) {
+    // Scale so that the strongest 0.5 % of the cells are full white; one scene cut should not hide all other motion.
+    var vals = [];
+    for (var k = 0; k < motion.length; k++) { if (motion[k] > 0) { vals.push(motion[k]); } }
+    vals.sort(function (a, b) { return a - b; });
+    var norm = vals.length ? Math.max(1, vals[Math.floor(0.995 * (vals.length - 1))]) : 1;
+    var c = document.createElement("canvas"); c.width = cols; c.height = rows;
+    var cx = c.getContext("2d"), img = cx.createImageData(cols, rows);
+    for (k = 0; k < motion.length; k++) {
+      var v = Math.round(255 * Math.min(1, motion[k] / norm));
+      img.data[k * 4] = v; img.data[k * 4 + 1] = v; img.data[k * 4 + 2] = v; img.data[k * 4 + 3] = 255;
+    }
+    cx.putImageData(img, 0, 0);
+    st.mCanvas = c;
+  }
+
+  // ---- sound: decode, waveform and spectrogram ----
+  function readBlob(blob) {
+    if (blob.arrayBuffer) { return blob.arrayBuffer(); }
+    return new Promise(function (resolve, reject) {
+      var fr = new FileReader(); fr.onload = function () { resolve(fr.result); }; fr.onerror = reject; fr.readAsArrayBuffer(blob);
+    });
+  }
+  function decode(buf) {
+    var OAC = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+    // An offline context at 22050 Hz decodes and resamples in one step.
+    var ac = OAC ? new OAC(1, SR, SR) : new (window.AudioContext || window.webkitAudioContext)();
+    return new Promise(function (resolve, reject) {
+      var p = ac.decodeAudioData(buf, resolve, reject);
+      if (p && p.catch) { p.catch(reject); }
+    });
+  }
+  function analyseAudio(blob, my) {
+    st.audioNote = "Decoding the sound.";
+    return readBlob(blob).then(decode).then(function (ab) {
+      if (my !== token) { throw STALE; }
+      var n = ab.length, ch = ab.numberOfChannels, x = new Float32Array(n), sr = ab.sampleRate;
+      for (var c = 0; c < ch; c++) { var dd = ab.getChannelData(c); for (var i = 0; i < n; i++) { x[i] += dd[i] / ch; } }
+      var peak = 0; for (i = 0; i < n; i++) { if (Math.abs(x[i]) > peak) { peak = Math.abs(x[i]); } }
+      if (peak < 1e-5) { st.specMsg = "The sound track is silent."; st.audioNote = ""; drawAll(); return; }
+      // waveform: lowest and highest sample in each column of time
+      var wmin = new Float32Array(WAVE_COLS), wmax = new Float32Array(WAVE_COLS);
+      for (var k = 0; k < WAVE_COLS; k++) {
+        var a = Math.floor(k * st.dur / WAVE_COLS * sr), b = Math.min(n, Math.floor((k + 1) * st.dur / WAVE_COLS * sr));
+        var lo = 0, hi = 0;
+        for (i = a; i < b; i++) { if (x[i] < lo) { lo = x[i]; } if (x[i] > hi) { hi = x[i]; } }
+        wmin[k] = lo; wmax[k] = hi;
+      }
+      st.wave = { min: wmin, max: wmax, peak: peak };
+      drawWave();
+      st.audioNote = "Computing the spectrogram.";
+      return spectrogram(x, sr, my);
+    }, function (err) {
+      if (err === STALE) { throw err; }
+      st.specMsg = "No sound could be read from this file. It may have no audio track, or this browser cannot decode its audio format.";
+      st.audioNote = "";
+      drawAll();
+    });
+  }
+  function spectrogram(x, sr, my) {
+    var n = x.length, hop = Math.max(256, Math.ceil(n / 30000)), frames = Math.floor(n / hop) + 1;
+    var bins = NFFT / 2, cols = Math.min(frames, MAX_SPEC_COLS);
+    var db = new Float32Array(cols * bins).fill(-200), filled = new Uint8Array(cols);
+    var win = new Float32Array(NFFT), re = new Float32Array(NFFT), im = new Float32Array(NFFT);
+    for (var i = 0; i < NFFT; i++) { win[i] = 0.5 - 0.5 * Math.cos(2 * Math.PI * i / NFFT); }
+    var k = 0;
+    return new Promise(function (resolve, reject) {
+      function chunk() {
+        if (my !== token) { reject(STALE); return; }
+        var end = Math.min(frames, k + 1500);
+        for (; k < end; k++) {
+          var centre = k * hop, off = centre - NFFT / 2;   // each window is centred on its own moment
+          for (i = 0; i < NFFT; i++) { var j = off + i; re[i] = (j >= 0 && j < n ? x[j] : 0) * win[i]; im[i] = 0; }
+          fft(re, im);
+          var col = Math.min(cols - 1, Math.floor(centre / sr / st.dur * cols));
+          if (col < 0) { continue; }
+          filled[col] = 1;
+          var base = col * bins;
+          for (i = 0; i < bins; i++) {
+            // 4 / NFFT turns the Hann-windowed bin into the amplitude of a sine, so a full-scale sine is 0 dB
+            var v = 20 * Math.log10(4 * Math.sqrt(re[i] * re[i] + im[i] * im[i]) / NFFT + 1e-10);
+            if (v > db[base + i]) { db[base + i] = v; }   // keep the strongest frame in each column, so short sounds survive
+          }
+        }
+        if (k < frames) { setTimeout(chunk, 0); return; }
+        for (var c = 1; c < cols; c++) { if (!filled[c]) { db.copyWithin(c * bins, (c - 1) * bins, c * bins); } }
+        var top = -200; for (i = 0; i < db.length; i++) { if (db[i] > top) { top = db[i]; } }
+        st.spec = { db: db, cols: cols, bins: bins, top: top };
+        buildSpecImage(); st.audioNote = ""; drawAll();
+        resolve();
+      }
+      chunk();
+    });
+  }
+
+  // ---- loading a recording ----
+  function resetResults() {
+    st.dur = 0; st.sel = null; st.vCanvas = null; st.mCanvas = null; st.gramMsg = ""; st.gramCols = 0;
+    st.spec = null; st.specCanvas = null; st.wave = null; st.specMsg = ""; st.audioNote = "";
+    el("clearsel").disabled = true; el("dlgram").disabled = true; el("dlspec").disabled = true;
+    dirty = true;
+  }
+  function setBusy(b) {
+    st.busy = b; el("prog").hidden = !b; el("prog").value = 0;
+    video.controls = !b && !!st.dur;
+    el("detail").disabled = b;
+  }
+  function loadSource(blob, name, knownDur) {
+    var my = ++token;
+    resetResults();
+    st.name = name; st.blob = blob;
+    el("fname").textContent = name;
+    if (blob.size > MAX_MB * 1e6) {
+      setStatus("This file is " + Math.round(blob.size / 1e6) + " MB. The app accepts files up to " + MAX_MB + " MB: cut a shorter excerpt first.", true);
+      drawAll(); return;
+    }
+    if (objectUrl) { URL.revokeObjectURL(objectUrl); }
+    objectUrl = URL.createObjectURL(blob);
+    video.srcObject = null; video.muted = false;
+    video.src = objectUrl;
+    setBusy(true);
+    setStatus("Opening the recording.");
+    drawAll();
+    waitMeta(my).then(function () {
+      if (my !== token) { throw STALE; }
+      return fixDuration(knownDur);
+    }).then(function (d) {
+      if (my !== token) { throw STALE; }
+      if (!d) { throw new Error("duration"); }
+      if (d > MAX_SEC) { throw new Error("long:" + d); }
+      st.dur = d;
+      drawAll();
+      return Promise.all([analyseFrames(my), analyseAudio(blob, my)]);
+    }).then(function () {
+      if (my !== token) { return; }
+      setBusy(false);
+      video.currentTime = 0;
+      el("dlgram").disabled = !(st.vCanvas && !st.gramMsg);
+      el("dlspec").disabled = !st.specCanvas;
+      var parts = [fmtS(st.dur) + " s"];
+      if (st.gramCols) { parts.push(st.gramCols + " frames sampled"); }
+      if (st.specMsg) { parts.push("no usable sound"); }
+      setStatus("Ready: " + parts.join(", ") + ". Click a panel to jump to that moment, or press play.");
+      dirty = true;
+    }).catch(function (err) {
+      if (err === STALE || my !== token) { return; }
+      setBusy(false);
+      var m = String(err && err.message || err);
+      if (m === "codec") {
+        setStatus("This browser cannot play the file. It may use a video format (codec) that the browser does not support; MP4 with H.264 video and WebM usually work.", true);
+      } else if (m.indexOf("long:") === 0) {
+        setStatus("This recording is " + (parseFloat(m.slice(5)) / 60).toFixed(1) + " minutes long. The app analyses recordings of up to " + (MAX_SEC / 60) + " minutes: cut a shorter excerpt first.", true);
+        video.controls = true;
+      } else if (m === "duration") {
+        setStatus("The length of the recording could not be read, so it cannot be analysed.", true);
+      } else {
+        setStatus("The recording could not be analysed (" + m + ").", true);
+      }
+      drawAll();
+    });
+  }
+  el("file").addEventListener("change", function () {
+    var f = this.files && this.files[0];
+    if (f) { stopRecording(true); loadSource(f, f.name); }
+  });
+  el("detail").addEventListener("change", function () { if (st.blob && !st.busy) { loadSource(st.blob, st.name); } });
+
+  // ---- recording from the camera ----
+  function camError(err) {
+    var n = err && err.name;
+    releaseCamera();
+    el("rec").disabled = false; el("recstop").disabled = true;
+    if (n === "NotAllowedError" || n === "SecurityError") {
+      setStatus("Access to the camera or microphone was declined. Allow access in the browser's address bar and try again, or choose a video file instead.", true);
+    } else if (n === "NotFoundError" || n === "OverconstrainedError") {
+      setStatus("No camera was found on this device. Choose a video file instead.", true);
+    } else if (n === "NotReadableError") {
+      setStatus("The camera could not be started. Another app may be using it.", true);
+    } else {
+      setStatus("The camera could not be started (" + (n || "unknown reason") + "). Choose a video file instead.", true);
+    }
+  }
+  function releaseCamera() {
+    if (stream) { stream.getTracks().forEach(function (t) { t.stop(); }); stream = null; }
+  }
+  function pickType() {
+    var types = ["video/webm;codecs=vp8,opus", "video/webm;codecs=vp9,opus", "video/webm", "video/mp4"];
+    for (var i = 0; i < types.length; i++) { if (MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(types[i])) { return types[i]; } }
+    return "";
+  }
+  function startRecording() {
+    if (!window.isSecureContext) {
+      setStatus("Recording from the camera needs a secure page (an https address or localhost). Choose a video file instead.", true); return;
+    }
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      setStatus("This browser does not offer camera access here. Choose a video file instead.", true); return;
+    }
+    if (!window.MediaRecorder) {
+      setStatus("This browser cannot record video. Choose a video file instead.", true); return;
+    }
+    var noMic = false;
+    token++; resetResults(); setBusy(false); drawAll();
+    el("rec").disabled = true;
+    setStatus("Asking for access to the camera and microphone.");
+    var gum = function (c) { return navigator.mediaDevices.getUserMedia(c); };
+    gum({ video: { width: { ideal: 640 }, height: { ideal: 480 } }, audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false } })
+      .catch(function (err) {
+        if (err && err.name === "NotFoundError") { noMic = true; return gum({ video: true }); }
+        throw err;
+      })
+      .then(function (s) {
+        stream = s;
+        var len = parseFloat(el("reclen").value), type = pickType(), chunks = [];
+        recorder = type ? new MediaRecorder(s, { mimeType: type }) : new MediaRecorder(s);
+        video.removeAttribute("src"); video.srcObject = s; video.muted = true; video.controls = false;
+        video.play().catch(function () {});
+        recorder.ondataavailable = function (e) { if (e.data && e.data.size) { chunks.push(e.data); } };
+        var t0 = performance.now();
+        recorder.onstop = function () {
+          clearInterval(recTimer); recTimer = null;
+          var secs = (performance.now() - t0) / 1000;
+          releaseCamera();
+          video.srcObject = null;
+          el("rec").disabled = false; el("recstop").disabled = true;
+          if (recorder && recorder.cancelled) { recorder = null; return; }
+          recorder = null;
+          var blob = new Blob(chunks, { type: (type || "video/webm").split(";")[0] });
+          if (!blob.size) { setStatus("The recording came out empty. Try again, or choose a video file instead.", true); return; }
+          el("save").disabled = false;
+          loadSource(blob, "Camera clip, " + Math.round(secs) + " s" + (noMic ? " (no microphone)" : ""), secs);
+        };
+        recorder.start(250);
+        el("recstop").disabled = false;
+        recTimer = setInterval(function () {
+          var e = (performance.now() - t0) / 1000;
+          setStatus("Recording: " + e.toFixed(1) + " of " + len + " s." + (noMic ? " No microphone was found, so the clip has no sound." : ""));
+          if (e >= len) { stopRecording(false); }
+        }, 100);
+      }, camError)
+      .catch(camError);
+  }
+  function stopRecording(cancel) {
+    if (recorder && recorder.state !== "inactive") { recorder.cancelled = !!cancel; recorder.stop(); }
+    else { releaseCamera(); }
+  }
+  el("rec").addEventListener("click", startRecording);
+  el("recstop").addEventListener("click", function () { stopRecording(false); });
+  el("save").addEventListener("click", function () {
+    if (!st.blob) { return; }
+    var a = document.createElement("a"), u = URL.createObjectURL(st.blob);
+    a.href = u; a.download = "camera-clip." + (st.blob.type.indexOf("mp4") >= 0 ? "mp4" : "webm");
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(u); }, 2000);
+  });
+
+  // ---- seeking and loop selection by pointer ----
+  function timeAt(c, clientX) {
+    var r = c.getBoundingClientRect();
+    return Math.max(0, Math.min(1, (clientX - r.left - L) / (r.width - L - R))) * st.dur;
+  }
+  ["gram", "wave", "spec"].forEach(function (id) {
+    var c = el(id), drag = null;
+    c.addEventListener("pointerdown", function (e) {
+      if (!st.dur || st.busy) { return; }
+      drag = { x: e.clientX, t: timeAt(c, e.clientX), moved: false };
+      try { c.setPointerCapture(e.pointerId); } catch (err) {}
+    });
+    c.addEventListener("pointermove", function (e) {
+      if (!drag) { return; }
+      if (Math.abs(e.clientX - drag.x) > 5) { drag.moved = true; }
+      if (drag.moved) {
+        var t = timeAt(c, e.clientX);
+        st.sel = { t0: Math.min(drag.t, t), t1: Math.max(drag.t, t) }; dirty = true;
+      }
+    });
+    c.addEventListener("pointerup", function (e) {
+      if (!drag) { return; }
+      var t = timeAt(c, e.clientX);
+      if (drag.moved && st.sel && st.sel.t1 - st.sel.t0 > 0.05) {
+        video.currentTime = st.sel.t0;
+        el("clearsel").disabled = false;
+        setStatus("Loop: " + st.sel.t0.toFixed(2) + "–" + st.sel.t1.toFixed(2) + " s. Press play to hear it repeat.");
+      } else {
+        if (st.sel && (t < st.sel.t0 || t > st.sel.t1)) { st.sel = null; el("clearsel").disabled = true; }
+        video.currentTime = t;
+      }
+      drag = null; dirty = true;
+    });
+    c.addEventListener("pointercancel", function () { drag = null; });
+  });
+  el("clearsel").addEventListener("click", function () { st.sel = null; this.disabled = true; dirty = true; setStatus("Loop cleared."); });
+
+  // ---- display switches ----
+  function pressGroup(attr, val) {
+    var bs = document.querySelectorAll("button[" + attr + "]");
+    for (var i = 0; i < bs.length; i++) { bs[i].setAttribute("aria-pressed", bs[i].getAttribute(attr) === val ? "true" : "false"); }
+  }
+  Array.prototype.forEach.call(document.querySelectorAll("button[data-mode]"), function (b) {
+    b.addEventListener("click", function () {
+      st.mode = b.getAttribute("data-mode"); pressGroup("data-mode", st.mode);
+      el("gramtitle").textContent = st.mode === "motiongram" ? "Motiongram" : "Videogram";
+      el("gramhint").textContent = hints[st.mode];
+      dirty = true;
+    });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll("button[data-scale]"), function (b) {
+    b.addEventListener("click", function () {
+      st.logF = b.getAttribute("data-scale") === "log"; pressGroup("data-scale", b.getAttribute("data-scale"));
+      buildSpecImage(); dirty = true;
+    });
+  });
+
+  // ---- downloads ----
+  function slug() { return (st.name || "recording").replace(/\.[^.]*$/, "").replace(/[^A-Za-z0-9_-]+/g, "-").replace(/^-+|-+$/g, "").toLowerCase() || "recording"; }
+  function download(c, redraw, suffix) {
+    redraw(true);
+    var a = document.createElement("a");
+    a.href = c.toDataURL("image/png"); a.download = slug() + "-" + suffix + ".png";
+    document.body.appendChild(a); a.click(); a.remove();
+    redraw(false);
+  }
+  el("dlgram").addEventListener("click", function () { download(el("gram"), drawGram, st.mode); });
+  el("dlspec").addEventListener("click", function () { download(el("spec"), drawSpec, "spectrogram"); });
+
+  // ---- playhead, loop and redraw ----
+  function frame() {
+    requestAnimationFrame(frame);
+    if (st.dur && !st.busy && st.sel && !video.paused) {
+      if (video.currentTime >= st.sel.t1 || video.currentTime < st.sel.t0 - 0.1) { video.currentTime = st.sel.t0; }
+    }
+    var t = st.busy ? -1 : video.currentTime;
+    if (dirty || t !== lastT) { dirty = false; lastT = t; drawAll(); }
+  }
+  window.addEventListener("resize", function () { dirty = true; });
+  if (window.matchMedia) { window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function () { dirty = true; }); }
+  window.addEventListener("pagehide", releaseCamera);
+
+  el("gramhint").textContent = hints.videogram;
+  st.audioNote = "";
+  requestAnimationFrame(frame);
+})();
+  </script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 # Course apps (2026)
 
-Twenty-three small, self-contained WebAudio teaching apps written for the book. Each is
+Twenty-six small, self-contained WebAudio teaching apps written for the book. Each is
 a single `index.html` with inline CSS and JS (vanilla JS, Web Audio API,
 canvas), no external requests, and works on both phones and laptops. Sound
 starts only after a user gesture. Like the vendored apps, these are copied into
@@ -99,3 +99,19 @@ the deployed site under `/apps/` by the build.
   and pause; audio is analysed locally and never recorded or sent. Replaces
   the Chrome Music Lab Spectrogram links. Chapter: *Acoustics* (also used from
   *Tuning in*, *Listening*, *Psychoacoustics*, and *Vision*).
+- `video-visualiser/` — live webcam analysis: motion image with noise
+  threshold and gain, horizontal and vertical videograms and motiongrams,
+  a self-similarity matrix, and quantity and centroid of motion over time,
+  with PNG downloads; video is analysed locally and never recorded. Based on
+  VideoViz (https://github.com/alexarje/videoviz). Chapter: *The body*.
+- `video-scrubber/` — a video file, or a 5–20 s clip recorded with the
+  camera and microphone, drawn as a videogram or motiongram above its
+  waveform and spectrogram (own FFT) on one time axis, with click-to-seek,
+  drag-to-loop, and PNG downloads; nothing is uploaded. Based on VideoScrub
+  (https://github.com/alexarje/videoscrub). Chapter: *The body*.
+- `video-sonifier/` — webcam motion as sound: the vertical motiongram used as
+  the magnitude spectrum of an inverse FFT with overlap-add (AudioWorklet with
+  a ScriptProcessor fallback), top of the image highest in frequency, and the
+  horizontal motion balance as stereo panning, with a limiter. Based on
+  webvideosonifyer (https://github.com/alexarje/webvideosonifyer). Chapter:
+  *The body*.

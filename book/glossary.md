@@ -72,6 +72,9 @@ Bouba–kiki effect
 Bit depth
 : The number of bits used to store each sample of a digital signal, which sets the amplitude precision and the available dynamic range.
 
+Centroid of motion
+: The average position of the pixels that changed between two video frames, a rough measure of where in the image the motion happens.
+
 Chills
 : Brief, intense responses to music with shivers and goosebumps, also called frisson, accompanied by measurable changes in skin conductance and heart activity.
 
@@ -174,6 +177,9 @@ Four levels of description
 Fourier transform
 : The mathematical operation that decomposes a complex signal into sinusoids, converting the time-domain view into a frequency-domain view.
 
+Frame differencing
+: Subtracting each video frame from the one before, pixel by pixel, and keeping the size of the difference, so that only what moved remains; the basis of the motion image and the motiongram.
+
 Frequency
 : The number of vibration cycles per second, measured in hertz, the physical counterpart of perceived pitch.
 
@@ -206,6 +212,9 @@ Hearing
 
 Heart rate variability (HRV)
 : The variation in the intervals between successive heartbeats, with higher variability indicating relaxed, parasympathetic states.
+
+Inertial measurement unit
+: A small sensor combining an accelerometer, a gyroscope, and often a magnetometer, found in phones, watches, and wearable research devices; it gives orientation and acceleration at the point where it is worn, but not position.
 
 Interaural level difference
 : The loudness difference between the two ears caused by the shadowing of the head, a localisation cue that works best at high frequencies.
@@ -360,6 +369,9 @@ Polyrhythm
 Pose
 : A posture with a meaning-bearing component: communication without moving. Like a gesture, but static rather than dynamic.
 
+Pose estimation
+: The use of computer-vision models to find the positions of body landmarks, such as wrists and elbows, in ordinary video, the basis of markerless motion capture.
+
 Position
 : The physical location of a body, body part, or object in space, typically given as coordinates and measurable with a motion capture system.
 
@@ -408,6 +420,9 @@ Sampling rate
 Schizophonia
 : Schafer's term for the split between a sound and its original source that recording technology makes possible.
 
+Self-similarity matrix
+: A square image that compares every moment of a recording with every other moment, so that repetitions show up as stripes and changes of section as changes of texture; used for both audio and video.
+
 Sensorimotor synchronisation
 : The task of moving in time with an external rhythm, typically tapping a finger to a metronome, which is the standard laboratory method for studying timing.
 
@@ -419,6 +434,9 @@ Short-term memory
 
 Singer's formant
 : A resonance peak around 2,500–3,000 Hz produced by clustering the third, fourth, and fifth formants, giving classically trained voices the ring that carries over an orchestra.
+
+Sonification
+: The use of non-speech sound to represent data, the auditory counterpart of visualisation.
 
 Sound object
 : Schaeffer's term for the perceptual unit of listening, a chunk of sound of roughly half a second to five seconds heard as one event.
@@ -536,6 +554,9 @@ Ventriloquism effect
 
 Vibrato
 : A regular fluctuation of pitch, around five to seven cycles per second in singing, that adds warmth and helps a voice carry.
+
+Videogram
+: An image made by collapsing each video frame into a single line of averaged pixels and placing the lines side by side over time, so that the movement in a whole video can be seen at a glance.
 
 Window
 : The short segment of signal, tapered at its edges, that is analysed at each step when computing a spectrogram, with its size setting the trade-off between time and frequency resolution.
