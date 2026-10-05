@@ -63,6 +63,9 @@ Beat
 Beat delay and anticipation
 : Playing systematically behind or ahead of the beat by tens of milliseconds; a slight delay is heard as laid-back, a slight anticipation as pushed, and too much of either as dragging or rushing.
 
+Beat tracking
+: Estimating the times of the beats in a recording, usually from onsets and a tempo estimate; prone to the octave error of choosing a level twice or half as fast as a listener would tap.
+
 Binaural audio
 : Headphone reproduction that delivers to each eardrum the signal it would receive in the recorded space, using dummy-head recording or HRTF filtering.
 
@@ -120,6 +123,12 @@ Crossmodal perception
 Decibel
 : A logarithmic unit for expressing the ratio between two sound levels, matching the ear's compressive response to intensity.
 
+Deep learning
+: Machine learning with artificial neural networks of many layers, which discover their own features from large amounts of data instead of relying on features chosen by hand.
+
+Diffuseness
+: A measure, from an ambisonic recording, of how far the sound comes from everywhere at once rather than from one direction; low for a single talker, high for a reverberant murmur.
+
 Doppler effect
 : The shift in perceived frequency when a sound source and listener move relative to each other, with pitch rising on approach and falling on retreat, exploited musically in the Leslie speaker.
 
@@ -144,6 +153,9 @@ Electroencephalography (EEG)
 Electromyography (EMG)
 : Recording the electrical activation of muscles through surface electrodes, capturing effort and tension even when little movement is visible.
 
+Embedding
+: A list of numbers produced by a trained model to summarise a clip, a lyric line, or an image, so that similar items get similar numbers and can be compared or searched.
+
 Embodied music cognition
 : The view that musical meaning arises through the whole body's engagement with sound rather than through listening as a purely mental act.
 
@@ -167,6 +179,9 @@ Event-related potential (ERP)
 
 Eye tracking
 : Measuring where the eyes are directed over time, used to study visual attention during score reading, performance, and multimedia.
+
+Feature extraction
+: Computing compact descriptors from audio, such as spectral centroid, chroma, or onset strength, that stand in for perceptual or musical qualities in later analysis.
 
 Fixation
 : A pause of the gaze on one location, typically a few hundred milliseconds, during which detailed visual processing takes place.
@@ -194,6 +209,9 @@ Functional near-infrared spectroscopy (fNIRS)
 
 Fundamental frequency
 : The lowest frequency component of a periodic tone, which normally determines the perceived pitch.
+
+Generative music AI
+: Systems that produce new music, as notation or as audio, by learning the statistical patterns of large collections of existing music and continuing or combining them on request.
 
 Gestalt principles
 : Perceptual grouping rules such as proximity, similarity, and continuity, by which listeners organise sounds into coherent lines and phrases.
@@ -246,6 +264,9 @@ Kinematics
 Kinetics
 : The study of the forces and torques that cause motion, which must be measured with force sensors or inferred, since cameras cannot see them.
 
+Latency
+: The delay between a sound arriving and a system's response to it, set by the analysis window, any lookahead, and the processing time; the central constraint of real-time machine listening.
+
 Listening
 : The active, attentive interpretation of sound, as opposed to the passive registration of hearing.
 
@@ -254,6 +275,9 @@ Long-term memory
 
 Loudness
 : The subjective impression of a sound's strength, which depends on frequency and context and therefore does not map directly onto sound pressure level.
+
+Machine listening
+: The use of signal processing and machine learning to turn sound into structured information: features, events, labels, and transcriptions; also called computer audition.
 
 Masking
 : One sound making another harder or impossible to hear, whether simultaneously or just before or after it, a principle exploited by perceptual audio codecs.
@@ -329,6 +353,9 @@ Nyquist frequency
 
 Onset
 : The beginning of a sound event; the physically measurable start can differ from the moment a listener perceives the sound as beginning.
+
+Onset detection
+: Finding the moments at which new sound events begin in a recording, usually from sudden rises in energy or spectral change; the first step of beat tracking and transcription.
 
 Onset displacement
 : How many milliseconds an onset falls early or late relative to a reference grid, negative for early and positive for late; the basic measure of asynchrony and swing.
@@ -489,6 +516,9 @@ Standing wave
 Standstill paradigm
 : The experimental approach of asking participants to stand as still as possible while music plays, so that involuntary micromotion can be measured.
 
+Stem
+: One instrument or voice of a mix as a separate track, either kept from the production or estimated afterwards by source separation.
+
 Stream segregation
 : The splitting of a sound sequence into separate perceptual streams, as when a fast alternation of high and low tones falls apart into two melodies.
 
@@ -524,6 +554,9 @@ Tempo
 
 Tempo marking
 : An Italian word at the head of a score, such as adagio or allegro, that names a character as much as a speed; conventional ranges in beats per minute are printed on metronomes.
+
+Tempogram
+: A plot of how strongly each tempo is present in a recording over time, computed from the onset strength; the machine-listening counterpart of tapping along to find the beat.
 
 Timbre
 : The sound quality that distinguishes two tones of identical pitch and loudness, arising from spectral content and the temporal envelope.
