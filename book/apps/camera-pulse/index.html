@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Camera pulse</title>
+  <style>
+    :root {
+      --bg: #fdfdfd; --fg: #1c1e21; --muted: #5a6069; --panel: #f1f2f4;
+      --border: #c9ccd1; --accent: #0b6e99; --accent-fg: #ffffff; --canvas: #ffffff;
+      --grid: #e3e5e8; --beat: #c2571a; --raw: #9aa0a8; --error: #a8322b; --good: #2e7d4f;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #15171b; --fg: #e6e7e9; --muted: #9aa0a8; --panel: #20242b;
+        --border: #3a3f47; --accent: #4da3c7; --accent-fg: #0d1117; --canvas: #101216;
+        --grid: #2a2f37; --beat: #e08a4f; --raw: #5a6069; --error: #ef8a80; --good: #6cc48f;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      margin: 0 auto; padding: 16px; max-width: 780px;
+      background: var(--bg); color: var(--fg); line-height: 1.45;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 8px; }
+    h2 { font-size: 0.95rem; margin: 10px 0 0; font-weight: 600; }
+    p.intro { margin: 0 0 14px; }
+    .hint { font-size: 0.9rem; color: var(--muted); margin-top: 10px; display: block; }
+    .privacy {
+      border: 1px solid var(--border); border-radius: 8px; background: var(--panel);
+      padding: 8px 12px; margin: 0 0 14px; font-size: 0.9rem; color: var(--muted);
+    }
+    fieldset {
+      border: 1px solid var(--border); border-radius: 8px;
+      margin: 0 0 12px; padding: 10px 12px; background: var(--panel); min-width: 0;
+    }
+    legend { font-weight: 600; font-size: 0.95rem; padding: 0 6px; }
+    label { display: block; font-weight: 600; font-size: 0.9rem; margin: 8px 0 2px; }
+    .vals { font-weight: normal; color: var(--muted); margin-left: 4px; }
+    input[type="range"] { width: 100%; margin: 2px 0 4px; accent-color: var(--accent); }
+    button {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 14px; font-size: 1rem; cursor: pointer;
+    }
+    button.small { padding: 4px 10px; font-size: 0.9rem; }
+    button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+    button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+    button:disabled { opacity: 0.5; cursor: default; }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+    .status { color: var(--muted); font-size: 0.9rem; min-height: 1.4em; margin: 6px 0 10px; }
+    .status.error { color: var(--error); }
+    .bigtime { font-size: 1.4rem; font-weight: 600; font-variant-numeric: tabular-nums; margin-left: auto; }
+    .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 12px; align-items: start; }
+    .wrap > div { min-width: 0; }
+    @media (max-width: 560px) { .wrap { grid-template-columns: 1fr; } }
+    canvas { display: block; width: 100%; border: 1px solid var(--border); border-radius: 6px; margin-top: 6px; background: var(--canvas); }
+    #preview { aspect-ratio: 4 / 3; height: auto; max-width: 320px; }
+    #plot { height: 200px; }
+    #spectrum { height: 130px; }
+    .axis { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
+    .readout { font-size: 1rem; margin: 6px 0 0; font-variant-numeric: tabular-nums; }
+    .readout .big { font-size: 1.5rem; font-weight: 600; }
+    .readout.good { color: var(--good); }
+    .readout.poor { color: var(--error); }
+    .tablewrap { max-height: 220px; overflow: auto; margin-top: 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--canvas); }
+    table { border-collapse: collapse; width: 100%; font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+    th, td { border-bottom: 1px solid var(--border); padding: 4px 8px; text-align: right; }
+    th:first-child, td:first-child { text-align: left; }
+    th { background: var(--panel); position: sticky; top: 0; }
+    .empty { padding: 8px; color: var(--muted); font-size: 0.9rem; }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <h1>Camera pulse</h1>
+  <p class="intro">A pulse oximeter clips on to a fingertip, shines light through it, and watches how much light comes out the other side. With every heartbeat a little more blood arrives in the finger, the blood absorbs a little more of the light, and the brightness dips. The dips mark the beats. This is photoplethysmography (PPG), the same principle as the heart-rate sensor on the back of a smartwatch, and a phone camera can do it too: the lens looks at the fingertip, the torch lights it, and the app reads the brightness of the picture, frame by frame. From the beats it computes heart rate, inter-beat intervals, and a rough heart-rate variability. A music researcher who needs reliable beat timing uses a chest strap or an ECG, as described in the physiology chapter; this app shows what the optical principle can and cannot do.</p>
+  <p class="privacy">Privacy: the camera frames are analysed locally in your browser and immediately discarded. No picture is recorded, stored, or sent anywhere. The only thing that ever leaves this page is the CSV file you choose to download, and it goes to your own device.</p>
+
+  <fieldset>
+    <legend>Mode</legend>
+    <div class="row">
+      <button type="button" id="modefinger" aria-pressed="true">Fingertip on the rear camera</button>
+      <button type="button" id="modeface" aria-pressed="false">Face in the webcam</button>
+    </div>
+    <span class="hint" id="modehint"></span>
+  </fieldset>
+
+  <div class="row">
+    <button type="button" id="start" class="primary">Start</button>
+    <button type="button" id="stop" disabled>Stop</button>
+    <button type="button" id="reset">Reset</button>
+    <span class="bigtime" id="elapsed" aria-label="Elapsed time">0:00</span>
+  </div>
+  <p class="status" id="status" role="status"></p>
+
+  <fieldset>
+    <legend>Camera</legend>
+    <div class="wrap">
+      <div>
+        <canvas id="preview" width="320" height="240" aria-label="The live camera image, with the measured region drawn in face mode"></canvas>
+        <p class="readout" id="sourceread">Signal source: waiting for the camera</p>
+      </div>
+      <div id="facecontrols" style="display:none;">
+        <label for="rleft">Region left <span class="vals" id="rleftdisp"></span></label>
+        <input type="range" id="rleft" min="0" max="70" step="1" value="35"/>
+        <label for="rtop">Region top <span class="vals" id="rtopdisp"></span></label>
+        <input type="range" id="rtop" min="0" max="70" step="1" value="10"/>
+        <label for="rwidth">Region width <span class="vals" id="rwidthdisp"></span></label>
+        <input type="range" id="rwidth" min="10" max="60" step="1" value="30"/>
+        <label for="rheight">Region height <span class="vals" id="rheightdisp"></span></label>
+        <input type="range" id="rheight" min="10" max="60" step="1" value="40"/>
+      </div>
+    </div>
+    <span class="hint" id="camerahint"></span>
+  </fieldset>
+
+  <fieldset>
+    <legend>Pulse signal</legend>
+    <canvas id="plot" aria-label="The filtered pulse signal over the last 20 seconds, with detected beats marked"></canvas>
+    <div class="axis"><span>−20 s</span><span>now</span></div>
+    <p class="readout" id="rateread">Heart rate: no beats yet</p>
+    <p class="readout" id="specread">Heart rate from the spectrum: collecting</p>
+    <p class="readout" id="qualread">Signal quality: no signal</p>
+    <canvas id="spectrum" aria-label="The spectrum of the last 20 seconds of signal, in beats per minute"></canvas>
+    <div class="axis"><span>40 bpm</span><span>180 bpm</span></div>
+    <span class="hint">The trace is the mean brightness of the camera picture (the red channel in fingertip mode, the green channel of the region in face mode) with the slow trend removed (above 0.7 Hz) and the fast flicker smoothed away (below 3 Hz). It is flipped so that a peak means more blood in the tissue. Each marked peak is a detected beat: a local maximum that rises above 40 % of the largest peak in the last 3 s and comes at least 0.33 s after the previous beat. The first heart rate is the median of the last 10 inter-beat intervals, so it follows changes within a few beats. The second comes from the spectrum below, which asks which repetition rate is strongest in the last 20 s and therefore changes slowly. Signal quality compares the height of that spectral peak with the level around it and checks the frame rate; when the two estimates disagree, trust neither.</span>
+  </fieldset>
+
+  <fieldset>
+    <legend>Heart-rate variability</legend>
+    <p class="readout" id="hrvread">HRV: needs 30 s of good signal</p>
+    <span class="hint">RMSSD is the root mean square of the differences between successive inter-beat intervals, and SDNN is the standard deviation of the intervals, both in milliseconds, as in the physiology chapter. Intervals outside 0.33–2 s, or more than 30 % away from the median interval, are left out as artefacts. A camera samples at about 30 frames per second, so each beat is located to within a few tens of milliseconds even with interpolation between frames, and that is the same order as the quantity being measured. Treat these values as rough; an ECG sampled at hundreds of hertz is needed for proper HRV.</span>
+  </fieldset>
+
+  <fieldset>
+    <legend>Recording</legend>
+    <div class="row">
+      <button type="button" class="small" id="download">Download CSV</button>
+      <span class="vals" id="recinfo"></span>
+    </div>
+    <div class="tablewrap" id="tablehost"><div class="empty">No beats recorded yet.</div></div>
+    <span class="hint">The table lists every detected beat since Start or Reset, with the interval from the previous beat. The CSV holds one row per camera frame: time in seconds since Start, the raw mean brightness (0–255), the filtered signal, and a 1 on the frame where a beat was detected. Reset clears the table and the signal without stopping the camera.</span>
+  </fieldset>
+
+  <p class="hint">Things to try: sit quietly for a minute and note the rate, then stand up and watch it climb before it settles again. Put on a favourite piece of music and watch whether the rate moves, and when. Count your pulse by hand for 30 s, as in the breath and pulse app, and compare the doubled count with what the camera says. Finally, breathe slowly and deeply at about 6 breaths per minute and look for the intervals lengthening on the out-breath and shortening on the in-breath, which is respiratory sinus arrhythmia.</p>
+  <p class="hint">Limits: movement, changing light and a cold fingertip all break the measurement, and face mode breaks with far less. The app is a demonstration of a measurement principle, not a medical device. Do not use it to make decisions about your health, and compare it with a proper sensor before trusting it in a study.</p>
+
+  <video id="cam" playsinline muted style="display:none;"></video>
+
+  <script>
+(function () {
+  "use strict";
+  var el = function (id) { return document.getElementById(id); };
+  var TEST = !!window.__CAMERA_PULSE_TEST__;
+
+  // ---- analysis settings ----
+  var W = 160, H = 120;                 // frames are scaled down to this before analysis
+  var MAX_FPS = 30;                     // analysis rate cap
+  var PLOT_S = 20;                      // seconds shown in the plot
+  var HP_HZ = 0.7, LP_HZ = 3.0;         // band kept for the pulse
+  var MIN_IBI = 330, MAX_IBI = 2000;    // ms
+  var LAG = 3;                          // samples needed after a peak before it is confirmed
+  var THR_FRAC = 0.4, THR_WINDOW = 3000;
+  var SPEC_S = 20, SPEC_MIN_S = 10, SPEC_FS = 30, SPEC_N = 2048;
+  var BAND_LO = 0.7, BAND_HI = 3.0;     // Hz searched for the spectral peak
+  var HRV_GOOD_S = 30, HRV_MIN_N = 10;
+
+  // ---- pure analysis functions ----
+  // One-pole filters whose coefficients follow the measured interval between samples,
+  // two of each in cascade: a high pass to remove the slow trend and a low pass to smooth.
+  function makeFilter(hpHz, lpHz) {
+    var rcH = 1 / (2 * Math.PI * hpHz), rcL = 1 / (2 * Math.PI * lpHz);
+    var lastT = null, xPrev = [0, 0], hp = [0, 0], lp = [0, 0];
+    return {
+      push: function (t, x) {
+        var dt = lastT === null ? 1 / 30 : Math.max(1e-3, Math.min(0.5, (t - lastT) / 1000));
+        var first = lastT === null;
+        lastT = t;
+        var a = rcH / (rcH + dt), b = dt / (rcL + dt), v = x, i;
+        for (i = 0; i < 2; i++) {
+          if (first) { xPrev[i] = v; hp[i] = 0; }
+          else { hp[i] = a * (hp[i] + v - xPrev[i]); xPrev[i] = v; }
+          v = hp[i];
+        }
+        for (i = 0; i < 2; i++) {
+          if (first) { lp[i] = v; }
+          else { lp[i] = lp[i] + b * (v - lp[i]); }
+          v = lp[i];
+        }
+        return v;
+      }
+    };
+  }
+  function filterSignal(t, x) {
+    var f = makeFilter(HP_HZ, LP_HZ), out = new Array(x.length), i;
+    for (i = 0; i < x.length; i++) { out[i] = f.push(t[i], x[i]); }
+    return out;
+  }
+
+  // Beat detector: a sample is a beat when it is the largest in a window of LAG samples on
+  // each side, positive, above THR_FRAC of the largest value in the last THR_WINDOW ms, and
+  // at least MIN_IBI ms after the previous beat. A higher peak inside MIN_IBI replaces it.
+  // The beat time is refined with a parabola through the three samples around the peak.
+  function makeDetector() {
+    var ts = [], xs = [], idx = [], n = 0, beats = [];
+    function peakTime(k) {
+      var y0 = xs[k - 1], y1 = xs[k], y2 = xs[k + 1], d = y0 - 2 * y1 + y2, off = 0;
+      if (k > 0 && k < xs.length - 1 && d !== 0) { off = 0.5 * (y0 - y2) / d; }
+      off = Math.max(-0.5, Math.min(0.5, off));
+      var step = k > 0 && k < xs.length - 1 ? (ts[k + 1] - ts[k - 1]) / 2 : 33;
+      return ts[k] + off * step;
+    }
+    return {
+      beats: beats,
+      push: function (t, x) {
+        ts.push(t); xs.push(x); idx.push(n); n++;
+        var k = ts.length - 1 - LAG, i, thr = 0, res = null;
+        if (k >= 0) {
+          var v = xs[k], ok = v > 0;
+          for (i = Math.max(0, k - LAG); ok && i <= k + LAG; i++) {
+            if (i !== k && (xs[i] > v || (xs[i] === v && i < k))) { ok = false; }
+          }
+          if (ok) {
+            for (i = k; i >= 0 && ts[i] > ts[k] - THR_WINDOW; i--) { if (xs[i] > thr) { thr = xs[i]; } }
+            if (v < THR_FRAC * thr) { ok = false; }
+          }
+          if (ok) {
+            var pt = peakTime(k), last = beats.length ? beats[beats.length - 1] : null;
+            if (last && pt - last.t < MIN_IBI) {
+              if (v > last.v) { beats.pop(); beats.push({ t: pt, v: v, idx: idx[k] }); res = { replaced: true, t: pt }; }
+            } else {
+              beats.push({ t: pt, v: v, idx: idx[k] });
+              res = { replaced: false, t: pt };
+            }
+          }
+        }
+        // keep only what the threshold window and the lag need
+        while (ts.length > 2 * LAG + 2 && ts[0] < t - THR_WINDOW - 1000) { ts.shift(); xs.shift(); idx.shift(); }
+        return res;
+      }
+    };
+  }
+  function detectBeats(t, x) {
+    var d = makeDetector(), i;
+    for (i = 0; i < x.length; i++) { d.push(t[i], x[i]); }
+    return d.beats.map(function (b) { return b.t; });
+  }
+
+  function median(a) {
+    if (!a.length) { return null; }
+    var s = a.slice().sort(function (p, q) { return p - q; }), m = s.length >> 1;
+    return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
+  }
+  function intervals(beatTimes) {
+    var out = [], i;
+    for (i = 1; i < beatTimes.length; i++) { out.push(beatTimes[i] - beatTimes[i - 1]); }
+    return out;
+  }
+  // heart rate from the median of the last 10 intervals
+  function rateFromBeats(beatTimes) {
+    var ibi = intervals(beatTimes).filter(function (v) { return v >= MIN_IBI && v <= MAX_IBI; });
+    if (ibi.length < 3) { return null; }
+    return 60000 / median(ibi.slice(-10));
+  }
+  // intervals used for HRV: plausible and within 30 % of the median
+  function cleanIntervals(ibi) {
+    var ok = ibi.filter(function (v) { return v >= MIN_IBI && v <= MAX_IBI; }), m = median(ok);
+    if (m === null) { return []; }
+    return ok.filter(function (v) { return Math.abs(v - m) <= 0.3 * m; });
+  }
+  function rmssd(ibi) {
+    if (ibi.length < 2) { return null; }
+    var s = 0, i;
+    for (i = 1; i < ibi.length; i++) { s += (ibi[i] - ibi[i - 1]) * (ibi[i] - ibi[i - 1]); }
+    return Math.sqrt(s / (ibi.length - 1));
+  }
+  function sdnn(ibi) {
+    if (ibi.length < 2) { return null; }
+    var m = 0, s = 0, i;
+    for (i = 0; i < ibi.length; i++) { m += ibi[i]; }
+    m /= ibi.length;
+    for (i = 0; i < ibi.length; i++) { s += (ibi[i] - m) * (ibi[i] - m); }
+    return Math.sqrt(s / (ibi.length - 1));
+  }
+
+  // in-place radix-2 FFT
+  function fft(re, im) {
+    var n = re.length, i, j, k, m, half, step, wr, wi, tr, ti, ur, ui, a;
+    for (i = 1, j = 0; i < n; i++) {
+      for (k = n >> 1; j & k; k >>= 1) { j ^= k; }
+      j |= k;
+      if (i < j) { tr = re[i]; re[i] = re[j]; re[j] = tr; ti = im[i]; im[i] = im[j]; im[j] = ti; }
+    }
+    for (step = 2; step <= n; step <<= 1) {
+      half = step >> 1; a = -2 * Math.PI / step;
+      for (k = 0; k < n; k += step) {
+        for (m = 0; m < half; m++) {
+          wr = Math.cos(a * m); wi = Math.sin(a * m);
+          ur = re[k + m + half] * wr - im[k + m + half] * wi;
+          ui = re[k + m + half] * wi + im[k + m + half] * wr;
+          re[k + m + half] = re[k + m] - ur; im[k + m + half] = im[k + m] - ui;
+          re[k + m] += ur; im[k + m] += ui;
+        }
+      }
+    }
+  }
+
+  // Spectrum of the last SPEC_S seconds: the irregularly timed samples are interpolated on to
+  // a 30 Hz grid, the mean removed, a Hann window applied, and the result zero padded.
+  // Returns the strongest rate in the band, and how far its peak rises above the level around it.
+  function spectrumRate(t, x) {
+    var n = t.length;
+    if (n < 2) { return null; }
+    var tEnd = t[n - 1], tStart = Math.max(t[0], tEnd - SPEC_S * 1000), span = (tEnd - tStart) / 1000;
+    if (span < SPEC_MIN_S) { return null; }
+    var m = Math.floor(span * SPEC_FS), re = new Float64Array(SPEC_N), im = new Float64Array(SPEC_N);
+    var i, j = 0, tt, mean = 0, g = new Float64Array(m);
+    for (i = 0; i < m; i++) {
+      tt = tEnd - (m - 1 - i) * 1000 / SPEC_FS;
+      while (j < n - 2 && t[j + 1] < tt) { j++; }
+      var dt = t[j + 1] - t[j], fr = dt > 0 ? (tt - t[j]) / dt : 0;
+      fr = Math.max(0, Math.min(1, fr));
+      g[i] = x[j] + fr * (x[j + 1] - x[j]);
+      mean += g[i];
+    }
+    mean /= m;
+    for (i = 0; i < m; i++) { re[i] = (g[i] - mean) * (0.5 - 0.5 * Math.cos(2 * Math.PI * i / (m - 1))); }
+    fft(re, im);
+    var df = SPEC_FS / SPEC_N, kLo = Math.ceil(BAND_LO / df), kHi = Math.floor(BAND_HI / df);
+    var mag = new Float64Array(SPEC_N / 2), k, best = -1, bestK = kLo;
+    for (k = 0; k < SPEC_N / 2; k++) { mag[k] = Math.sqrt(re[k] * re[k] + im[k] * im[k]); }
+    for (k = kLo; k <= kHi; k++) { if (mag[k] > best) { best = mag[k]; bestK = k; } }
+    // parabolic interpolation of the peak position
+    var y0 = mag[bestK - 1], y1 = mag[bestK], y2 = mag[bestK + 1], d = y0 - 2 * y1 + y2;
+    var off = d !== 0 ? Math.max(-0.5, Math.min(0.5, 0.5 * (y0 - y2) / d)) : 0;
+    var fPeak = (bestK + off) * df;
+    // neighbourhood: 0.5-4 Hz without 0.2 Hz on either side of the peak
+    var nLo = Math.ceil(0.5 / df), nHi = Math.floor(4.0 / df), ex = Math.round(0.2 / df), sum = 0, cnt = 0;
+    for (k = nLo; k <= nHi; k++) { if (Math.abs(k - bestK) > ex) { sum += mag[k]; cnt++; } }
+    var ratio = cnt && sum > 0 ? best / (sum / cnt) : 0;
+    return { bpm: 60 * fPeak, hz: fPeak, ratio: ratio, mag: mag, df: df, peakK: bestK, span: span };
+  }
+
+  if (TEST) {
+    window.cameraPulse = {
+      makeFilter: makeFilter, filterSignal: filterSignal, makeDetector: makeDetector, detectBeats: detectBeats,
+      rateFromBeats: rateFromBeats, cleanIntervals: cleanIntervals, intervals: intervals, median: median,
+      rmssd: rmssd, sdnn: sdnn, fft: fft, spectrumRate: spectrumRate
+    };
+  }
+
+  // ---- state ----
+  var mode = "finger";
+  var stream = null, running = false, torchOn = false, facing = "";
+  var newFrame = false, useRvfc = false, lastT = 0, t0 = null, fpsTimes = [];
+  var cam = el("cam");
+  var sample = (function () { var c = document.createElement("canvas"); c.width = W; c.height = H; return c; })();
+  var sctx = sample.getContext("2d", { willReadFrequently: true });
+  var T = [], RAW = [], FILT = [];        // one entry per analysed frame, time in ms since t0
+  var filt = null, det = null, beats = [];
+  var spec = null, specFrame = 0, quality = { level: "none", text: "no signal" };
+  var source = { ok: false, text: "waiting for the camera", channel: "red" };
+  var goodMs = 0, lastGoodT = null, tableN = 0;
+  var rateB = null;
+
+  // ---- status ----
+  function setStatus(msg, isError) {
+    el("status").textContent = msg;
+    el("status").className = isError ? "status error" : "status";
+  }
+
+  // ---- mode ----
+  var MODE_HINT = {
+    finger: "Cover the rear camera lens completely with the pad of a fingertip, and the torch beside it if the phone has one. Press gently: too hard squeezes the blood out of the finger, too light lets in daylight. The torch shines through the fingertip and the camera sees a red picture that brightens and darkens a little with every beat. Blood volume changes are large in a fingertip, so this signal is strong.",
+    face: "Sit still facing the webcam in good, steady light (daylight from a window is best, a flickering lamp is worst). The rectangle marks the region that is measured; move it over the forehead and cheeks with the sliders and keep the hair and the background out of it. This is remote photoplethysmography: the skin reflects slightly less green light each time blood arrives. The signal is much weaker than from a fingertip, so it needs 20–30 s of stillness and steady light before a rate appears, and even a small head movement spoils it."
+  };
+  var CAM_HINT = {
+    finger: "The picture should be an even red or orange. If it shows the room, the finger is not covering the lens. If it is almost white, the light is too strong: press a little more gently or turn away from the lamp.",
+    face: "The picture is mirrored, like a mirror. The region is given as a share of the picture width and height."
+  };
+  function setMode(m) {
+    if (running) { stop(); }
+    mode = m;
+    el("modefinger").setAttribute("aria-pressed", m === "finger" ? "true" : "false");
+    el("modeface").setAttribute("aria-pressed", m === "face" ? "true" : "false");
+    el("modehint").textContent = MODE_HINT[m];
+    el("camerahint").textContent = CAM_HINT[m];
+    el("facecontrols").style.display = m === "face" ? "" : "none";
+    resetAnalysis();
+    drawAll();
+  }
+
+  // ---- camera ----
+  function resetAnalysis() {
+    T = []; RAW = []; FILT = []; beats = []; spec = null; specFrame = 0; rateB = null;
+    filt = makeFilter(HP_HZ, LP_HZ); det = makeDetector(); beats = det.beats;
+    quality = { level: "none", text: "no signal" };
+    goodMs = 0; lastGoodT = null; t0 = null; fpsTimes = []; tableN = 0;
+    el("tablehost").innerHTML = '<div class="empty">No beats recorded yet.</div>';
+    el("elapsed").textContent = "0:00";
+    el("recinfo").textContent = "";
+  }
+
+  function constraintsFor(m) {
+    var v = { width: { ideal: 320 }, height: { ideal: 240 }, frameRate: { ideal: 30 } };
+    v.facingMode = m === "finger" ? { ideal: "environment" } : "user";
+    return { video: v, audio: false };
+  }
+
+  function start() {
+    if (running) { return; }
+    if (!window.isSecureContext) {
+      setStatus("The browser only offers the camera to pages opened over https (or from localhost). Open the app from the book's website instead of a plain http address.", true);
+      return;
+    }
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      setStatus("This browser does not offer camera access. Try a current version of Firefox, Chrome, Edge, or Safari.", true);
+      return;
+    }
+    setStatus("Asking for camera access...");
+    el("start").disabled = true;
+    navigator.mediaDevices.getUserMedia(constraintsFor(mode))
+      .then(startWithStream)
+      .catch(function (err) {
+        stopTracks();
+        el("start").disabled = false;
+        var name = err && err.name ? err.name : "";
+        if (name === "NotAllowedError" || name === "SecurityError") {
+          setStatus("Camera access was declined. Nothing is wrong: allow access in the browser's address bar (or in the system settings) and press Start again when you are ready.", true);
+        } else if (name === "NotFoundError" || name === "OverconstrainedError") {
+          setStatus("No camera was found on this device.", true);
+        } else if (name === "NotReadableError" || name === "AbortError") {
+          setStatus("The camera could not be started. Check that another app, such as a video call, is not using it.", true);
+        } else {
+          setStatus("The camera could not be started (" + (name || "unknown reason") + ").", true);
+        }
+      });
+  }
+
+  function startWithStream(s) {
+    stream = s;
+    cam.srcObject = stream;
+    var track = stream.getVideoTracks()[0];
+    var settings = track && track.getSettings ? track.getSettings() : {};
+    facing = settings.facingMode || "";
+    return cam.play().then(function () {
+      return tryTorch(track);
+    }).then(function () {
+      resetAnalysis();
+      running = true;
+      el("start").disabled = true;
+      el("stop").disabled = false;
+      useRvfc = typeof cam.requestVideoFrameCallback === "function";
+      if (useRvfc) { cam.requestVideoFrameCallback(onVideoFrame); }
+      setStatus(cameraMessage());
+    }).catch(function (err) {
+      stopTracks();
+      el("start").disabled = false;
+      setStatus("The camera stream could not be played (" + (err && err.name ? err.name : "unknown reason") + ").", true);
+    });
+  }
+
+  function tryTorch(track) {
+    torchOn = false;
+    if (mode !== "finger" || !track) { return Promise.resolve(); }
+    var caps = track.getCapabilities ? track.getCapabilities() : {};
+    if (!caps || !caps.torch) { return Promise.resolve(); }
+    return track.applyConstraints({ advanced: [{ torch: true }] })
+      .then(function () { torchOn = true; })
+      .catch(function () { torchOn = false; });
+  }
+
+  function cameraMessage() {
+    if (mode === "face") {
+      return "Camera running. Sit still, face the camera, and place the region over the forehead and cheeks.";
+    }
+    var which = facing === "environment" ? "Rear camera running" :
+      "No rear camera was reported, so the front camera is used: cover that lens with your fingertip instead";
+    var torch = torchOn ? "The torch is on: cover the lens and the torch completely with a fingertip." :
+      "The torch could not be switched on from the browser (Android Chrome usually allows it; iPhones do not), so press the fingertip against the lens near a bright lamp or a window.";
+    return which + ". " + torch;
+  }
+
+  function stopTracks() {
+    if (stream) { stream.getTracks().forEach(function (t) { t.stop(); }); stream = null; }
+    cam.srcObject = null;
+    torchOn = false;
+  }
+
+  function stop() {
+    if (!running) { return; }
+    running = false;
+    stopTracks();
+    el("start").disabled = false;
+    el("stop").disabled = true;
+    setStatus("Camera stopped and released. The signal and the table stay on screen and can still be downloaded.");
+    drawAll();
+  }
+
+  function onVideoFrame() {
+    newFrame = true;
+    if (running && cam.requestVideoFrameCallback) { cam.requestVideoFrameCallback(onVideoFrame); }
+  }
+
+  // ---- one frame ----
+  function region() {
+    return {
+      x: parseFloat(el("rleft").value) / 100, y: parseFloat(el("rtop").value) / 100,
+      w: parseFloat(el("rwidth").value) / 100, h: parseFloat(el("rheight").value) / 100
+    };
+  }
+
+  // reads one frame and returns the sample value, or null when the source is unusable
+  function readFrame() {
+    var vw = cam.videoWidth, vh = cam.videoHeight;
+    if (!vw || !vh) { return null; }
+    var sw = vw, sh = vh;
+    if (vw / vh > W / H) { sw = vh * W / H; } else { sh = vw * H / W; }
+    sctx.save();
+    sctx.setTransform(1, 0, 0, 1, 0, 0);
+    if (mode === "face") { sctx.translate(W, 0); sctx.scale(-1, 1); }
+    sctx.drawImage(cam, (vw - sw) / 2, (vh - sh) / 2, sw, sh, 0, 0, W, H);
+    sctx.restore();
+    var px = sctx.getImageData(0, 0, W, H).data, r = 0, g = 0, b = 0, n = 0, x, y, o;
+    if (mode === "finger") {
+      for (o = 0; o < px.length; o += 4) { r += px[o]; g += px[o + 1]; b += px[o + 2]; }
+      n = W * H; r /= n; g /= n; b /= n;
+      var red = r >= 50 && r > 1.4 * g && r > 1.4 * b;
+      if (!red) {
+        source = { ok: false, channel: "red", text: "finger not on the lens: the picture is not red enough (red " + r.toFixed(0) + ", green " + g.toFixed(0) + ", blue " + b.toFixed(0) + ")" };
+        return null;
+      }
+      if (r > 250) {
+        source = { ok: true, channel: "green", text: "finger on the lens, but the red channel is saturated, so the green channel (" + g.toFixed(0) + ") is used; press more gently or move away from the light" };
+        return -g;
+      }
+      source = { ok: true, channel: "red", text: "finger on the lens, mean red " + r.toFixed(0) + " of 255" };
+      return -r;
+    }
+    var rg = region(), x0 = Math.round(rg.x * W), y0 = Math.round(rg.y * H);
+    var x1 = Math.min(W, Math.round((rg.x + rg.w) * W)), y1 = Math.min(H, Math.round((rg.y + rg.h) * H));
+    for (y = y0; y < y1; y++) {
+      for (x = x0; x < x1; x++) { o = (y * W + x) * 4; r += px[o]; g += px[o + 1]; b += px[o + 2]; n++; }
+    }
+    if (!n) { source = { ok: false, channel: "green", text: "the region lies outside the picture" }; return null; }
+    r /= n; g /= n; b /= n;
+    if (g < 25) { source = { ok: false, channel: "green", text: "the region is too dark (mean green " + g.toFixed(0) + " of 255): find more light" }; return null; }
+    if (g > 245) { source = { ok: false, channel: "green", text: "the region is too bright (mean green " + g.toFixed(0) + " of 255): the camera is overexposed" }; return null; }
+    source = { ok: true, channel: "green", text: "face region, mean green " + g.toFixed(0) + " of 255" };
+    return -g;
+  }
+
+  function analyse(now) {
+    if (t0 === null) { t0 = now; }
+    var t = now - t0, v = readFrame();
+    fpsTimes.push(now);
+    while (fpsTimes.length > 31) { fpsTimes.shift(); }
+    if (v === null) {
+      // keep the time base, but do not feed the filters with a broken source
+      lastGoodT = null;
+      return;
+    }
+    var f = filt.push(t, v);
+    T.push(t); RAW.push(-v); FILT.push(f);
+    var res = det.push(t, f);
+    if (res) { rateB = rateFromBeats(beats.map(function (b) { return b.t; })); }
+    specFrame++;
+    if (specFrame % 15 === 0 || (spec === null && T.length % 30 === 0)) {
+      spec = spectrumRate(T, FILT);
+    }
+    assessQuality();
+    if (quality.level === "good" || quality.level === "fair") {
+      if (lastGoodT !== null) { goodMs += t - lastGoodT; }
+      lastGoodT = t;
+    } else { lastGoodT = null; }
+  }
+
+  function fps() {
+    if (fpsTimes.length < 6) { return 0; }
+    return (fpsTimes.length - 1) * 1000 / (fpsTimes[fpsTimes.length - 1] - fpsTimes[0]);
+  }
+
+  function assessQuality() {
+    var f = fps();
+    if (!source.ok) { quality = { level: "poor", text: "no usable signal (" + source.text + ")" }; return; }
+    if (!spec) { quality = { level: "none", text: "collecting, a first estimate needs " + SPEC_MIN_S + " s" }; return; }
+    var agree = rateB !== null && Math.abs(rateB - spec.bpm) / spec.bpm < 0.1;
+    var detail = "spectral peak " + spec.ratio.toFixed(1) + " × the surrounding level, " +
+      (agree ? "both estimates agree" : "the two estimates disagree") + ", " + f.toFixed(0) + " frames per second";
+    if (f > 0 && f < 15) { quality = { level: "poor", text: "poor: the frame rate is too low (" + detail + ")" }; return; }
+    if (spec.ratio >= 6 && agree && f >= 20) { quality = { level: "good", text: "good (" + detail + ")" }; return; }
+    if (spec.ratio >= 3) { quality = { level: "fair", text: "fair (" + detail + ")" }; return; }
+    quality = { level: "poor", text: "poor: no clear pulse in the spectrum (" + detail + ")" };
+  }
+
+  // ---- drawing ----
+  function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+  function prep(c) {
+    var dpr = window.devicePixelRatio || 1, w = c.clientWidth, h = c.clientHeight;
+    if (c.width !== Math.round(w * dpr) || c.height !== Math.round(h * dpr)) { c.width = Math.round(w * dpr); c.height = Math.round(h * dpr); }
+    var g = c.getContext("2d"); g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    g.fillStyle = css("--canvas"); g.fillRect(0, 0, w, h);
+    g.font = "12px system-ui, sans-serif"; g.textBaseline = "middle";
+    return { g: g, w: w, h: h };
+  }
+  function placeholder(o, text) {
+    o.g.fillStyle = css("--muted"); o.g.textAlign = "center";
+    o.g.fillText(text, o.w / 2, o.h / 2);
+  }
+
+  function drawPreview() {
+    var o = prep(el("preview")), g = o.g;
+    if (!running || !cam.videoWidth) { placeholder(o, running ? "Waiting for the first frame" : "Press Start"); return; }
+    g.imageSmoothingEnabled = true;
+    g.drawImage(sample, 0, 0, o.w, o.h);
+    if (mode === "face") {
+      var rg = region();
+      g.strokeStyle = source.ok ? css("--accent") : css("--error"); g.lineWidth = 2;
+      g.strokeRect(rg.x * o.w, rg.y * o.h, rg.w * o.w, rg.h * o.h);
+    }
+  }
+
+  function plotNow() {
+    return T.length ? T[T.length - 1] : 0;
+  }
+
+  function drawPlot() {
+    var o = prep(el("plot")), g = o.g, mL = 8, mR = 8, mT = 10, mB = 10;
+    var pw = o.w - mL - mR, ph = o.h - mT - mB, now = plotNow(), i;
+    var tMin = now - PLOT_S * 1000, peak = 0;
+    for (i = T.length - 1; i >= 0 && T[i] >= tMin; i--) { if (Math.abs(FILT[i]) > peak) { peak = Math.abs(FILT[i]); } }
+    var yMax = Math.max(peak * 1.1, 0.5);
+    var xOf = function (t) { return mL + (1 - (now - t) / (PLOT_S * 1000)) * pw; };
+    var yOf = function (v) { return mT + ph / 2 - v / yMax * ph / 2; };
+    g.strokeStyle = css("--grid"); g.lineWidth = 1;
+    for (var s = 0; s <= PLOT_S; s += 5) {
+      var x = mL + (1 - s / PLOT_S) * pw;
+      g.beginPath(); g.moveTo(x, mT); g.lineTo(x, mT + ph); g.stroke();
+    }
+    g.beginPath(); g.moveTo(mL, yOf(0)); g.lineTo(mL + pw, yOf(0)); g.stroke();
+    if (!T.length) { placeholder(o, running ? "Collecting signal" : "Press Start"); return; }
+    g.save();
+    g.beginPath(); g.rect(mL, mT, pw, ph); g.clip();
+    g.strokeStyle = css("--accent"); g.lineWidth = 2; g.beginPath();
+    var pen = false, gap = 0;
+    for (i = 0; i < T.length; i++) {
+      if (T[i] < tMin) { continue; }
+      if (pen && T[i] - gap > 500) { pen = false; }   // a hole in the signal breaks the line
+      gap = T[i];
+      var px = xOf(T[i]), py = yOf(FILT[i]);
+      if (pen) { g.lineTo(px, py); } else { g.moveTo(px, py); pen = true; }
+    }
+    g.stroke();
+    g.fillStyle = css("--beat");
+    for (i = 0; i < beats.length; i++) {
+      if (beats[i].t < tMin) { continue; }
+      var bi = beats[i].idx, by = bi < FILT.length ? FILT[bi] : 0;
+      g.beginPath(); g.arc(xOf(beats[i].t), yOf(by), 4, 0, 2 * Math.PI); g.fill();
+    }
+    g.restore();
+  }
+
+  function drawSpectrum() {
+    var o = prep(el("spectrum")), g = o.g, mL = 8, mR = 8, mT = 8, mB = 8;
+    var pw = o.w - mL - mR, ph = o.h - mT - mB, lo = 40, hi = 180, k, i;
+    g.strokeStyle = css("--grid"); g.lineWidth = 1;
+    for (i = 60; i < hi; i += 20) {
+      var x = mL + (i - lo) / (hi - lo) * pw;
+      g.beginPath(); g.moveTo(x, mT); g.lineTo(x, mT + ph); g.stroke();
+    }
+    if (!spec) { placeholder(o, running || T.length ? "The spectrum needs " + SPEC_MIN_S + " s of signal" : "Press Start"); return; }
+    var kLo = Math.ceil(lo / 60 / spec.df), kHi = Math.floor(hi / 60 / spec.df), mx = 0;
+    for (k = kLo; k <= kHi; k++) { if (spec.mag[k] > mx) { mx = spec.mag[k]; } }
+    if (mx <= 0) { return; }
+    g.strokeStyle = css("--accent"); g.lineWidth = 2; g.beginPath();
+    for (k = kLo; k <= kHi; k++) {
+      var bx = mL + (k * spec.df * 60 - lo) / (hi - lo) * pw, by = mT + ph - spec.mag[k] / mx * ph;
+      if (k === kLo) { g.moveTo(bx, by); } else { g.lineTo(bx, by); }
+    }
+    g.stroke();
+    var pxk = mL + (spec.bpm - lo) / (hi - lo) * pw;
+    g.strokeStyle = css("--beat"); g.beginPath(); g.moveTo(pxk, mT); g.lineTo(pxk, mT + ph); g.stroke();
+    g.fillStyle = css("--fg"); g.textAlign = pxk > o.w - 60 ? "right" : "left";
+    g.fillText(spec.bpm.toFixed(0) + " bpm", pxk + (pxk > o.w - 60 ? -4 : 4), mT + 8);
+  }
+
+  function fmtTime(ms) {
+    var s = Math.floor(ms / 1000), m = Math.floor(s / 60);
+    s -= m * 60;
+    return m + ":" + (s < 10 ? "0" : "") + s;
+  }
+
+  function updateReadouts() {
+    el("sourceread").textContent = "Signal source: " + source.text;
+    el("sourceread").className = "readout" + (source.ok ? "" : " poor");
+    if (rateB === null) {
+      el("rateread").textContent = "Heart rate: " + (beats.length ? "needs a few more beats" : "no beats yet");
+    } else {
+      el("rateread").innerHTML = 'Heart rate from the last 10 intervals: <span class="big">' + rateB.toFixed(0) + '</span> bpm';
+    }
+    el("specread").textContent = spec ? "Heart rate from the spectrum of the last " + spec.span.toFixed(0) + " s: " + spec.bpm.toFixed(0) + " bpm" :
+      "Heart rate from the spectrum: collecting";
+    el("qualread").textContent = "Signal quality: " + quality.text;
+    el("qualread").className = "readout" + (quality.level === "good" ? " good" : quality.level === "poor" ? " poor" : "");
+    // HRV
+    var ibi = intervals(beats.map(function (b) { return b.t; })), clean = cleanIntervals(ibi);
+    if (goodMs >= HRV_GOOD_S * 1000 && clean.length >= HRV_MIN_N) {
+      el("hrvread").textContent = "HRV: RMSSD " + rmssd(clean).toFixed(0) + " ms, SDNN " + sdnn(clean).toFixed(0) + " ms, from " + clean.length +
+        " intervals (" + (ibi.length - clean.length) + " left out as artefacts), rough because of the camera's timing";
+    } else {
+      el("hrvread").textContent = "HRV: needs " + HRV_GOOD_S + " s of good signal (" + Math.min(HRV_GOOD_S, Math.floor(goodMs / 1000)) + " s so far)";
+    }
+    el("elapsed").textContent = fmtTime(T.length ? T[T.length - 1] : 0);
+    el("recinfo").textContent = T.length ? T.length + " frames, " + beats.length + " beats" : "";
+    if (beats.length !== tableN) { renderTable(); }
+  }
+
+  function renderTable() {
+    tableN = beats.length;
+    if (!beats.length) { el("tablehost").innerHTML = '<div class="empty">No beats recorded yet.</div>'; return; }
+    var html = "<table><thead><tr><th>Beat</th><th>Time (s)</th><th>Interval (ms)</th><th>bpm</th></tr></thead><tbody>", i;
+    for (i = 0; i < beats.length; i++) {
+      var ibi = i > 0 ? beats[i].t - beats[i - 1].t : null;
+      html += "<tr><td>" + (i + 1) + "</td><td>" + (beats[i].t / 1000).toFixed(2) + "</td><td>" +
+        (ibi === null ? "" : ibi.toFixed(0)) + "</td><td>" + (ibi === null ? "" : (60000 / ibi).toFixed(0)) + "</td></tr>";
+    }
+    el("tablehost").innerHTML = html + "</tbody></table>";
+    el("tablehost").scrollTop = el("tablehost").scrollHeight;
+  }
+
+  function drawAll() {
+    drawPreview(); drawPlot(); drawSpectrum(); updateReadouts();
+  }
+
+  function loop(now) {
+    requestAnimationFrame(loop);
+    if (!running) { return; }
+    var due = now - lastT >= 1000 / MAX_FPS - 2;
+    if (useRvfc ? (newFrame && due) : due) {
+      newFrame = false; lastT = now;
+      analyse(now);
+      drawAll();
+    }
+  }
+
+  // ---- download ----
+  function download() {
+    if (!T.length) { setStatus("Start the camera first: there is nothing to save yet.", true); return; }
+    var lines = ["time_s,raw,filtered,beat"], mark = {}, i;
+    for (i = 0; i < beats.length; i++) { mark[beats[i].idx] = 1; }
+    for (i = 0; i < T.length; i++) {
+      lines.push((T[i] / 1000).toFixed(3) + "," + RAW[i].toFixed(2) + "," + FILT[i].toFixed(4) + "," + (mark[i] ? 1 : 0));
+    }
+    var blob = new Blob([lines.join("\n") + "\n"], { type: "text/csv" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = "camera-pulse-" + mode + ".csv";
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+  }
+
+  // ---- wiring ----
+  el("start").addEventListener("click", start);
+  el("stop").addEventListener("click", stop);
+  el("reset").addEventListener("click", function () { resetAnalysis(); drawAll(); });
+  el("modefinger").addEventListener("click", function () { setMode("finger"); });
+  el("modeface").addEventListener("click", function () { setMode("face"); });
+  el("download").addEventListener("click", download);
+  function sliders() {
+    ["rleft", "rtop", "rwidth", "rheight"].forEach(function (id) { el(id + "disp").textContent = el(id).value + " %"; });
+  }
+  ["rleft", "rtop", "rwidth", "rheight"].forEach(function (id) { el(id).addEventListener("input", function () { sliders(); if (!running) { drawPreview(); } }); });
+  window.addEventListener("resize", drawAll);
+  if (window.matchMedia) { window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", drawAll); }
+  window.addEventListener("pagehide", stopTracks);
+
+  if (TEST) {
+    window.cameraPulse.startWithStream = function (s) { if (running) { stop(); } el("start").disabled = true; return startWithStream(s); };
+    window.cameraPulse.setMode = setMode;
+    window.cameraPulse.state = function () {
+      return { running: running, rateBeats: rateB, rateSpec: spec ? spec.bpm : null, ratio: spec ? spec.ratio : null,
+        quality: quality.level, beats: beats.length, frames: T.length, fps: fps(), source: source, goodMs: goodMs, streamActive: !!stream };
+    };
+  }
+
+  sliders();
+  setMode("finger");
+  requestAnimationFrame(loop);
+})();
+  </script>
+</body>
+</html>

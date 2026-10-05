@@ -1,6 +1,6 @@
 # Course apps (2026)
 
-Twenty-six small, self-contained WebAudio teaching apps written for the book. Each is
+Twenty-nine small, self-contained WebAudio teaching apps written for the book. Each is
 a single `index.html` with inline CSS and JS (vanilla JS, Web Audio API,
 canvas), no external requests, and works on both phones and laptops. Sound
 starts only after a user gesture. Like the vendored apps, these are copied into
@@ -115,3 +115,18 @@ the deployed site under `/apps/` by the build.
   horizontal motion balance as stereo panning, with a limiter. Based on
   webvideosonifyer (https://github.com/alexarje/webvideosonifyer). Chapter:
   *The body*.
+- `camera-pulse/` — heart rate by photoplethysmography: a fingertip over the
+  phone camera (torch where the browser allows it) or the face in a webcam,
+  with the pulse wave, rate from intervals and from the spectrum (own FFT),
+  a signal-quality indicator, rough RMSSD and SDNN, and CSV export. Chapter:
+  *Physiology*.
+- `breathing-monitor/` — the breathing waveform and rate from a phone lying
+  on the chest (DeviceMotion) or from the chest region in a webcam, with
+  breath detection, rate from intervals and from the spectrum, an optional
+  pacing tone, and CSV export. Chapter: *Physiology*.
+- `eye-tracker/` — a webcam demonstration of video eye tracking without
+  libraries: dark-pupil detection in user-aligned eye boxes, nine-point
+  calibration with a least-squares mapping and residuals, live gaze on
+  notation, text, and shape stimuli with scanpath, fixations, and heatmap,
+  pupil area over time, and CSV and PNG export. A teaching instrument, not a
+  research one. Chapter: *Vision*.
