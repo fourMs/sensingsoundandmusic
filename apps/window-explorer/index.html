@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Window explorer</title>
+  <style>
+    :root {
+      --bg: #fdfdfd; --fg: #1c1e21; --muted: #5a6069; --panel: #f1f2f4;
+      --border: #c9ccd1; --accent: #0b6e99; --accent-fg: #ffffff; --canvas: #ffffff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #15171b; --fg: #e6e7e9; --muted: #9aa0a8; --panel: #20242b;
+        --border: #3a3f47; --accent: #4da3c7; --accent-fg: #0d1117; --canvas: #101216;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      margin: 0 auto; padding: 16px; max-width: 780px;
+      background: var(--bg); color: var(--fg); line-height: 1.45;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 8px; }
+    p.intro { margin: 0 0 14px; }
+    .hint { font-size: 0.9rem; color: var(--muted); margin-top: 10px; }
+    fieldset {
+      border: 1px solid var(--border); border-radius: 8px;
+      margin: 0 0 12px; padding: 10px 12px; background: var(--panel);
+    }
+    legend { font-weight: 600; font-size: 0.95rem; padding: 0 6px; }
+    label { font-weight: 600; font-size: 0.9rem; margin-right: 6px; }
+    .vals { font-weight: normal; color: var(--muted); }
+    select {
+      font-size: 1rem; padding: 6px 8px; border-radius: 6px;
+      border: 1px solid var(--border); background: var(--bg); color: var(--fg);
+    }
+    button {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 14px; font-size: 1rem; cursor: pointer;
+    }
+    button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+    button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+    input[type="range"] { accent-color: var(--accent); vertical-align: middle; }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+    canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; background: var(--canvas); }
+  </style>
+</head>
+<body>
+  <h1>Window explorer</h1>
+  <p class="intro">A spectrogram slices a sound into short windows and analyses each one. The window length forces a trade-off: long windows separate close frequencies but smear events in time, while short windows do the opposite. The test signal below contains two clicks 50 ms apart and two tones 50 Hz apart. Change the window size and watch what blurs.</p>
+
+  <fieldset>
+    <legend>Signal and analysis</legend>
+    <div class="row">
+      <label for="sig">Test signal</label>
+      <select id="sig" aria-label="Test signal">
+        <option value="combo" selected>Two clicks and two close tones</option>
+        <option value="tones">Two close tones (950 and 1000 Hz)</option>
+        <option value="clicks">Two clicks (50 ms apart)</option>
+        <option value="chirp">Rising chirp (100 to 7000 Hz)</option>
+      </select>
+    </div>
+    <div class="row">
+      <label>Window size (FFT)</label>
+      <button type="button" class="fftbtn" data-n="256">256</button>
+      <button type="button" class="fftbtn" data-n="1024" aria-pressed="true">1024</button>
+      <button type="button" class="fftbtn" data-n="4096">4096</button>
+      <button type="button" class="fftbtn" data-n="16384">16384</button>
+    </div>
+    <div class="row">
+      <span class="vals" id="wininfo"></span>
+    </div>
+    <div class="row">
+      <button type="button" id="play" class="primary">Play signal</button>
+      <button type="button" id="stop">Stop</button>
+      <label style="flex:1; min-width:160px;">Master volume <span class="vals" id="voldisp"></span>
+        <input type="range" id="vol" min="0" max="100" step="1" value="60" style="width:100%;" aria-label="Master volume"/>
+      </label>
+    </div>
+  </fieldset>
+
+  <canvas id="spec" width="900" height="460" aria-label="Spectrogram"></canvas>
+  <p class="hint">What to notice: at 16384 the two tones become two thin lines but the clicks smear into wide vertical bands; at 256 the clicks are sharp but the tones merge into one thick line.</p>
+
+  <script>
+(function () {
+  "use strict";
+  var SR = 16000;    // analysis and playback sample rate
+  var DUR = 2.0;     // seconds
+  var fftSize = 1024;
+  var signalType = "combo";
+  var ctx = null, master = null, source = null;
+
+  var el = function (id) { return document.getElementById(id); };
+  var canvas = el("spec"), c2d = canvas.getContext("2d");
+
+  // ---- signal generation ----
+  function makeSignal(type) {
+    var n = Math.floor(SR * DUR);
+    var x = new Float32Array(n);
+    var i, t;
+    function addTone(f, amp, t0, t1) {
+      var i0 = Math.floor(t0 * SR), i1 = Math.floor(t1 * SR);
+      var fade = Math.floor(0.01 * SR);
+      for (var k = i0; k < i1; k++) {
+        var env = 1;
+        if (k - i0 < fade) { env = (k - i0) / fade; }
+        if (i1 - k < fade) { env = (i1 - k) / fade; }
+        x[k] += amp * env * Math.sin(2 * Math.PI * f * (k / SR));
+      }
+    }
+    function addClick(t0) {
+      var i0 = Math.floor(t0 * SR);
+      // a 1 ms wide burst so it is audible but still sharp in time
+      for (var k = 0; k < 16 && i0 + k < n; k++) {
+        x[i0 + k] += 0.9 * (1 - k / 16) * (k % 2 === 0 ? 1 : -1);
+      }
+    }
+    if (type === "combo") {
+      addTone(950, 0.35, 0.15, 1.85);
+      addTone(1000, 0.35, 0.15, 1.85);
+      addClick(0.55);
+      addClick(0.60);
+    } else if (type === "tones") {
+      addTone(950, 0.4, 0.15, 1.85);
+      addTone(1000, 0.4, 0.15, 1.85);
+    } else if (type === "clicks") {
+      addClick(0.95);
+      addClick(1.00);
+    } else if (type === "chirp") {
+      var f0 = 100, f1 = 7000;
+      for (i = 0; i < n; i++) {
+        t = i / SR;
+        var phase = 2 * Math.PI * (f0 * t + (f1 - f0) / (2 * DUR) * t * t);
+        var env = Math.min(1, Math.min(t, DUR - t) / 0.02);
+        x[i] = 0.4 * env * Math.sin(phase);
+      }
+    }
+    return x;
+  }
+
+  // ---- radix-2 FFT (in place, no libraries) ----
+  function fft(re, im) {
+    var n = re.length;
+    var i, j, bit, len, half2, k;
+    for (i = 1, j = 0; i < n; i++) {
+      bit = n >> 1;
+      for (; j & bit; bit >>= 1) { j ^= bit; }
+      j |= bit;
+      if (i < j) {
+        var tr = re[i]; re[i] = re[j]; re[j] = tr;
+        var ti = im[i]; im[i] = im[j]; im[j] = ti;
+      }
+    }
+    for (len = 2; len <= n; len <<= 1) {
+      var ang = -2 * Math.PI / len;
+      var wr = Math.cos(ang), wi = Math.sin(ang);
+      half2 = len >> 1;
+      for (i = 0; i < n; i += len) {
+        var cr = 1, ci = 0;
+        for (k = 0; k < half2; k++) {
+          var ur = re[i + k], ui = im[i + k];
+          var vr = re[i + k + half2] * cr - im[i + k + half2] * ci;
+          var vi = re[i + k + half2] * ci + im[i + k + half2] * cr;
+          re[i + k] = ur + vr; im[i + k] = ui + vi;
+          re[i + k + half2] = ur - vr; im[i + k + half2] = ui - vi;
+          var ncr = cr * wr - ci * wi;
+          ci = cr * wi + ci * wr;
+          cr = ncr;
+        }
+      }
+    }
+  }
+
+  // ---- spectrogram computation ----
+  function spectrogram(x, nfft) {
+    var hop = Math.max(16, nfft >> 2);
+    var frames = Math.max(1, Math.floor((x.length - nfft) / hop) + 1);
+    if (x.length < nfft) { frames = 1; }
+    var bins = nfft >> 1;
+    var out = new Float32Array(frames * bins);
+    var win = new Float32Array(nfft);
+    var i, f;
+    for (i = 0; i < nfft; i++) {
+      win[i] = 0.5 - 0.5 * Math.cos(2 * Math.PI * i / (nfft - 1)); // Hann
+    }
+    var re = new Float32Array(nfft), im = new Float32Array(nfft);
+    for (f = 0; f < frames; f++) {
+      var off = f * hop;
+      for (i = 0; i < nfft; i++) {
+        var s = (off + i < x.length) ? x[off + i] : 0;
+        re[i] = s * win[i];
+        im[i] = 0;
+      }
+      fft(re, im);
+      for (i = 0; i < bins; i++) {
+        var mag = Math.sqrt(re[i] * re[i] + im[i] * im[i]) / nfft;
+        out[f * bins + i] = 20 * Math.log10(mag + 1e-9);
+      }
+    }
+    return { data: out, frames: frames, bins: bins, hop: hop, nfft: nfft };
+  }
+
+  // ---- colour map (viridis-like, works on light and dark pages) ----
+  var stops = [
+    [68, 1, 84], [59, 82, 139], [33, 145, 140], [94, 201, 98], [253, 231, 37]
+  ];
+  function colour(v) { // v in 0..1
+    var p = Math.max(0, Math.min(0.9999, v)) * (stops.length - 1);
+    var i = Math.floor(p), fr = p - i;
+    return [
+      Math.round(stops[i][0] + fr * (stops[i + 1][0] - stops[i][0])),
+      Math.round(stops[i][1] + fr * (stops[i + 1][1] - stops[i][1])),
+      Math.round(stops[i][2] + fr * (stops[i + 1][2] - stops[i][2]))
+    ];
+  }
+
+  // ---- drawing ----
+  function theme() {
+    var d = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return d ? { bg: "#101216", text: "#9aa0a8", tick: "#3a3f47" }
+             : { bg: "#ffffff", text: "#5a6069", tick: "#c9ccd1" };
+  }
+  var off = document.createElement("canvas");
+  function drawSpectrogram() {
+    var x = makeSignal(signalType);
+    var sg = spectrogram(x, fftSize);
+    var th = theme();
+    var w = canvas.width, h = canvas.height;
+    var mL = 62, mB = 40, mT = 10, mR = 12;
+    var pw = w - mL - mR, ph = h - mT - mB;
+    c2d.fillStyle = th.bg;
+    c2d.fillRect(0, 0, w, h);
+
+    // render frames x bins into a small offscreen canvas, then scale up
+    off.width = sg.frames;
+    off.height = sg.bins;
+    var octx = off.getContext("2d");
+    var img = octx.createImageData(sg.frames, sg.bins);
+    var dbMin = -80, dbMax = -10;
+    var f, b;
+    for (f = 0; f < sg.frames; f++) {
+      for (b = 0; b < sg.bins; b++) {
+        var db = sg.data[f * sg.bins + b];
+        var v = (db - dbMin) / (dbMax - dbMin);
+        var rgb = colour(v);
+        // row 0 at the top of the image is the highest frequency
+        var row = sg.bins - 1 - b;
+        var idx = (row * sg.frames + f) * 4;
+        img.data[idx] = rgb[0];
+        img.data[idx + 1] = rgb[1];
+        img.data[idx + 2] = rgb[2];
+        img.data[idx + 3] = 255;
+      }
+    }
+    octx.putImageData(img, 0, 0);
+    c2d.imageSmoothingEnabled = false;
+    c2d.drawImage(off, mL, mT, pw, ph);
+
+    // axes
+    c2d.fillStyle = th.text;
+    c2d.strokeStyle = th.tick;
+    c2d.font = "13px system-ui, sans-serif";
+    c2d.textAlign = "center";
+    var t;
+    for (t = 0; t <= DUR + 0.001; t += 0.5) {
+      var xx = mL + (t / DUR) * pw;
+      c2d.beginPath(); c2d.moveTo(xx, mT + ph); c2d.lineTo(xx, mT + ph + 5); c2d.stroke();
+      c2d.fillText(t.toFixed(1), xx, mT + ph + 20);
+    }
+    c2d.fillText("Time (s)", mL + pw / 2, h - 6);
+    c2d.textAlign = "right";
+    var nyq = SR / 2, hz;
+    for (hz = 0; hz <= nyq + 1; hz += 2000) {
+      var yy = mT + ph - (hz / nyq) * ph;
+      c2d.beginPath(); c2d.moveTo(mL - 5, yy); c2d.lineTo(mL, yy); c2d.stroke();
+      c2d.fillText(String(hz), mL - 8, yy + 4);
+    }
+    c2d.save();
+    c2d.translate(14, mT + ph / 2);
+    c2d.rotate(-Math.PI / 2);
+    c2d.textAlign = "center";
+    c2d.fillText("Frequency (Hz)", 0, 0);
+    c2d.restore();
+    c2d.textAlign = "left";
+
+    var winMs = (fftSize / SR * 1000).toFixed(1);
+    var binHz = (SR / fftSize).toFixed(2);
+    el("wininfo").textContent = "Window length: " + winMs + " ms. Frequency spacing between analysis bins: " + binHz + " Hz.";
+  }
+
+  // ---- playback ----
+  function stopAudio() {
+    if (source) {
+      try { source.stop(); } catch (e) {}
+      source = null;
+    }
+  }
+  function playAudio() {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      master = ctx.createGain();
+      master.gain.value = 0;
+      master.connect(ctx.destination);
+    }
+    if (ctx.state === "suspended") { ctx.resume(); }
+    stopAudio();
+    var x = makeSignal(signalType);
+    var buf = ctx.createBuffer(1, x.length, SR);
+    buf.copyToChannel(x, 0);
+    var t = ctx.currentTime;
+    master.gain.cancelScheduledValues(t);
+    master.gain.setValueAtTime(0, t);
+    master.gain.linearRampToValueAtTime(0.3 * parseFloat(el("vol").value) / 100, t + 0.02);
+    source = ctx.createBufferSource();
+    source.buffer = buf;
+    source.connect(master);
+    source.onended = function () { source = null; };
+    source.start(t + 0.02);
+  }
+
+  // ---- wiring ----
+  var btns = document.querySelectorAll(".fftbtn");
+  var i;
+  for (i = 0; i < btns.length; i++) {
+    btns[i].addEventListener("click", function () {
+      for (var k = 0; k < btns.length; k++) { btns[k].setAttribute("aria-pressed", "false"); }
+      this.setAttribute("aria-pressed", "true");
+      fftSize = parseInt(this.getAttribute("data-n"), 10);
+      drawSpectrogram();
+    });
+  }
+  el("sig").addEventListener("change", function () {
+    signalType = this.value;
+    drawSpectrogram();
+  });
+  el("play").addEventListener("click", playAudio);
+  el("stop").addEventListener("click", stopAudio);
+  el("vol").addEventListener("input", function () {
+    el("voldisp").textContent = this.value + " %";
+    if (ctx && master) {
+      master.gain.setTargetAtTime(0.3 * parseFloat(this.value) / 100, ctx.currentTime, 0.03);
+    }
+  });
+  el("voldisp").textContent = el("vol").value + " %";
+  if (window.matchMedia) {
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", drawSpectrogram);
+  }
+  drawSpectrogram();
+})();
+  </script>
+</body>
+</html>

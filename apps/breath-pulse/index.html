@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Breath and pulse</title>
+  <style>
+    :root {
+      --bg: #fdfdfd; --fg: #1c1e21; --muted: #5a6069; --panel: #f1f2f4;
+      --border: #c9ccd1; --accent: #0b6e99; --accent-fg: #ffffff; --canvas: #ffffff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #15171b; --fg: #e6e7e9; --muted: #9aa0a8; --panel: #20242b;
+        --border: #3a3f47; --accent: #4da3c7; --accent-fg: #0d1117; --canvas: #101216;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      margin: 0 auto; padding: 16px; max-width: 780px;
+      background: var(--bg); color: var(--fg); line-height: 1.45;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 8px; }
+    p.intro { margin: 0 0 14px; }
+    .hint { font-size: 0.9rem; color: var(--muted); margin-top: 10px; }
+    .privacy {
+      border: 1px solid var(--border); border-radius: 8px; background: var(--panel);
+      padding: 8px 12px; margin: 0 0 14px; font-size: 0.9rem; color: var(--muted);
+    }
+    fieldset {
+      border: 1px solid var(--border); border-radius: 8px;
+      margin: 0 0 12px; padding: 10px 12px; background: var(--panel);
+    }
+    legend { font-weight: 600; font-size: 0.95rem; padding: 0 6px; }
+    label { font-weight: 600; font-size: 0.9rem; }
+    .vals { font-weight: normal; color: var(--muted); margin-left: 4px; }
+    input[type="range"] { width: 100%; margin: 2px 0 4px; accent-color: var(--accent); }
+    input[type="number"], input[type="text"] {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 6px 8px; font-size: 1rem;
+    }
+    input[type="number"] { width: 90px; }
+    button {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 14px; font-size: 1rem; cursor: pointer;
+    }
+    button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+    button:disabled { opacity: 0.5; cursor: default; }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 10px 0; }
+    .bigtime { font-size: 2rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .phase { font-size: 1.1rem; font-weight: 600; min-height: 1.5em; }
+    canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; background: var(--canvas); }
+    table { border-collapse: collapse; margin-top: 10px; width: 100%; font-size: 0.9rem; }
+    th, td { border: 1px solid var(--border); padding: 4px 8px; text-align: left; }
+    th { background: var(--panel); }
+  </style>
+</head>
+<body>
+  <h1>Breath and pulse</h1>
+  <p class="intro">Your breathing and your heartbeat are coupled: the pulse speeds up slightly on the in-breath and slows on the out-breath, and slow paced breathing calms both. Use the guide below to breathe at a set pace, then measure your pulse by hand (two fingers on the wrist or the neck) and log the numbers under different conditions, for example at rest, after slow music, and after fast music.</p>
+  <p class="privacy">Nothing leaves this page. The numbers you type are kept in memory only and disappear when you close or reload the tab.</p>
+
+  <fieldset>
+    <legend>Paced breathing guide</legend>
+    <label>Pace <span class="vals" id="pacedisp"></span></label>
+    <input type="range" id="pace" min="4" max="8" step="0.5" value="6" aria-label="Breathing pace in breaths per minute"/>
+    <div class="row">
+      <button type="button" id="guide" class="primary">Start guide</button>
+      <span class="phase" id="phase"></span>
+    </div>
+    <canvas id="circle" width="900" height="300" aria-label="Expanding and contracting breathing circle"></canvas>
+  </fieldset>
+
+  <fieldset>
+    <legend>Pulse counter</legend>
+    <p style="margin:0 0 8px;">Find your pulse first. Press the button, count beats for 30 seconds between the two beeps, then type the count. The app doubles it to beats per minute and adds it to the table.</p>
+    <div class="row">
+      <button type="button" id="count30" class="primary">Start 30 s count (with beeps)</button>
+      <span class="bigtime" id="countdown"></span>
+    </div>
+    <div class="row" id="entryrow" style="display:none;">
+      <label for="beats" style="margin:0;">Beats counted:</label>
+      <input type="number" id="beats" min="0" max="150" step="1" aria-label="Number of beats counted"/>
+      <label for="cond" style="margin:0;">Condition:</label>
+      <input type="text" id="cond" placeholder="e.g. rest, after fast music" aria-label="Condition label"/>
+      <button type="button" id="log">Add to table</button>
+    </div>
+    <div id="tablehost"></div>
+  </fieldset>
+
+  <p class="hint">What to notice: for most people a few minutes of breathing at 4 to 6 breaths per minute visibly lowers the pulse, and lively music nudges it the other way. The differences are small, so count carefully. This is a classroom exercise, not a medical measurement.</p>
+
+  <script>
+(function () {
+  "use strict";
+  var ctx = null, master = null;
+  var guideOn = false;
+  var breathPhase = 0; // 0..1, one full breath cycle
+  var lastTime = null;
+  var counting = false;
+  var countEnd = 0;
+  var entries = [];
+
+  var el = function (id) { return document.getElementById(id); };
+  var paceEl = el("pace");
+  var canvas = el("circle"), c2d = canvas.getContext("2d");
+
+  // ---- audio: only two beeps, created after a user gesture ----
+  function ensureAudio() {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      master = ctx.createGain();
+      master.gain.value = 0.25;
+      master.connect(ctx.destination);
+    }
+    if (ctx.state === "suspended") { ctx.resume(); }
+  }
+  function beep(t, freq, dur) {
+    var o = ctx.createOscillator();
+    o.type = "sine";
+    o.frequency.value = freq;
+    var g = ctx.createGain();
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(0.8, t + 0.01);
+    g.gain.setTargetAtTime(0, t + dur, 0.03);
+    o.connect(g);
+    g.connect(master);
+    o.start(t);
+    o.stop(t + dur + 0.15);
+  }
+
+  // ---- breathing guide ----
+  function updatePace() {
+    el("pacedisp").textContent = parseFloat(paceEl.value).toFixed(1) + " breaths per minute";
+  }
+  function guideToggle() {
+    guideOn = !guideOn;
+    el("guide").textContent = guideOn ? "Stop guide" : "Start guide";
+    el("guide").classList.toggle("primary", !guideOn);
+    if (!guideOn) { el("phase").textContent = ""; }
+  }
+
+  function theme() {
+    var d = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return d ? { bg: "#101216", grid: "#2a2f37", fill: "#4da3c7", text: "#9aa0a8" }
+             : { bg: "#ffffff", grid: "#e3e5e8", fill: "#0b6e99", text: "#5a6069" };
+  }
+
+  function tick(now) {
+    requestAnimationFrame(tick);
+    var dt = lastTime === null ? 0 : Math.min(0.1, (now - lastTime) / 1000);
+    lastTime = now;
+    if (guideOn) {
+      breathPhase += dt * parseFloat(paceEl.value) / 60;
+      breathPhase -= Math.floor(breathPhase);
+      el("phase").textContent = breathPhase < 0.5 ? "Breathe in..." : "Breathe out...";
+    }
+    // draw circle
+    var th = theme();
+    var w = canvas.width, h = canvas.height;
+    c2d.fillStyle = th.bg;
+    c2d.fillRect(0, 0, w, h);
+    var minR = h * 0.12, maxR = h * 0.42;
+    // smooth in-out: raised cosine over the cycle
+    var x = guideOn ? 0.5 - 0.5 * Math.cos(2 * Math.PI * breathPhase) : 0.25;
+    var r = minR + (maxR - minR) * x;
+    c2d.strokeStyle = th.grid;
+    c2d.beginPath(); c2d.arc(w / 2, h / 2, maxR, 0, 2 * Math.PI); c2d.stroke();
+    c2d.fillStyle = th.fill;
+    c2d.globalAlpha = 0.75;
+    c2d.beginPath(); c2d.arc(w / 2, h / 2, r, 0, 2 * Math.PI); c2d.fill();
+    c2d.globalAlpha = 1;
+    // countdown text on the canvas too, so eyes can stay in one place
+    if (counting) {
+      var left = Math.max(0, (countEnd - performance.now()) / 1000);
+      c2d.fillStyle = th.text;
+      c2d.font = "24px system-ui, sans-serif";
+      c2d.fillText(left.toFixed(0) + " s", w / 2 - 18, h / 2 + 8);
+    }
+  }
+
+  // ---- pulse counter ----
+  function startCount() {
+    if (counting) { return; }
+    ensureAudio();
+    counting = true;
+    countEnd = performance.now() + 30000;
+    beep(ctx.currentTime + 0.05, 880, 0.15);
+    beep(ctx.currentTime + 30.05, 660, 0.4);
+    el("count30").disabled = true;
+    el("entryrow").style.display = "none";
+    var iv = setInterval(function () {
+      var left = Math.max(0, (countEnd - performance.now()) / 1000);
+      el("countdown").textContent = left.toFixed(0) + " s";
+      if (left <= 0) {
+        clearInterval(iv);
+        counting = false;
+        el("countdown").textContent = "";
+        el("count30").disabled = false;
+        el("entryrow").style.display = "";
+        el("beats").focus();
+      }
+    }, 200);
+  }
+
+  function renderTable() {
+    if (!entries.length) { el("tablehost").innerHTML = ""; return; }
+    var html = "<table><tr><th>#</th><th>Condition</th><th>Beats in 30 s</th><th>bpm</th></tr>";
+    for (var i = 0; i < entries.length; i++) {
+      html += "<tr><td>" + (i + 1) + "</td><td>" + entries[i].cond +
+        "</td><td>" + entries[i].beats + "</td><td>" + entries[i].bpm + "</td></tr>";
+    }
+    el("tablehost").innerHTML = html + "</table>";
+  }
+
+  function logEntry() {
+    var beats = parseInt(el("beats").value, 10);
+    if (isNaN(beats) || beats < 0) { return; }
+    var cond = el("cond").value.trim() || "unlabelled";
+    // keep it text-only in the table
+    cond = cond.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    entries.push({ cond: cond, beats: beats, bpm: beats * 2 });
+    el("beats").value = "";
+    el("entryrow").style.display = "none";
+    renderTable();
+  }
+
+  // ---- wiring ----
+  el("guide").addEventListener("click", guideToggle);
+  el("count30").addEventListener("click", startCount);
+  el("log").addEventListener("click", logEntry);
+  paceEl.addEventListener("input", updatePace);
+  updatePace();
+  requestAnimationFrame(tick);
+})();
+  </script>
+</body>
+</html>

@@ -1,0 +1,692 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.2" width="189.00mm" height="71.57mm" viewBox="-1.9981 -1.5000 119.5034 45.2500">
+<style type="text/css">
+<![CDATA[
+tspan { white-space: pre; }
+]]>
+</style>
+<g transform="translate(99.3938, 33.0000)">
+<rect x="0.0000" y="-1.0000" width="0.2039" height="2.0000" ry="0.0000" fill="currentColor"/>
+</g>
+<g transform="translate(99.3938, 9.0000)">
+<rect x="0.0000" y="-1.0000" width="0.2039" height="2.0000" ry="0.0000" fill="currentColor"/>
+</g>
+<g transform="translate(99.3938, 1.0000)">
+<rect x="0.0000" y="-1.0000" width="0.2039" height="2.0000" ry="0.0000" fill="currentColor"/>
+</g>
+<g transform="translate(60.2938, 33.0000)">
+<rect x="0.0000" y="-1.0000" width="0.2039" height="2.0000" ry="0.0000" fill="currentColor"/>
+</g>
+<g transform="translate(99.3938, 17.0000)">
+<rect x="0.0000" y="-1.0000" width="0.2039" height="2.0000" ry="0.0000" fill="currentColor"/>
+</g>
+<g transform="translate(21.4976, 41.0000)">
+<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1073" stroke="currentColor" x1="0.0537" y1="0" x2="78.0463" y2="0"/>
+</g>
+<g transform="translate(60.2938, 41.0000)">
+<rect x="0.0000" y="-1.0000" width="0.2039" height="2.0000" ry="0.0000" fill="currentColor"/>
+</g>
+<g transform="translate(99.3938, 25.0000)">
+<rect x="0.0000" y="-1.0000" width="0.2039" height="2.0000" ry="0.0000" fill="currentColor"/>
+</g>
+<g transform="translate(21.4976, 33.0000)">
+<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1073" stroke="currentColor" x1="0.0537" y1="0" x2="78.0463" y2="0"/>
+</g>
+<g transform="translate(60.2938, 1.0000)">
+<rect x="0.0000" y="-1.0000" width="0.2039" height="2.0000" ry="0.0000" fill="currentColor"/>
+</g>
+<g transform="translate(21.4976, 25.0000)">
+<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1073" stroke="currentColor" x1="0.0537" y1="0" x2="78.0463" y2="0"/>
+</g>
+<g transform="translate(60.2938, 9.0000)">
+<rect x="0.0000" y="-1.0000" width="0.2039" height="2.0000" ry="0.0000" fill="currentColor"/>
+</g>
+<g transform="translate(21.4976, 1.0000)">
+<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1073" stroke="currentColor" x1="0.0537" y1="0" x2="78.0463" y2="0"/>
+</g>
+<g transform="translate(21.4976, 17.0000)">
+<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1073" stroke="currentColor" x1="0.0537" y1="0" x2="78.0463" y2="0"/>
+</g>
+<g transform="translate(99.3938, 41.0000)">
+<rect x="0.0000" y="-1.0000" width="0.2039" height="2.0000" ry="0.0000" fill="currentColor"/>
+</g>
+<g transform="translate(60.2938, 17.0000)">
+<rect x="0.0000" y="-1.0000" width="0.2039" height="2.0000" ry="0.0000" fill="currentColor"/>
+</g>
+<g transform="translate(21.4976, 9.0000)">
+<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1073" stroke="currentColor" x1="0.0537" y1="0" x2="78.0463" y2="0"/>
+</g>
+<g transform="translate(60.2938, 25.0000)">
+<rect x="0.0000" y="-1.0000" width="0.2039" height="2.0000" ry="0.0000" fill="currentColor"/>
+</g>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:17:70:71">
+<g transform="translate(70.7976, 17.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M-8 78c0 59 125 83 125 182c0 25 -9 49 -26 69l-33 40c-3 4 -4 7 -4 11c0 9 9 17 18 17c4 0 8 -2 12 -6l150 -179c7 -9 11 -18 11 -26c0 -59 -125 -83 -125 -182c0 -25 8 -49 25 -69l82 -97c3 -4 4 -7 4 -11c0 -9 -8 -17 -17 -17c-10 0 -42 42 -106 42
+c-19 0 -54 -1 -54 -66c0 -34 10 -73 27 -93c7 -9 -5 -20 -12 -11c-45 53 -93 147 -93 201c0 42 27 42 43 42c31 0 74 -11 113 -27l-129 154c-7 9 -11 18 -11 26z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:18:90:91">
+<g transform="translate(70.7976, 25.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M70 205c80 0 46 -97 90 -97c15 0 52 45 59 59c6 13 26 13 31 0l-121 -417c-9 -7 -19 -11 -30 -11s-21 4 -30 11l118 326c-33 -12 -68 -22 -103 -22c-47 0 -87 34 -87 79c0 40 33 72 73 72z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:147:148">
+<g transform="translate(70.7976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M125 205c80 0 46 -97 90 -97c14 0 48 45 54 59c6 13 26 13 31 0l-177 -667c-9 -7 -19 -11 -30 -11s-20 4 -29 11l100 326c-33 -12 -67 -22 -103 -22c-47 0 -87 34 -87 79c0 40 33 72 73 72c80 0 46 -97 90 -97c16 0 53 51 58 67l46 151c-33 -12 -67 -22 -102 -22
+c-47 0 -87 34 -87 79c0 40 33 72 73 72z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:18:87:88">
+<g transform="translate(65.9976, 25.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M70 205c80 0 46 -97 90 -97c15 0 52 45 59 59c6 13 26 13 31 0l-121 -417c-9 -7 -19 -11 -30 -11s-21 4 -30 11l118 326c-33 -12 -68 -22 -103 -22c-47 0 -87 34 -87 79c0 40 33 72 73 72z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:139:140">
+<g transform="translate(65.9976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M125 205c80 0 46 -97 90 -97c14 0 48 45 54 59c6 13 26 13 31 0l-177 -667c-9 -7 -19 -11 -30 -11s-20 4 -29 11l100 326c-33 -12 -67 -22 -103 -22c-47 0 -87 34 -87 79c0 40 33 72 73 72c80 0 46 -97 90 -97c16 0 53 51 58 67l46 151c-33 -12 -67 -22 -102 -22
+c-47 0 -87 34 -87 79c0 40 33 72 73 72z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:135:136">
+<g transform="translate(63.5976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M125 205c80 0 46 -97 90 -97c14 0 48 45 54 59c6 13 26 13 31 0l-177 -667c-9 -7 -19 -11 -30 -11s-20 4 -29 11l100 326c-33 -12 -67 -22 -103 -22c-47 0 -87 34 -87 79c0 40 33 72 73 72c80 0 46 -97 90 -97c16 0 53 51 58 67l46 151c-33 -12 -67 -22 -102 -22
+c-47 0 -87 34 -87 79c0 40 33 72 73 72z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:143:144">
+<g transform="translate(68.3976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M125 205c80 0 46 -97 90 -97c14 0 48 45 54 59c6 13 26 13 31 0l-177 -667c-9 -7 -19 -11 -30 -11s-20 4 -29 11l100 326c-33 -12 -67 -22 -103 -22c-47 0 -87 34 -87 79c0 40 33 72 73 72c80 0 46 -97 90 -97c16 0 53 51 58 67l46 151c-33 -12 -67 -22 -102 -22
+c-47 0 -87 34 -87 79c0 40 33 72 73 72z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:20:96:97">
+<g transform="translate(75.5976, 41.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M70 205c80 0 46 -97 90 -97c15 0 52 45 59 59c6 13 26 13 31 0l-121 -417c-9 -7 -19 -11 -30 -11s-21 4 -30 11l118 326c-33 -12 -68 -22 -103 -22c-47 0 -87 34 -87 79c0 40 33 72 73 72z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:159:160">
+<g transform="translate(77.9976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M125 205c80 0 46 -97 90 -97c14 0 48 45 54 59c6 13 26 13 31 0l-177 -667c-9 -7 -19 -11 -30 -11s-20 4 -29 11l100 326c-33 -12 -67 -22 -103 -22c-47 0 -87 34 -87 79c0 40 33 72 73 72c80 0 46 -97 90 -97c16 0 53 51 58 67l46 151c-33 -12 -67 -22 -102 -22
+c-47 0 -87 34 -87 79c0 40 33 72 73 72z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:155:156">
+<g transform="translate(75.5976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M125 205c80 0 46 -97 90 -97c14 0 48 45 54 59c6 13 26 13 31 0l-177 -667c-9 -7 -19 -11 -30 -11s-20 4 -29 11l100 326c-33 -12 -67 -22 -103 -22c-47 0 -87 34 -87 79c0 40 33 72 73 72c80 0 46 -97 90 -97c16 0 53 51 58 67l46 151c-33 -12 -67 -22 -102 -22
+c-47 0 -87 34 -87 79c0 40 33 72 73 72z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:18:93:94">
+<g transform="translate(75.5976, 25.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M70 205c80 0 46 -97 90 -97c15 0 52 45 59 59c6 13 26 13 31 0l-121 -417c-9 -7 -19 -11 -30 -11s-21 4 -30 11l118 326c-33 -12 -68 -22 -103 -22c-47 0 -87 34 -87 79c0 40 33 72 73 72z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:151:152">
+<g transform="translate(73.1976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M125 205c80 0 46 -97 90 -97c14 0 48 45 54 59c6 13 26 13 31 0l-177 -667c-9 -7 -19 -11 -30 -11s-20 4 -29 11l100 326c-33 -12 -67 -22 -103 -22c-47 0 -87 34 -87 79c0 40 33 72 73 72c80 0 46 -97 90 -97c16 0 53 51 58 67l46 151c-33 -12 -67 -22 -102 -22
+c-47 0 -87 34 -87 79c0 40 33 72 73 72z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:20:92:93">
+<g transform="translate(61.1976, 41.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M-8 78c0 59 125 83 125 182c0 25 -9 49 -26 69l-33 40c-3 4 -4 7 -4 11c0 9 9 17 18 17c4 0 8 -2 12 -6l150 -179c7 -9 11 -18 11 -26c0 -59 -125 -83 -125 -182c0 -25 8 -49 25 -69l82 -97c3 -4 4 -7 4 -11c0 -9 -8 -17 -17 -17c-10 0 -42 42 -106 42
+c-19 0 -54 -1 -54 -66c0 -34 10 -73 27 -93c7 -9 -5 -20 -12 -11c-45 53 -93 147 -93 201c0 42 27 42 43 42c31 0 74 -11 113 -27l-129 154c-7 9 -11 18 -11 26z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:131:132">
+<g transform="translate(61.1976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M125 205c80 0 46 -97 90 -97c14 0 48 45 54 59c6 13 26 13 31 0l-177 -667c-9 -7 -19 -11 -30 -11s-20 4 -29 11l100 326c-33 -12 -67 -22 -103 -22c-47 0 -87 34 -87 79c0 40 33 72 73 72c80 0 46 -97 90 -97c16 0 53 51 58 67l46 151c-33 -12 -67 -22 -102 -22
+c-47 0 -87 34 -87 79c0 40 33 72 73 72z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:18:84:85">
+<g transform="translate(61.1976, 25.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M70 205c80 0 46 -97 90 -97c15 0 52 45 59 59c6 13 26 13 31 0l-121 -417c-9 -7 -19 -11 -30 -11s-21 4 -30 11l118 326c-33 -12 -68 -22 -103 -22c-47 0 -87 34 -87 79c0 40 33 72 73 72z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:17:67:68">
+<g transform="translate(61.1976, 17.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M-8 78c0 59 125 83 125 182c0 25 -9 49 -26 69l-33 40c-3 4 -4 7 -4 11c0 9 9 17 18 17c4 0 8 -2 12 -6l150 -179c7 -9 11 -18 11 -26c0 -59 -125 -83 -125 -182c0 -25 8 -49 25 -69l82 -97c3 -4 4 -7 4 -11c0 -9 -8 -17 -17 -17c-10 0 -42 42 -106 42
+c-19 0 -54 -1 -54 -66c0 -34 10 -73 27 -93c7 -9 -5 -20 -12 -11c-45 53 -93 147 -93 201c0 42 27 42 43 42c31 0 74 -11 113 -27l-129 154c-7 9 -11 18 -11 26z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:16:55:56">
+<g transform="translate(61.1976, 9.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M364 0h-353c-6 0 -11 5 -11 11v134c0 6 5 11 11 11h353c6 0 11 -5 11 -11v-134c0 -6 -5 -11 -11 -11z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:15:57:58">
+<g transform="translate(61.1976, 1.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M364 -156h-353c-6 0 -11 5 -11 11v134c0 6 5 11 11 11h353c6 0 11 -5 11 -11v-134c0 -6 -5 -11 -11 -11z" fill="currentColor"/>
+</g>
+</a>
+<g transform="translate(60.0307, 33.0000)">
+<rect x="-0.0697" y="-3.1863" width="0.1395" height="3.0070" ry="0.0444" fill="currentColor"/>
+</g>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:122:123">
+<g transform="translate(58.7976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<g transform="translate(62.5936, 40.5000)">
+<path transform="scale(0.0040, -0.0040)" d="M0 0c0 31 25 56 56 56s55 -25 55 -56s-24 -56 -55 -56s-56 25 -56 56z" fill="currentColor"/>
+</g>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:187:188">
+<g transform="translate(94.7976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M125 205c80 0 46 -97 90 -97c14 0 48 45 54 59c6 13 26 13 31 0l-177 -667c-9 -7 -19 -11 -30 -11s-20 4 -29 11l100 326c-33 -12 -67 -22 -103 -22c-47 0 -87 34 -87 79c0 40 33 72 73 72c80 0 46 -97 90 -97c16 0 53 51 58 67l46 151c-33 -12 -67 -22 -102 -22
+c-47 0 -87 34 -87 79c0 40 33 72 73 72z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:18:105:106">
+<g transform="translate(94.7976, 25.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M70 205c80 0 46 -97 90 -97c15 0 52 45 59 59c6 13 26 13 31 0l-121 -417c-9 -7 -19 -11 -30 -11s-21 4 -30 11l118 326c-33 -12 -68 -22 -103 -22c-47 0 -87 34 -87 79c0 40 33 72 73 72z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:183:184">
+<g transform="translate(92.3976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M125 205c80 0 46 -97 90 -97c14 0 48 45 54 59c6 13 26 13 31 0l-177 -667c-9 -7 -19 -11 -30 -11s-20 4 -29 11l100 326c-33 -12 -67 -22 -103 -22c-47 0 -87 34 -87 79c0 40 33 72 73 72c80 0 46 -97 90 -97c16 0 53 51 58 67l46 151c-33 -12 -67 -22 -102 -22
+c-47 0 -87 34 -87 79c0 40 33 72 73 72z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:20:99:100">
+<g transform="translate(83.6045, 39.7034)">
+<text font-family="serif" font-style="italic" font-size="1.7464" text-anchor="start" fill="currentColor">
+<tspan>3</tspan>
+</text>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:20:99:100">
+<g transform="translate(80.3976, 39.0800)">
+<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1717" stroke="currentColor" x1="7.6000" y1="-0.0000" x2="7.6000" y2="0.7000"/>
+</g>
+<g transform="translate(80.3976, 39.0800)">
+<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1717" stroke="currentColor" x1="-0.2000" y1="-0.0000" x2="-0.2000" y2="0.7000"/>
+</g>
+<g transform="translate(80.3976, 39.0800)">
+<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1717" stroke="currentColor" x1="7.6000" y1="-0.0000" x2="4.7932" y2="-0.0000"/>
+</g>
+<g transform="translate(80.3976, 39.0800)">
+<line stroke-linejoin="round" stroke-linecap="round" stroke-width="0.1717" stroke="currentColor" x1="-0.2000" y1="-0.0000" x2="2.8068" y2="-0.0000"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:112:113">
+<g transform="translate(52.7610, 29.8137)">
+<polygon stroke-linejoin="round" stroke-linecap="round" stroke-width="0.0889" fill="currentColor" stroke="currentColor" points="7.2950 -0.1956 7.2950 0.1956 0.0444 0.1956 0.0444 -0.1956"/>
+</g>
+<g transform="translate(52.7610, 30.6273)">
+<polygon stroke-linejoin="round" stroke-linecap="round" stroke-width="0.0889" fill="currentColor" stroke="currentColor" points="7.2950 -0.1956 7.2950 0.1956 0.0444 0.1956 0.0444 -0.1956"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:18:74:75">
+<g transform="translate(52.7610, 22.0000)">
+<polygon stroke-linejoin="round" stroke-linecap="round" stroke-width="0.0889" fill="currentColor" stroke="currentColor" points="4.8950 -0.1956 4.8950 0.1956 0.0444 0.1956 0.0444 -0.1956"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:20:58:59">
+<g transform="translate(45.9375, 37.2834)">
+<text font-family="serif" font-style="italic" font-size="1.7464" text-anchor="start" fill="currentColor">
+<tspan>3</tspan>
+</text>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:20:58:59">
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:20:74:75">
+<g transform="translate(43.1610, 38.0000)">
+<polygon stroke-linejoin="round" stroke-linecap="round" stroke-width="0.0889" fill="currentColor" stroke="currentColor" points="6.4950 -0.1956 6.4950 0.1956 0.0444 0.1956 0.0444 -0.1956"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:94:95">
+<g transform="translate(43.1610, 29.8137)">
+<polygon stroke-linejoin="round" stroke-linecap="round" stroke-width="0.0889" fill="currentColor" stroke="currentColor" points="7.2950 -0.1956 7.2950 0.1956 0.0444 0.1956 0.0444 -0.1956"/>
+</g>
+<g transform="translate(43.1610, 30.6273)">
+<polygon stroke-linejoin="round" stroke-linecap="round" stroke-width="0.0889" fill="currentColor" stroke="currentColor" points="7.2950 -0.1956 7.2950 0.1956 0.0444 0.1956 0.0444 -0.1956"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:18:66:67">
+<g transform="translate(43.1610, 22.0000)">
+<polygon stroke-linejoin="round" stroke-linecap="round" stroke-width="0.0889" fill="currentColor" stroke="currentColor" points="4.8950 -0.1956 4.8950 0.1956 0.0444 0.1956 0.0444 -0.1956"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:76:77">
+<g transform="translate(33.5610, 29.8137)">
+<polygon stroke-linejoin="round" stroke-linecap="round" stroke-width="0.0889" fill="currentColor" stroke="currentColor" points="7.2950 -0.1956 7.2950 0.1956 0.0444 0.1956 0.0444 -0.1956"/>
+</g>
+<g transform="translate(33.5610, 30.6273)">
+<polygon stroke-linejoin="round" stroke-linecap="round" stroke-width="0.0889" fill="currentColor" stroke="currentColor" points="7.2950 -0.1956 7.2950 0.1956 0.0444 0.1956 0.0444 -0.1956"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:18:58:59">
+<g transform="translate(33.5610, 22.0000)">
+<polygon stroke-linejoin="round" stroke-linecap="round" stroke-width="0.0889" fill="currentColor" stroke="currentColor" points="4.8950 -0.1956 4.8950 0.1956 0.0444 0.1956 0.0444 -0.1956"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:58:59">
+<g transform="translate(23.9610, 29.8137)">
+<polygon stroke-linejoin="round" stroke-linecap="round" stroke-width="0.0889" fill="currentColor" stroke="currentColor" points="7.2950 -0.1956 7.2950 0.1956 0.0444 0.1956 0.0444 -0.1956"/>
+</g>
+<g transform="translate(23.9610, 30.6273)">
+<polygon stroke-linejoin="round" stroke-linecap="round" stroke-width="0.0889" fill="currentColor" stroke="currentColor" points="7.2950 -0.1956 7.2950 0.1956 0.0444 0.1956 0.0444 -0.1956"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:18:50:51">
+<g transform="translate(23.9610, 22.0000)">
+<polygon stroke-linejoin="round" stroke-linecap="round" stroke-width="0.0889" fill="currentColor" stroke="currentColor" points="4.8950 -0.1956 4.8950 0.1956 0.0444 0.1956 0.0444 -0.1956"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:20:124:125">
+<g transform="translate(89.9976, 41.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M-8 78c0 59 125 83 125 182c0 25 -9 49 -26 69l-33 40c-3 4 -4 7 -4 11c0 9 9 17 18 17c4 0 8 -2 12 -6l150 -179c7 -9 11 -18 11 -26c0 -59 -125 -83 -125 -182c0 -25 8 -49 25 -69l82 -97c3 -4 4 -7 4 -11c0 -9 -8 -17 -17 -17c-10 0 -42 42 -106 42
+c-19 0 -54 -1 -54 -66c0 -34 10 -73 27 -93c7 -9 -5 -20 -12 -11c-45 53 -93 147 -93 201c0 42 27 42 43 42c31 0 74 -11 113 -27l-129 154c-7 9 -11 18 -11 26z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:191:192">
+<g transform="translate(97.1976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M125 205c80 0 46 -97 90 -97c14 0 48 45 54 59c6 13 26 13 31 0l-177 -667c-9 -7 -19 -11 -30 -11s-20 4 -29 11l100 326c-33 -12 -67 -22 -103 -22c-47 0 -87 34 -87 79c0 40 33 72 73 72c80 0 46 -97 90 -97c16 0 53 51 58 67l46 151c-33 -12 -67 -22 -102 -22
+c-47 0 -87 34 -87 79c0 40 33 72 73 72z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:167:168">
+<g transform="translate(82.7976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M125 205c80 0 46 -97 90 -97c14 0 48 45 54 59c6 13 26 13 31 0l-177 -667c-9 -7 -19 -11 -30 -11s-20 4 -29 11l100 326c-33 -12 -67 -22 -103 -22c-47 0 -87 34 -87 79c0 40 33 72 73 72c80 0 46 -97 90 -97c16 0 53 51 58 67l46 151c-33 -12 -67 -22 -102 -22
+c-47 0 -87 34 -87 79c0 40 33 72 73 72z" fill="currentColor"/>
+</g>
+</a>
+<g transform="translate(57.6307, 33.0000)">
+<rect x="-0.0697" y="-3.1863" width="0.1395" height="3.0070" ry="0.0444" fill="currentColor"/>
+</g>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:20:113:114">
+<g transform="translate(80.3976, 41.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M70 205c80 0 46 -97 90 -97c15 0 52 45 59 59c6 13 26 13 31 0l-121 -417c-9 -7 -19 -11 -30 -11s-21 4 -30 11l118 326c-33 -12 -68 -22 -103 -22c-47 0 -87 34 -87 79c0 40 33 72 73 72z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:163:164">
+<g transform="translate(80.3976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M125 205c80 0 46 -97 90 -97c14 0 48 45 54 59c6 13 26 13 31 0l-177 -667c-9 -7 -19 -11 -30 -11s-20 4 -29 11l100 326c-33 -12 -67 -22 -103 -22c-47 0 -87 34 -87 79c0 40 33 72 73 72c80 0 46 -97 90 -97c16 0 53 51 58 67l46 151c-33 -12 -67 -22 -102 -22
+c-47 0 -87 34 -87 79c0 40 33 72 73 72z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:18:96:97">
+<g transform="translate(80.3976, 25.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M70 205c80 0 46 -97 90 -97c15 0 52 45 59 59c6 13 26 13 31 0l-121 -417c-9 -7 -19 -11 -30 -11s-21 4 -30 11l118 326c-33 -12 -68 -22 -103 -22c-47 0 -87 34 -87 79c0 40 33 72 73 72z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:17:73:74">
+<g transform="translate(80.3976, 17.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M-8 78c0 59 125 83 125 182c0 25 -9 49 -26 69l-33 40c-3 4 -4 7 -4 11c0 9 9 17 18 17c4 0 8 -2 12 -6l150 -179c7 -9 11 -18 11 -26c0 -59 -125 -83 -125 -182c0 -25 8 -49 25 -69l82 -97c3 -4 4 -7 4 -11c0 -9 -8 -17 -17 -17c-10 0 -42 42 -106 42
+c-19 0 -54 -1 -54 -66c0 -34 10 -73 27 -93c7 -9 -5 -20 -12 -11c-45 53 -93 147 -93 201c0 42 27 42 43 42c31 0 74 -11 113 -27l-129 154c-7 9 -11 18 -11 26z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:16:58:59">
+<g transform="translate(80.3976, 9.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M364 0h-353c-6 0 -11 5 -11 11v134c0 6 5 11 11 11h353c6 0 11 -5 11 -11v-134c0 -6 -5 -11 -11 -11z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:179:180">
+<g transform="translate(89.9976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M125 205c80 0 46 -97 90 -97c14 0 48 45 54 59c6 13 26 13 31 0l-177 -667c-9 -7 -19 -11 -30 -11s-20 4 -29 11l100 326c-33 -12 -67 -22 -103 -22c-47 0 -87 34 -87 79c0 40 33 72 73 72c80 0 46 -97 90 -97c16 0 53 51 58 67l46 151c-33 -12 -67 -22 -102 -22
+c-47 0 -87 34 -87 79c0 40 33 72 73 72z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:18:102:103">
+<g transform="translate(89.9976, 25.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M70 205c80 0 46 -97 90 -97c15 0 52 45 59 59c6 13 26 13 31 0l-121 -417c-9 -7 -19 -11 -30 -11s-21 4 -30 11l118 326c-33 -12 -68 -22 -103 -22c-47 0 -87 34 -87 79c0 40 33 72 73 72z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:17:76:77">
+<g transform="translate(89.9976, 17.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M-8 78c0 59 125 83 125 182c0 25 -9 49 -26 69l-33 40c-3 4 -4 7 -4 11c0 9 9 17 18 17c4 0 8 -2 12 -6l150 -179c7 -9 11 -18 11 -26c0 -59 -125 -83 -125 -182c0 -25 8 -49 25 -69l82 -97c3 -4 4 -7 4 -11c0 -9 -8 -17 -17 -17c-10 0 -42 42 -106 42
+c-19 0 -54 -1 -54 -66c0 -34 10 -73 27 -93c7 -9 -5 -20 -12 -11c-45 53 -93 147 -93 201c0 42 27 42 43 42c31 0 74 -11 113 -27l-129 154c-7 9 -11 18 -11 26z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:175:176">
+<g transform="translate(87.5976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M125 205c80 0 46 -97 90 -97c14 0 48 45 54 59c6 13 26 13 31 0l-177 -667c-9 -7 -19 -11 -30 -11s-20 4 -29 11l100 326c-33 -12 -67 -22 -103 -22c-47 0 -87 34 -87 79c0 40 33 72 73 72c80 0 46 -97 90 -97c16 0 53 51 58 67l46 151c-33 -12 -67 -22 -102 -22
+c-47 0 -87 34 -87 79c0 40 33 72 73 72z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:20:119:120">
+<g transform="translate(86.7976, 41.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M70 205c80 0 46 -97 90 -97c15 0 52 45 59 59c6 13 26 13 31 0l-121 -417c-9 -7 -19 -11 -30 -11s-21 4 -30 11l118 326c-33 -12 -68 -22 -103 -22c-47 0 -87 34 -87 79c0 40 33 72 73 72z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:171:172">
+<g transform="translate(85.1976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M125 205c80 0 46 -97 90 -97c14 0 48 45 54 59c6 13 26 13 31 0l-177 -667c-9 -7 -19 -11 -30 -11s-20 4 -29 11l100 326c-33 -12 -67 -22 -103 -22c-47 0 -87 34 -87 79c0 40 33 72 73 72c80 0 46 -97 90 -97c16 0 53 51 58 67l46 151c-33 -12 -67 -22 -102 -22
+c-47 0 -87 34 -87 79c0 40 33 72 73 72z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:18:99:100">
+<g transform="translate(85.1976, 25.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M70 205c80 0 46 -97 90 -97c15 0 52 45 59 59c6 13 26 13 31 0l-121 -417c-9 -7 -19 -11 -30 -11s-21 4 -30 11l118 326c-33 -12 -68 -22 -103 -22c-47 0 -87 34 -87 79c0 40 33 72 73 72z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:20:116:117">
+<g transform="translate(83.5976, 41.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M70 205c80 0 46 -97 90 -97c15 0 52 45 59 59c6 13 26 13 31 0l-121 -417c-9 -7 -19 -11 -30 -11s-21 4 -30 11l118 326c-33 -12 -68 -22 -103 -22c-47 0 -87 34 -87 79c0 40 33 72 73 72z" fill="currentColor"/>
+</g>
+</a>
+<g transform="translate(33.6307, 17.0000)">
+<rect x="-0.0697" y="-3.3333" width="0.1395" height="3.1540" ry="0.0444" fill="currentColor"/>
+</g>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:73:74">
+<g transform="translate(32.3976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:18:56:57">
+<g transform="translate(32.3976, 25.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:17:54:55">
+<g transform="translate(32.3976, 17.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<g transform="translate(31.2307, 33.0000)">
+<rect x="-0.0697" y="-3.1863" width="0.1395" height="3.0070" ry="0.0444" fill="currentColor"/>
+</g>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:68:69">
+<g transform="translate(29.9976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<g transform="translate(28.8307, 33.0000)">
+<rect x="-0.0697" y="-3.1863" width="0.1395" height="3.0070" ry="0.0444" fill="currentColor"/>
+</g>
+<g transform="translate(28.8307, 25.0000)">
+<rect x="-0.0697" y="-3.0000" width="0.1395" height="2.8206" ry="0.0444" fill="currentColor"/>
+</g>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:64:65">
+<g transform="translate(27.5976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:18:52:53">
+<g transform="translate(27.5976, 25.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<g transform="translate(26.4307, 33.0000)">
+<rect x="-0.0697" y="-3.1863" width="0.1395" height="3.0070" ry="0.0444" fill="currentColor"/>
+</g>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:60:61">
+<g transform="translate(25.1976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<g transform="translate(38.4307, 33.0000)">
+<rect x="-0.0697" y="-3.1863" width="0.1395" height="3.0070" ry="0.0444" fill="currentColor"/>
+</g>
+<g transform="translate(57.6307, 25.0000)">
+<rect x="-0.0697" y="-3.0000" width="0.1395" height="2.8206" ry="0.0444" fill="currentColor"/>
+</g>
+<g transform="translate(38.4307, 25.0000)">
+<rect x="-0.0697" y="-3.0000" width="0.1395" height="2.8206" ry="0.0444" fill="currentColor"/>
+</g>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:20:55:56">
+<g transform="translate(37.1976, 41.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:82:83">
+<g transform="translate(37.1976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:18:60:61">
+<g transform="translate(37.1976, 25.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<g transform="translate(36.0307, 33.0000)">
+<rect x="-0.0697" y="-3.1863" width="0.1395" height="3.0070" ry="0.0444" fill="currentColor"/>
+</g>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:78:79">
+<g transform="translate(34.7976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<g transform="translate(33.6307, 33.0000)">
+<rect x="-0.0697" y="-3.1863" width="0.1395" height="3.0070" ry="0.0444" fill="currentColor"/>
+</g>
+<g transform="translate(33.6307, 25.0000)">
+<rect x="-0.0697" y="-3.0000" width="0.1395" height="2.8206" ry="0.0444" fill="currentColor"/>
+</g>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:20:51:52">
+<g transform="translate(22.7976, 41.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:55:56">
+<g transform="translate(22.7976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:18:48:49">
+<g transform="translate(22.7976, 25.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:17:51:52">
+<g transform="translate(22.7976, 17.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:16:45:46">
+<g transform="translate(22.7976, 9.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M312 64c0 23 -18 41 -41 41c-39 0 -201 -110 -228 -142c-7 -8 -10 -17 -10 -27c0 -23 18 -41 41 -41c39 0 201 110 228 142c7 8 10 17 10 27zM259 137c46 0 86 -17 86 -74c0 -26 -15 -112 -73 -151c-29 -20 -89 -49 -186 -49c-46 0 -86 17 -86 74c0 26 16 112 74 151
+c29 20 88 49 185 49z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:15:50:51">
+<g transform="translate(22.7976, 1.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M211 111c-20 0 -68 -8 -68 -88c0 -100 89 -134 132 -134c20 0 68 8 68 88c0 100 -89 134 -132 134zM243 137c143 0 243 -65 243 -137s-100 -137 -243 -137s-243 65 -243 137s100 137 243 137z" fill="currentColor"/>
+</g>
+</a>
+<g transform="translate(21.4260, 21.0000)">
+<rect x="0.0000" y="-20.0537" width="0.1717" height="40.1073" ry="0.0537" fill="currentColor"/>
+</g>
+<g transform="translate(2.2017, 41.5096)">
+<text font-family="serif" font-size="1.9601" text-anchor="start" fill="currentColor">
+<tspan>dotted and triplet</tspan>
+</text>
+</g>
+<g transform="translate(-0.4981, 33.5096)">
+<text font-family="serif" font-size="1.9601" text-anchor="start" fill="currentColor">
+<tspan>sixteenth (semiquaver)</tspan>
+</text>
+</g>
+<g transform="translate(3.1312, 25.5096)">
+<text font-family="serif" font-size="1.9601" text-anchor="start" fill="currentColor">
+<tspan>eighth (quaver)</tspan>
+</text>
+</g>
+<g transform="translate(2.0689, 17.5096)">
+<text font-family="serif" font-size="1.9601" text-anchor="start" fill="currentColor">
+<tspan>quarter (crotchet)</tspan>
+</text>
+</g>
+<g transform="translate(4.4779, 9.6291)">
+<text font-family="serif" font-size="1.9601" text-anchor="start" fill="currentColor">
+<tspan>half (minim)</tspan>
+</text>
+</g>
+<g transform="translate(1.6516, 1.6193)">
+<text font-family="serif" font-size="1.9601" text-anchor="start" fill="currentColor">
+<tspan>whole (semibreve)</tspan>
+</text>
+</g>
+<g transform="translate(24.0307, 41.0000)">
+<rect x="-0.0697" y="-3.3333" width="0.1395" height="3.1540" ry="0.0444" fill="currentColor"/>
+</g>
+<g transform="translate(24.5464, 40.5000)">
+<path transform="scale(0.0040, -0.0040)" d="M0 0c0 31 25 56 56 56s55 -25 55 -56s-24 -56 -55 -56s-56 25 -56 56z" fill="currentColor"/>
+</g>
+<g transform="translate(24.0307, 33.0000)">
+<rect x="-0.0697" y="-3.1863" width="0.1395" height="3.0070" ry="0.0444" fill="currentColor"/>
+</g>
+<g transform="translate(24.0307, 25.0000)">
+<rect x="-0.0697" y="-3.0000" width="0.1395" height="2.8206" ry="0.0444" fill="currentColor"/>
+</g>
+<g transform="translate(24.0307, 17.0000)">
+<rect x="-0.0697" y="-3.3333" width="0.1395" height="3.1540" ry="0.0444" fill="currentColor"/>
+</g>
+<g transform="translate(24.1085, 9.0000)">
+<rect x="-0.0697" y="-3.3333" width="0.1395" height="3.0804" ry="0.0444" fill="currentColor"/>
+</g>
+<g transform="translate(48.0307, 33.0000)">
+<rect x="-0.0697" y="-3.1863" width="0.1395" height="3.0070" ry="0.0444" fill="currentColor"/>
+</g>
+<g transform="translate(50.4307, 33.0000)">
+<rect x="-0.0697" y="-3.1863" width="0.1395" height="3.0070" ry="0.0444" fill="currentColor"/>
+</g>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:104:105">
+<g transform="translate(49.1976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<g transform="translate(49.6307, 41.0000)">
+<rect x="-0.0697" y="-3.0000" width="0.1395" height="2.8206" ry="0.0444" fill="currentColor"/>
+</g>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:20:79:80">
+<g transform="translate(48.3976, 41.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<g transform="translate(48.0307, 25.0000)">
+<rect x="-0.0697" y="-3.0000" width="0.1395" height="2.8206" ry="0.0444" fill="currentColor"/>
+</g>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:100:101">
+<g transform="translate(46.7976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:18:68:69">
+<g transform="translate(46.7976, 25.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<g transform="translate(46.4307, 41.0000)">
+<rect x="-0.0697" y="-3.0000" width="0.1395" height="2.8206" ry="0.0444" fill="currentColor"/>
+</g>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:20:76:77">
+<g transform="translate(45.1976, 41.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:118:119">
+<g transform="translate(56.3976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:18:76:77">
+<g transform="translate(56.3976, 25.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<g transform="translate(55.2307, 33.0000)">
+<rect x="-0.0697" y="-3.1863" width="0.1395" height="3.0070" ry="0.0444" fill="currentColor"/>
+</g>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:114:115">
+<g transform="translate(53.9976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<g transform="translate(52.8307, 41.0000)">
+<rect x="-0.0697" y="-3.3333" width="0.1395" height="3.1540" ry="0.0444" fill="currentColor"/>
+</g>
+<g transform="translate(52.8307, 33.0000)">
+<rect x="-0.0697" y="-3.1863" width="0.1395" height="3.0070" ry="0.0444" fill="currentColor"/>
+</g>
+<g transform="translate(52.8307, 25.0000)">
+<rect x="-0.0697" y="-3.0000" width="0.1395" height="2.8206" ry="0.0444" fill="currentColor"/>
+</g>
+<g transform="translate(52.8307, 17.0000)">
+<rect x="-0.0697" y="-3.3333" width="0.1395" height="3.1540" ry="0.0444" fill="currentColor"/>
+</g>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:20:85:86">
+<g transform="translate(51.5976, 41.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:109:110">
+<g transform="translate(51.5976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:18:72:73">
+<g transform="translate(51.5976, 25.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:17:60:61">
+<g transform="translate(51.5976, 17.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:91:92">
+<g transform="translate(41.9976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<g transform="translate(43.2307, 33.0000)">
+<rect x="-0.0697" y="-3.1863" width="0.1395" height="3.0070" ry="0.0444" fill="currentColor"/>
+</g>
+<g transform="translate(43.2307, 25.0000)">
+<rect x="-0.0697" y="-3.0000" width="0.1395" height="2.8206" ry="0.0444" fill="currentColor"/>
+</g>
+<g transform="translate(43.2307, 17.0000)">
+<rect x="-0.0697" y="-3.3333" width="0.1395" height="3.1540" ry="0.0444" fill="currentColor"/>
+</g>
+<g transform="translate(43.3085, 9.0000)">
+<rect x="-0.0697" y="-3.3333" width="0.1395" height="3.0804" ry="0.0444" fill="currentColor"/>
+</g>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:20:72:73">
+<g transform="translate(41.9976, 41.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:18:64:65">
+<g transform="translate(41.9976, 25.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:17:57:58">
+<g transform="translate(41.9976, 17.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:16:48:49">
+<g transform="translate(41.9976, 9.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M312 64c0 23 -18 41 -41 41c-39 0 -201 -110 -228 -142c-7 -8 -10 -17 -10 -27c0 -23 18 -41 41 -41c39 0 201 110 228 142c7 8 10 17 10 27zM259 137c46 0 86 -17 86 -74c0 -26 -15 -112 -73 -151c-29 -20 -89 -49 -186 -49c-46 0 -86 17 -86 74c0 26 16 112 74 151
+c29 20 88 49 185 49z" fill="currentColor"/>
+</g>
+</a>
+<g transform="translate(40.8307, 33.0000)">
+<rect x="-0.0697" y="-3.1863" width="0.1395" height="3.0070" ry="0.0444" fill="currentColor"/>
+</g>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:86:87">
+<g transform="translate(39.5976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<g transform="translate(38.5004, 37.6694)">
+<path transform="scale(0.0040, -0.0040)" d="M0 0c0 -197 207 -335 207 -532c0 -71 -15 -141 -41 -207c-5 -8 -13 -12 -21 -12c-14 0 -27 11 -24 28c26 60 42 125 42 191c0 103 -93 207 -163 282h-18v250h18z" fill="currentColor"/>
+</g>
+<g transform="translate(38.4307, 41.0000)">
+<rect x="-0.0697" y="-3.3750" width="0.1395" height="3.1956" ry="0.0444" fill="currentColor"/>
+</g>
+<g transform="translate(43.2307, 41.0000)">
+<rect x="-0.0697" y="-3.0000" width="0.1395" height="2.8206" ry="0.0444" fill="currentColor"/>
+</g>
+<a style="color:inherit;" xlink:href="textedit:///home/alexanje/github/sensingsoundandmusic/book/figures/time-and-rhythm/notation/note-values.ly:19:96:97">
+<g transform="translate(44.3976, 33.0000)">
+<path transform="scale(0.0040, -0.0040)" d="M215 137c67 0 111 -37 111 -92c0 -90 -111 -182 -215 -182c-67 0 -111 37 -111 92c0 90 111 182 215 182z" fill="currentColor"/>
+</g>
+</a>
+<g transform="translate(45.6307, 33.0000)">
+<rect x="-0.0697" y="-3.1863" width="0.1395" height="3.0070" ry="0.0444" fill="currentColor"/>
+</g>
+</svg>

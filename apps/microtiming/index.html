@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Microtiming</title>
+  <style>
+    :root {
+      --bg: #fdfdfd; --fg: #1c1e21; --muted: #5a6069; --panel: #f1f2f4;
+      --border: #c9ccd1; --accent: #0b6e99; --accent-fg: #ffffff; --canvas: #ffffff; --shift: #c2571a;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #15171b; --fg: #e6e7e9; --muted: #9aa0a8; --panel: #20242b;
+        --border: #3a3f47; --accent: #4da3c7; --accent-fg: #0d1117; --canvas: #101216; --shift: #e08a4f;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      margin: 0 auto; padding: 16px; max-width: 780px;
+      background: var(--bg); color: var(--fg); line-height: 1.45;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 8px; }
+    p.intro { margin: 0 0 14px; }
+    .hint { font-size: 0.9rem; color: var(--muted); margin-top: 10px; }
+    fieldset {
+      border: 1px solid var(--border); border-radius: 8px;
+      margin: 0 0 12px; padding: 10px 12px; background: var(--panel);
+    }
+    legend { font-weight: 600; font-size: 0.95rem; padding: 0 6px; }
+    label { display: block; font-weight: 600; font-size: 0.9rem; margin: 8px 0 2px; }
+    .vals { font-weight: normal; color: var(--muted); margin-left: 4px; }
+    input[type="range"] { width: 100%; margin: 2px 0 4px; accent-color: var(--accent); }
+    button {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 14px; font-size: 1rem; cursor: pointer;
+    }
+    button.small { padding: 4px 10px; font-size: 0.9rem; }
+    button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+    button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+    #grid { display: grid; grid-template-columns: minmax(56px, 90px) repeat(16, 1fr); gap: 3px; margin: 6px 0; }
+    #grid .name { font-weight: 600; font-size: 0.85rem; align-self: center; }
+    #grid .lab { font-size: 0.75rem; color: var(--muted); text-align: center; }
+    #grid .lab.b { font-weight: 700; color: var(--fg); }
+    .cell { border: 1px solid var(--border); border-radius: 5px; min-height: 26px; cursor: pointer; background: var(--bg); padding: 0; }
+    .cell.beatstart { border-left: 3px solid var(--muted); }
+    #grid .cell.on, #grid .cell[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); }
+    .rows { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px 16px; }
+    @media (max-width: 560px) { .rows { grid-template-columns: 1fr; } .cell { min-height: 20px; } }
+    canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; background: var(--canvas); touch-action: none; cursor: grab; }
+    .stats { font-size: 0.95rem; margin: 10px 0 0; font-variant-numeric: tabular-nums; }
+  </style>
+</head>
+<body>
+  <h1>Microtiming</h1>
+  <p class="intro">A groove written on a sixteenth-note grid, and the freedom to move every single onset a few milliseconds off it. Drag the dots on the timeline early or late, or push a whole instrument with its slider, then flip between the grid version and the shifted version while it plays. The numbers are onset displacements in milliseconds, negative for early and positive for late, as in the chapter.</p>
+
+  <div class="row">
+    <button type="button" id="power" class="primary">Start</button>
+    <span style="font-weight:600; margin-left:6px;">Listen to:</span>
+    <button type="button" id="hearGrid" aria-pressed="false">Grid</button>
+    <button type="button" id="hearShift" aria-pressed="true">Shifted</button>
+    <label style="flex:1; min-width:140px; margin:0;">Tempo <span class="vals" id="bpmdisp"></span> bpm
+      <input type="range" id="bpm" min="70" max="140" step="1" value="96" aria-label="Tempo in beats per minute"/>
+    </label>
+    <label style="flex:1; min-width:120px; margin:0;">Volume <span class="vals" id="voldisp"></span>
+      <input type="range" id="vol" min="0" max="100" step="1" value="70" aria-label="Volume"/>
+    </label>
+  </div>
+
+  <fieldset>
+    <legend>Pattern</legend>
+    <div class="row">
+      <button type="button" class="small" data-k="1000000010100000" data-s="0000100000001000" data-h="1010101010101010">Funk</button>
+      <button type="button" class="small" data-k="1000100010001000" data-s="0000100000001000" data-h="1111111111111111">Sixteenth hi-hat</button>
+      <button type="button" class="small" data-k="1000001000001000" data-s="0000100000001000" data-h="1010101010101010">Tresillo kick</button>
+      <button type="button" class="small" data-k="1000000000000000" data-s="0000000010000000" data-h="1010101010101010">Half-time</button>
+    </div>
+    <div id="grid" aria-label="Pattern grid; click to add or remove an onset"></div>
+    <span class="hint">Click a cell to add or remove an onset. Timing offsets belong to the onsets and are kept when a cell is switched off and on again.</span>
+  </fieldset>
+
+  <fieldset>
+    <legend>Move whole instruments</legend>
+    <div class="rows">
+      <div><label>Kick <span class="vals" id="offKdisp"></span> ms</label><input type="range" id="offK" min="-60" max="60" step="1" value="0" aria-label="Kick offset in milliseconds"/></div>
+      <div><label>Snare <span class="vals" id="offSdisp"></span> ms</label><input type="range" id="offS" min="-60" max="60" step="1" value="0" aria-label="Snare offset in milliseconds"/></div>
+      <div><label>Hi-hat <span class="vals" id="offHdisp"></span> ms</label><input type="range" id="offH" min="-60" max="60" step="1" value="0" aria-label="Hi-hat offset in milliseconds"/></div>
+    </div>
+    <div class="row">
+      <button type="button" class="small" id="quantise">Quantise everything</button>
+      <button type="button" class="small" id="swingHat">Swing the hi-hat (delay its off-beat eighths by 30 ms)</button>
+      <button type="button" class="small" id="laidBack">Laid-back snare (+20 ms)</button>
+      <button type="button" class="small" id="jitter">Random jitter (±10 ms)</button>
+    </div>
+  </fieldset>
+
+  <canvas id="timeline" width="900" height="230" aria-label="Timeline of onsets; drag a dot to move it early or late"></canvas>
+  <div class="stats" id="stats"></div>
+  <p class="hint">What to notice: a snare 20 ms late reads as relaxed rather than wrong, and the same shift applied to the kick does something different. Shifts of a few milliseconds are below what most listeners can name but not below what they can feel. The chapter's asynchrony measure is the difference between two instruments on the same beat, so moving one instrument or the other by the same amount gives the same asynchrony but not the same groove.</p>
+
+  <script>
+(function () {
+  "use strict";
+  var el = function (id) { return document.getElementById(id); };
+  var ctx = null, master = null, noiseBuf = null;
+  var running = false, timer = null, animTimer = null;
+  var LOOKAHEAD = 0.15, TICK_MS = 25, STEPS = 16;
+  var ROWS = [["Kick", "k"], ["Snare", "s"], ["Hi-hat", "h"]];
+  var on = {}, off = {};      // per row: onset flags and per-step offsets in ms
+  var rowOff = { k: 0, s: 0, h: 0 };
+  var hearShifted = true;
+  var nextTime = 0, step = 0, startTime = 0;
+  var cells = {};
+  var canvas = el("timeline"), c2d = canvas.getContext("2d");
+  var MAXOFF = 80;
+
+  function setPattern(k, s, h) {
+    on.k = k.split("").map(Number); on.s = s.split("").map(Number); on.h = h.split("").map(Number);
+    if (!off.k) { off = { k: new Array(STEPS).fill(0), s: new Array(STEPS).fill(0), h: new Array(STEPS).fill(0) }; }
+  }
+  setPattern("1000000010100000", "0000100000001000", "1010101010101010");
+
+  // ---- grid ----
+  (function build() {
+    var g = el("grid");
+    g.appendChild(document.createElement("div"));
+    var i, r;
+    for (i = 0; i < STEPS; i++) {
+      var l = document.createElement("div");
+      l.className = "lab" + (i % 4 === 0 ? " b" : "");
+      l.textContent = i % 4 === 0 ? String(i / 4 + 1) : ["", "e", "&", "a"][i % 4];
+      g.appendChild(l);
+    }
+    for (r = 0; r < ROWS.length; r++) {
+      var key = ROWS[r][1];
+      var name = document.createElement("div"); name.className = "name"; name.textContent = ROWS[r][0];
+      g.appendChild(name);
+      cells[key] = [];
+      for (i = 0; i < STEPS; i++) {
+        var c = document.createElement("button");
+        c.type = "button"; c.className = "cell" + (i % 4 === 0 ? " beatstart" : "");
+        c.dataset.key = key; c.dataset.i = String(i);
+        c.setAttribute("aria-label", ROWS[r][0] + " step " + (i + 1));
+        c.addEventListener("click", function () {
+          var k = this.dataset.key, ii = parseInt(this.dataset.i, 10);
+          on[k][ii] = on[k][ii] ? 0 : 1;
+          render();
+        });
+        g.appendChild(c); cells[key].push(c);
+      }
+    }
+  })();
+  function render() {
+    for (var r = 0; r < ROWS.length; r++) {
+      var key = ROWS[r][1];
+      for (var i = 0; i < STEPS; i++) {
+        cells[key][i].classList.toggle("on", !!on[key][i]);
+        cells[key][i].setAttribute("aria-pressed", on[key][i] ? "true" : "false");
+      }
+    }
+    draw(); stats();
+  }
+  var pres = document.querySelectorAll("button[data-k]");
+  for (var p = 0; p < pres.length; p++) {
+    pres[p].addEventListener("click", function () { setPattern(this.dataset.k, this.dataset.s, this.dataset.h); render(); });
+  }
+
+  // ---- offsets ----
+  function totalOff(key, i) { return hearShifted ? off[key][i] + rowOff[key] : 0; }
+  function clampOff(v) { return Math.max(-MAXOFF, Math.min(MAXOFF, v)); }
+  ["K", "S", "H"].forEach(function (K) {
+    el("off" + K).addEventListener("input", function () {
+      rowOff[K.toLowerCase()] = parseInt(this.value, 10);
+      el("off" + K + "disp").textContent = (rowOff[K.toLowerCase()] > 0 ? "+" : "") + rowOff[K.toLowerCase()];
+      draw(); stats();
+    });
+  });
+  function setRowSliders() {
+    ["K", "S", "H"].forEach(function (K) {
+      var v = rowOff[K.toLowerCase()];
+      el("off" + K).value = String(v);
+      el("off" + K + "disp").textContent = (v > 0 ? "+" : "") + v;
+    });
+  }
+  el("quantise").addEventListener("click", function () {
+    off = { k: new Array(STEPS).fill(0), s: new Array(STEPS).fill(0), h: new Array(STEPS).fill(0) };
+    rowOff = { k: 0, s: 0, h: 0 }; setRowSliders(); draw(); stats();
+  });
+  el("swingHat").addEventListener("click", function () {
+    for (var i = 0; i < STEPS; i++) { off.h[i] = (i % 4 === 2) ? 30 : 0; }
+    draw(); stats();
+  });
+  el("laidBack").addEventListener("click", function () { rowOff.s = 20; setRowSliders(); draw(); stats(); });
+  el("jitter").addEventListener("click", function () {
+    ["k", "s", "h"].forEach(function (k) { for (var i = 0; i < STEPS; i++) { off[k][i] = Math.round((Math.random() * 2 - 1) * 10); } });
+    draw(); stats();
+  });
+  el("hearGrid").addEventListener("click", function () { hearShifted = false; this.setAttribute("aria-pressed", "true"); el("hearShift").setAttribute("aria-pressed", "false"); draw(); stats(); });
+  el("hearShift").addEventListener("click", function () { hearShifted = true; this.setAttribute("aria-pressed", "true"); el("hearGrid").setAttribute("aria-pressed", "false"); draw(); stats(); });
+
+  // ---- audio ----
+  function stepDur() { return 60 / parseFloat(el("bpm").value) / 4; }
+  function ensureAudio() {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      master = ctx.createGain();
+      master.gain.value = 0.5 * parseFloat(el("vol").value) / 100;
+      master.connect(ctx.destination);
+      var n = Math.floor(ctx.sampleRate * 0.4);
+      noiseBuf = ctx.createBuffer(1, n, ctx.sampleRate);
+      var d = noiseBuf.getChannelData(0);
+      for (var i = 0; i < n; i++) { d[i] = Math.random() * 2 - 1; }
+    }
+    if (ctx.state === "suspended") { ctx.resume(); }
+  }
+  function noise(t, len, freq, peak) {
+    var src = ctx.createBufferSource(); src.buffer = noiseBuf;
+    var f = ctx.createBiquadFilter(); f.type = "highpass"; f.frequency.value = freq;
+    var g = ctx.createGain();
+    g.gain.setValueAtTime(peak, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + len);
+    src.connect(f); f.connect(g); g.connect(master);
+    src.start(t); src.stop(t + len + 0.02);
+  }
+  function kick(t) {
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.frequency.setValueAtTime(150, t);
+    o.frequency.exponentialRampToValueAtTime(40, t + 0.25);
+    g.gain.setValueAtTime(1, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+    o.connect(g); g.connect(master); o.start(t); o.stop(t + 0.4);
+  }
+  function snare(t) {
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.frequency.setValueAtTime(200, t);
+    o.frequency.exponentialRampToValueAtTime(100, t + 0.12);
+    g.gain.setValueAtTime(0.5, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.15);
+    o.connect(g); g.connect(master); o.start(t); o.stop(t + 0.15);
+    noise(t, 0.2, 1000, 0.8);
+  }
+  function hat(t) { noise(t, 0.05, 7000, 0.5); }
+  function tick() {
+    while (nextTime < ctx.currentTime + LOOKAHEAD) {
+      for (var r = 0; r < ROWS.length; r++) {
+        var key = ROWS[r][1];
+        if (on[key][step]) {
+          var t = nextTime + totalOff(key, step) / 1000;
+          if (key === "k") { kick(t); } else if (key === "s") { snare(t); } else { hat(t); }
+        }
+      }
+      nextTime += stepDur();
+      step = (step + 1) % STEPS;
+    }
+  }
+  function start() {
+    ensureAudio(); running = true;
+    nextTime = ctx.currentTime + 0.2; startTime = nextTime; step = 0;
+    timer = setInterval(tick, TICK_MS); animTimer = setInterval(function () { draw(); }, 30);
+    el("power").textContent = "Stop"; el("power").classList.remove("primary");
+  }
+  function stop() {
+    running = false;
+    if (timer) { clearInterval(timer); timer = null; }
+    if (animTimer) { clearInterval(animTimer); animTimer = null; }
+    el("power").textContent = "Start"; el("power").classList.add("primary"); draw();
+  }
+  el("power").addEventListener("click", function () { if (running) { stop(); } else { start(); } });
+  document.addEventListener("keydown", function (e) {
+    if (e.code === "Space" && !e.repeat && document.activeElement.tagName !== "BUTTON") { e.preventDefault(); if (running) { stop(); } else { start(); } }
+  });
+
+  // ---- timeline ----
+  var L = { mL: 70, mR: 20, mT: 26, mB: 28 };
+  function laneY(r) { return L.mT + (canvas.height - L.mT - L.mB) * (r + 0.5) / ROWS.length; }
+  function xOf(i, ms) {
+    var pw = canvas.width - L.mL - L.mR;
+    var barMs = stepDur() * 1000 * STEPS;
+    return L.mL + ((i * stepDur() * 1000 + ms) / barMs) * pw;
+  }
+  function theme() {
+    var d = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return d ? { bg: "#101216", grid: "#2a2f37", beat: "#4a5058", dot: "#4da3c7", shift: "#e08a4f", text: "#9aa0a8", fg: "#e6e7e9", ghost: "#3a3f47" }
+             : { bg: "#ffffff", grid: "#e3e5e8", beat: "#b8bcc3", dot: "#0b6e99", shift: "#c2571a", text: "#5a6069", fg: "#1c1e21", ghost: "#d5d8dc" };
+  }
+  function draw() {
+    var th = theme();
+    var w = canvas.width, h = canvas.height;
+    c2d.fillStyle = th.bg; c2d.fillRect(0, 0, w, h);
+    c2d.font = "12px system-ui, sans-serif"; c2d.textBaseline = "middle";
+    var i, r;
+    for (i = 0; i <= STEPS; i++) {
+      c2d.strokeStyle = i % 4 === 0 ? th.beat : th.grid; c2d.lineWidth = i % 4 === 0 ? 1.5 : 1;
+      c2d.beginPath(); c2d.moveTo(xOf(i, 0), L.mT - 4); c2d.lineTo(xOf(i, 0), h - L.mB); c2d.stroke();
+      if (i % 4 === 0 && i < STEPS) { c2d.fillStyle = th.text; c2d.textAlign = "center"; c2d.fillText(String(i / 4 + 1), xOf(i, 0), h - 12); }
+    }
+    for (r = 0; r < ROWS.length; r++) {
+      var key = ROWS[r][1], y = laneY(r);
+      c2d.fillStyle = th.text; c2d.textAlign = "right"; c2d.fillText(ROWS[r][0], L.mL - 10, y);
+      c2d.strokeStyle = th.grid; c2d.beginPath(); c2d.moveTo(L.mL, y); c2d.lineTo(w - L.mR, y); c2d.stroke();
+      for (i = 0; i < STEPS; i++) {
+        if (!on[key][i]) { continue; }
+        var ms = off[key][i] + rowOff[key];
+        // ghost at grid position
+        c2d.strokeStyle = th.ghost; c2d.lineWidth = 1.5;
+        c2d.beginPath(); c2d.arc(xOf(i, 0), y, 6, 0, Math.PI * 2); c2d.stroke();
+        var x = xOf(i, hearShifted ? ms : 0);
+        c2d.fillStyle = ms !== 0 && hearShifted ? th.shift : th.dot;
+        c2d.beginPath(); c2d.arc(x, y, 7, 0, Math.PI * 2); c2d.fill();
+        if (ms !== 0 && hearShifted) {
+          c2d.fillStyle = th.shift; c2d.textAlign = "center";
+          c2d.fillText((ms > 0 ? "+" : "") + ms, x, y - 16);
+        }
+      }
+    }
+    if (running && ctx) {
+      var pos = ((ctx.currentTime - startTime) / (stepDur() * STEPS)) % 1;
+      if (pos >= 0) {
+        c2d.strokeStyle = th.fg; c2d.lineWidth = 2;
+        c2d.beginPath(); c2d.moveTo(L.mL + pos * (w - L.mL - L.mR), L.mT - 6); c2d.lineTo(L.mL + pos * (w - L.mL - L.mR), h - L.mB); c2d.stroke();
+      }
+    }
+    c2d.fillStyle = th.text; c2d.textAlign = "left";
+    c2d.fillText(hearShifted ? "Drag a dot left (early) or right (late). Hollow circles mark the grid." : "Listening to the grid version; offsets are ignored.", L.mL, 11);
+    c2d.textBaseline = "alphabetic";
+  }
+
+  // dragging
+  var drag = null;
+  function canvasPoint(e) {
+    var rect = canvas.getBoundingClientRect();
+    return { x: (e.clientX - rect.left) * canvas.width / rect.width, y: (e.clientY - rect.top) * canvas.height / rect.height };
+  }
+  canvas.addEventListener("pointerdown", function (e) {
+    var pt = canvasPoint(e), best = null, bestD = 14;
+    for (var r = 0; r < ROWS.length; r++) {
+      var key = ROWS[r][1];
+      for (var i = 0; i < STEPS; i++) {
+        if (!on[key][i]) { continue; }
+        var dx = pt.x - xOf(i, off[key][i] + rowOff[key]), dy = pt.y - laneY(r);
+        var d = Math.sqrt(dx * dx + dy * dy);
+        if (d < bestD) { bestD = d; best = { key: key, i: i }; }
+      }
+    }
+    if (best) { drag = best; canvas.setPointerCapture(e.pointerId); e.preventDefault(); }
+  });
+  canvas.addEventListener("pointermove", function (e) {
+    if (!drag) { return; }
+    var pt = canvasPoint(e);
+    var pw = canvas.width - L.mL - L.mR;
+    var barMs = stepDur() * 1000 * STEPS;
+    var ms = (pt.x - L.mL) / pw * barMs - drag.i * stepDur() * 1000 - rowOff[drag.key];
+    off[drag.key][drag.i] = Math.round(clampOff(ms));
+    draw(); stats();
+  });
+  function endDrag() { drag = null; }
+  canvas.addEventListener("pointerup", endDrag);
+  canvas.addEventListener("pointercancel", endDrag);
+
+  // ---- readout ----
+  function stats() {
+    if (!hearShifted) { el("stats").innerHTML = "Grid version: every onset displacement is 0 ms."; return; }
+    var parts = [], r, i;
+    for (r = 0; r < ROWS.length; r++) {
+      var key = ROWS[r][1], vals = [];
+      for (i = 0; i < STEPS; i++) { if (on[key][i]) { vals.push(off[key][i] + rowOff[key]); } }
+      if (!vals.length) { continue; }
+      var sum = 0; for (i = 0; i < vals.length; i++) { sum += vals[i]; }
+      var mean = sum / vals.length;
+      var mx = Math.max.apply(null, vals), mn = Math.min.apply(null, vals);
+      parts.push("<b>" + ROWS[r][0] + "</b>: mean displacement " + (mean > 0 ? "+" : "") + mean.toFixed(1) + " ms, range " + (mn > 0 ? "+" : "") + mn + " to " + (mx > 0 ? "+" : "") + mx + " ms.");
+    }
+    // asynchrony between kick and snare, hi-hat and snare, on shared steps
+    var pairs = [["k", "s", "kick–snare"], ["h", "s", "hi-hat–snare"], ["h", "k", "hi-hat–kick"]];
+    var asyn = [];
+    for (var q = 0; q < pairs.length; q++) {
+      var a = pairs[q][0], b = pairs[q][1], list = [];
+      for (i = 0; i < STEPS; i++) { if (on[a][i] && on[b][i]) { list.push((off[a][i] + rowOff[a]) - (off[b][i] + rowOff[b])); } }
+      if (list.length) {
+        var s2 = 0; for (i = 0; i < list.length; i++) { s2 += list[i]; }
+        asyn.push(pairs[q][2] + " " + (s2 / list.length > 0 ? "+" : "") + (s2 / list.length).toFixed(1) + " ms");
+      }
+    }
+    if (asyn.length) { parts.push("Asynchrony on shared steps (first minus second): " + asyn.join(", ") + "."); }
+    // swing ratio of the hi-hat from its off-beat eighths against its on-beat eighths
+    var odd = [], even = [];
+    for (i = 0; i < STEPS; i++) {
+      if (!on.h[i]) { continue; }
+      if (i % 4 === 2) { odd.push(off.h[i] + rowOff.h); } else if (i % 4 === 0) { even.push(off.h[i] + rowOff.h); }
+    }
+    if (odd.length && even.length) {
+      var mo = 0, me = 0;
+      for (i = 0; i < odd.length; i++) { mo += odd[i]; } mo /= odd.length;
+      for (i = 0; i < even.length; i++) { me += even[i]; } me /= even.length;
+      var m = stepDur() * 2000, d = mo - me;
+      var R = (m + d) / (m - d);
+      parts.push("Hi-hat swing ratio, off-beat eighths against on-beat eighths: " + R.toFixed(2) + ":1 (" + (100 * (m + d) / (2 * m)).toFixed(0) + " %).");
+    }
+    el("stats").innerHTML = parts.join("<br/>");
+  }
+
+  function updateLabels() {
+    el("bpmdisp").textContent = el("bpm").value;
+    el("voldisp").textContent = el("vol").value + " %";
+    if (ctx) { master.gain.setTargetAtTime(0.5 * parseFloat(el("vol").value) / 100, ctx.currentTime, 0.03); }
+    draw(); stats();
+  }
+  el("bpm").addEventListener("input", updateLabels);
+  el("vol").addEventListener("input", updateLabels);
+  setRowSliders(); updateLabels(); render();
+})();
+  </script>
+</body>
+</html>

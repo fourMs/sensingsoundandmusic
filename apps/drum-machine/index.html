@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Drum machine</title>
+  <style>
+    :root {
+      --bg: #fdfdfd; --fg: #1c1e21; --muted: #5a6069; --panel: #f1f2f4;
+      --border: #c9ccd1; --accent: #0b6e99; --accent-fg: #ffffff; --canvas: #ffffff;
+      --beat: #e8eaed; --now: #c2571a;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #15171b; --fg: #e6e7e9; --muted: #9aa0a8; --panel: #20242b;
+        --border: #3a3f47; --accent: #4da3c7; --accent-fg: #0d1117; --canvas: #101216;
+        --beat: #262b33; --now: #e08a4f;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      margin: 0 auto; padding: 16px; max-width: 780px;
+      background: var(--bg); color: var(--fg); line-height: 1.45;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 8px; }
+    p.intro { margin: 0 0 14px; }
+    .hint { font-size: 0.9rem; color: var(--muted); margin-top: 10px; }
+    fieldset {
+      border: 1px solid var(--border); border-radius: 8px;
+      margin: 0 0 12px; padding: 10px 12px; background: var(--panel);
+    }
+    legend { font-weight: 600; font-size: 0.95rem; padding: 0 6px; }
+    label { display: block; font-weight: 600; font-size: 0.9rem; margin: 8px 0 2px; }
+    .vals { font-weight: normal; color: var(--muted); margin-left: 4px; }
+    input[type="range"] { width: 100%; margin: 2px 0 4px; accent-color: var(--accent); }
+    select { font-size: 1rem; padding: 4px 6px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg); color: var(--fg); }
+    button {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 14px; font-size: 1rem; cursor: pointer;
+    }
+    button.small { padding: 4px 10px; font-size: 0.9rem; }
+    button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+    button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px; }
+    @media (max-width: 480px) { .grid2 { grid-template-columns: 1fr; } }
+    #grid { display: grid; gap: 3px; margin: 6px 0; }
+    #grid .name { font-weight: 600; font-size: 0.85rem; align-self: center; padding-right: 6px; white-space: nowrap; }
+    #grid .lab { font-size: 0.75rem; color: var(--muted); text-align: center; align-self: end; }
+    #grid .lab.b { font-weight: 700; color: var(--fg); }
+    .cell {
+      border: 1px solid var(--border); border-radius: 5px; min-height: 34px; cursor: pointer;
+      background: var(--bg); user-select: none; -webkit-user-select: none; padding: 0;
+    }
+    .cell.beatstart { border-left: 3px solid var(--muted); }
+    .cell { position: relative; overflow: hidden; }
+    .cell .lv { position: absolute; left: 0; right: 0; bottom: 0; height: 0; background: var(--accent); }
+    #grid .cell.on, #grid .cell[aria-pressed="true"] { background: var(--bg); color: var(--fg); border-color: var(--accent); }
+    .cell.l1 .lv { height: 34%; opacity: 0.7; }
+    .cell.l2 .lv { height: 66%; }
+    .cell.l3 .lv { height: 100%; }
+    .cell.now { box-shadow: inset 0 0 0 3px var(--now); }
+    @media (max-width: 560px) { .cell { min-height: 24px; } #grid .name { font-size: 0.75rem; } }
+  </style>
+</head>
+<body>
+  <h1>Drum machine</h1>
+  <p class="intro">One bar of four beats, and a choice of how finely each beat is divided: into two (eighth notes), three (triplets, the 12/8 feel), or four (sixteenth notes). Draw a pattern by clicking cells, then change the subdivision and hear how the same four beats carry a different density and a different style. Each hit has one of three loudness levels, so you can also give the pattern a metric accent, and a swing control delays the off-beat subdivisions, which is the subject of a later section.</p>
+
+  <div class="row">
+    <button type="button" id="power" class="primary">Start</button>
+    <label style="flex:1; min-width:150px; margin:0;">Volume <span class="vals" id="voldisp"></span>
+      <input type="range" id="vol" min="0" max="100" step="1" value="70" aria-label="Volume"/>
+    </label>
+    <label style="flex:1; min-width:150px; margin:0;">Tempo <span class="vals" id="bpmdisp"></span> bpm
+      <input type="range" id="bpm" min="60" max="180" step="1" value="100" aria-label="Tempo in beats per minute"/>
+    </label>
+  </div>
+
+  <fieldset>
+    <legend>Subdivision of the beat</legend>
+    <div class="row">
+      <button type="button" id="div2" aria-pressed="false">2: eighth notes (8 steps)</button>
+      <button type="button" id="div3" aria-pressed="false">3: triplets (12 steps)</button>
+      <button type="button" id="div4" aria-pressed="true">4: sixteenth notes (16 steps)</button>
+    </div>
+    <div id="grid" aria-label="Drum pattern grid"></div>
+    <span class="hint">Each thick line starts a beat. Click a cell to cycle its hit through medium, strong, soft, and off; the fill shows the level. The pattern is kept when you change the subdivision, as far as the positions exist on the new grid.</span>
+  </fieldset>
+
+  <fieldset>
+    <legend>Presets</legend>
+    <div class="row">
+      <button type="button" class="small" data-div="2" data-k="30002000" data-s="00300030" data-h="21212121" data-o="00000000">Rock (eighths)</button>
+      <button type="button" class="small" data-div="4" data-k="3000000020200000" data-s="0000300000003000" data-h="2010201020102010" data-o="0000000000000020">Funk (sixteenths)</button>
+      <button type="button" class="small" data-div="3" data-k="300000200000" data-s="000300000300" data-h="201201201201" data-o="000000000000">Shuffle (triplets)</button>
+      <button type="button" class="small" data-div="4" data-k="3000200020002000" data-s="0000300000003000" data-h="0020002000200020" data-o="0000000000000000">Four on the floor</button>
+      <button type="button" class="small" data-div="2" data-k="30020020" data-s="00000000" data-h="20202020" data-o="00000000">Tresillo kick</button>
+      <button type="button" class="small" data-div="4" data-k="3000000000000000" data-s="0000000000000000" data-h="0000000000000000" data-o="0000000000000000">Only beat 1</button>
+      <button type="button" class="small" data-div="4" data-k="0000000000000000" data-s="0000000000000000" data-h="3111211121112111" data-o="0000000000000000">Metric accent (hi-hat only)</button>
+      <button type="button" class="small" id="clear">Clear</button>
+    </div>
+    <div class="row">
+      <span style="font-weight:600;">Styles:</span>
+      <button type="button" class="small" data-div="4" data-bpm="120" data-sw="50" data-k="3000300030003000" data-s="0000300000003000" data-h="1000100010001000" data-o="0030003000300030">Disco</button>
+      <button type="button" class="small" data-div="4" data-bpm="90" data-sw="58" data-k="3000000200300000" data-s="0000300000003000" data-h="2020202020202020" data-o="0000000000000000">Boom bap</button>
+      <button type="button" class="small" data-div="4" data-bpm="70" data-sw="50" data-k="3000000300100000" data-s="0000000030000000" data-h="2121212121212121" data-o="0000000000000000">Trap (half-time)</button>
+      <button type="button" class="small" data-div="4" data-bpm="172" data-sw="50" data-k="3000000000300000" data-s="0000300000003000" data-h="2020202020202020" data-o="0000000000000000">Drum and bass</button>
+      <button type="button" class="small" data-div="4" data-bpm="95" data-sw="50" data-k="3000300030003000" data-s="0003003000030030" data-h="1010101010101010" data-o="0000000000000000">Reggaeton (dembow)</button>
+      <button type="button" class="small" data-div="3" data-bpm="76" data-sw="50" data-k="000000300000" data-s="000000300000" data-h="201201201201" data-o="000000000000">Reggae one drop</button>
+      <button type="button" class="small" data-div="4" data-bpm="130" data-sw="50" data-k="3002300230023002" data-s="1001001000100100" data-h="2020202020202020" data-o="0000000000000000">Bossa nova</button>
+      <button type="button" class="small" data-div="4" data-bpm="100" data-sw="50" data-k="0000003000003000" data-s="3003003000303000" data-h="1010101010101010" data-o="0000000000000000">Son clave (3-2)</button>
+      <button type="button" class="small" data-div="3" data-bpm="140" data-sw="50" data-k="100100100100" data-s="000001000000" data-h="300302300302" data-o="000000000000">Jazz swing ride</button>
+      <button type="button" class="small" data-div="3" data-bpm="100" data-sw="50" data-k="300000300000" data-s="000000000000" data-h="202022020202" data-o="000000000000">West African bell (12/8)</button>
+    </div>
+    <span class="hint">The style presets also set the tempo and the swing. Each is a one-bar sketch of a style's core pattern, reduced to kick, snare, and hi-hats; the snare row stands in for rim, clave, or comping where the style has no backbeat, and the closed hi-hat row for ride or bell.</span>
+    <div class="row">
+      <span style="font-weight:600;">Accents:</span>
+      <button type="button" class="small" id="accentBeats">Strong on the beats, soft between</button>
+      <button type="button" class="small" id="accentOne">Strong on beat 1 only</button>
+      <button type="button" class="small" id="flatten">Flatten to medium</button>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Feel and reference</legend>
+    <label>Swing <span class="vals" id="swingdisp"></span></label>
+    <input type="range" id="swing" min="50" max="80" step="1" value="50" aria-label="Swing as the share of the pair taken by the first note"/>
+    <div class="row">
+      <span style="font-weight:600;">Swing ratio:</span>
+      <button type="button" class="small" data-swing="50">1:1 straight</button>
+      <button type="button" class="small" data-swing="60">3:2 light</button>
+      <button type="button" class="small" data-swing="67">2:1 triplet</button>
+      <button type="button" class="small" data-swing="75">3:1 hard</button>
+    </div>
+    <span class="hint">The slider gives the share of each pair of subdivisions taken by the first note; the ratio is that share against the rest. Every second subdivision is delayed accordingly, so a pair of eighths or sixteenths becomes long–short. It has no effect on the triplet grid, which is already long–short by construction.</span>
+    <div class="row" style="margin-top:8px;">
+      <label style="display:inline-flex; align-items:center; gap:6px; margin:0; font-weight:normal;"><input type="checkbox" id="clickBeats"/> Click on every beat</label>
+      <label style="display:inline-flex; align-items:center; gap:6px; margin:0; font-weight:normal;"><input type="checkbox" id="tickSub"/> Quiet tick on every subdivision</label>
+    </div>
+  </fieldset>
+
+  <p class="hint">Things to try: keep the rock pattern and switch to sixteenths, then to triplets, and notice that the beat has not changed while the feel has. Put hi-hats on every step at each subdivision and raise the tempo until the subdivisions stop sounding like separate events. Set only beat 1 with the subdivision tick on and count the divisions aloud. The space bar starts and stops.</p>
+
+  <script>
+(function () {
+  "use strict";
+  var el = function (id) { return document.getElementById(id); };
+  var ctx = null, master = null, noiseBuf = null;
+  var running = false, timer = null, animTimer = null;
+  var LOOKAHEAD = 0.12, TICK_MS = 25;
+  var BEATS = 4;
+  var div = 4;                              // subdivisions per beat
+  var ROWS = [["Kick", "k"], ["Snare", "s"], ["Closed hi-hat", "h"], ["Open hi-hat", "o"]];
+  var pattern = { k: [], s: [], h: [], o: [] };
+  var cells = {};
+  var nextTime = 0, step = 0, startTime = 0;
+
+  function steps() { return BEATS * div; }
+  var GAIN = [0, 0.3, 0.6, 1.0];             // loudness of levels 0-3
+  var CYCLE = [2, 0, 3, 1];                  // indexed by current level: off -> medium -> strong -> soft -> off
+  function setPattern(key, str) {
+    var a = str.split("").map(Number);
+    while (a.length < steps()) { a.push(0); }
+    pattern[key] = a.slice(0, steps());
+  }
+  setPattern("k", "3000000020200000"); setPattern("s", "0000300000003000");
+  setPattern("h", "2010201020102010"); setPattern("o", "0000000000000020");
+
+  // ---- grid ----
+  function buildGrid() {
+    var g = el("grid");
+    g.innerHTML = "";
+    g.style.gridTemplateColumns = "minmax(60px, 100px) repeat(" + steps() + ", 1fr)";
+    var lab = document.createElement("div"); g.appendChild(lab);
+    var i, r;
+    for (i = 0; i < steps(); i++) {
+      var l = document.createElement("div");
+      l.className = "lab" + (i % div === 0 ? " b" : "");
+      l.textContent = i % div === 0 ? String(i / div + 1) : (div === 3 ? ["", "trip", "let"][i % div] : ["", "e", "&", "a"][i % div * (4 / div)]);
+      g.appendChild(l);
+    }
+    cells = {};
+    for (r = 0; r < ROWS.length; r++) {
+      var key = ROWS[r][1];
+      var name = document.createElement("div"); name.className = "name"; name.textContent = ROWS[r][0];
+      g.appendChild(name);
+      cells[key] = [];
+      for (i = 0; i < steps(); i++) {
+        var c = document.createElement("button");
+        c.type = "button";
+        c.className = "cell" + (i % div === 0 ? " beatstart" : "");
+        c.dataset.key = key; c.dataset.i = String(i);
+        c.setAttribute("aria-label", ROWS[r][0] + " step " + (i + 1));
+        c.innerHTML = "<div class='lv'></div>";
+        c.addEventListener("click", function () {
+          var k = this.dataset.key, ii = parseInt(this.dataset.i, 10);
+          pattern[k][ii] = CYCLE[pattern[k][ii]];
+          paint(this, pattern[k][ii]);
+          if (ctx && pattern[k][ii] && !running) { hit(k, ctx.currentTime, GAIN[pattern[k][ii]]); }
+        });
+        g.appendChild(c);
+        cells[key].push(c);
+      }
+    }
+    render();
+  }
+  function paint(cell, level) {
+    cell.classList.toggle("on", level > 0);
+    cell.classList.toggle("l1", level === 1);
+    cell.classList.toggle("l2", level === 2);
+    cell.classList.toggle("l3", level === 3);
+    cell.setAttribute("aria-pressed", level > 0 ? "true" : "false");
+    cell.setAttribute("aria-label", cell.getAttribute("aria-label").replace(/,.*$/, "") + [", off", ", soft", ", medium", ", strong"][level]);
+  }
+  function render() {
+    for (var r = 0; r < ROWS.length; r++) {
+      var key = ROWS[r][1];
+      for (var i = 0; i < steps(); i++) { paint(cells[key][i], pattern[key][i]); }
+    }
+  }
+  function reaccent(fn) {
+    for (var r = 0; r < ROWS.length; r++) {
+      var key = ROWS[r][1];
+      for (var i = 0; i < steps(); i++) { if (pattern[key][i]) { pattern[key][i] = fn(i); } }
+    }
+    render();
+  }
+  el("accentBeats").addEventListener("click", function () { reaccent(function (i) { return i % div === 0 ? 3 : 1; }); });
+  el("accentOne").addEventListener("click", function () { reaccent(function (i) { return i === 0 ? 3 : (i % div === 0 ? 2 : 1); }); });
+  el("flatten").addEventListener("click", function () { reaccent(function () { return 2; }); });
+  var swB = document.querySelectorAll("button[data-swing]");
+  for (var q = 0; q < swB.length; q++) {
+    swB[q].addEventListener("click", function () { el("swing").value = this.dataset.swing; updateLabels(); });
+  }
+  function setDiv(n) {
+    if (n === div) { return; }
+    var oldDiv = div, oldSteps = steps();
+    div = n;
+    // keep hits whose position in the bar exists on the new grid
+    for (var r = 0; r < ROWS.length; r++) {
+      var key = ROWS[r][1], old = pattern[key], fresh = [];
+      for (var j = 0; j < steps(); j++) {
+        var pos = j * oldDiv / div;           // position on the old grid
+        fresh.push(Number.isInteger(pos) && pos < oldSteps ? old[pos] : 0);
+      }
+      pattern[key] = fresh;
+    }
+    el("div2").setAttribute("aria-pressed", div === 2 ? "true" : "false");
+    el("div3").setAttribute("aria-pressed", div === 3 ? "true" : "false");
+    el("div4").setAttribute("aria-pressed", div === 4 ? "true" : "false");
+    el("swing").disabled = (div === 3);
+    if (running) { step = step % steps(); }
+    buildGrid();
+  }
+  el("div2").addEventListener("click", function () { setDiv(2); });
+  el("div3").addEventListener("click", function () { setDiv(3); });
+  el("div4").addEventListener("click", function () { setDiv(4); });
+  var pres = document.querySelectorAll("button[data-div]");
+  for (var p = 0; p < pres.length; p++) {
+    pres[p].addEventListener("click", function () {
+      var d = parseInt(this.dataset.div, 10);
+      if (d !== div) {
+        div = d;
+        el("div2").setAttribute("aria-pressed", div === 2 ? "true" : "false");
+        el("div3").setAttribute("aria-pressed", div === 3 ? "true" : "false");
+        el("div4").setAttribute("aria-pressed", div === 4 ? "true" : "false");
+        el("swing").disabled = (div === 3);
+        if (running) { step = step % steps(); }
+      }
+      setPattern("k", this.dataset.k); setPattern("s", this.dataset.s);
+      setPattern("h", this.dataset.h); setPattern("o", this.dataset.o);
+      if (this.dataset.bpm) { el("bpm").value = this.dataset.bpm; }
+      if (this.dataset.sw) { el("swing").value = this.dataset.sw; }
+      updateLabels();
+      buildGrid();
+    });
+  }
+  el("clear").addEventListener("click", function () {
+    for (var r = 0; r < ROWS.length; r++) { pattern[ROWS[r][1]] = new Array(steps()).fill(0); }
+    render();
+  });
+
+  // ---- audio ----
+  function ensureAudio() {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      master = ctx.createGain();
+      master.gain.value = 0.5 * parseFloat(el("vol").value) / 100;
+      master.connect(ctx.destination);
+      var n = Math.floor(ctx.sampleRate * 0.4);
+      noiseBuf = ctx.createBuffer(1, n, ctx.sampleRate);
+      var d = noiseBuf.getChannelData(0);
+      for (var i = 0; i < n; i++) { d[i] = Math.random() * 2 - 1; }
+    }
+    if (ctx.state === "suspended") { ctx.resume(); }
+  }
+  function noise(t, len, type, freq, q, peak) {
+    var src = ctx.createBufferSource(); src.buffer = noiseBuf;
+    var f = ctx.createBiquadFilter(); f.type = type; f.frequency.value = freq; if (q) { f.Q.value = q; }
+    var g = ctx.createGain();
+    g.gain.setValueAtTime(peak, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + len);
+    src.connect(f); f.connect(g); g.connect(master);
+    src.start(t); src.stop(t + len + 0.02);
+  }
+  function kick(t, v) {
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.frequency.setValueAtTime(150, t);
+    o.frequency.exponentialRampToValueAtTime(40, t + 0.25);
+    g.gain.setValueAtTime(v, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+    o.connect(g); g.connect(master); o.start(t); o.stop(t + 0.4);
+  }
+  function snare(t, v) {
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.frequency.setValueAtTime(200, t);
+    o.frequency.exponentialRampToValueAtTime(100, t + 0.12);
+    g.gain.setValueAtTime(0.5 * v, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.15);
+    o.connect(g); g.connect(master); o.start(t); o.stop(t + 0.15);
+    noise(t, 0.2, "highpass", 1000, 0, 0.8 * v);
+  }
+  function hat(t, open, v) { noise(t, open ? 0.35 : 0.05, "highpass", 7000, 0, 0.5 * v); }
+  function click(t, strong) {
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = "sine"; o.frequency.value = strong ? 1000 : 2000;
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(strong ? 0.8 : 0.25, t + 0.002);
+    g.gain.setTargetAtTime(0, t + 0.004, 0.01);
+    o.connect(g); g.connect(master); o.start(t); o.stop(t + 0.08);
+  }
+  function hit(key, t, v) {
+    if (key === "k") { kick(t, v); } else if (key === "s") { snare(t, v); }
+    else if (key === "h") { hat(t, false, v); } else if (key === "o") { hat(t, true, v); }
+  }
+  function stepDur() { return 60 / parseFloat(el("bpm").value) / div; }
+  function swingOffset(i) {
+    if (div === 3) { return 0; }
+    var sw = parseFloat(el("swing").value) / 100;
+    // every second subdivision is delayed so that a pair becomes sw : (1 - sw)
+    return (i % 2 === 1) ? (sw - 0.5) * 2 * stepDur() : 0;
+  }
+  function tick() {
+    while (nextTime < ctx.currentTime + LOOKAHEAD) {
+      var t = nextTime + swingOffset(step);
+      for (var r = 0; r < ROWS.length; r++) {
+        var key = ROWS[r][1];
+        if (pattern[key][step]) { hit(key, t, GAIN[pattern[key][step]]); }
+      }
+      if (step % div === 0 && el("clickBeats").checked) { click(nextTime, true); }
+      if (el("tickSub").checked) { click(t, false); }
+      nextTime += stepDur();
+      step = (step + 1) % steps();
+    }
+  }
+  function start() {
+    ensureAudio();
+    running = true;
+    nextTime = ctx.currentTime + 0.15; startTime = nextTime; step = 0;
+    timer = setInterval(tick, TICK_MS);
+    animTimer = setInterval(animate, 30);
+    el("power").textContent = "Stop"; el("power").classList.remove("primary");
+  }
+  function stop() {
+    running = false;
+    if (timer) { clearInterval(timer); timer = null; }
+    if (animTimer) { clearInterval(animTimer); animTimer = null; }
+    markNow(-1);
+    el("power").textContent = "Start"; el("power").classList.add("primary");
+  }
+  el("power").addEventListener("click", function () { if (running) { stop(); } else { start(); } });
+  document.addEventListener("keydown", function (e) {
+    if (e.code === "Space" && !e.repeat && document.activeElement.tagName !== "BUTTON") {
+      e.preventDefault(); if (running) { stop(); } else { start(); }
+    }
+  });
+  function markNow(i) {
+    for (var r = 0; r < ROWS.length; r++) {
+      var key = ROWS[r][1];
+      for (var j = 0; j < cells[key].length; j++) { cells[key][j].classList.toggle("now", j === i); }
+    }
+  }
+  function animate() {
+    var pos = Math.floor((ctx.currentTime - startTime) / stepDur());
+    markNow(pos < 0 ? -1 : pos % steps());
+  }
+
+  // ---- labels ----
+  function updateLabels() {
+    el("bpmdisp").textContent = el("bpm").value;
+    el("voldisp").textContent = el("vol").value + " %";
+    var sw = parseInt(el("swing").value, 10);
+    var ratio = sw === 50 ? "1:1" : (sw / (100 - sw)).toFixed(1).replace(/\.0$/, "") + ":1";
+    el("swingdisp").textContent = sw + " % (" + ratio + ")";
+    if (ctx) { master.gain.setTargetAtTime(0.5 * parseFloat(el("vol").value) / 100, ctx.currentTime, 0.03); }
+  }
+  el("bpm").addEventListener("input", updateLabels);
+  el("vol").addEventListener("input", updateLabels);
+  el("swing").addEventListener("input", updateLabels);
+  updateLabels();
+  buildGrid();
+})();
+  </script>
+</body>
+</html>

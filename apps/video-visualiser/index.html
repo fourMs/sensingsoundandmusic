@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Video visualiser</title>
+  <style>
+    :root {
+      --bg: #fdfdfd; --fg: #1c1e21; --muted: #5a6069; --panel: #f1f2f4;
+      --border: #c9ccd1; --accent: #0b6e99; --accent-fg: #ffffff; --canvas: #ffffff;
+      --grid: #e3e5e8; --cx: #c2571a; --cy: #7a4fb0; --error: #a8322b;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #15171b; --fg: #e6e7e9; --muted: #9aa0a8; --panel: #20242b;
+        --border: #3a3f47; --accent: #4da3c7; --accent-fg: #0d1117; --canvas: #101216;
+        --grid: #2a2f37; --cx: #e08a4f; --cy: #b48ee0; --error: #ef8a80;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      margin: 0 auto; padding: 16px; max-width: 780px;
+      background: var(--bg); color: var(--fg); line-height: 1.45;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 8px; }
+    h2 { font-size: 0.95rem; margin: 10px 0 0; font-weight: 600; }
+    p.intro { margin: 0 0 14px; }
+    .hint { font-size: 0.9rem; color: var(--muted); margin-top: 10px; display: block; }
+    .privacy {
+      border: 1px solid var(--border); border-radius: 8px; background: var(--panel);
+      padding: 8px 12px; margin: 0 0 14px; font-size: 0.9rem; color: var(--muted);
+    }
+    fieldset {
+      border: 1px solid var(--border); border-radius: 8px;
+      margin: 0 0 12px; padding: 10px 12px; background: var(--panel); min-width: 0;
+    }
+    legend { font-weight: 600; font-size: 0.95rem; padding: 0 6px; }
+    label { display: block; font-weight: 600; font-size: 0.9rem; margin: 8px 0 2px; }
+    label.check { display: inline-flex; align-items: center; gap: 6px; margin: 0; font-weight: normal; }
+    .vals { font-weight: normal; color: var(--muted); margin-left: 4px; }
+    input[type="range"] { width: 100%; margin: 2px 0 4px; accent-color: var(--accent); }
+    button {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 14px; font-size: 1rem; cursor: pointer;
+    }
+    button.small { padding: 4px 10px; font-size: 0.9rem; }
+    button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+    button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+    button:disabled { opacity: 0.5; cursor: default; }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+    .status { color: var(--muted); font-size: 0.9rem; min-height: 1.4em; margin: 6px 0 0; }
+    .status.error { color: var(--error); }
+    .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 12px; align-items: start; }
+    .wrap > div { min-width: 0; }
+    @media (max-width: 560px) { .wrap { grid-template-columns: 1fr; } }
+    canvas { display: block; width: 100%; border: 1px solid var(--border); border-radius: 6px; margin-top: 6px; background: var(--canvas); }
+    canvas.frame { aspect-ratio: 4 / 3; height: auto; }
+    #gramH { height: 260px; }
+    #gramV { aspect-ratio: 5 / 2; height: auto; }
+    #ssm { aspect-ratio: 1 / 1; height: auto; max-width: 360px; }
+    #qom { height: 150px; }
+    #centroid { height: 150px; }
+    .axis { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
+    .readout { font-size: 1rem; margin: 6px 0 0; font-variant-numeric: tabular-nums; }
+    .credit { font-size: 0.85rem; color: var(--muted); margin-top: 18px; }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <h1>Video visualiser</h1>
+  <p class="intro">A video is a stack of still images, and most of what is interesting about a moving body happens between them. This app takes the image from your webcam and turns it into some of the visualisations used in music and movement research. The motion image keeps only what changed from one frame to the next. Videograms and motiongrams squeeze each frame into a single line and lay the lines side by side, so a few seconds of movement can be seen in one picture. The self-similarity matrix shows when the image returns to something it has shown before, and the plot at the bottom reduces all of it to a few numbers over time. Press Start camera and allow access when the browser asks.</p>
+  <p class="privacy">Privacy: the camera image is analysed locally in your browser, drawn to the screen, and immediately discarded. Nothing is recorded, stored, or sent anywhere. The only thing that ever leaves this page is a picture you choose to save with one of the Download buttons, and it goes to your own device.</p>
+
+  <div class="row">
+    <button type="button" id="start" class="primary">Start camera</button>
+    <button type="button" id="pause" disabled>Pause</button>
+    <button type="button" id="mirror" aria-pressed="true">Mirror</button>
+  </div>
+  <p class="status" id="status" role="status"></p>
+
+  <fieldset>
+    <legend>Video and motion image</legend>
+    <div class="wrap">
+      <div>
+        <h2>Video</h2>
+        <canvas id="video" class="frame" width="320" height="240" aria-label="The live camera image"></canvas>
+      </div>
+      <div>
+        <h2>Motion image</h2>
+        <canvas id="motion" class="frame" width="320" height="240" aria-label="The motion image: the absolute difference between consecutive frames"></canvas>
+      </div>
+    </div>
+    <span class="hint">The camera image is scaled down to 160 × 120 pixels before anything is analysed. In the motion image, each pixel is the difference in brightness between this frame and the previous one, so whatever stands still turns black and whatever moves lights up. Only edges show clearly: a plain shirt moving sideways changes little in its middle.</span>
+    <div class="wrap">
+      <div>
+        <label for="thr">Noise threshold <span class="vals" id="thrdisp"></span></label>
+        <input type="range" id="thr" min="0" max="60" step="1" value="12"/>
+      </div>
+      <div>
+        <label for="gain">Gain <span class="vals" id="gaindisp"></span></label>
+        <input type="range" id="gain" min="1" max="30" step="1" value="6"/>
+      </div>
+    </div>
+    <span class="hint">A camera never delivers two identical frames, even of a still room: the sensor adds a little flicker of noise to every pixel. Differences smaller than the threshold (on a scale of 0–255) are set to zero. Raise it until the motion image is black when you hold still. The gain only brightens what is drawn in the motion image and motiongrams; it does not change the measurements below.</span>
+    <div class="row">
+      <label class="check"><input type="checkbox" id="showcentroid" checked/> Mark the centroid of motion in the motion image</label>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Videograms and motiongrams</legend>
+    <div class="row">
+      <button type="button" class="small" id="srcvideo" aria-pressed="true">Videogram, from the frames</button>
+      <button type="button" class="small" id="srcmotion" aria-pressed="false">Motiongram, from the motion image</button>
+    </div>
+    <h2 id="titleV">Vertical videogram</h2>
+    <canvas id="gramV" aria-label="Vertical gram: each frame averaged into one column, time running to the right"></canvas>
+    <div class="axis"><span id="spanV">earlier</span><span>now</span></div>
+    <span class="hint">Each frame is averaged across its width into a single column of pixels, and the columns are placed side by side with the newest on the right. Up and down in the picture is the same as up and down in the video, so a hand that rises draws a line that climbs.</span>
+    <div class="row"><button type="button" class="small" id="dlV">Download PNG</button></div>
+
+    <h2 id="titleH">Horizontal videogram</h2>
+    <canvas id="gramH" aria-label="Horizontal gram: each frame averaged into one row, time running downwards"></canvas>
+    <div class="axis"><span>newest at the top</span><span id="spanH">earlier at the bottom</span></div>
+    <span class="hint">Here each frame is averaged down its height into a single row, and the newest row is added at the top so that older rows move downwards. Left and right in the picture is the same as left and right in the video, so swaying from side to side draws a wavy line.</span>
+    <div class="row"><button type="button" class="small" id="dlH">Download PNG</button></div>
+    <span class="hint">A videogram is made from the frames themselves and shows everything, including the furniture. A motiongram is made from the motion image, so the still background disappears and only movement leaves a trace. Both kinds are kept while the camera runs, so you can switch back and forth without losing anything.</span>
+  </fieldset>
+
+  <fieldset>
+    <legend>Self-similarity matrix</legend>
+    <canvas id="ssm" aria-label="Self-similarity matrix of the recent frames"></canvas>
+    <div class="axis" style="max-width:360px;"><span id="spanS">earlier</span><span>now</span></div>
+    <span class="hint">Every recent frame is compared with every other one. Both axes are time, running from the top left (earlier) to the bottom right (now), and the colour at a point says how alike the two frames are: yellow is very alike, dark blue is very different. The diagonal compares each frame with itself, so it is always bright. Holding still fills the matrix with one even colour; a repeated movement produces a chequered pattern of squares or stripes parallel to the diagonal, spaced by the period of the repetition. The matrix follows the videogram or motiongram switch above.</span>
+  </fieldset>
+
+  <fieldset>
+    <legend>Quantity and centroid of motion</legend>
+    <canvas id="qom" aria-label="Quantity of motion over the last seconds"></canvas>
+    <p class="readout" id="qomread">Quantity of motion: no data yet</p>
+    <span class="hint">The quantity of motion is the share of pixels in the motion image that changed by more than the threshold, given as a percentage of the whole picture. It is a single number for how much is moving in the whole picture, regardless of where. The vertical scale adapts to the largest value shown.</span>
+    <div class="row">
+      <label class="check"><input type="checkbox" id="plotcentroid" checked/> Also plot the centroid of motion</label>
+    </div>
+    <div id="centroidbox">
+      <canvas id="centroid" aria-label="Horizontal and vertical centroid of motion over the last seconds"></canvas>
+      <p class="readout" id="cread">Centroid of motion: no data yet</p>
+      <span class="hint">The centroid of motion is the centre of gravity of the motion image: the average position of everything that changed, weighted by how much it changed. It is given from 0 (left or top) to 1 (right or bottom). When nothing moves there is no centroid, and the lines break.</span>
+    </div>
+  </fieldset>
+
+  <p class="hint">Things to try: move one arm slowly through a large arc, then quickly through the same arc, and compare the traces in the motiongrams and the height of the quantity of motion. Hold completely still for a few seconds and watch which displays go quiet and which do not (the videograms keep showing you, the motiongrams do not). Clap at a steady rate in front of your chest and look for the evenly spaced marks in the vertical motiongram and the stripes in the self-similarity matrix. Put on some music and sway to it: the horizontal motiongram and the horizontal centroid of motion turn the sway into a wave that you can compare with the beat. Finally, turn the threshold down to 0 and hold still to see the camera noise that the threshold is there to remove.</p>
+
+  <p class="credit">Based on <a href="https://github.com/alexarje/videoviz">VideoViz</a> and the <a href="https://github.com/fourMs/MGT-python">Musical Gestures Toolbox</a>.</p>
+
+  <video id="cam" playsinline muted style="display:none;"></video>
+
+  <script>
+(function () {
+  "use strict";
+  var el = function (id) { return document.getElementById(id); };
+
+  // ---- analysis settings ----
+  var W = 160, H = 120, N = W * H;      // every frame is scaled down to this before analysis
+  var T = 300;                          // frames kept in the videograms
+  var MAX_FPS = 30;                     // analysis rate cap
+  var PLOT_S = 10;                      // seconds shown in the motion plots
+  var SSM_N = 120, SSM_EVERY = 2, SSM_RENDER_EVERY = 6;
+  var FW = 16, FH = 12, FB = W / FW;    // self-similarity features: 10 x 10 pixel blocks
+
+  var stream = null, running = false, paused = false, mirrored = true, source = "video";
+  var showMarker = true, plotCentroid = true;
+  var newFrame = false, useRvfc = false, lastT = 0, frameCount = 0;
+  var fpsTimes = [];
+  var cam = el("cam");
+
+  function off(w, h) { var c = document.createElement("canvas"); c.width = w; c.height = h; return c; }
+  var sample = off(W, H), sctx = sample.getContext("2d", { willReadFrequently: true });
+  var motionBuf = off(W, H), mctx = motionBuf.getContext("2d");
+  var motionImg = mctx.createImageData(W, H);
+  var grams = {
+    video: { h: off(W, T), v: off(T, H) },
+    motion: { h: off(W, T), v: off(T, H) }
+  };
+  var rowImg = sctx.createImageData(W, 1), colImg = sctx.createImageData(1, H);
+  var grey = new Float32Array(N), prevGrey = null, diff = new Float32Array(N);
+  var ssmFeat = { video: [], motion: [] };
+  var ssmBuf = off(SSM_N, SSM_N), ssmCtx = ssmBuf.getContext("2d"), ssmHave = 0;
+  var hist = [];   // { t, q, cx, cy }
+  var lastCentroid = null;
+
+  function threshold() { return parseFloat(el("thr").value); }
+  function gain() { return parseFloat(el("gain").value); }
+
+  // ---- status ----
+  function setStatus(msg, isError) {
+    el("status").textContent = msg;
+    el("status").className = isError ? "status error" : "status";
+  }
+
+  // ---- camera ----
+  function resetAnalysis() {
+    prevGrey = null; hist = []; lastCentroid = null; frameCount = 0; fpsTimes = [];
+    ssmFeat = { video: [], motion: [] }; ssmHave = 0;
+    ["video", "motion"].forEach(function (k) {
+      grams[k].h.getContext("2d").clearRect(0, 0, W, T);
+      grams[k].v.getContext("2d").clearRect(0, 0, T, H);
+    });
+    ssmCtx.clearRect(0, 0, SSM_N, SSM_N);
+    mctx.clearRect(0, 0, W, H);
+  }
+
+  function start() {
+    if (running) { return; }
+    if (!window.isSecureContext) {
+      setStatus("The browser only offers the camera to pages opened over https (or from localhost). Open the app from the book's website instead of a plain http address.", true);
+      return;
+    }
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      setStatus("This browser does not offer camera access. Try a current version of Firefox, Chrome, Edge, or Safari.", true);
+      return;
+    }
+    setStatus("Asking for camera access...");
+    el("start").disabled = true;
+    navigator.mediaDevices.getUserMedia({ video: { width: { ideal: 640 }, height: { ideal: 480 }, facingMode: "user" }, audio: false })
+      .then(function (s) {
+        stream = s;
+        cam.srcObject = stream;
+        return cam.play();
+      })
+      .then(function () {
+        resetAnalysis();
+        running = true; paused = false;
+        el("start").textContent = "Stop camera";
+        el("start").classList.remove("primary");
+        el("start").disabled = false;
+        el("pause").disabled = false;
+        el("pause").textContent = "Pause";
+        el("pause").setAttribute("aria-pressed", "false");
+        useRvfc = typeof cam.requestVideoFrameCallback === "function";
+        if (useRvfc) { cam.requestVideoFrameCallback(onVideoFrame); }
+        setStatus("Camera running. Move in front of it.");
+      })
+      .catch(function (err) {
+        stopTracks();
+        el("start").disabled = false;
+        var name = err && err.name ? err.name : "";
+        if (name === "NotAllowedError" || name === "SecurityError") {
+          setStatus("Camera access was declined. Nothing is wrong: allow access in the browser's address bar (or in the system settings) and press Start camera again when you are ready.", true);
+        } else if (name === "NotFoundError" || name === "OverconstrainedError") {
+          setStatus("No camera was found on this device.", true);
+        } else if (name === "NotReadableError" || name === "AbortError") {
+          setStatus("The camera could not be started. Check that another app, such as a video call, is not using it.", true);
+        } else {
+          setStatus("The camera could not be started (" + (name || "unknown reason") + ").", true);
+        }
+      });
+  }
+
+  function stopTracks() {
+    if (stream) { stream.getTracks().forEach(function (t) { t.stop(); }); stream = null; }
+    cam.srcObject = null;
+  }
+
+  function stop() {
+    running = false; paused = false;
+    stopTracks();
+    el("start").textContent = "Start camera";
+    el("start").classList.add("primary");
+    el("pause").disabled = true;
+    el("pause").textContent = "Pause";
+    el("pause").setAttribute("aria-pressed", "false");
+    setStatus("Camera stopped and released. The last pictures stay on screen and can still be downloaded.");
+    drawAll();
+  }
+
+  function onVideoFrame() {
+    newFrame = true;
+    if (running && cam.requestVideoFrameCallback) { cam.requestVideoFrameCallback(onVideoFrame); }
+  }
+
+  // ---- analysis of one frame ----
+  function grab() {
+    var vw = cam.videoWidth, vh = cam.videoHeight;
+    if (!vw || !vh) { return false; }
+    // centre crop to 4:3, then scale to W x H
+    var sw = vw, sh = vh;
+    if (vw / vh > W / H) { sw = vh * W / H; } else { sh = vw * H / W; }
+    var sx = (vw - sw) / 2, sy = (vh - sh) / 2;
+    sctx.save();
+    sctx.setTransform(1, 0, 0, 1, 0, 0);
+    if (mirrored) { sctx.translate(W, 0); sctx.scale(-1, 1); }
+    sctx.drawImage(cam, sx, sy, sw, sh, 0, 0, W, H);
+    sctx.restore();
+    return true;
+  }
+
+  function analyse(now) {
+    if (!grab()) { return; }
+    var px = sctx.getImageData(0, 0, W, H).data;
+    var thr = threshold(), g = gain();
+    var i, x, y, o, d;
+    for (i = 0, o = 0; i < N; i++, o += 4) {
+      grey[i] = 0.299 * px[o] + 0.587 * px[o + 1] + 0.114 * px[o + 2];
+    }
+    var haveDiff = prevGrey !== null;
+    var sum = 0, sx = 0, sy = 0, changed = 0;
+    for (y = 0, i = 0; y < H; y++) {
+      for (x = 0; x < W; x++, i++) {
+        d = haveDiff ? Math.abs(grey[i] - prevGrey[i]) : 0;
+        if (d < thr) { d = 0; }
+        diff[i] = d;
+        sum += d; sx += d * x; sy += d * y; if (d > 0) { changed++; }
+      }
+    }
+    if (!prevGrey) { prevGrey = new Float32Array(N); }
+    prevGrey.set(grey);
+
+    // motion image
+    var md = motionImg.data;
+    for (i = 0, o = 0; i < N; i++, o += 4) {
+      d = Math.min(255, diff[i] * g);
+      md[o] = md[o + 1] = md[o + 2] = d; md[o + 3] = 255;
+    }
+    mctx.putImageData(motionImg, 0, 0);
+
+    // videogram row (average over the height) and column (average over the width)
+    var rd = rowImg.data, cd = colImg.data, r, gg, b, m;
+    for (x = 0; x < W; x++) {
+      r = 0; gg = 0; b = 0;
+      for (y = 0; y < H; y++) { o = (y * W + x) * 4; r += px[o]; gg += px[o + 1]; b += px[o + 2]; }
+      rd[x * 4] = r / H; rd[x * 4 + 1] = gg / H; rd[x * 4 + 2] = b / H; rd[x * 4 + 3] = 255;
+    }
+    for (y = 0; y < H; y++) {
+      r = 0; gg = 0; b = 0;
+      for (x = 0; x < W; x++) { o = (y * W + x) * 4; r += px[o]; gg += px[o + 1]; b += px[o + 2]; }
+      cd[y * 4] = r / W; cd[y * 4 + 1] = gg / W; cd[y * 4 + 2] = b / W; cd[y * 4 + 3] = 255;
+    }
+    pushGram(grams.video);
+    for (x = 0; x < W; x++) {
+      m = 0;
+      for (y = 0; y < H; y++) { m += diff[y * W + x]; }
+      m = Math.min(255, m / H * g);
+      rd[x * 4] = rd[x * 4 + 1] = rd[x * 4 + 2] = m; rd[x * 4 + 3] = 255;
+    }
+    for (y = 0; y < H; y++) {
+      m = 0;
+      for (x = 0; x < W; x++) { m += diff[y * W + x]; }
+      m = Math.min(255, m / W * g);
+      cd[y * 4] = cd[y * 4 + 1] = cd[y * 4 + 2] = m; cd[y * 4 + 3] = 255;
+    }
+    pushGram(grams.motion);
+
+    // quantity and centroid of motion
+    if (haveDiff) {
+      var q = 100 * changed / N;              // share of pixels that changed
+      var cx = sum > 0 ? sx / sum / (W - 1) : null;
+      var cy = sum > 0 ? sy / sum / (H - 1) : null;
+      lastCentroid = sum > 0 ? { x: cx, y: cy } : null;
+      hist.push({ t: now, q: q, cx: cx, cy: cy });
+      while (hist.length && hist[0].t < now - PLOT_S * 1000 - 500) { hist.shift(); }
+    }
+
+    // self-similarity features
+    frameCount++;
+    if (frameCount % SSM_EVERY === 0) {
+      pushFeature(ssmFeat.video, grey);
+      if (haveDiff) { pushFeature(ssmFeat.motion, diff); }
+    }
+    if (frameCount % SSM_RENDER_EVERY === 0) { renderSSM(); }
+
+    fpsTimes.push(now);
+    while (fpsTimes.length > 31) { fpsTimes.shift(); }
+  }
+
+  function pushGram(gr) {
+    // horizontal: newest row at the top, older rows move down
+    var hc = gr.h.getContext("2d");
+    hc.drawImage(gr.h, 0, 0, W, T - 1, 0, 1, W, T - 1);
+    hc.putImageData(rowImg, 0, 0);
+    // vertical: newest column on the right, older columns move left
+    var vc = gr.v.getContext("2d");
+    vc.drawImage(gr.v, 1, 0, T - 1, H, 0, 0, T - 1, H);
+    vc.putImageData(colImg, T - 1, 0);
+  }
+
+  function pushFeature(list, img) {
+    var f = new Float32Array(FW * FH), k = 0, bx, by, x, y, s, mean = 0, norm = 0;
+    for (by = 0; by < FH; by++) {
+      for (bx = 0; bx < FW; bx++) {
+        s = 0;
+        for (y = by * FB; y < (by + 1) * FB; y++) {
+          for (x = bx * FB; x < (bx + 1) * FB; x++) { s += img[y * W + x]; }
+        }
+        f[k] = s / (FB * FB); mean += f[k]; k++;
+      }
+    }
+    mean /= f.length;
+    for (k = 0; k < f.length; k++) { f[k] -= mean; norm += f[k] * f[k]; }
+    norm = Math.sqrt(norm);
+    for (k = 0; k < f.length; k++) { f[k] = norm > 1e-6 ? f[k] / norm : 0; }
+    list.push(f);
+    if (list.length > SSM_N) { list.shift(); }
+  }
+
+  // viridis stops, as in the live spectrogram app
+  var stops = [[68, 1, 84], [59, 82, 139], [33, 145, 140], [94, 201, 98], [253, 231, 37]];
+  function colour(v) {
+    var p = Math.max(0, Math.min(0.9999, v)) * (stops.length - 1);
+    var i = Math.floor(p), fr = p - i;
+    return [
+      Math.round(stops[i][0] + fr * (stops[i + 1][0] - stops[i][0])),
+      Math.round(stops[i][1] + fr * (stops[i + 1][1] - stops[i][1])),
+      Math.round(stops[i][2] + fr * (stops[i + 1][2] - stops[i][2]))
+    ];
+  }
+
+  function renderSSM() {
+    var list = ssmFeat[source], n = list.length, i, j, k, dot, c, o, a, b;
+    ssmHave = n;
+    if (n < 2) { return; }
+    var img = ssmCtx.createImageData(n, n), d = img.data, dim = FW * FH;
+    for (i = 0; i < n; i++) {
+      a = list[i];
+      for (j = i; j < n; j++) {
+        b = list[j]; dot = 0;
+        for (k = 0; k < dim; k++) { dot += a[k] * b[k]; }
+        c = colour((dot + 1) / 2);
+        o = (i * n + j) * 4; d[o] = c[0]; d[o + 1] = c[1]; d[o + 2] = c[2]; d[o + 3] = 255;
+        o = (j * n + i) * 4; d[o] = c[0]; d[o + 1] = c[1]; d[o + 2] = c[2]; d[o + 3] = 255;
+      }
+    }
+    ssmBuf.width = n; ssmBuf.height = n;
+    ssmCtx.putImageData(img, 0, 0);
+  }
+
+  // ---- drawing ----
+  function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+  function prep(c) {
+    var dpr = window.devicePixelRatio || 1, w = c.clientWidth, h = c.clientHeight;
+    if (c.width !== Math.round(w * dpr) || c.height !== Math.round(h * dpr)) { c.width = Math.round(w * dpr); c.height = Math.round(h * dpr); }
+    var g = c.getContext("2d"); g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    g.fillStyle = css("--canvas"); g.fillRect(0, 0, w, h);
+    g.font = "12px system-ui, sans-serif"; g.textBaseline = "middle";
+    return { g: g, w: w, h: h };
+  }
+  function placeholder(o, text) {
+    o.g.fillStyle = css("--muted"); o.g.textAlign = "center";
+    o.g.fillText(text, o.w / 2, o.h / 2);
+  }
+  var started = false;
+  function waitText() { return started ? "" : "Press Start camera"; }
+
+  var snap = off(480, 360), snapCtx = snap.getContext("2d");
+  function drawVideo() {
+    var o = prep(el("video")), g = o.g;
+    if (!started) { placeholder(o, waitText()); return; }
+    if (running && !paused && cam.videoWidth) {
+      // keep a copy of the frame on screen, so that it stays sharp when paused or stopped
+      var vw = cam.videoWidth, vh = cam.videoHeight, sw = vw, sh = vh;
+      if (vw / vh > 4 / 3) { sw = vh * 4 / 3; } else { sh = vw * 3 / 4; }
+      snapCtx.save();
+      snapCtx.setTransform(1, 0, 0, 1, 0, 0);
+      if (mirrored) { snapCtx.translate(snap.width, 0); snapCtx.scale(-1, 1); }
+      snapCtx.drawImage(cam, (vw - sw) / 2, (vh - sh) / 2, sw, sh, 0, 0, snap.width, snap.height);
+      snapCtx.restore();
+    }
+    g.imageSmoothingEnabled = true;
+    g.drawImage(snap, 0, 0, o.w, o.h);
+  }
+
+  function drawMotion() {
+    var o = prep(el("motion")), g = o.g;
+    if (!started) { placeholder(o, waitText()); return; }
+    g.imageSmoothingEnabled = true;
+    g.drawImage(motionBuf, 0, 0, o.w, o.h);
+    if (showMarker && lastCentroid) {
+      var x = lastCentroid.x * o.w, y = lastCentroid.y * o.h;
+      g.strokeStyle = "#ff4d4d"; g.lineWidth = 2;
+      g.beginPath(); g.arc(x, y, 7, 0, 2 * Math.PI);
+      g.moveTo(x - 12, y); g.lineTo(x + 12, y); g.moveTo(x, y - 12); g.lineTo(x, y + 12);
+      g.stroke();
+    }
+  }
+
+  function drawGram(id, buf) {
+    var o = prep(el(id)), g = o.g;
+    if (!started) { placeholder(o, waitText()); return; }
+    g.imageSmoothingEnabled = true;
+    g.drawImage(buf, 0, 0, o.w, o.h);
+  }
+
+  function drawSSM() {
+    var o = prep(el("ssm")), g = o.g;
+    if (!started) { placeholder(o, waitText()); return; }
+    if (ssmHave < 2) { placeholder(o, "Collecting frames..."); return; }
+    g.imageSmoothingEnabled = false;
+    g.drawImage(ssmBuf, 0, 0, o.w, o.h);
+  }
+
+  function niceMax(v) {
+    var steps = [0.5, 1, 2, 5, 10, 20, 50, 100];
+    for (var i = 0; i < steps.length; i++) { if (v <= steps[i]) { return steps[i]; } }
+    return 100;
+  }
+
+  function drawTimePlot(id, series, yMax, yTicks, yFmt, now, invert) {
+    var o = prep(el(id)), g = o.g, mL = 40, mR = 10, mT = series.length > 1 ? 24 : 10, mB = 22;
+    var pw = o.w - mL - mR, ph = o.h - mT - mB;
+    var xOf = function (t) { return mL + (1 - (now - t) / (PLOT_S * 1000)) * pw; };
+    var yOf = function (v) { return invert ? mT + v / yMax * ph : mT + ph - v / yMax * ph; };
+    g.strokeStyle = css("--grid"); g.lineWidth = 1; g.fillStyle = css("--muted");
+    g.textAlign = "right";
+    yTicks.forEach(function (v) {
+      var y = yOf(v);
+      g.beginPath(); g.moveTo(mL, y); g.lineTo(mL + pw, y); g.stroke();
+      g.fillText(yFmt(v), mL - 5, y);
+    });
+    g.textAlign = "center";
+    for (var s = 0; s <= PLOT_S; s += (pw < 400 ? 5 : 2)) {
+      var x = mL + (1 - s / PLOT_S) * pw;
+      g.beginPath(); g.moveTo(x, mT); g.lineTo(x, mT + ph); g.stroke();
+      g.fillText(s === 0 ? "now" : "−" + s + " s", Math.min(Math.max(x, mL + 14), o.w - 18), o.h - 9);
+    }
+    if (!started) { placeholder(o, waitText()); return; }
+    g.save();
+    g.beginPath(); g.rect(mL, mT, pw, ph); g.clip();
+    series.forEach(function (sr) {
+      g.strokeStyle = css(sr.col); g.lineWidth = 2; g.beginPath();
+      var pen = false;
+      for (var i = 0; i < hist.length; i++) {
+        var v = hist[i][sr.key];
+        if (v === null) { pen = false; continue; }
+        var x = xOf(hist[i].t), y = yOf(v);
+        if (pen) { g.lineTo(x, y); } else { g.moveTo(x, y); pen = true; }
+      }
+      g.stroke();
+    });
+    g.restore();
+    // legend
+    if (series.length > 1) {
+      var lx = mL + 8;
+      g.textAlign = "left";
+      series.forEach(function (sr) {
+        g.fillStyle = css(sr.col); g.fillRect(lx, 9, 14, 3);
+        g.fillStyle = css("--fg"); g.fillText(sr.label, lx + 18, 11);
+        lx += 18 + g.measureText(sr.label).width + 14;
+      });
+    }
+  }
+
+  function plotNow() {
+    if (running && !paused) { return performance.now(); }
+    return hist.length ? hist[hist.length - 1].t : performance.now();
+  }
+
+  function drawPlots() {
+    var now = plotNow(), peak = 0, i;
+    for (i = 0; i < hist.length; i++) { if (hist[i].t >= now - PLOT_S * 1000 && hist[i].q > peak) { peak = hist[i].q; } }
+    var yMax = niceMax(Math.max(0.5, peak * 1.1));
+    var fmt = function (v) { return (yMax < 2 ? v.toFixed(1) : v.toFixed(0)) + " %"; };
+    drawTimePlot("qom", [{ key: "q", col: "--accent", label: "quantity of motion" }], yMax, [0, yMax / 2, yMax], fmt, now, false);
+    if (plotCentroid) {
+      drawTimePlot("centroid", [
+        { key: "cx", col: "--cx", label: "horizontal" },
+        { key: "cy", col: "--cy", label: "vertical" }
+      ], 1, [0, 0.5, 1], function (v) { return v.toFixed(1); }, now, false);
+    }
+    var last = hist.length ? hist[hist.length - 1] : null;
+    el("qomread").textContent = last ? "Quantity of motion: " + last.q.toFixed(2) + " %" : "Quantity of motion: no data yet";
+    el("cread").textContent = !last ? "Centroid of motion: no data yet" :
+      (last.cx === null ? "Centroid of motion: nothing above the threshold is moving" :
+        "Centroid of motion: horizontal " + last.cx.toFixed(2) + ", vertical " + last.cy.toFixed(2));
+  }
+
+  function updateLabels() {
+    var kind = source === "video" ? "videogram" : "motiongram";
+    el("titleV").textContent = "Vertical " + kind;
+    el("titleH").textContent = "Horizontal " + kind;
+    var fps = 0;
+    if (fpsTimes.length > 5) { fps = (fpsTimes.length - 1) * 1000 / (fpsTimes[fpsTimes.length - 1] - fpsTimes[0]); }
+    var span = fps > 0 ? "about " + Math.round(T / fps) + " s ago" : T + " frames ago";
+    el("spanV").textContent = span;
+    el("spanH").textContent = span + " at the bottom";
+    var msg = "Camera running, analysing " + Math.round(fps) + " frames per second. Move in front of it.";
+    if (running && !paused && fps > 0 && el("status").textContent !== msg) {
+      setStatus(msg);
+    }
+    el("spanS").textContent = fps > 0 ? "about " + Math.round(ssmHave * SSM_EVERY / fps) + " s ago" : "earlier";
+  }
+
+  function drawAll() {
+    drawVideo(); drawMotion();
+    drawGram("gramV", grams[source].v);
+    drawGram("gramH", grams[source].h);
+    drawSSM(); drawPlots(); updateLabels();
+  }
+
+  function loop(now) {
+    requestAnimationFrame(loop);
+    if (!running || paused) { return; }
+    var due = now - lastT >= 1000 / MAX_FPS - 2;
+    if (useRvfc ? (newFrame && due) : due) {
+      newFrame = false; lastT = now;
+      started = true;
+      analyse(now);
+      drawAll();
+    }
+  }
+
+  // ---- downloads ----
+  function download(which) {
+    var buf = grams[source][which];
+    if (!started) { setStatus("Start the camera first: there is nothing to save yet.", true); return; }
+    var k = 3, c = off(buf.width * k, buf.height * k), g = c.getContext("2d");
+    g.imageSmoothingEnabled = false;
+    g.drawImage(buf, 0, 0, c.width, c.height);
+    var name = (which === "h" ? "horizontal-" : "vertical-") + (source === "video" ? "videogram" : "motiongram") + ".png";
+    c.toBlob(function (blob) {
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(blob); a.download = name;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+    }, "image/png");
+  }
+
+  // ---- wiring ----
+  el("start").addEventListener("click", function () { if (running) { stop(); } else { start(); } });
+  el("pause").addEventListener("click", function () {
+    if (!running) { return; }
+    paused = !paused;
+    el("pause").textContent = paused ? "Resume" : "Pause";
+    el("pause").setAttribute("aria-pressed", paused ? "true" : "false");
+    if (!paused) { prevGrey = null; }
+    setStatus(paused ? "Paused: the pictures stand still, the camera stays on. Press Resume to continue." : "Camera running. Move in front of it.");
+    drawAll();
+  });
+  el("mirror").addEventListener("click", function () {
+    mirrored = !mirrored;
+    this.setAttribute("aria-pressed", mirrored ? "true" : "false");
+    prevGrey = null;   // avoid a false burst of motion when the image flips
+    drawAll();
+  });
+  function setSource(s) {
+    source = s;
+    el("srcvideo").setAttribute("aria-pressed", s === "video" ? "true" : "false");
+    el("srcmotion").setAttribute("aria-pressed", s === "motion" ? "true" : "false");
+    renderSSM();
+    drawAll();
+  }
+  el("srcvideo").addEventListener("click", function () { setSource("video"); });
+  el("srcmotion").addEventListener("click", function () { setSource("motion"); });
+  el("dlV").addEventListener("click", function () { download("v"); });
+  el("dlH").addEventListener("click", function () { download("h"); });
+  function sliders() {
+    el("thrdisp").textContent = el("thr").value;
+    el("gaindisp").textContent = "× " + el("gain").value;
+  }
+  el("thr").addEventListener("input", sliders);
+  el("gain").addEventListener("input", sliders);
+  el("showcentroid").addEventListener("change", function () { showMarker = this.checked; drawMotion(); });
+  el("plotcentroid").addEventListener("change", function () {
+    plotCentroid = this.checked;
+    el("centroidbox").style.display = plotCentroid ? "" : "none";
+    drawPlots();
+  });
+  window.addEventListener("resize", drawAll);
+  if (window.matchMedia) { window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", drawAll); }
+  window.addEventListener("pagehide", stopTracks);
+
+  sliders();
+  drawAll();
+  requestAnimationFrame(loop);
+})();
+  </script>
+</body>
+</html>
