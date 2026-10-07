@@ -90,6 +90,9 @@ Chronobiology
 Clave
 : A short repeating rhythmic pattern in Afro-Cuban music, spanning two bars, that serves as the timeline against which the other parts are heard.
 
+Coarticulation
+: The blending of neighbouring actions or sounds into a larger chunk, so that each is shaped by those around it, as when a pianist's hand prepares the next chord while playing the current one.
+
 Cochlea
 : The spiral, fluid-filled organ of the inner ear where hair cells convert mechanical vibration into nerve impulses, organised by frequency.
 
@@ -131,6 +134,9 @@ Diffuseness
 
 Doppler effect
 : The shift in perceived frequency when a sound source and listener move relative to each other, with pitch rising on approach and falling on retreat, exploited musically in the Leslie speaker.
+
+Downbeat
+: The first beat of a bar, usually the strongest metric position.
 
 Duty cycle
 : The fraction of a repeating on–off cycle during which a machine or signal is on, used in the book for the slow rhythms of appliances such as refrigerators.
@@ -234,6 +240,12 @@ Hearing
 Heart rate variability (HRV)
 : The variation in the intervals between successive heartbeats, with higher variability indicating relaxed, parasympathetic states.
 
+Hi-hat
+: A pair of cymbals on a stand in a drum kit, played with sticks and opened and closed with a foot pedal; it often carries the subdivision in pop and dance music.
+
+Impulsive sound
+: In Schaeffer's typology, a short sound made by a single burst of energy, such as a drum hit.
+
 Inertial measurement unit
 : A small sensor combining an accelerometer, a gyroscope, and often a magnetometer, found in phones, watches, and wearable research devices; it gives orientation and acceleration at the point where it is worn, but not position.
 
@@ -252,6 +264,9 @@ Inter-onset interval
 Isochrony
 : Equal spacing of events in time; a metre whose beats are all the same length has an isochronous beat level, and non-isochrony is the deviation from it, whether as swing at the subdivision level or as unequal beats.
 
+Iterative sound
+: In Schaeffer's typology, a sound made by a rapid series of bursts that fuse into one object, such as a fast drum roll.
+
 Just noticeable difference
 : The smallest change in a stimulus that a listener can reliably detect, such as about one decibel of level or a fraction of a percent of frequency.
 
@@ -263,6 +278,9 @@ Kinematics
 
 Kinetics
 : The study of the forces and torques that cause motion, which must be measured with force sensors or inferred, since cameras cannot see them.
+
+Labanotation
+: A notation system for human movement developed by Rudolf Laban, with symbols on a vertical staff for direction, level, duration, and body part.
 
 Latency
 : The delay between a sound arriving and a system's response to it, set by the analysis window, any lookahead, and the processing time; the central constraint of real-time machine listening.
@@ -351,6 +369,9 @@ Note value
 Nyquist frequency
 : Half the sampling rate, the highest frequency a digital system can represent without aliasing.
 
+Offbeat
+: A metric position between the beats, such as the "and" in "1-and-2-and".
+
 Onset
 : The beginning of a sound event; the physically measurable start can differ from the moment a listener perceives the sound as beginning.
 
@@ -380,6 +401,9 @@ Passage of time
 
 Perceived and induced emotion
 : The distinction between recognising the emotion a piece of music expresses and actually feeling an emotion oneself, which any study of musical emotion must specify.
+
+Perceiver
+: A person experiencing music through any of the senses; used instead of "listener" to include watching, feeling, and moving.
 
 Perceptual centre
 : The moment at which a listener places a sound in time, usually after its physical onset and before its energy peak; also called the P-centre or perceived attack time. It depends on the attack, so sounds that start together may not be heard together.
@@ -525,6 +549,9 @@ Stream segregation
 Subdivision
 : The division of each beat into smaller equal units, such as eighth or sixteenth notes or triplets, heard as subdivisions when their intervals are roughly 100 to 500 milliseconds.
 
+Sustained sound
+: In Schaeffer's typology, a sound made by a continuous supply of energy, such as a bowed or blown note.
+
 Swing
 : A systematic long–short timing pattern at the subdivision level, with ratios in performance ranging from nearly even to well beyond triplet spacing.
 
@@ -582,6 +609,9 @@ Tresillo
 Two-level timing model
 : The account, from continuation tapping, that timing variability comes from two sources: a central timekeeper that decides when the next event is due, and the motor delay between that decision and the movement.
 
+Upbeat
+: The beat or part of a beat that leads into a downbeat; a melody that starts there begins on an upbeat.
+
 Valence
 : The dimension of emotion running from unpleasant to pleasant, one axis of the valence–arousal model.
 
@@ -590,6 +620,9 @@ Valence–arousal model
 
 Ventriloquism effect
 : The capture of a sound's perceived location by a plausible visual source, as when film dialogue seems to come from the actors rather than the loudspeakers.
+
+Verticality
+: The habit of describing pitch as "high" and "low", a conceptual metaphor drawn from bodily experience rather than a physical property of sound.
 
 Vibrato
 : A regular fluctuation of pitch, around five to seven cycles per second in singing, that adds warmth and helps a voice carry.
