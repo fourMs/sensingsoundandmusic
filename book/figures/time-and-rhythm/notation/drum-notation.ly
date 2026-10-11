@@ -1,4 +1,4 @@
-\include "common.ily"
+\include "../../notation/common.ily"
 \paper { score-system-spacing.basic-distance = #9 }
 lay = \layout {
   indent = 30\mm

@@ -1,4 +1,4 @@
-\include "common.ily"
+\include "../../notation/common.ily"
 row = #(define-music-function (name notes rests) (markup? ly:music? ly:music?)
   #{
     \new RhythmicStaff \with {

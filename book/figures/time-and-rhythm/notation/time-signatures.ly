@@ -1,4 +1,4 @@
-\include "common.ily"
+\include "../../notation/common.ily"
 \paper { score-system-spacing.basic-distance = #10 }
 row = #(define-music-function (name music) (markup? ly:music?)
   #{

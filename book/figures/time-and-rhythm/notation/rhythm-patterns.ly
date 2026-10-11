@@ -1,4 +1,4 @@
-\include "common.ily"
+\include "../../notation/common.ily"
 \score {
   <<
     \new RhythmicStaff \with { instrumentName = \markup { \small "tresillo 3+3+2" } } {
