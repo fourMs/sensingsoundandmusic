@@ -423,6 +423,9 @@ Pitch
 Pitch class
 : The set of all pitches that are whole octaves apart, such as every C on a keyboard, the basis of the chromagram.
 
+Pleasurable urge to move to music (PLUMM)
+: The experiential sense of groove, measured by asking listeners how much a pattern makes them want to move and how much they enjoy it; strongest at medium syncopation and weaker when a rhythm is either fully predictable or too irregular to follow.
+
 Polyrhythm
 : A common name for cross-rhythm, the overlap of rhythmic streams whose periods do not fit into each other as whole numbers.
 
