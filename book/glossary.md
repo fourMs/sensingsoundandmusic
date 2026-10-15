@@ -129,6 +129,9 @@ Decibel
 Deep learning
 : Machine learning with artificial neural networks of many layers, which discover their own features from large amounts of data instead of relying on features chosen by hand.
 
+Depth camera
+: A camera that records a distance for every pixel as well as its brightness, by projecting an infrared pattern or timing a pulse of light; the Kinect made it a cheap route to markerless motion capture.
+
 Diffuseness
 : A measure, from an ambisonic recording, of how far the sound comes from everywhere at once rather than from one direction; low for a single talker, high for a reverberant murmur.
 
@@ -584,6 +587,9 @@ Tempo marking
 
 Tempogram
 : A plot of how strongly each tempo is present in a recording over time, computed from the onset strength; the machine-listening counterpart of tapping along to find the beat.
+
+Thermal camera
+: A camera that records the infrared light that warm bodies emit, so people appear as bright shapes in any lighting and faces are not recognisable; used to read skin temperature across a group.
 
 Timbre
 : The sound quality that distinguishes two tones of identical pitch and loudness, arising from spectral content and the temporal envelope.
