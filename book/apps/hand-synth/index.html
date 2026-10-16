@@ -193,9 +193,13 @@
       ctx.beginPath(); ctx.moveTo(a.x * w, a.y * h); ctx.lineTo(b.x * w, b.y * h);
       ctx.strokeStyle = colour; ctx.lineWidth = width; ctx.setLineDash([7, 5]); ctx.stroke(); ctx.setLineDash([]);
     }
+    // The tracker loses a hand for a frame now and then. Dropping the gain to
+    // zero and back within two frames is heard as a click, so the last pinch and
+    // pitch are held for a short grace period and only then faded out.
+    var HOLD_MS = 300, lastPinch = null, lastPitch = null, lastSeen = 0;
     function updateSound(hands, w, h) {
       var right = hands.right, left = hands.left;
-      var pinch = null, pitchHz = null, target = 0;
+      var pinch = null, pitchHz = null, target = 0, now = performance.now();
       if (right) {
         var pinchPx = distance(right[4], right[8], w, h);
         var handSize = distance(right[0], right[9], w, h);
@@ -210,10 +214,13 @@
         var pitchPosition = clamp((span - 0.025) / 0.58, 0, 1);
         pitchHz = 110 * Math.pow(8, pitchPosition);
         if (pinch !== null) { target = 0.3 * pinch; }
+        lastPinch = pinch; lastPitch = pitchHz; lastSeen = now;
+      } else if (lastPitch !== null && now - lastSeen < HOLD_MS) {
+        pinch = lastPinch; pitchHz = lastPitch; target = pinch === null ? 0 : 0.3 * pinch;
       }
       if (amp && actx) {
-        amp.gain.setTargetAtTime((muted ? 0 : target), actx.currentTime, 0.035);
-        if (pitchHz !== null) { osc.frequency.setTargetAtTime(pitchHz, actx.currentTime, 0.025); }
+        amp.gain.setTargetAtTime((muted ? 0 : target), actx.currentTime, 0.05);
+        if (pitchHz !== null) { osc.frequency.setTargetAtTime(pitchHz, actx.currentTime, 0.04); }
       }
       el("volume-value").textContent = pinch === null ? "—" : Math.round(pinch * 100) + "%";
       setMeter(el("volume-meter"), pinch === null ? 0 : pinch);
@@ -271,7 +278,10 @@
     function makeAudio() {
       var AudioContextClass = window.AudioContext || window.webkitAudioContext;
       if (!AudioContextClass) { throw new Error("This browser does not support the Web Audio API."); }
-      actx = new AudioContextClass();
+      // "playback" asks for a larger audio buffer. The hand model runs on the main
+      // thread, and with the default low-latency buffer a slow frame can starve
+      // the audio thread, which is heard as crackle; the added delay is small.
+      actx = new AudioContextClass({ latencyHint: "playback" });
       osc = actx.createOscillator(); amp = actx.createGain();
       osc.type = "sine"; osc.frequency.value = 220; amp.gain.value = 0;
       osc.connect(amp); amp.connect(actx.destination); osc.start();
@@ -312,6 +322,12 @@
       if (landmarker) { try { landmarker.close(); } catch (e) {} landmarker = null; }
       if (stream) { stream.getTracks().forEach(function (track) { track.stop(); }); stream = null; }
       camera.pause(); camera.srcObject = null;
+      if (amp && actx) {
+        // fade out before the oscillator stops, so that stopping does not click
+        amp.gain.cancelScheduledValues(actx.currentTime);
+        amp.gain.setTargetAtTime(0, actx.currentTime, 0.02);
+        await new Promise(function (resolve) { setTimeout(resolve, 120); });
+      }
       if (osc) { try { osc.stop(); } catch (e) {} osc.disconnect(); osc = null; }
       if (amp) { amp.disconnect(); amp = null; }
       if (actx) { try { await actx.close(); } catch (e) {} actx = null; }
