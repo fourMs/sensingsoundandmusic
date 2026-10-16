@@ -1,10 +1,11 @@
 # Course apps (2026)
 
-Thirty-three small, self-contained WebAudio teaching apps written for the book. Each is
-a single `index.html` with inline CSS and JS (vanilla JS, Web Audio API,
-canvas), no external requests, and works on both phones and laptops. Sound
-starts only after a user gesture. Like the vendored apps, these are copied into
-the deployed site under `/apps/` by the build.
+Thirty-four small WebAudio teaching apps written for the book. Each is a
+single `index.html` with inline CSS and JavaScript and works on phones and
+laptops. Most need no external requests; `hand-synth` downloads MediaPipe and
+its hand model when started. Sound starts only after a user gesture. Like the
+vendored apps, these are copied into the deployed site under `/apps/` by the
+build.
 
 - `mini-synth/` — a small subtractive synthesiser: oscillator, lowpass filter,
   ADSR envelope, one-octave keyboard, presets, live waveform and spectrum.
@@ -114,6 +115,11 @@ the deployed site under `/apps/` by the build.
   a ScriptProcessor fallback), top of the image highest in frequency, and the
   horizontal motion balance as stereo panning, with a limiter. Based on
   webvideosonifyer (https://github.com/alexarje/webvideosonifyer). Chapter:
+  *The body*.
+- `hand-synth/` — a webcam synth using MediaPipe Hand Landmarker: right
+  thumb–index pinch controls loudness and the distance between left and right
+  index knuckles controls pitch. Camera frames are processed in the browser;
+  the MediaPipe runtime and model are downloaded when the app starts. Chapter:
   *The body*.
 - `camera-pulse/` — heart rate by photoplethysmography: a fingertip over the
   phone camera (torch where the browser allows it) or the face in a webcam,
