@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="theme-color" content="#111a24"/>
+  <title>Hand synth</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #111a24; --panel: #182431; --panel-2: #1d2d3a; --fg: #f2f5f7;
+      --muted: #a9b8c5; --border: #344756; --accent: #78e0ca;
+      --accent-2: #ffc67b; --danger: #ff957f; --track: #263947;
+    }
+    * { box-sizing: border-box; }
+    body {
+      max-width: 1040px; margin: 0 auto; padding: clamp(16px, 4vw, 34px);
+      background: radial-gradient(ellipse at 50% -20%, #294050 0, var(--bg) 58%);
+      color: var(--fg); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    h1, h2, p { margin-top: 0; }
+    h1 { margin-bottom: 8px; font-size: clamp(1.8rem, 5vw, 2.8rem); letter-spacing: -.04em; line-height: 1.05; }
+    h2 { margin-bottom: 8px; font-size: 1rem; }
+    button { font: inherit; }
+    .eyebrow { margin: 0 0 10px; color: var(--accent); font-size: .78rem; font-weight: 750; letter-spacing: .14em; text-transform: uppercase; }
+    .intro { max-width: 720px; margin-bottom: 20px; color: #d3dde4; font-size: 1.05rem; }
+    .privacy, .panel { border: 1px solid var(--border); border-radius: 14px; background: var(--panel); }
+    .privacy { margin-bottom: 16px; padding: 12px 15px; color: var(--muted); font-size: .9rem; }
+    .controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .button {
+      min-height: 44px; padding: 9px 16px; border: 1px solid var(--border); border-radius: 9px;
+      background: var(--panel-2); color: var(--fg); font-weight: 680; cursor: pointer;
+    }
+    .button.primary { border-color: var(--accent); background: var(--accent); color: #09201e; }
+    .button:hover:not(:disabled) { filter: brightness(1.08); }
+    .button:focus-visible { outline: 3px solid var(--accent-2); outline-offset: 2px; }
+    .button:disabled { opacity: .5; cursor: default; }
+    .status { flex: 1 1 250px; min-height: 1.5em; margin: 0; color: var(--muted); font-size: .92rem; }
+    .status.error { color: var(--danger); }
+    .layout { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(250px, .8fr); gap: 14px; }
+    .panel { min-width: 0; padding: 16px; }
+    .camera-panel { padding: 12px; }
+    .camera-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; padding: 2px 4px 9px; }
+    .camera-head h2 { margin: 0; }
+    .live-tag { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); font-size: .78rem; font-weight: 650; text-transform: uppercase; letter-spacing: .08em; }
+    .live-dot { width: 8px; height: 8px; border-radius: 50%; background: #687986; }
+    .live-tag.on .live-dot { background: var(--accent); box-shadow: 0 0 12px #78e0ca99; }
+    .stage { position: relative; overflow: hidden; border: 1px solid var(--border); border-radius: 10px; background: #0b1118; }
+    canvas { display: block; width: 100%; aspect-ratio: 4 / 3; }
+    .empty { position: absolute; inset: 0; display: grid; place-content: center; padding: 24px; color: #9eafbc; text-align: center; pointer-events: none; }
+    .empty strong { color: var(--fg); font-size: 1.05rem; }
+    .empty[hidden] { display: none; }
+    .camera-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 14px; padding: 10px 4px 2px; color: var(--muted); font-size: .83rem; }
+    .meters { display: grid; gap: 12px; }
+    .meter-card { padding: 14px; border: 1px solid var(--border); border-radius: 11px; background: var(--panel-2); }
+    .meter-title { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 8px; }
+    .meter-title h2 { margin: 0; }
+    .value { color: var(--accent); font: 700 1.05rem/1.2 ui-monospace, SFMono-Regular, Menlo, monospace; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .pitch-card .value { color: var(--accent-2); }
+    .meter-track { height: 9px; overflow: hidden; border-radius: 99px; background: var(--track); }
+    .meter-fill { width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #48bba8, var(--accent)); transition: width .08s linear; }
+    .pitch-card .meter-fill { background: linear-gradient(90deg, #d18c50, var(--accent-2)); }
+    .meter-note { margin: 8px 0 0; color: var(--muted); font-size: .84rem; }
+    .mapping { display: grid; gap: 9px; margin-top: 15px; }
+    .mapping div { display: flex; align-items: flex-start; gap: 10px; color: #d2dce3; font-size: .9rem; }
+    .mapping b { display: inline-grid; flex: 0 0 23px; height: 23px; place-items: center; border-radius: 7px; background: #263c47; color: var(--accent); font-size: .82rem; }
+    .mapping div:nth-child(2) b { color: var(--accent-2); }
+    .tips { margin: 14px 0 0; color: var(--muted); font-size: .88rem; }
+    .credit { margin: 18px 0 0; color: #8596a3; font-size: .8rem; }
+    a { color: var(--accent); }
+    @media (max-width: 700px) { .layout { grid-template-columns: 1fr; } .meters { grid-template-columns: 1fr 1fr; } .mapping, .tips { grid-column: 1 / -1; } }
+    @media (max-width: 440px) { .meters { grid-template-columns: 1fr; } .panel { padding: 13px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <header>
+    <p class="eyebrow">Gesture-controlled sound</p>
+    <h1>Hand synth</h1>
+    <p class="intro">Move your hands to play a continuous tone. A webcam and MediaPipe track both hands: pinch your right thumb and index fingertip to change the loudness, then move your hands apart or together to sweep the pitch.</p>
+  </header>
+
+  <p class="privacy">Your camera image is processed in this browser and is never recorded or uploaded. On first use, the MediaPipe code, WebAssembly files, and hand model are downloaded from jsDelivr and Google to your device.</p>
+
+  <div class="controls">
+    <button type="button" id="start" class="button primary">Start camera and synth</button>
+    <button type="button" id="mute" class="button" aria-pressed="false" disabled>Mute</button>
+    <p id="status" class="status" role="status" aria-live="polite">Allow camera access to begin. For camera access, open this page over HTTPS or localhost.</p>
+  </div>
+
+  <main class="layout">
+    <section class="panel camera-panel" aria-labelledby="camera-title">
+      <div class="camera-head">
+        <h2 id="camera-title">Hand tracking</h2>
+        <span id="live" class="live-tag"><span class="live-dot" aria-hidden="true"></span><span id="live-label">Camera off</span></span>
+      </div>
+      <div class="stage">
+        <canvas id="view" width="640" height="480" aria-label="Mirrored camera view with detected hand landmarks"></canvas>
+        <div id="empty" class="empty"><div><strong>Ready when you are</strong><br/>Place both hands in view, palms facing the camera.</div></div>
+      </div>
+      <div class="camera-foot"><span id="hands">Right hand: waiting · Left hand: waiting</span><span>Keep both hands in frame</span></div>
+    </section>
+
+    <section class="panel" aria-label="Synth controls">
+      <div class="meters">
+        <div class="meter-card">
+          <div class="meter-title"><h2>Right-hand pinch</h2><span id="volume-value" class="value">—</span></div>
+          <div class="meter-track" role="meter" aria-label="Right-hand pinch loudness" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="volume-meter" class="meter-fill"></div></div>
+          <p class="meter-note">Thumb tip ↔ index tip sets loudness</p>
+        </div>
+        <div class="meter-card pitch-card">
+          <div class="meter-title"><h2>Index-knuckle span</h2><span id="pitch-value" class="value">—</span></div>
+          <div class="meter-track" role="meter" aria-label="Distance between index fingers, controlling pitch" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="pitch-meter" class="meter-fill"></div></div>
+          <p class="meter-note">Left index knuckle ↔ right index knuckle sets pitch</p>
+        </div>
+
+        <div class="mapping" aria-label="Gesture mapping">
+          <div><b>1</b><span>Open the right-hand pinch for a louder sound; close it for silence.</span></div>
+          <div><b>2</b><span>Move your hands apart for a higher pitch and together for a lower pitch.</span></div>
+        </div>
+        <p id="tip" class="tips">The synth is a soft sine tone. Both hands must be visible to play.</p>
+      </div>
+    </section>
+  </main>
+
+  <p class="credit">Hand landmarks are detected with <a href="https://ai.google.dev/edge/mediapipe/solutions/vision/hand_landmarker/web_js">MediaPipe Hand Landmarker</a>. Use headphones and begin with a low listening level.</p>
+
+  <video id="camera" playsinline muted hidden></video>
+
+  <script>
+  (function () {
+    "use strict";
+    var MP_VERSION = "1.1.1";
+    var MP_MODULE = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@" + MP_VERSION + "/vision_bundle.mjs";
+    var MP_WASM = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@" + MP_VERSION + "/wasm";
+    var MODEL = "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task";
+    var PROC_W = 640;
+    var HAND_CONNECTIONS = [[0,1],[1,2],[2,3],[3,4],[0,5],[5,6],[6,7],[7,8],[5,9],[9,10],[10,11],[11,12],[9,13],[13,14],[14,15],[15,16],[13,17],[17,18],[18,19],[19,20],[0,17]];
+    var el = function (id) { return document.getElementById(id); };
+    var camera = el("camera"), canvas = el("view"), ctx = canvas.getContext("2d");
+    var startButton = el("start"), muteButton = el("mute"), statusEl = el("status");
+    var stream = null, landmarker = null, actx = null, osc = null, amp = null, raf = 0;
+    var starting = false, running = false, muted = false, lastVideoTime = -1;
+
+    function setStatus(message, error) {
+      statusEl.textContent = message;
+      statusEl.className = error ? "status error" : "status";
+    }
+    function clamp(x, lo, hi) { return Math.max(lo, Math.min(hi, x)); }
+    function distance(a, b, w, h) {
+      var dx = (a.x - b.x) * w, dy = (a.y - b.y) * h;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+    function findHands(result) {
+      var out = { right: null, left: null };
+      var landmarks = result.landmarks || [];
+      var labels = result.handednesses || result.handedness || [];
+      for (var i = 0; i < landmarks.length; i++) {
+        var category = Array.isArray(labels[i]) ? labels[i][0] : labels[i];
+        var label = category && (category.categoryName || category.displayName || category.label);
+        // The mirrored camera frame reverses MediaPipe's handedness labels.
+        // Swap them back so RIGHT and LEFT refer to the user's own hands.
+        if (label && label.toLowerCase() === "right") { out.left = landmarks[i]; }
+        if (label && label.toLowerCase() === "left") { out.right = landmarks[i]; }
+      }
+      return out;
+    }
+    function noteName(hz) {
+      var n = Math.round(69 + 12 * Math.log(hz / 440) / Math.LN2);
+      var names = ["C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "B"];
+      return names[(n % 12 + 12) % 12] + (Math.floor(n / 12) - 1);
+    }
+    function setMeter(node, percent) {
+      node.style.width = (percent * 100).toFixed(1) + "%";
+      node.parentNode.setAttribute("aria-valuenow", String(Math.round(percent * 100)));
+    }
+    function drawHand(points, colour, label, w, h) {
+      ctx.lineWidth = Math.max(2, w / 260); ctx.lineCap = "round"; ctx.strokeStyle = colour;
+      for (var i = 0; i < HAND_CONNECTIONS.length; i++) {
+        var a = points[HAND_CONNECTIONS[i][0]], b = points[HAND_CONNECTIONS[i][1]];
+        ctx.beginPath(); ctx.moveTo(a.x * w, a.y * h); ctx.lineTo(b.x * w, b.y * h); ctx.stroke();
+      }
+      for (var j = 0; j < points.length; j++) {
+        var p = points[j], r = (j === 4 || j === 8) ? 5 : 2.8;
+        ctx.beginPath(); ctx.arc(p.x * w, p.y * h, r, 0, Math.PI * 2);
+        ctx.fillStyle = (j === 4 || j === 8) ? "#ffffff" : colour; ctx.fill();
+      }
+      var wrist = points[0];
+      ctx.font = "600 14px system-ui, sans-serif"; ctx.fillStyle = colour;
+      ctx.fillText(label, clamp(wrist.x * w + 9, 8, w - 56), clamp(wrist.y * h - 10, 18, h - 8));
+    }
+    function lineBetween(a, b, w, h, colour, width) {
+      ctx.beginPath(); ctx.moveTo(a.x * w, a.y * h); ctx.lineTo(b.x * w, b.y * h);
+      ctx.strokeStyle = colour; ctx.lineWidth = width; ctx.setLineDash([7, 5]); ctx.stroke(); ctx.setLineDash([]);
+    }
+    function updateSound(hands, w, h) {
+      var right = hands.right, left = hands.left;
+      var pinch = null, pitchHz = null, target = 0;
+      if (right) {
+        var pinchPx = distance(right[4], right[8], w, h);
+        var handSize = distance(right[0], right[9], w, h);
+        var ratio = pinchPx / Math.max(1, handSize);
+        pinch = clamp((ratio - 0.16) / 0.86, 0, 1);
+      }
+      if (right && left) {
+        // Use the index MCP joints (knuckles) for pitch. The index fingertips
+        // also form the right-hand pinch control, so using those here would
+        // couple pitch changes to the gain gesture.
+        var span = distance(right[5], left[5], w, h) / Math.sqrt(w * w + h * h);
+        var pitchPosition = clamp((span - 0.025) / 0.58, 0, 1);
+        pitchHz = 110 * Math.pow(8, pitchPosition);
+        if (pinch !== null) { target = 0.3 * pinch; }
+      }
+      if (amp && actx) {
+        amp.gain.setTargetAtTime((muted ? 0 : target), actx.currentTime, 0.035);
+        if (pitchHz !== null) { osc.frequency.setTargetAtTime(pitchHz, actx.currentTime, 0.025); }
+      }
+      el("volume-value").textContent = pinch === null ? "—" : Math.round(pinch * 100) + "%";
+      setMeter(el("volume-meter"), pinch === null ? 0 : pinch);
+      el("pitch-value").textContent = pitchHz === null ? "—" : noteName(pitchHz) + " · " + Math.round(pitchHz) + " Hz";
+      setMeter(el("pitch-meter"), pitchHz === null ? 0 : (Math.log(pitchHz / 110) / Math.log(8)));
+      el("hands").textContent = "Right hand: " + (right ? "seen" : "waiting") + " · Left hand: " + (left ? "seen" : "waiting");
+      if (!right && !left) { el("tip").textContent = "Show both hands in the camera view to start playing."; }
+      else if (!right) { el("tip").textContent = "Your left hand is tracked. Bring your right hand into view to control loudness."; }
+      else if (!left) { el("tip").textContent = "Pinch detected. Bring your left hand into view to set the pitch and hear the tone."; }
+      else { el("tip").textContent = "Both hands are tracked. Pinch with your right hand for loudness; move your hands apart or together for pitch."; }
+    }
+    function render() {
+      if (!running || !stream) { return; }
+      var vw = camera.videoWidth, vh = camera.videoHeight;
+      if (vw && vh && camera.currentTime !== lastVideoTime) {
+        var w = PROC_W, h = Math.round(PROC_W * vh / vw);
+        if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; }
+        canvas.style.aspectRatio = w + " / " + h;
+        ctx.clearRect(0, 0, w, h);
+        ctx.save(); ctx.translate(w, 0); ctx.scale(-1, 1); ctx.drawImage(camera, 0, 0, w, h); ctx.restore();
+        try {
+          var result = landmarker.detectForVideo(canvas, Math.round(performance.now()));
+          var hands = findHands(result);
+          if (hands.right) { drawHand(hands.right, "#78e0ca", "RIGHT", w, h); }
+          if (hands.left) { drawHand(hands.left, "#ffc67b", "LEFT", w, h); }
+          if (hands.right) { lineBetween(hands.right[4], hands.right[8], w, h, "#ffffff", 2); }
+          if (hands.right && hands.left) { lineBetween(hands.right[5], hands.left[5], w, h, "#fff1cf", 2); }
+          updateSound(hands, w, h);
+        } catch (e) {
+          setStatus("Hand tracking stopped: " + (e && e.message ? e.message : "the video frame could not be processed."), true);
+          stop(); return;
+        }
+        lastVideoTime = camera.currentTime;
+      }
+      raf = requestAnimationFrame(render);
+    }
+    async function loadLandmarker() {
+      setStatus("Loading MediaPipe and the hand model…");
+      var mp = await import(MP_MODULE);
+      var files = await mp.FilesetResolver.forVisionTasks(MP_WASM);
+      var options = {
+        runningMode: "VIDEO", numHands: 2,
+        minHandDetectionConfidence: 0.55,
+        minHandPresenceConfidence: 0.55,
+        minTrackingConfidence: 0.5
+      };
+      try {
+        options.baseOptions = { modelAssetPath: MODEL, delegate: "GPU" };
+        return await mp.HandLandmarker.createFromOptions(files, options);
+      } catch (gpuError) {
+        options.baseOptions = { modelAssetPath: MODEL, delegate: "CPU" };
+        return await mp.HandLandmarker.createFromOptions(files, options);
+      }
+    }
+    function makeAudio() {
+      var AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass) { throw new Error("This browser does not support the Web Audio API."); }
+      actx = new AudioContextClass();
+      osc = actx.createOscillator(); amp = actx.createGain();
+      osc.type = "sine"; osc.frequency.value = 220; amp.gain.value = 0;
+      osc.connect(amp); amp.connect(actx.destination); osc.start();
+      return actx.resume();
+    }
+    async function start() {
+      if (starting || running) { return; }
+      starting = true; startButton.disabled = true; el("empty").hidden = false;
+      try {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          throw new Error("Camera access is unavailable. Open this page over HTTPS or localhost in a browser that supports getUserMedia.");
+        }
+        await makeAudio();
+        setStatus("Requesting camera access…");
+        stream = await navigator.mediaDevices.getUserMedia({
+          audio: false, video: { facingMode: "user", width: { ideal: 640 }, height: { ideal: 480 } }
+        });
+        camera.srcObject = stream;
+        await camera.play();
+        landmarker = await loadLandmarker();
+        running = true; lastVideoTime = -1; el("empty").hidden = true;
+        el("live").classList.add("on"); el("live-label").textContent = "Live";
+        setStatus("Tracking is ready. Show both hands in view to play.");
+        muteButton.disabled = false; startButton.textContent = "Stop camera and synth"; startButton.disabled = false;
+        raf = requestAnimationFrame(render);
+      } catch (e) {
+        var message = e && e.name === "NotAllowedError" ? "Camera permission was denied. Allow camera access in your browser, then try again." :
+          e && e.name === "NotFoundError" ? "No camera was found. Connect a camera and try again." :
+          e && e.message ? e.message : "The camera or hand tracker could not start.";
+        await stop(); setStatus(message, true);
+      } finally {
+        starting = false; startButton.disabled = false;
+      }
+    }
+    async function stop() {
+      running = false;
+      if (raf) { cancelAnimationFrame(raf); raf = 0; }
+      if (landmarker) { try { landmarker.close(); } catch (e) {} landmarker = null; }
+      if (stream) { stream.getTracks().forEach(function (track) { track.stop(); }); stream = null; }
+      camera.pause(); camera.srcObject = null;
+      if (osc) { try { osc.stop(); } catch (e) {} osc.disconnect(); osc = null; }
+      if (amp) { amp.disconnect(); amp = null; }
+      if (actx) { try { await actx.close(); } catch (e) {} actx = null; }
+      muteButton.disabled = true; muted = false; muteButton.textContent = "Mute"; muteButton.setAttribute("aria-pressed", "false");
+      startButton.textContent = "Start camera and synth";
+      el("live").classList.remove("on"); el("live-label").textContent = "Camera off";
+      el("empty").hidden = false; el("hands").textContent = "Right hand: waiting · Left hand: waiting";
+      el("volume-value").textContent = "—"; el("pitch-value").textContent = "—";
+      setMeter(el("volume-meter"), 0); setMeter(el("pitch-meter"), 0);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    startButton.addEventListener("click", function () {
+      if (running) { stop().then(function () { setStatus("Camera stopped. Start again when you are ready."); }); }
+      else { start(); }
+    });
+    muteButton.addEventListener("click", function () {
+      muted = !muted;
+      muteButton.textContent = muted ? "Unmute" : "Mute";
+      muteButton.setAttribute("aria-pressed", muted ? "true" : "false");
+      if (amp && actx) { amp.gain.setTargetAtTime(0, actx.currentTime, 0.02); }
+    });
+    window.addEventListener("pagehide", function () { stop(); });
+  }());
+  </script>
+</body>
+</html>
