@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Words, readability, and content density per chapter (run: venv/bin/python scripts/book_metrics.py).
+"""Words, readability, and content density per chapter (run: venv/bin/python scripts/book_metrics.py [--core] [--json]).
+
+With --core, only the main-flow prose is measured: dropdowns, exercises, chapter summaries, question
+lists, question boxes, and further-reading and explore boxes are stripped first.
 
 Counts only the prose of markdown cells: code cells, code blocks, directives, HTML,
 link targets, citation keys, and admonition fences are stripped first. Readability is
@@ -19,6 +22,9 @@ CHAPTERS = ["intro", "tuning-in", "listening", "acoustics", "electroacoustics", 
             "machine-listening", "general-comments"]
 
 
+CORE = "--core" in sys.argv   # main-flow prose only: no dropdowns, exercises, summaries, questions, or reading boxes
+
+
 def prose(nb):
     """The readable text of a notebook's markdown cells, with markup removed."""
     out = []
@@ -27,6 +33,11 @@ def prose(nb):
             continue
         s = "".join(cell["source"]) if isinstance(cell["source"], list) else cell["source"]
         s = re.sub(r"^---\n.*?\n---\n", "", s, flags=re.S)                      # front matter
+        if CORE:
+            s = re.sub(r":::\{note\}[^\n]*\n:class: dropdown\n.*?\n:::", "", s, flags=re.S)
+            s = re.sub(r"```\{exercise\}.*?```", "", s, flags=re.S)
+            s = re.sub(r"```\{admonition\}[^\n]*\n(:class: [^\n]*\n)?.*?```", "", s, flags=re.S)
+            s = re.sub(r":::\{(seealso|tip)\}.*?\n:::", "", s, flags=re.S)
         s = re.sub(r"```\{(image|mermaid)\}.*?```|```mermaid.*?```", "", s, flags=re.S)
         s = re.sub(r"<iframe.*?</iframe>|<[^>]+>", "", s, flags=re.S)
         s = re.sub(r"\{cite:?[pt]?\}`[^`]+`", "", s)
