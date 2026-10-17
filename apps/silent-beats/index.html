@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Silent beats</title>
+  <style>
+    :root {
+      --bg: #fdfdfd; --fg: #1c1e21; --muted: #5a6069; --panel: #f1f2f4;
+      --border: #c9ccd1; --accent: #0b6e99; --accent-fg: #ffffff; --canvas: #ffffff;
+      --pulse: #c2571a; --pulse-fg: #ffffff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #15171b; --fg: #e6e7e9; --muted: #9aa0a8; --panel: #20242b;
+        --border: #3a3f47; --accent: #4da3c7; --accent-fg: #0d1117; --canvas: #101216;
+        --pulse: #e08a4f; --pulse-fg: #0d1117;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      margin: 0 auto; padding: 16px; max-width: 780px;
+      background: var(--bg); color: var(--fg); line-height: 1.45;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 8px; }
+    p.intro { margin: 0 0 14px; }
+    .hint { font-size: 0.9rem; color: var(--muted); margin-top: 10px; }
+    fieldset {
+      border: 1px solid var(--border); border-radius: 8px;
+      margin: 0 0 12px; padding: 10px 12px; background: var(--panel);
+    }
+    legend { font-weight: 600; font-size: 0.95rem; padding: 0 6px; }
+    label { display: block; font-weight: 600; font-size: 0.9rem; margin: 8px 0 2px; }
+    .vals { font-weight: normal; color: var(--muted); margin-left: 4px; }
+    input[type="range"] { width: 100%; margin: 2px 0 4px; accent-color: var(--accent); }
+    select { font-size: 1rem; padding: 4px 6px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg); color: var(--fg); }
+    button {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 14px; font-size: 1rem; cursor: pointer;
+    }
+    button.small { padding: 4px 10px; font-size: 0.9rem; }
+    button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+    .track { display: grid; grid-template-columns: 70px repeat(16, 1fr); gap: 3px; align-items: stretch; margin: 6px 0; }
+    .track .name { font-weight: 600; font-size: 0.85rem; align-self: center; }
+    .cell {
+      border: 1px solid var(--border); border-radius: 5px; min-height: 34px; cursor: pointer;
+      background: var(--bg); user-select: none; -webkit-user-select: none; position: relative;
+    }
+    .cell.beat { border-width: 2px; }
+    .cell.now { outline: 3px solid var(--fg); outline-offset: -3px; }
+    .track.pulse .cell.on { background: var(--pulse); border-color: var(--pulse); }
+    .track.rhythm .cell.on { background: var(--accent); border-color: var(--accent); }
+    .cell.disabled { opacity: 0.35; cursor: default; }
+    .labels { display: grid; grid-template-columns: 70px repeat(16, 1fr); gap: 3px; font-size: 0.75rem; color: var(--muted); text-align: center; }
+    .labels .b { font-weight: 700; color: var(--fg); }
+    @media (max-width: 560px) {
+      .track, .labels { grid-template-columns: 52px repeat(16, 1fr); }
+      .cell { min-height: 26px; }
+      .labels span { font-size: 0.65rem; }
+    }
+    canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; background: var(--canvas); }
+  </style>
+</head>
+<body>
+  <h1>Silent beats</h1>
+  <p class="intro">A pulse does not have to be played to be heard. This page loops one bar of 4/4 with two tracks: a <em>pulse</em> of four clicks and a <em>rhythm</em> on a grid of sixteenths. Silence any click or any event, let the pulse drop out for whole bars, or rotate the rhythm against the beat, and listen to what your sense of the pulse does. Nothing is measured; the experiment is in your ears.</p>
+
+  <div class="row">
+    <button type="button" id="power" class="primary">Start</button>
+    <label style="flex:1; min-width:160px; margin:0;">Volume <span class="vals" id="voldisp"></span>
+      <input type="range" id="vol" min="0" max="100" step="1" value="60" aria-label="Volume"/>
+    </label>
+    <label style="flex:1; min-width:160px; margin:0;">Tempo <span class="vals" id="bpmdisp"></span> bpm
+      <input type="range" id="bpm" min="50" max="160" step="1" value="100" aria-label="Tempo in beats per minute"/>
+    </label>
+  </div>
+
+  <fieldset>
+    <legend>The bar</legend>
+    <div class="labels" id="labels"></div>
+    <div class="track pulse" id="pulseTrack"><div class="name">Pulse</div></div>
+    <div class="track rhythm" id="rhythmTrack"><div class="name">Rhythm</div></div>
+    <span class="hint">Click a box to sound or silence it. The pulse can only fall on the four beats; the rhythm can fall on any sixteenth. Bold columns are the beats.</span>
+  </fieldset>
+
+  <fieldset>
+    <legend>Rhythm presets</legend>
+    <div class="row" id="presets">
+      <button type="button" class="small" data-p="1010101010101010">Straight eighths</button>
+      <button type="button" class="small" data-p="0010001000100010">Off-beats only</button>
+      <button type="button" class="small" data-p="0000100000001000">Backbeat (2 and 4)</button>
+      <button type="button" class="small" data-p="1000001000001000">Tresillo (3+3+2)</button>
+      <button type="button" class="small" data-p="1000101000101000">Cinquillo</button>
+      <button type="button" class="small" data-p="1000001010010010">Funk figure</button>
+      <button type="button" class="small" data-p="0100010001000100">All on the "e"</button>
+      <button type="button" class="small" data-p="0000000000000000">Clear</button>
+    </div>
+    <div class="row">
+      <span style="font-weight:600;">Rotate the rhythm:</span>
+      <button type="button" class="small" id="rotL">&larr; one sixteenth</button>
+      <button type="button" class="small" id="rotR">one sixteenth &rarr;</button>
+      <span class="vals">The same pattern in a new position against the beat.</span>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Pulse</legend>
+    <div class="grid" style="display:grid; grid-template-columns: 1fr 1fr; gap: 4px 16px;">
+      <div>
+        <label for="pulseMode">Pulse plays</label>
+        <select id="pulseMode">
+          <option value="always">in every bar</option>
+          <option value="2on2off" selected>2 bars, then silent for 2</option>
+          <option value="1on3off">1 bar, then silent for 3</option>
+          <option value="countin">first 2 bars only</option>
+          <option value="never">never</option>
+        </select>
+      </div>
+      <div>
+        <label for="downbeat">Beat 1</label>
+        <select id="downbeat">
+          <option value="accent" selected>lower click on beat 1</option>
+          <option value="same">same click on every beat</option>
+        </select>
+      </div>
+    </div>
+    <label class="check" style="display:inline-flex; align-items:center; gap:6px; font-weight:normal;">
+      <input type="checkbox" id="show" checked/> Show the moving marker
+    </label>
+  </fieldset>
+
+  <canvas id="plot" width="900" height="200" aria-label="The metric hierarchy of the bar with the sounded events"></canvas>
+  <p class="hint">Things to try: play "Off-beats only" with the pulse in every bar, then set the pulse to never and ask where beat 1 is. Rotate the tresillo by one sixteenth at a time and notice when it stops feeling like the same rhythm. Let the pulse drop out for 3 bars under the funk figure and check, when it returns, whether it lands where you expected. Silence beats 2, 3, and 4 of the pulse and keep only beat 1 at a slow tempo.</p>
+
+  <script>
+(function () {
+  "use strict";
+  var el = function (id) { return document.getElementById(id); };
+  var ctx = null, master = null, noiseBuf = null;
+  var running = false, timer = null, animTimer = null;
+  var LOOKAHEAD = 0.12, TICK_MS = 25;
+  var pulse = [1, 1, 1, 1];                         // four beats
+  var rhythm = "1000001000001000".split("").map(Number);  // sixteen sixteenths, tresillo
+  var nextTime = 0, step = 0, bar = 0, startTime = 0;
+  var pulseCells = [], rhythmCells = [];
+  var canvas = el("plot"), c2d = canvas.getContext("2d");
+  var NAMES = ["1", "e", "&", "a", "2", "e", "&", "a", "3", "e", "&", "a", "4", "e", "&", "a"];
+
+  // ---- build the grid ----
+  (function build() {
+    var labels = el("labels");
+    labels.appendChild(document.createElement("span"));
+    for (var i = 0; i < 16; i++) {
+      var s = document.createElement("span");
+      s.textContent = NAMES[i];
+      if (i % 4 === 0) { s.className = "b"; }
+      labels.appendChild(s);
+    }
+    var pt = el("pulseTrack"), rt = el("rhythmTrack");
+    for (i = 0; i < 16; i++) {
+      var pc = document.createElement("div");
+      pc.className = "cell" + (i % 4 === 0 ? " beat" : " disabled");
+      if (i % 4 === 0) {
+        pc.dataset.i = String(i / 4);
+        pc.setAttribute("role", "button"); pc.setAttribute("tabindex", "0");
+        pc.setAttribute("aria-label", "Pulse on beat " + (i / 4 + 1));
+        pc.addEventListener("click", togglePulse);
+        pc.addEventListener("keydown", function (e) { if (e.code === "Enter" || e.code === "Space") { e.preventDefault(); togglePulse.call(this); } });
+      }
+      pt.appendChild(pc); pulseCells.push(pc);
+      var rc = document.createElement("div");
+      rc.className = "cell" + (i % 4 === 0 ? " beat" : "");
+      rc.dataset.i = String(i);
+      rc.setAttribute("role", "button"); rc.setAttribute("tabindex", "0");
+      rc.setAttribute("aria-label", "Rhythm on " + NAMES[i] + " of beat " + (Math.floor(i / 4) + 1));
+      rc.addEventListener("click", toggleRhythm);
+      rc.addEventListener("keydown", function (e) { if (e.code === "Enter" || e.code === "Space") { e.preventDefault(); toggleRhythm.call(this); } });
+      rt.appendChild(rc); rhythmCells.push(rc);
+    }
+  })();
+  function togglePulse() { var i = parseInt(this.dataset.i, 10); pulse[i] = pulse[i] ? 0 : 1; render(); }
+  function toggleRhythm() { var i = parseInt(this.dataset.i, 10); rhythm[i] = rhythm[i] ? 0 : 1; render(); }
+  function render() {
+    for (var i = 0; i < 16; i++) {
+      rhythmCells[i].classList.toggle("on", !!rhythm[i]);
+      rhythmCells[i].setAttribute("aria-pressed", rhythm[i] ? "true" : "false");
+      if (i % 4 === 0) {
+        pulseCells[i].classList.toggle("on", !!pulse[i / 4]);
+        pulseCells[i].setAttribute("aria-pressed", pulse[i / 4] ? "true" : "false");
+      }
+    }
+    draw();
+  }
+  var pres = el("presets").querySelectorAll("button[data-p]");
+  for (var k = 0; k < pres.length; k++) {
+    pres[k].addEventListener("click", function () { rhythm = this.dataset.p.split("").map(Number); render(); });
+  }
+  el("rotL").addEventListener("click", function () { rhythm.push(rhythm.shift()); render(); });
+  el("rotR").addEventListener("click", function () { rhythm.unshift(rhythm.pop()); render(); });
+
+  // ---- audio ----
+  function beatDur() { return 60 / parseFloat(el("bpm").value); }
+  function ensureAudio() {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      master = ctx.createGain();
+      master.gain.value = 0.3 * parseFloat(el("vol").value) / 100;
+      master.connect(ctx.destination);
+      var n = Math.floor(ctx.sampleRate * 0.05);
+      noiseBuf = ctx.createBuffer(1, n, ctx.sampleRate);
+      var d = noiseBuf.getChannelData(0);
+      for (var i = 0; i < n; i++) { d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (n * 0.15)); }
+    }
+    if (ctx.state === "suspended") { ctx.resume(); }
+  }
+  function clickSound(t, low) {
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = "sine"; o.frequency.value = low ? 700 : 1100;
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(1, t + 0.002);
+    g.gain.setTargetAtTime(0, t + 0.004, 0.015);
+    o.connect(g); g.connect(master); o.start(t); o.stop(t + 0.1);
+  }
+  function woodSound(t) {
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = "triangle"; o.frequency.value = 2200;
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(0.6, t + 0.001);
+    g.gain.setTargetAtTime(0, t + 0.003, 0.010);
+    o.connect(g); g.connect(master); o.start(t); o.stop(t + 0.08);
+    var src = ctx.createBufferSource(); src.buffer = noiseBuf;
+    var f = ctx.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = 3000; f.Q.value = 2;
+    var g2 = ctx.createGain(); g2.gain.value = 0.5;
+    src.connect(f); f.connect(g2); g2.connect(master); src.start(t);
+  }
+  function pulseSounds(b) {
+    var m = el("pulseMode").value;
+    if (m === "always") { return true; }
+    if (m === "never") { return false; }
+    if (m === "countin") { return b < 2; }
+    if (m === "2on2off") { return (b % 4) < 2; }
+    if (m === "1on3off") { return (b % 4) < 1; }
+    return true;
+  }
+  function tick() {
+    var d = beatDur() / 4;
+    while (nextTime < ctx.currentTime + LOOKAHEAD) {
+      if (step % 4 === 0 && pulse[step / 4] && pulseSounds(bar)) {
+        clickSound(nextTime, step === 0 && el("downbeat").value === "accent");
+      }
+      if (rhythm[step]) { woodSound(nextTime); }
+      nextTime += d;
+      step += 1;
+      if (step === 16) { step = 0; bar += 1; }
+    }
+  }
+  function start() {
+    ensureAudio();
+    running = true;
+    nextTime = ctx.currentTime + 0.2; startTime = nextTime;
+    step = 0; bar = 0;
+    timer = setInterval(tick, TICK_MS);
+    animTimer = setInterval(animate, 30);
+    el("power").textContent = "Stop"; el("power").classList.remove("primary");
+  }
+  function stop() {
+    running = false;
+    if (timer) { clearInterval(timer); timer = null; }
+    if (animTimer) { clearInterval(animTimer); animTimer = null; }
+    for (var i = 0; i < 16; i++) { pulseCells[i].classList.remove("now"); rhythmCells[i].classList.remove("now"); }
+    el("power").textContent = "Start"; el("power").classList.add("primary");
+    draw();
+  }
+  el("power").addEventListener("click", function () { if (running) { stop(); } else { start(); } });
+
+  // ---- marker ----
+  function currentStep() {
+    var pos = Math.floor((ctx.currentTime - startTime) / (beatDur() / 4));
+    return pos < 0 ? -1 : pos;
+  }
+  function animate() {
+    var s = running && el("show").checked ? currentStep() : -1;
+    var st = s < 0 ? -1 : s % 16;
+    for (var i = 0; i < 16; i++) {
+      pulseCells[i].classList.toggle("now", i === st);
+      rhythmCells[i].classList.toggle("now", i === st);
+    }
+    draw(st, s < 0 ? -1 : Math.floor(s / 16));
+  }
+
+  // ---- hierarchy drawing ----
+  function theme() {
+    var d = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return d ? { bg: "#101216", grid: "#2a2f37", dot: "#6b7280", rhythm: "#4da3c7", pulse: "#e08a4f", text: "#9aa0a8", fg: "#e6e7e9" }
+             : { bg: "#ffffff", grid: "#e3e5e8", dot: "#b8bcc3", rhythm: "#0b6e99", pulse: "#c2571a", text: "#5a6069", fg: "#1c1e21" };
+  }
+  function draw(st, b) {
+    if (typeof st === "undefined") { st = -1; }
+    var th = theme();
+    var w = canvas.width, h = canvas.height;
+    var mL = 120, mR = 20, mT = 22, mB = 26;
+    var pw = w - mL - mR;
+    c2d.fillStyle = th.bg; c2d.fillRect(0, 0, w, h);
+    var levels = [["Bar", 1], ["Half bar", 2], ["Beat", 4], ["Eighth", 8], ["Sixteenth", 16]];
+    var rows = levels.length + 1;   // plus the rhythm row
+    var rowH = (h - mT - mB) / rows;
+    var X = function (frac) { return mL + frac * pw; };
+    c2d.font = "12px system-ui, sans-serif"; c2d.textBaseline = "middle";
+    // beat gridlines
+    c2d.strokeStyle = th.grid; c2d.lineWidth = 1;
+    for (var q = 0; q <= 4; q++) {
+      c2d.beginPath(); c2d.moveTo(X(q / 4), mT); c2d.lineTo(X(q / 4), h - mB); c2d.stroke();
+    }
+    var i;
+    for (var r = 0; r < levels.length; r++) {
+      var y = mT + rowH * (r + 0.5);
+      var n = levels[r][1];
+      c2d.fillStyle = th.text; c2d.textAlign = "right";
+      c2d.fillText(levels[r][0], mL - 10, y);
+      for (i = 0; i < n; i++) {
+        var silentPulse = (n === 4) && !pulse[i];
+        var live = (n === 4) && pulse[i] && (b < 0 ? true : pulseSounds(b));
+        c2d.fillStyle = (n === 4 && live) ? th.pulse : th.dot;
+        c2d.beginPath();
+        c2d.arc(X(i / n), y, n === 4 ? 6 : Math.max(2.5, 7 - r), 0, Math.PI * 2);
+        if (silentPulse || (n === 4 && !live)) { c2d.strokeStyle = th.pulse; c2d.lineWidth = 1.5; c2d.stroke(); } else { c2d.fill(); }
+      }
+    }
+    // rhythm row
+    var yr = mT + rowH * (levels.length + 0.5);
+    c2d.fillStyle = th.text; c2d.textAlign = "right";
+    c2d.fillText("Rhythm", mL - 10, yr);
+    for (i = 0; i < 16; i++) {
+      if (rhythm[i]) {
+        c2d.fillStyle = th.rhythm;
+        c2d.fillRect(X(i / 16) - 4, yr - 9, 8, 18);
+      }
+    }
+    // marker
+    if (st >= 0) {
+      c2d.strokeStyle = th.fg; c2d.lineWidth = 2;
+      c2d.beginPath(); c2d.moveTo(X(st / 16), mT - 6); c2d.lineTo(X(st / 16), h - mB + 4); c2d.stroke();
+    }
+    c2d.textAlign = "left"; c2d.fillStyle = th.text;
+    c2d.fillText("Metric levels of the bar (filled orange: pulse click sounding now; hollow: silent)", mL, 10);
+    c2d.textAlign = "center";
+    for (q = 0; q < 4; q++) { c2d.fillText(String(q + 1), X(q / 4), h - 10); }
+    c2d.textBaseline = "alphabetic"; c2d.textAlign = "left";
+  }
+
+  function updateLabels() {
+    el("bpmdisp").textContent = el("bpm").value;
+    el("voldisp").textContent = el("vol").value + " %";
+    if (ctx) { master.gain.setTargetAtTime(0.3 * parseFloat(el("vol").value) / 100, ctx.currentTime, 0.03); }
+  }
+  el("bpm").addEventListener("input", updateLabels);
+  el("vol").addEventListener("input", updateLabels);
+  el("pulseMode").addEventListener("change", function () { draw(); });
+  updateLabels();
+  render();
+})();
+  </script>
+</body>
+</html>

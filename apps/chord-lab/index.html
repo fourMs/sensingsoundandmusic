@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Chord lab</title>
+  <style>
+    :root {
+      --bg: #fdfdfd; --fg: #1c1e21; --muted: #5a6069; --panel: #f1f2f4;
+      --border: #c9ccd1; --accent: #0b6e99; --accent-fg: #ffffff; --canvas: #ffffff;
+      --beat: #e8eaed; --now: #c2571a; --key: #2b2e33;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #15171b; --fg: #e6e7e9; --muted: #9aa0a8; --panel: #20242b;
+        --border: #3a3f47; --accent: #4da3c7; --accent-fg: #0d1117; --canvas: #101216;
+        --beat: #262b33; --now: #e08a4f; --key: #3a3f47;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      margin: 0 auto; padding: 16px; max-width: 780px;
+      background: var(--bg); color: var(--fg); line-height: 1.45;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 8px; }
+    p.intro { margin: 0 0 14px; }
+    .hint { font-size: 0.9rem; color: var(--muted); margin-top: 10px; display: block; }
+    fieldset {
+      border: 1px solid var(--border); border-radius: 8px;
+      margin: 0 0 12px; padding: 10px 12px; background: var(--panel);
+    }
+    legend { font-weight: 600; font-size: 0.95rem; padding: 0 6px; }
+    label { font-weight: 600; font-size: 0.9rem; }
+    .vals { font-weight: normal; color: var(--muted); margin-left: 4px; }
+    input[type="range"] { width: 100%; margin: 2px 0 4px; accent-color: var(--accent); }
+    select {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 6px 8px; font-size: 1rem;
+    }
+    button {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 14px; font-size: 1rem; cursor: pointer;
+    }
+    button.small { padding: 4px 10px; font-size: 0.9rem; }
+    button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+    button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 10px 0; }
+    .ctl { display: inline-flex; align-items: center; gap: 6px; }
+    .readout { margin: 8px 0 0; font-size: 0.95rem; }
+    .status { color: var(--muted); font-size: 0.9rem; min-height: 1.4em; margin: 6px 0 0; }
+    .sym { font-size: 1.5rem; font-weight: 600; margin: 8px 0 0; }
+    canvas {
+      display: block; width: 100%; border: 1px solid var(--border); border-radius: 6px;
+      margin-top: 10px; background: var(--canvas);
+    }
+    canvas.kbd { height: 140px; }
+    canvas.staff { height: 170px; }
+    canvas.chroma { height: 160px; }
+    .slots { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
+    .slot {
+      display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 4px;
+      border: 1px solid var(--border); border-radius: 6px; background: var(--bg);
+      flex: 0 1 calc(12.5% - 6px); min-width: 72px;
+    }
+    .slot select { font-size: 0.95rem; padding: 3px 4px; width: 100%; min-width: 0; }
+    .slot .name { font-size: 0.8rem; color: var(--muted); min-height: 1.2em; }
+    .slot.now { box-shadow: inset 0 0 0 3px var(--now); }
+    .slot.now .name { color: var(--fg); font-weight: 600; }
+    [hidden] { display: none; }
+  </style>
+</head>
+<body>
+  <h1>Chord lab</h1>
+  <p class="intro">A chord is a stack of thirds, and a progression is a path through chords in a key. Build any chord on a keyboard and a staff, listen to it as a block or an arpeggio, and then string chords together with Roman numerals, hear the four cadences, and watch how the voices move from one chord to the next. A chromagram at the bottom shows the pitch-class energy of what is sounding, and a key estimate guesses the key from the chords you have played.</p>
+
+  <div class="row">
+    <button type="button" data-mode="build" aria-pressed="true">Chord builder</button>
+    <button type="button" data-mode="prog" aria-pressed="false">Progression player</button>
+    <label style="flex:1; min-width:160px; margin:0;">Master volume <span class="vals" id="voldisp"></span>
+      <input type="range" id="vol" min="0" max="100" step="1" value="60" aria-label="Master volume"/>
+    </label>
+  </div>
+
+  <fieldset id="build">
+    <legend>Chord builder</legend>
+    <div class="row">
+      <span class="ctl"><label for="root">Root</label> <select id="root" aria-label="Root note"></select></span>
+      <span class="ctl"><label for="qual">Quality</label> <select id="qual" aria-label="Chord quality"></select></span>
+      <span class="ctl"><label for="inv">Inversion</label> <select id="inv" aria-label="Inversion"></select></span>
+      <span class="ctl"><label for="voicing">Voicing</label>
+        <select id="voicing" aria-label="Voicing">
+          <option value="close">Close</option>
+          <option value="open">Open</option>
+          <option value="drop2">Drop-2</option>
+        </select></span>
+    </div>
+    <p class="sym" id="sym"></p>
+    <p class="readout" id="ivlist"></p>
+    <p class="readout" id="sounding"></p>
+    <div class="row">
+      <button type="button" id="playblock" class="primary">Play chord</button>
+      <button type="button" id="playarp">Play arpeggiated</button>
+      <button type="button" id="stopb">Stop</button>
+    </div>
+    <canvas id="kbd1" class="kbd" aria-label="Keyboard with the chord notes marked"></canvas>
+    <canvas id="staff" class="staff" aria-label="The chord as stacked thirds on a treble staff"></canvas>
+    <span class="hint">The staff shows the chord as a stack of thirds in root position, which is how it is named. The keyboard shows what actually sounds: an inversion puts a chord tone other than the root in the bass (the bass key is orange), a close voicing packs the notes tightly, an open voicing lifts every second note an octave, and a drop-2 voicing takes the second note from the top and drops it an octave, as a jazz pianist or guitarist would.</span>
+  </fieldset>
+
+  <fieldset id="prog" hidden>
+    <legend>Progression player</legend>
+    <div class="row">
+      <span class="ctl"><label for="key">Key</label> <select id="key" aria-label="Key"></select></span>
+      <button type="button" id="pplay" class="primary">Play</button>
+      <button type="button" id="pstop">Stop</button>
+      <button type="button" id="pclear" class="small">Clear slots</button>
+    </div>
+    <div class="slots" id="slots"></div>
+    <div class="row">
+      <span style="font-weight:600;">Presets:</span>
+      <button type="button" class="small" data-prog="I,IV,V,I" data-label="I–IV–V–I: the workhorse of classical and popular music, tonic to subdominant to dominant and home.">I–IV–V–I</button>
+      <button type="button" class="small" data-prog="I,ii7,V7,I" data-label="ii–V–I: the jazz progression, here with the tonic first and sevenths on ii and V.">ii–V–I</button>
+      <button type="button" class="small" data-prog="I,V,vi,IV" data-label="I–V–vi–IV: the four-chord loop behind a large share of pop songs.">I–V–vi–IV</button>
+      <button type="button" class="small" data-prog="I,vi,IV,V" data-label="I–vi–IV–V: the doo-wop or 1950s progression.">I–vi–IV–V</button>
+    </div>
+    <div class="row">
+      <span style="font-weight:600;">Cadences:</span>
+      <button type="button" class="small" data-prog="I,IV,V7,I" data-label="Authentic cadence, V to I: the strongest sense of closure.">Authentic (V–I)</button>
+      <button type="button" class="small" data-prog="I,V,IV,I" data-label="Plagal cadence, IV to I: a softer resolution, the Amen ending.">Plagal (IV–I)</button>
+      <button type="button" class="small" data-prog="I,IV,I,V" data-label="Half cadence, ending on V: the phrase stops open and expects a continuation.">Half (I–V)</button>
+      <button type="button" class="small" data-prog="I,IV,V,vi" data-label="Deceptive cadence, V to vi: the expected tonic is replaced by its relative minor.">Deceptive (V–vi)</button>
+    </div>
+    <p class="status" id="plabel"></p>
+    <div class="row">
+      <label style="flex:1; min-width:150px; margin:0;">Tempo <span class="vals" id="bpmdisp"></span> bpm
+        <input type="range" id="bpm" min="40" max="200" step="1" value="90" aria-label="Tempo in beats per minute"/>
+      </label>
+    </div>
+    <div class="row">
+      <span style="font-weight:600;">Harmonic rhythm:</span>
+      <button type="button" data-hr="4" aria-pressed="true">One chord per bar</button>
+      <button type="button" data-hr="2" aria-pressed="false">Two chords per bar</button>
+    </div>
+    <div class="row">
+      <span style="font-weight:600;">Voice leading:</span>
+      <button type="button" data-vl="smooth" aria-pressed="true">Smooth voice leading</button>
+      <button type="button" data-vl="root" aria-pressed="false">No voice leading (root position)</button>
+    </div>
+    <p class="status" id="pstatus"></p>
+    <canvas id="kbd2" class="kbd" aria-label="Keyboard with the current chord marked and the voice movements drawn"></canvas>
+    <p class="readout" id="voicelist"></p>
+    <span class="hint">Four voices play each chord, so a triad gets one of its notes doubled. With smooth voice leading the app tries every way of placing the four voices on chord tones within the two octaves, over all inversions, and keeps the one in which the voices move the fewest semitones in total from the previous chord: common tones stay, and the rest move by step where they can. The orange lines on the keyboard show where each voice came from, a hollow circle marks a voice that stayed. With no voice leading every chord sits in root position, so the whole chord jumps.</span>
+  </fieldset>
+
+  <fieldset>
+    <legend>Chromagram and key estimate</legend>
+    <canvas id="chroma" class="chroma" aria-label="Chromagram: energy per pitch class of what is sounding"></canvas>
+    <p class="readout" id="keyest">Play something to see the chromagram.</p>
+    <div class="row">
+      <button type="button" id="chromareset" class="small">Forget the recent chords</button>
+    </div>
+    <span class="hint">The tall bars are the energy per pitch class in the sound right now, measured from the audio with a spectrum analyser and folded into one octave; the paler bars behind them are the same energy remembered over the last few chords. The key estimate correlates that memory with a major key profile (after Krumhansl) for each of the 12 tonics and names the best match, with the recent chords read as Roman numerals in that key. The harmonics of each tone leak into other pitch classes, mostly the fifth, which is also what a key-finding algorithm has to cope with on a real recording.</span>
+  </fieldset>
+
+  <p class="hint">Things to try: play the four triads on C one after the other and hear the difference between major, minor, diminished, and augmented. Set a progression that ends on vi instead of I and notice the deceptive cadence. Switch voice leading off and listen to the leaps. Build C13 and change the quality down through C11, C9, and C7 to hear each added third disappear until the plain dominant seventh is back.</p>
+
+  <script>
+(function () {
+  "use strict";
+  var el = function (id) { return document.getElementById(id); };
+
+  // ---- pitch and chord data ----
+  var NAMES = ["C", "D♭", "D", "E♭", "E", "F", "F♯", "G", "A♭", "A", "B♭", "B"];
+  var ROOT_SPELL = [[0, 0], [1, -1], [1, 0], [2, -1], [2, 0], [3, 0], [3, 1], [4, 0], [5, -1], [5, 0], [6, -1], [6, 0]];
+  var LETTERS = "CDEFGAB";
+  var NAT = [0, 2, 4, 5, 7, 9, 11];
+  var MAJ = [0, 2, 4, 5, 7, 9, 11];
+  var BLACK = [false, true, false, true, false, false, true, false, true, false, true, false];
+  var QUAL = {
+    major:   { name: "Major triad",          sym: "",      iv: [0, 4, 7],                 deg: [1, 3, 5] },
+    minor:   { name: "Minor triad",          sym: "m",     iv: [0, 3, 7],                 deg: [1, 3, 5] },
+    dim:     { name: "Diminished triad",     sym: "°", iv: [0, 3, 6],                deg: [1, 3, 5] },
+    aug:     { name: "Augmented triad",      sym: "+",     iv: [0, 4, 8],                 deg: [1, 3, 5] },
+    dom7:    { name: "Dominant seventh",     sym: "7",     iv: [0, 4, 7, 10],             deg: [1, 3, 5, 7] },
+    maj7:    { name: "Major seventh",        sym: "maj7",  iv: [0, 4, 7, 11],             deg: [1, 3, 5, 7] },
+    min7:    { name: "Minor seventh",        sym: "m7",    iv: [0, 3, 7, 10],             deg: [1, 3, 5, 7] },
+    halfdim: { name: "Half-diminished seventh", sym: "ø7", iv: [0, 3, 6, 10],        deg: [1, 3, 5, 7] },
+    ninth:   { name: "Dominant ninth",       sym: "9",     iv: [0, 4, 7, 10, 14],         deg: [1, 3, 5, 7, 9] },
+    eleventh:{ name: "Dominant eleventh",    sym: "11",    iv: [0, 4, 7, 10, 14, 17],     deg: [1, 3, 5, 7, 9, 11] },
+    thirteenth: { name: "Dominant thirteenth", sym: "13",  iv: [0, 4, 7, 10, 14, 17, 21], deg: [1, 3, 5, 7, 9, 11, 13] },
+    sus2:    { name: "Suspended second",     sym: "sus2",  iv: [0, 2, 7],                 deg: [1, 2, 5] },
+    sus4:    { name: "Suspended fourth",     sym: "sus4",  iv: [0, 5, 7],                 deg: [1, 4, 5] }
+  };
+  var QUAL_ORDER = ["major", "minor", "dim", "aug", "dom7", "maj7", "min7", "halfdim", "ninth", "eleventh", "thirteenth", "sus2", "sus4"];
+  var LOWER = { minor: true, dim: true, min7: true, halfdim: true };
+  var INV_NAMES = ["Root position", "First inversion", "Second inversion", "Third inversion"];
+  var ORD = { 1: "unison", 2: "second", 3: "third", 4: "fourth", 5: "fifth", 6: "sixth", 7: "seventh", 8: "octave", 9: "ninth", 11: "eleventh", 13: "thirteenth" };
+  var PERFECT = { 1: true, 4: true, 5: true, 8: true, 11: true };
+  // Krumhansl and Kessler (1982) major key profile, C upward
+  var PROFILE = [6.35, 2.23, 3.48, 2.33, 4.38, 4.09, 2.52, 5.19, 2.39, 3.66, 2.29, 2.88];
+  var PROG_CHORDS = [
+    { r: "I", d: 0, q: "major" }, { r: "ii", d: 1, q: "minor" }, { r: "iii", d: 2, q: "minor" },
+    { r: "IV", d: 3, q: "major" }, { r: "V", d: 4, q: "major" }, { r: "vi", d: 5, q: "minor" },
+    { r: "vii°", d: 6, q: "dim" },
+    { r: "Imaj7", d: 0, q: "maj7" }, { r: "ii7", d: 1, q: "min7" }, { r: "iii7", d: 2, q: "min7" },
+    { r: "IVmaj7", d: 3, q: "maj7" }, { r: "V7", d: 4, q: "dom7" }, { r: "vi7", d: 5, q: "min7" },
+    { r: "viiø7", d: 6, q: "halfdim" }, { r: "Isus4", d: 0, q: "sus4" }, { r: "Vsus4", d: 4, q: "sus4" }
+  ];
+  var PROG_BY_ROMAN = {};
+  PROG_CHORDS.forEach(function (c) { PROG_BY_ROMAN[c.r] = c; });
+
+  function accStr(a) { return a === 0 ? "" : a === 1 ? "♯" : a === -1 ? "♭" : a === 2 ? "x" : "♭♭"; }
+  function octOf(midi) { return Math.floor(midi / 12) - 1; }
+  function mod12(n) { return ((n % 12) + 12) % 12; }
+
+  // Spell the chord tones of a quality on a root given as letter index and accidental.
+  // Each tone gets a semitone distance, a degree, a letter, an accidental, and a diatonic index offset.
+  function spell(rootLetter, rootAcc, q) {
+    var def = QUAL[q], out = [], i;
+    for (i = 0; i < def.iv.length; i++) {
+      var d = def.deg[i], li = rootLetter + d - 1, L = li % 7, octs = Math.floor(li / 7);
+      var natural = NAT[L] + 12 * octs;
+      var target = NAT[rootLetter] + rootAcc + def.iv[i];
+      var acc = target - natural;
+      out.push({ semis: def.iv[i], deg: d, letter: L, acc: acc, step: d - 1,
+        name: LETTERS[L] + accStr(acc), pc: mod12(NAT[rootLetter] + rootAcc + def.iv[i]) });
+    }
+    return out;
+  }
+
+  function ivName(deg, semis) {
+    var ref = MAJ[(deg - 1) % 7] + 12 * Math.floor((deg - 1) / 7), diff = semis - ref, qn;
+    if (PERFECT[deg]) { qn = diff === 0 ? "perfect" : diff > 0 ? "augmented" : "diminished"; }
+    else { qn = diff === 0 ? "major" : diff === -1 ? "minor" : diff > 0 ? "augmented" : "diminished"; }
+    return qn + " " + ORD[deg];
+  }
+
+  // The key's own spelling of a scale degree, so that F sharp major gets E sharp rather than F.
+  function keyTone(tonicPc, degree) {
+    var rl = ROOT_SPELL[tonicPc][0], L = (rl + degree) % 7, pc = mod12(tonicPc + MAJ[degree]);
+    var acc = mod12(pc - NAT[L]); if (acc > 6) { acc -= 12; }
+    return { pc: pc, letter: L, acc: acc, name: LETTERS[L] + accStr(acc) };
+  }
+
+  // ---- audio ----
+  var ctx = null, master = null, limiter = null, analyser = null, wave = null;
+  var active = [];
+  var volEl = el("vol");
+
+  function ensureAudio() {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      master = ctx.createGain();
+      master.gain.value = 0.5 * parseFloat(volEl.value) / 100;
+      limiter = ctx.createDynamicsCompressor();
+      limiter.threshold.value = -8; limiter.knee.value = 2; limiter.ratio.value = 20;
+      limiter.attack.value = 0.003; limiter.release.value = 0.12;
+      analyser = ctx.createAnalyser();
+      analyser.fftSize = 8192; analyser.smoothingTimeConstant = 0.5;
+      master.connect(limiter);
+      limiter.connect(analyser);
+      limiter.connect(ctx.destination);
+      // a soft sustained timbre: a few harmonics falling off quickly
+      var real = new Float32Array([0, 0, 0, 0, 0, 0, 0]);
+      var imag = new Float32Array([0, 1, 0.35, 0.2, 0.1, 0.06, 0.03]);
+      wave = ctx.createPeriodicWave(real, imag);
+      spec = new Float32Array(analyser.frequencyBinCount);
+      requestAnimationFrame(chromaFrame);
+    }
+    if (ctx.state === "suspended") { ctx.resume(); }
+  }
+
+  function setVolume() {
+    el("voldisp").textContent = volEl.value + " %";
+    if (ctx) { master.gain.setTargetAtTime(0.5 * parseFloat(volEl.value) / 100, ctx.currentTime, 0.03); }
+  }
+
+  function playNote(midi, t0, dur, level) {
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.setPeriodicWave(wave);
+    o.frequency.value = 440 * Math.pow(2, (midi - 69) / 12);
+    g.gain.setValueAtTime(0, t0);
+    g.gain.linearRampToValueAtTime(level, t0 + 0.04);
+    g.gain.setValueAtTime(level, t0 + dur - 0.12);
+    g.gain.linearRampToValueAtTime(0, t0 + dur);
+    o.connect(g); g.connect(master);
+    o.start(t0); o.stop(t0 + dur + 0.05);
+    var v = { o: o, g: g };
+    active.push(v);
+    o.onended = function () { var i = active.indexOf(v); if (i >= 0) { active.splice(i, 1); } };
+  }
+
+  function playChord(midis, t0, dur, arpStep) {
+    var level = 0.22 / Math.sqrt(midis.length / 3), i;
+    for (i = 0; i < midis.length; i++) {
+      playNote(midis[i], t0 + i * arpStep, dur - i * arpStep, level);
+    }
+  }
+
+  function silence() {
+    if (!ctx) { return; }
+    var now = ctx.currentTime, i;
+    for (i = 0; i < active.length; i++) {
+      var v = active[i];
+      v.g.gain.cancelScheduledValues(now);
+      v.g.gain.setValueAtTime(v.g.gain.value, now);
+      v.g.gain.linearRampToValueAtTime(0, now + 0.05);
+      try { v.o.stop(now + 0.07); } catch (e) { /* already stopped */ }
+    }
+  }
+
+  // ---- drawing helpers ----
+  function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+  function prep(c) {
+    var dpr = window.devicePixelRatio || 1, w = c.clientWidth, h = c.clientHeight;
+    if (c.width !== Math.round(w * dpr) || c.height !== Math.round(h * dpr)) { c.width = Math.round(w * dpr); c.height = Math.round(h * dpr); }
+    var g = c.getContext("2d"); g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    g.fillStyle = css("--canvas"); g.fillRect(0, 0, w, h);
+    g.font = "12px system-ui, sans-serif"; g.textBaseline = "middle"; g.textAlign = "center";
+    return { g: g, w: w, h: h };
+  }
+
+  // Keyboard from midi lo to hi (both C). notes: sounding midis; bass: the lowest; labels: midi -> name;
+  // moves: [{from, to}] per voice, drawn as lanes.
+  function drawKeyboard(c, lo, hi, notes, labels, moves) {
+    var o = prep(c), g = o.g, w = o.w, h = o.h, m, wi = 0, whites = 0, x = {};
+    for (m = lo; m <= hi; m++) { if (!BLACK[m % 12]) { whites++; } }
+    var ww = w / whites, bw = ww * 0.6, bh = h * 0.6;
+    var isOn = {}, i;
+    for (i = 0; i < notes.length; i++) { isOn[notes[i]] = i === 0 ? "bass" : "on"; }
+    g.lineWidth = 1;
+    for (m = lo; m <= hi; m++) {
+      if (BLACK[m % 12]) { x[m] = wi * ww - bw / 2; continue; }
+      x[m] = wi * ww;
+      g.fillStyle = isOn[m] === "bass" ? css("--now") : isOn[m] ? css("--accent") : css("--canvas");
+      g.fillRect(wi * ww, 0, ww, h);
+      g.strokeStyle = css("--border"); g.strokeRect(wi * ww + 0.5, 0.5, ww - 1, h - 1);
+      if (m % 12 === 0 && !isOn[m]) {
+        g.fillStyle = css("--muted"); g.font = "10px system-ui, sans-serif";
+        g.fillText("C" + octOf(m), wi * ww + ww / 2, h - 9);
+      }
+      wi++;
+    }
+    for (m = lo; m <= hi; m++) {
+      if (!BLACK[m % 12]) { continue; }
+      g.fillStyle = isOn[m] === "bass" ? css("--now") : isOn[m] ? css("--accent") : css("--key");
+      g.fillRect(x[m], 0, bw, bh);
+      g.strokeStyle = css("--border"); g.strokeRect(x[m] + 0.5, 0.5, bw - 1, bh - 1);
+    }
+    function cx(m) { return x[m] + (BLACK[m % 12] ? bw : ww) / 2; }
+    g.font = "11px system-ui, sans-serif";
+    for (i = 0; i < notes.length; i++) {
+      m = notes[i];
+      if (m < lo || m > hi) { continue; }
+      g.fillStyle = css("--accent-fg");
+      g.fillText(labels[m] || NAMES[m % 12], cx(m), BLACK[m % 12] ? bh - 10 : bh + 12);
+    }
+    if (moves && moves.length) {
+      g.strokeStyle = css("--now"); g.fillStyle = css("--now"); g.lineWidth = 1.5;
+      for (i = 0; i < moves.length; i++) {
+        var y = h - 10 - i * 9, a = moves[i].from, b = moves[i].to;
+        if (a < lo || a > hi || b < lo || b > hi) { continue; }
+        if (a === b) {
+          g.beginPath(); g.arc(cx(b), y, 3.5, 0, 2 * Math.PI); g.stroke();
+          continue;
+        }
+        var dir = b > a ? 1 : -1, xa = cx(a), xb = cx(b);
+        g.beginPath(); g.moveTo(xa, y); g.lineTo(xb, y); g.stroke();
+        g.beginPath(); g.arc(xa, y, 2.5, 0, 2 * Math.PI); g.fill();
+        g.beginPath(); g.moveTo(xb, y); g.lineTo(xb - dir * 6, y - 3.5); g.lineTo(xb - dir * 6, y + 3.5); g.closePath(); g.fill();
+      }
+    }
+  }
+
+  // Treble staff with the chord stacked in thirds. tones: [{idx (diatonic index, C4 = 28), acc}]
+  function drawStaff(c, tones) {
+    var o = prep(c), g = o.g, h = o.h, sp = 10, i, j;
+    var yBottom = h / 2 + 2 * sp + 6;
+    function yOf(idx) { return yBottom - (idx - 30) * sp / 2; }
+    g.strokeStyle = css("--fg"); g.fillStyle = css("--fg"); g.lineWidth = 1;
+    for (i = 0; i < 5; i++) {
+      g.beginPath(); g.moveTo(20, yOf(30 + 2 * i) + 0.5); g.lineTo(o.w - 20, yOf(30 + 2 * i) + 0.5); g.stroke();
+    }
+    // a simple treble clef: a long stroke with a loop around the G line
+    var x = 46, yG = yOf(34), yT = yOf(38) - 2.4 * sp, yB = yBottom + 1.8 * sp;
+    g.lineWidth = 2.2; g.lineCap = "round";
+    g.beginPath();
+    g.moveTo(x + 2, yB);
+    g.quadraticCurveTo(x - 7, yB + 1, x - 4, yB - 8);
+    g.lineTo(x + 4, yT + 4);
+    g.quadraticCurveTo(x + 11, yT + 10, x + 6, yT + 2.2 * sp);
+    g.bezierCurveTo(x - 2, yOf(36) + 6, x - 14, yG - 4, x - 11, yG + 6);
+    g.bezierCurveTo(x - 7, yG + 14, x + 8, yG + 12, x + 8, yG + 2);
+    g.bezierCurveTo(x + 8, yG - 6, x - 6, yG - 6, x - 5, yG + 2);
+    g.stroke();
+    g.lineWidth = 1;
+    // noteheads
+    var nx = 150, rx = sp * 0.65, ry = sp * 0.45, placed = [];
+    for (i = tones.length - 1; i >= 0; i--) {
+      var t = tones[i], y = yOf(t.idx), shift = 0;
+      if (i < tones.length - 1 && tones[i + 1].idx - t.idx === 1 && !tones[i + 1].shifted) { shift = rx * 1.7; t.shifted = true; }
+      for (j = 28; j >= t.idx; j -= 2) { g.beginPath(); g.moveTo(nx - rx - 5 + shift, yOf(j) + 0.5); g.lineTo(nx + rx + 5 + shift, yOf(j) + 0.5); g.stroke(); }
+      for (j = 40; j <= t.idx; j += 2) { g.beginPath(); g.moveTo(nx - rx - 5 + shift, yOf(j) + 0.5); g.lineTo(nx + rx + 5 + shift, yOf(j) + 0.5); g.stroke(); }
+      g.save(); g.translate(nx + shift, y); g.rotate(-0.35);
+      g.beginPath(); g.ellipse(0, 0, rx, ry, 0, 0, 2 * Math.PI); g.fill(); g.restore();
+      if (t.acc !== 0) {
+        var col = 0, k;
+        for (k = 0; k < placed.length; k++) { if (placed[k].col === col && Math.abs(placed[k].idx - t.idx) < 6) { col++; k = -1; } }
+        placed.push({ idx: t.idx, col: col });
+        g.font = "15px serif"; g.textAlign = "right";
+        g.fillText(accStr(t.acc), nx - rx - 4 - col * 13, y);
+        g.textAlign = "center";
+      }
+    }
+  }
+
+  // ---- chord builder ----
+  var rootEl = el("root"), qualEl = el("qual"), invEl = el("inv"), voicingEl = el("voicing");
+  var builderMidis = [], builderLabels = {}, builderRange = [48, 72];
+
+  NAMES.forEach(function (n, i) { var op = document.createElement("option"); op.value = String(i); op.textContent = n; rootEl.appendChild(op); });
+  QUAL_ORDER.forEach(function (q) { var op = document.createElement("option"); op.value = q; op.textContent = QUAL[q].name; qualEl.appendChild(op); });
+
+  function builderVoicing(rootPc, q, inv, voicing) {
+    var tones = spell(ROOT_SPELL[rootPc][0], ROOT_SPELL[rootPc][1], q), n = tones.length, i;
+    var list = tones.map(function (t) { return { semis: t.semis, name: t.name }; });
+    for (i = 0; i < inv && i < n; i++) { list[i].semis += 12; }
+    list.sort(function (a, b) { return a.semis - b.semis; });
+    if (voicing === "open") {
+      for (i = 1; i < n; i += 2) { list[i].semis += 12; }
+    } else if (voicing === "drop2" && n >= 3) {
+      list[n - 2].semis -= 12;
+    }
+    list.sort(function (a, b) { return a.semis - b.semis; });
+    var base = 48 + rootPc, midis = list.map(function (t) { return base + t.semis; });
+    if (midis[0] < 36) { midis = midis.map(function (m) { return m + 12; }); }
+    var labels = {};
+    for (i = 0; i < n; i++) { labels[midis[i]] = list[i].name; }
+    return { midis: midis, labels: labels, tones: tones };
+  }
+
+  function updateBuilder() {
+    var rootPc = parseInt(rootEl.value, 10), q = qualEl.value, n = QUAL[q].iv.length, i;
+    var maxInv = Math.min(3, n - 1);
+    while (invEl.options.length > maxInv + 1) { invEl.remove(invEl.options.length - 1); }
+    while (invEl.options.length < maxInv + 1) {
+      var op = document.createElement("option"); op.value = String(invEl.options.length); op.textContent = INV_NAMES[invEl.options.length]; invEl.appendChild(op);
+    }
+    var inv = parseInt(invEl.value, 10) || 0;
+    var v = builderVoicing(rootPc, q, inv, voicingEl.value);
+    builderMidis = v.midis; builderLabels = v.labels;
+    var lo = 12 * Math.floor(v.midis[0] / 12), hi = Math.max(lo + 24, 12 * Math.ceil(v.midis[v.midis.length - 1] / 12));
+    builderRange = [lo, hi];
+    var sym = NAMES[rootPc] + QUAL[q].sym;
+    if (inv > 0) { sym += "/" + v.labels[v.midis[0]]; }
+    el("sym").textContent = sym + "  (" + QUAL[q].name.toLowerCase() + (inv > 0 ? ", " + INV_NAMES[inv].toLowerCase() : "") + ")";
+    var parts = [];
+    for (i = 0; i < v.tones.length; i++) {
+      var t = v.tones[i];
+      parts.push(t.name + " (" + (i === 0 ? "root" : ivName(t.deg, t.semis) + ", " + t.semis + " semitones") + ")");
+    }
+    el("ivlist").textContent = "Intervals from the root: " + parts.join(", ") + ".";
+    el("sounding").textContent = "Sounding, bass upward: " + v.midis.map(function (m) { return v.labels[m] + octOf(m); }).join(" ") + ".";
+    drawKeyboard(el("kbd1"), lo, hi, v.midis, v.labels, null);
+    // staff: root position stack, root in octave 4 for roots up to F and octave 3 above that
+    var rootOct = rootPc >= 6 ? 3 : 4, rootIdx = rootOct * 7 + ROOT_SPELL[rootPc][0];
+    drawStaff(el("staff"), v.tones.map(function (t) { return { idx: rootIdx + t.step, acc: t.acc }; }));
+  }
+
+  function builderPlay(arp) {
+    ensureAudio();
+    silence();
+    var t0 = ctx.currentTime + 0.05;
+    playChord(builderMidis, t0, arp ? 2.6 : 2.0, arp ? 0.22 : 0);
+    noteChord(parseInt(rootEl.value, 10), qualEl.value, NAMES[parseInt(rootEl.value, 10)] + QUAL[qualEl.value].sym);
+  }
+
+  rootEl.addEventListener("change", updateBuilder);
+  qualEl.addEventListener("change", updateBuilder);
+  invEl.addEventListener("change", updateBuilder);
+  voicingEl.addEventListener("change", updateBuilder);
+  el("playblock").addEventListener("click", function () { builderPlay(false); });
+  el("playarp").addEventListener("click", function () { builderPlay(true); });
+  el("stopb").addEventListener("click", silence);
+
+  // ---- progression player ----
+  var keyEl = el("key"), slotEls = [], NSLOTS = 8, RANGE = [48, 72];
+  var hr = 4, vlMode = "smooth", running = false, timer = null, queue = [], nextTime = 0, stepIdx = 0;
+  var seq = null, current = -1;
+
+  NAMES.forEach(function (n, i) { var op = document.createElement("option"); op.value = String(i); op.textContent = n + " major"; keyEl.appendChild(op); });
+
+  (function buildSlots() {
+    var host = el("slots"), i;
+    for (i = 0; i < NSLOTS; i++) {
+      var d = document.createElement("div"); d.className = "slot";
+      var s = document.createElement("select"); s.setAttribute("aria-label", "Chord in slot " + (i + 1));
+      var op = document.createElement("option"); op.value = ""; op.textContent = "–"; s.appendChild(op);
+      PROG_CHORDS.forEach(function (c) { var o2 = document.createElement("option"); o2.value = c.r; o2.textContent = c.r; s.appendChild(o2); });
+      s.addEventListener("change", rebuild);
+      var nm = document.createElement("span"); nm.className = "name";
+      d.appendChild(s); d.appendChild(nm); host.appendChild(d);
+      slotEls.push({ box: d, sel: s, name: nm });
+    }
+  })();
+
+  function chordInKey(roman, tonicPc) {
+    var c = PROG_BY_ROMAN[roman], kt = keyTone(tonicPc, c.d);
+    var tones = spell(kt.letter, kt.acc, c.q), labels = {}, pcs = [];
+    tones.forEach(function (t) { labels[t.pc] = t.name; pcs.push(t.pc); });
+    return { roman: roman, rootPc: kt.pc, q: c.q, name: kt.name + QUAL[c.q].sym, pcs: pcs, labels: labels };
+  }
+
+  function rootPosition(ch) {
+    var bass = 48 + ch.rootPc, out = [], i;
+    for (i = 0; i < ch.pcs.length; i++) { out.push(bass + mod12(ch.pcs[i] - ch.rootPc)); }
+    if (out.length === 3) { out.push(bass + 12); }
+    return out;
+  }
+
+  function cost(a, b) { var s = 0, i; for (i = 0; i < a.length; i++) { s += Math.abs(a[i] - b[i]); } return s; }
+
+  // Every 4-note placement of the chord's pitch classes inside the range that uses each pitch class
+  // at least once; the cheapest move from prev wins, ties going to the narrower and lower voicing.
+  function nearestVoicing(ch, prev) {
+    var cand = [], m, i, j, k, l, best = null, bestCost = Infinity, bestSpan = Infinity;
+    for (m = RANGE[0]; m <= RANGE[1]; m++) { if (ch.pcs.indexOf(m % 12) >= 0) { cand.push(m); } }
+    var n = cand.length;
+    for (i = 0; i < n; i++) { for (j = i + 1; j < n; j++) { for (k = j + 1; k < n; k++) { for (l = k + 1; l < n; l++) {
+      var v = [cand[i], cand[j], cand[k], cand[l]], seen = {}, cnt = 0, p;
+      for (p = 0; p < 4; p++) { if (!seen[v[p] % 12]) { seen[v[p] % 12] = true; cnt++; } }
+      if (cnt < ch.pcs.length) { continue; }
+      var c = cost(v, prev), span = v[3] - v[0];
+      if (c < bestCost || (c === bestCost && span < bestSpan)) { best = v; bestCost = c; bestSpan = span; }
+    } } } }
+    return best;
+  }
+
+  function buildSequence(chords) {
+    var root = [], smooth = [], i, rootTotal = 0, smoothTotal = 0, rc = [], sc = [];
+    // Smooth voicings: a greedy chain from the first chord in root position, run twice round the loop
+    // so that the return to the first chord is a nearest move as well; the second pass is kept.
+    var n = chords.length, chain = [];
+    for (i = 0; i < 2 * n; i++) {
+      root.push(rootPosition(chords[i % n]));
+      chain.push(i === 0 ? root[0] : nearestVoicing(chords[i % n], chain[i - 1]));
+    }
+    root = root.slice(0, n); smooth = chain.slice(n);
+    for (i = 0; i < chords.length; i++) {
+      var prev = (i + chords.length - 1) % chords.length;
+      rc.push(cost(root[i], root[prev])); sc.push(cost(smooth[i], smooth[prev]));
+      rootTotal += rc[i]; smoothTotal += sc[i];
+    }
+    return { chords: chords, root: root, smooth: smooth, rootCost: rc, smoothCost: sc, rootTotal: rootTotal, smoothTotal: smoothTotal };
+  }
+
+  function noteName(ch, m) { return (ch.labels[m % 12] || NAMES[m % 12]) + octOf(m); }
+
+  function rebuild() {
+    var tonic = parseInt(keyEl.value, 10), chords = [], i;
+    for (i = 0; i < NSLOTS; i++) {
+      var r = slotEls[i].sel.value;
+      slotEls[i].name.textContent = r ? chordInKey(r, tonic).name : "";
+      if (r) { chords.push(chordInKey(r, tonic)); }
+    }
+    seq = chords.length ? buildSequence(chords) : null;
+    if (!seq) {
+      el("voicelist").textContent = "Choose chords in the slots, or pick a preset.";
+      if (running) { stopProg(); }
+      drawProg(-1);
+      return;
+    }
+    var vo = vlMode === "smooth" ? seq.smooth : seq.root, co = vlMode === "smooth" ? seq.smoothCost : seq.rootCost;
+    var parts = [];
+    for (i = 0; i < chords.length; i++) {
+      parts.push(chords[i].roman + " " + vo[i].map(function (m) { return noteName(chords[i], m); }).join(" ") + (i > 0 ? " (" + co[i] + ")" : ""));
+    }
+    el("voicelist").textContent = "Voices, bass upward, with the semitones moved: " + parts.join(" → ") + "; back to the start (" + co[0] + "). " +
+      "Smooth voice leading moves " + seq.smoothTotal + " semitones over the loop; root position moves " + seq.rootTotal + ".";
+    if (stepIdx >= chords.length) { stepIdx = 0; }
+    if (current >= chords.length) { current = -1; }
+    drawProg(current);
+  }
+
+  function drawProg(idx) {
+    var i;
+    for (i = 0; i < NSLOTS; i++) { slotEls[i].box.classList.remove("now"); }
+    if (!seq || idx < 0) {
+      drawKeyboard(el("kbd2"), RANGE[0], RANGE[1], [], {}, null);
+      if (!running) { el("pstatus").textContent = seq ? "Press Play to loop the progression." : ""; }
+      return;
+    }
+    var vo = vlMode === "smooth" ? seq.smooth : seq.root, co = vlMode === "smooth" ? seq.smoothCost : seq.rootCost;
+    var ch = seq.chords[idx], prev = (idx + seq.chords.length - 1) % seq.chords.length, moves = [];
+    var slotNo = 0, k = -1;
+    for (i = 0; i < NSLOTS; i++) { if (slotEls[i].sel.value) { if (slotNo === idx) { k = i; } slotNo++; } }
+    if (k >= 0) { slotEls[k].box.classList.add("now"); }
+    if (seq.chords.length > 1) { for (i = 0; i < 4; i++) { moves.push({ from: vo[prev][i], to: vo[idx][i] }); } }
+    var labels = {};
+    vo[idx].forEach(function (m) { labels[m] = ch.labels[m % 12]; });
+    drawKeyboard(el("kbd2"), RANGE[0], RANGE[1], vo[idx], labels, moves);
+    el("pstatus").textContent = "Now: " + ch.roman + " = " + ch.name + " (" + ch.pcs.map(function (p) { return ch.labels[p]; }).join(" ") + ")" +
+      (seq.chords.length > 1 ? ", the voices moved " + co[idx] + " semitones from " + seq.chords[prev].roman + "." : ".");
+  }
+
+  function schedule() {
+    if (!running || !seq) { return; }
+    var dur = hr * 60 / parseFloat(el("bpm").value);
+    while (nextTime < ctx.currentTime + 0.2) {
+      var vo = vlMode === "smooth" ? seq.smooth : seq.root;
+      playChord(vo[stepIdx], nextTime, dur, 0);
+      queue.push({ t: nextTime, idx: stepIdx, ch: seq.chords[stepIdx] });
+      nextTime += dur;
+      stepIdx = (stepIdx + 1) % seq.chords.length;
+    }
+  }
+
+  function startProg() {
+    if (!seq) { el("pstatus").textContent = "Choose chords in the slots first."; return; }
+    ensureAudio();
+    silence();
+    running = true;
+    stepIdx = 0; queue = []; nextTime = ctx.currentTime + 0.08;
+    el("pplay").setAttribute("aria-pressed", "true");
+    schedule();
+    timer = setInterval(schedule, 40);
+  }
+
+  function stopProg() {
+    running = false;
+    if (timer) { clearInterval(timer); timer = null; }
+    queue = []; current = -1;
+    silence();
+    el("pplay").setAttribute("aria-pressed", "false");
+    drawProg(-1);
+  }
+
+  function pollQueue() {
+    if (!ctx) { return; }
+    while (queue.length && queue[0].t <= ctx.currentTime) {
+      var q = queue.shift();
+      current = q.idx;
+      drawProg(current);
+      noteChord(q.ch.rootPc, q.ch.q, q.ch.name);
+    }
+  }
+
+  el("pplay").addEventListener("click", function () { if (running) { stopProg(); } else { startProg(); } });
+  el("pstop").addEventListener("click", stopProg);
+  el("pclear").addEventListener("click", function () {
+    slotEls.forEach(function (s) { s.sel.value = ""; });
+    el("plabel").textContent = "";
+    rebuild();
+  });
+  keyEl.addEventListener("change", rebuild);
+  el("bpm").addEventListener("input", function () { el("bpmdisp").textContent = el("bpm").value; });
+  var presetBtns = document.querySelectorAll("button[data-prog]"), i;
+  for (i = 0; i < presetBtns.length; i++) {
+    presetBtns[i].addEventListener("click", function () {
+      var list = this.getAttribute("data-prog").split(","), j;
+      for (j = 0; j < NSLOTS; j++) { slotEls[j].sel.value = j < list.length ? list[j] : ""; }
+      el("plabel").textContent = this.getAttribute("data-label");
+      rebuild();
+    });
+  }
+  var hrBtns = document.querySelectorAll("button[data-hr]");
+  for (i = 0; i < hrBtns.length; i++) {
+    hrBtns[i].addEventListener("click", function () {
+      for (var j = 0; j < hrBtns.length; j++) { hrBtns[j].setAttribute("aria-pressed", "false"); }
+      this.setAttribute("aria-pressed", "true");
+      hr = parseInt(this.getAttribute("data-hr"), 10);
+    });
+  }
+  var vlBtns = document.querySelectorAll("button[data-vl]");
+  for (i = 0; i < vlBtns.length; i++) {
+    vlBtns[i].addEventListener("click", function () {
+      for (var j = 0; j < vlBtns.length; j++) { vlBtns[j].setAttribute("aria-pressed", "false"); }
+      this.setAttribute("aria-pressed", "true");
+      vlMode = this.getAttribute("data-vl");
+      rebuild();
+    });
+  }
+
+  // ---- chromagram and key estimate ----
+  var spec = null, inst = new Float32Array(12), mem = new Float32Array(12), lastFrame = 0, recent = [];
+
+  function noteChord(rootPc, q, name) {
+    recent.push({ rootPc: rootPc, q: q, name: name });
+    if (recent.length > 6) { recent.shift(); }
+  }
+
+  function romanIn(tonicPc, rootPc, q) {
+    var iv = mod12(rootPc - tonicPc), base = ["I", "♭II", "II", "♭III", "III", "IV", "♯IV", "V", "♭VI", "VI", "♭VII", "VII"][iv];
+    if (LOWER[q]) { base = base.toLowerCase(); }
+    var sym = QUAL[q].sym;
+    if (q === "minor") { sym = ""; } else if (q === "min7") { sym = "7"; }
+    return base + sym;
+  }
+
+  function pearson(a, b) {
+    var n = a.length, ma = 0, mb = 0, i, sab = 0, saa = 0, sbb = 0;
+    for (i = 0; i < n; i++) { ma += a[i]; mb += b[i]; }
+    ma /= n; mb /= n;
+    for (i = 0; i < n; i++) { sab += (a[i] - ma) * (b[i] - mb); saa += (a[i] - ma) * (a[i] - ma); sbb += (b[i] - mb) * (b[i] - mb); }
+    return saa > 0 && sbb > 0 ? sab / Math.sqrt(saa * sbb) : 0;
+  }
+
+  function estimateKey() {
+    var best = -1, bestR = -2, second = -1, secondR = -2, k, i;
+    for (k = 0; k < 12; k++) {
+      var prof = [];
+      for (i = 0; i < 12; i++) { prof.push(PROFILE[mod12(i - k)]); }
+      var r = pearson(mem, prof);
+      if (r > bestR) { second = best; secondR = bestR; best = k; bestR = r; }
+      else if (r > secondR) { second = k; secondR = r; }
+    }
+    return { key: best, r: bestR, second: second, r2: secondR };
+  }
+
+  function chromaFrame(ts) {
+    requestAnimationFrame(chromaFrame);
+    var dt = lastFrame ? Math.min(0.2, (ts - lastFrame) / 1000) : 0.016; lastFrame = ts;
+    analyser.getFloatFrequencyData(spec);
+    var i, total = 0, binHz = ctx.sampleRate / analyser.fftSize;
+    for (i = 0; i < 12; i++) { inst[i] = 0; }
+    for (i = 1; i < spec.length; i++) {
+      var f = i * binHz;
+      if (f < 55) { continue; }
+      if (f > 2200) { break; }
+      var a = Math.pow(10, spec[i] / 20), e = a * a;
+      inst[mod12(Math.round(12 * Math.log(f / 440) / Math.LN2) + 69)] += e;
+      total += e;
+    }
+    var decay = Math.exp(-dt / 6);
+    for (i = 0; i < 12; i++) { mem[i] = mem[i] * decay + (total > 1e-9 ? inst[i] * dt : 0); }
+    drawChroma(total > 1e-9);
+  }
+
+  function drawChroma(sounding) {
+    var o = prep(el("chroma")), g = o.g, w = o.w, h = o.h, i, maxI = 0, maxM = 0;
+    for (i = 0; i < 12; i++) { if (inst[i] > maxI) { maxI = inst[i]; } if (mem[i] > maxM) { maxM = mem[i]; } }
+    var est = maxM > 0 ? estimateKey() : null;
+    var bw = w / 12, top = 14, bottom = h - 20;
+    for (i = 0; i < 12; i++) {
+      var x = i * bw + bw * 0.15, bwid = bw * 0.7;
+      if (maxM > 0) {
+        var hm = (bottom - top) * Math.sqrt(mem[i] / maxM);
+        g.fillStyle = css("--beat"); g.fillRect(x, bottom - hm, bwid, hm);
+        g.strokeStyle = css("--border"); g.strokeRect(x + 0.5, bottom - hm + 0.5, bwid - 1, Math.max(0, hm - 1));
+      }
+      if (maxI > 0 && sounding) {
+        var hi = (bottom - top) * Math.sqrt(inst[i] / maxI);
+        g.fillStyle = css("--accent"); g.fillRect(x + bwid * 0.25, bottom - hi, bwid * 0.5, hi);
+      }
+      g.fillStyle = est && est.key === i ? css("--now") : css("--fg");
+      g.font = (est && est.key === i ? "bold " : "") + "12px system-ui, sans-serif";
+      g.fillText(NAMES[i], i * bw + bw / 2, h - 9);
+    }
+    g.strokeStyle = css("--border"); g.beginPath(); g.moveTo(0, bottom + 0.5); g.lineTo(w, bottom + 0.5); g.stroke();
+    if (!est) { return; }
+    var txt = "Key estimate: " + NAMES[est.key] + " major (correlation " + est.r.toFixed(2) + "; next best " + NAMES[est.second] + " major, " + est.r2.toFixed(2) + ").";
+    if (recent.length) {
+      txt += " Read in " + NAMES[est.key] + " major, the recent chords are " + recent.map(function (c) { return c.name + " = " + romanIn(est.key, c.rootPc, c.q); }).join(", ") + ".";
+    }
+    el("keyest").textContent = txt;
+  }
+
+  el("chromareset").addEventListener("click", function () {
+    var i; for (i = 0; i < 12; i++) { mem[i] = 0; } recent = [];
+    el("keyest").textContent = "Memory cleared. Play something to see the chromagram.";
+    if (ctx) { drawChroma(false); }
+  });
+
+  // ---- modes, wiring, animation ----
+  var modeBtns = document.querySelectorAll("button[data-mode]");
+  for (i = 0; i < modeBtns.length; i++) {
+    modeBtns[i].addEventListener("click", function () {
+      for (var j = 0; j < modeBtns.length; j++) { modeBtns[j].setAttribute("aria-pressed", "false"); }
+      this.setAttribute("aria-pressed", "true");
+      var m = this.getAttribute("data-mode");
+      if (running) { stopProg(); }
+      silence();
+      el("build").hidden = m !== "build";
+      el("prog").hidden = m !== "prog";
+      redraw();
+    });
+  }
+  volEl.addEventListener("input", setVolume);
+  document.addEventListener("keydown", function (e) {
+    if (e.code === "Space" && !e.repeat && !el("prog").hidden && document.activeElement.tagName !== "BUTTON" && document.activeElement.tagName !== "SELECT") {
+      e.preventDefault();
+      if (running) { stopProg(); } else { startProg(); }
+    }
+  });
+
+  function redraw() {
+    if (!el("build").hidden) { updateBuilder(); }
+    if (!el("prog").hidden) { drawProg(current); }
+    drawChroma(false);
+  }
+  window.addEventListener("resize", redraw);
+  if (window.matchMedia) { window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", redraw); }
+
+  function uiLoop() { pollQueue(); requestAnimationFrame(uiLoop); }
+  requestAnimationFrame(uiLoop);
+
+  el("bpmdisp").textContent = el("bpm").value;
+  setVolume();
+  updateBuilder();
+  drawProg(-1);
+  rebuild();
+  drawChroma(false);
+})();
+  </script>
+</body>
+</html>

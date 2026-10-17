@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Scale explorer</title>
+  <style>
+    :root {
+      --bg: #fdfdfd; --fg: #1c1e21; --muted: #5a6069; --panel: #f1f2f4;
+      --border: #c9ccd1; --accent: #0b6e99; --accent-fg: #ffffff; --canvas: #ffffff;
+      --tonic: #c2571a; --tint: #cfe3ec; --now: #e3b505; --key: #2a2d31;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #15171b; --fg: #e6e7e9; --muted: #9aa0a8; --panel: #20242b;
+        --border: #3a3f47; --accent: #4da3c7; --accent-fg: #0d1117; --canvas: #101216;
+        --tonic: #e08a4f; --tint: #27485a; --now: #f2c94c; --key: #0a0b0d;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      margin: 0 auto; padding: 16px; max-width: 780px;
+      background: var(--bg); color: var(--fg); line-height: 1.45;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 8px; }
+    p.intro { margin: 0 0 14px; }
+    .hint { font-size: 0.9rem; color: var(--muted); margin-top: 10px; }
+    fieldset {
+      border: 1px solid var(--border); border-radius: 8px; min-width: 0;
+      margin: 0 0 12px; padding: 10px 12px; background: var(--panel);
+    }
+    legend { font-weight: 600; font-size: 0.95rem; padding: 0 6px; }
+    label { font-weight: 600; font-size: 0.9rem; }
+    .vals { font-weight: normal; color: var(--muted); margin-left: 4px; }
+    input[type="range"] { width: 100%; margin: 2px 0 4px; accent-color: var(--accent); }
+    input[type="checkbox"] { accent-color: var(--accent); }
+    select {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 6px 8px; font-size: 1rem; max-width: 100%;
+    }
+    button {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 14px; font-size: 1rem; cursor: pointer;
+    }
+    button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+    button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 10px 0; }
+    .check { font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+    .desc { font-size: 0.95rem; margin: 8px 0 0; font-variant-numeric: tabular-nums; }
+    .status { color: var(--muted); font-size: 0.9rem; min-height: 1.4em; margin: 6px 0 0; }
+    .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: start; }
+    @media (max-width: 600px) { .wrap { grid-template-columns: 1fr; } }
+    canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; background: var(--canvas); touch-action: manipulation; }
+    .tablewrap { overflow-x: auto; }
+    table { border-collapse: collapse; margin-top: 4px; width: 100%; font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+    th, td { border: 1px solid var(--border); padding: 4px 8px; text-align: right; white-space: nowrap; }
+    th:first-child, td:first-child, th:nth-child(2), td:nth-child(2) { text-align: left; }
+    th { background: var(--bg); }
+    td.tonic { color: var(--tonic); font-weight: 600; }
+  </style>
+</head>
+<body>
+  <h1>Scale explorer</h1>
+  <p class="intro">A scale is the set of pitch classes a piece of music draws on, numbered from the tonic as scale degrees. Choose a tonic and a scale or mode, see the same set on a pitch-class circle and on a keyboard, play it in equal temperament or just intonation, and watch a live chromagram of what you hear.</p>
+
+  <div class="row">
+    <label style="flex:1; min-width:160px; margin:0;">Master volume <span class="vals" id="voldisp"></span>
+      <input type="range" id="vol" min="0" max="100" step="1" value="60" aria-label="Master volume"/>
+    </label>
+  </div>
+
+  <fieldset>
+    <legend>Scale</legend>
+    <div class="row">
+      <label for="tonic" style="margin:0;">Tonic:</label>
+      <select id="tonic" aria-label="Tonic"></select>
+      <label for="scale" style="margin:0 0 0 8px;">Scale or mode:</label>
+      <select id="scale" aria-label="Scale or mode"></select>
+    </div>
+    <div class="row">
+      <span style="font-weight:600;">Tuning:</span>
+      <button type="button" data-tune="et" aria-pressed="true">Equal temperament</button>
+      <button type="button" data-tune="ji" aria-pressed="false">Just intonation</button>
+      <label class="check" style="margin-left:8px;"><input type="checkbox" id="drone"/> Drone on the tonic</label>
+    </div>
+    <div class="row">
+      <button type="button" id="play" class="primary">Play scale</button>
+      <button type="button" id="stop">Stop</button>
+      <button type="button" id="ab">Compare tunings (A/B)</button>
+      <select id="dir" aria-label="Direction">
+        <option value="up">Ascending</option>
+        <option value="down">Descending</option>
+        <option value="updown" selected>Up and down</option>
+      </select>
+      <label style="flex:1; min-width:150px; margin:0;">Tempo <span class="vals" id="bpmdisp"></span> notes per minute
+        <input type="range" id="bpm" min="40" max="240" step="4" value="120" aria-label="Tempo in notes per minute"/>
+      </label>
+    </div>
+    <p class="desc" id="desc"></p>
+    <p class="status" id="status"></p>
+    <p class="hint" style="margin-top:6px;">Choose Custom in the menu, then click positions on the circle to add or remove pitch classes; the tonic always stays. Note names use sharps throughout.</p>
+  </fieldset>
+
+  <div class="wrap">
+    <canvas id="circle" aria-label="Pitch-class circle with the scale members and tonic marked"></canvas>
+    <canvas id="chroma" aria-label="Chromagram: the pitch-class energy of the sound being played"></canvas>
+  </div>
+  <p class="hint">The circle is the chromatic clock: 12 pitch classes with C at the top, the tonic in orange, and the scale's members joined into a shape. Moving the shape round the circle changes the tonic; changing the shape changes the mode. Click a position to hear that pitch class. The chromagram beside it uses the same twelvefold space: its 12 bars are the pitch-class energy of the sound the app is making right now, measured from its own output and folded into one octave, as the chapter describes.</p>
+
+  <canvas id="keys" aria-label="Two-octave keyboard with the scale's keys highlighted"></canvas>
+  <p class="hint">Two octaves from C4 (261.6 Hz) to C6. Highlighted keys belong to the scale, with the degree printed on the key; the tonic is orange, and the note sounding now is yellow. Click a key to hear it in the current tuning.</p>
+
+  <fieldset>
+    <legend>Degrees</legend>
+    <div class="tablewrap"><table id="degrees"></table></div>
+    <p class="hint">Semitones and cents are measured from the tonic, and the frequency is that of the degree in the octave above the tonic shown on the keyboard. In just intonation each degree sits at a small whole-number ratio to the tonic; the last column says how far that is from the equal-tempered degree, positive meaning sharper. The diatonic degrees take the 5-limit ratios 1/1, 9/8, 5/4, 4/3, 3/2, 5/3 and 15/8; the chromatic degrees take 16/15, 6/5, 45/32, 8/5 and 9/5, the same ratios as in the Interval lab.</p>
+  </fieldset>
+
+  <p class="hint">Things to try: compare Lydian with major and listen for the one degree that differs. Step through the seven modes with the same tonic and watch which positions on the circle switch on and off. Play the major pentatonic over a drone and hear that no note clashes. Keep the drone on, play the major scale in equal temperament and then in just intonation, and listen to the third: the just third locks with the drone, the equal-tempered one beats gently. Watch the chromagram while the drone plays: the tonic and its fifth carry most of the energy even though the melody visits every degree.</p>
+
+  <script>
+(function () {
+  "use strict";
+  var el = function (id) { return document.getElementById(id); };
+  var NAMES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+  // 5-limit just ratios for the 12 chromatic degrees above the tonic, as in the Interval lab
+  var JI = [[1, 1], [16, 15], [9, 8], [6, 5], [5, 4], [4, 3], [45, 32], [3, 2], [8, 5], [5, 3], [9, 5], [15, 8]];
+  var SCALES = [
+    { id: "major", name: "Major", group: "Major and minor", set: [0, 2, 4, 5, 7, 9, 11] },
+    { id: "natural-minor", name: "Natural minor", group: "Major and minor", set: [0, 2, 3, 5, 7, 8, 10] },
+    { id: "harmonic-minor", name: "Harmonic minor", group: "Major and minor", set: [0, 2, 3, 5, 7, 8, 11] },
+    { id: "melodic-minor", name: "Melodic minor (ascending)", group: "Major and minor", set: [0, 2, 3, 5, 7, 9, 11] },
+    { id: "ionian", name: "Ionian (= major)", group: "Diatonic modes", set: [0, 2, 4, 5, 7, 9, 11] },
+    { id: "dorian", name: "Dorian", group: "Diatonic modes", set: [0, 2, 3, 5, 7, 9, 10] },
+    { id: "phrygian", name: "Phrygian", group: "Diatonic modes", set: [0, 1, 3, 5, 7, 8, 10] },
+    { id: "lydian", name: "Lydian", group: "Diatonic modes", set: [0, 2, 4, 6, 7, 9, 11] },
+    { id: "mixolydian", name: "Mixolydian", group: "Diatonic modes", set: [0, 2, 4, 5, 7, 9, 10] },
+    { id: "aeolian", name: "Aeolian (= natural minor)", group: "Diatonic modes", set: [0, 2, 3, 5, 7, 8, 10] },
+    { id: "locrian", name: "Locrian", group: "Diatonic modes", set: [0, 1, 3, 5, 6, 8, 10] },
+    { id: "major-pentatonic", name: "Major pentatonic", group: "Pentatonic and blues", set: [0, 2, 4, 7, 9] },
+    { id: "minor-pentatonic", name: "Minor pentatonic", group: "Pentatonic and blues", set: [0, 3, 5, 7, 10] },
+    { id: "blues", name: "Blues", group: "Pentatonic and blues", set: [0, 3, 5, 6, 7, 10] },
+    { id: "whole-tone", name: "Whole-tone", group: "Symmetric", set: [0, 2, 4, 6, 8, 10] },
+    { id: "chromatic", name: "Chromatic", group: "Symmetric", set: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] },
+    { id: "octatonic-wh", name: "Octatonic, whole then half", group: "Symmetric", set: [0, 2, 3, 5, 6, 8, 9, 11] },
+    { id: "octatonic-hw", name: "Octatonic, half then whole", group: "Symmetric", set: [0, 1, 3, 4, 6, 7, 9, 10] },
+    { id: "custom", name: "Custom", group: "Your own", set: [0, 2, 4, 5, 7, 9, 11] }
+  ];
+  var C4 = 440 * Math.pow(2, -9 / 12);
+  var NKEYS = 25; // C4 to C6 on the keyboard
+
+  var tonic = 0, scaleId = "major", tuning = "et";
+  var members = [];      // 12 booleans, indexed by semitones above the tonic
+  var current = -1;      // key index (semitones above C4) sounding now, or -1
+  var playing = false;
+  var schedule = [], doneTimer = null;
+  var voices = [], drone = null;
+
+  var ctx = null, master = null, limiter = null, analyser = null, wave = null;
+  var specData = null, binPc = null, chroma = [], chromaDirty = true;
+
+  var circle = el("circle"), keys = el("keys"), chromaCv = el("chroma");
+  var cc = circle.getContext("2d"), kc = keys.getContext("2d"), hc = chromaCv.getContext("2d");
+
+  // ---- scale model ----
+  function scaleById(id) {
+    for (var i = 0; i < SCALES.length; i++) { if (SCALES[i].id === id) { return SCALES[i]; } }
+    return SCALES[0];
+  }
+  function setMembersFrom(set) {
+    members = [];
+    for (var i = 0; i < 12; i++) { members.push(set.indexOf(i) >= 0); }
+    members[0] = true;
+  }
+  function degreeList() {
+    var out = [];
+    for (var d = 0; d < 12; d++) { if (members[d]) { out.push(d); } }
+    return out;
+  }
+  function degreeOfKey(k) { // 1-based degree of a key, or 0 when not in the scale
+    var d = ((k - tonic) % 12 + 12) % 12;
+    return members[d] ? degreeList().indexOf(d) + 1 : 0;
+  }
+  function isTonicKey(k) { return ((k - tonic) % 12 + 12) % 12 === 0; }
+  function tonicFreq() { return C4 * Math.pow(2, tonic / 12); }
+  function justCents(d) { return 1200 * Math.log2(JI[d][0] / JI[d][1]); }
+  function freqOfKey(k, tune) {
+    if (tune === "et") { return C4 * Math.pow(2, k / 12); }
+    var rel = k - tonic, oct = Math.floor(rel / 12), d = rel - 12 * oct;
+    return tonicFreq() * JI[d][0] / JI[d][1] * Math.pow(2, oct);
+  }
+  function scaleKeys() { // the ascending scale from the tonic up to its octave, as key indices
+    var out = degreeList().map(function (d) { return tonic + d; });
+    out.push(tonic + 12);
+    return out;
+  }
+  function sequence() {
+    var up = scaleKeys(), dir = el("dir").value;
+    if (dir === "up") { return up; }
+    var down = up.slice().reverse();
+    if (dir === "down") { return down; }
+    return up.concat(down.slice(1));
+  }
+
+  // ---- menus ----
+  (function buildMenus() {
+    var t = el("tonic"), s = el("scale"), i, o, g = null, grp = null;
+    for (i = 0; i < 12; i++) {
+      o = document.createElement("option"); o.value = String(i); o.textContent = NAMES[i]; t.appendChild(o);
+    }
+    for (i = 0; i < SCALES.length; i++) {
+      if (SCALES[i].group !== g) {
+        g = SCALES[i].group; grp = document.createElement("optgroup"); grp.label = g; s.appendChild(grp);
+      }
+      o = document.createElement("option"); o.value = SCALES[i].id; o.textContent = SCALES[i].name; grp.appendChild(o);
+    }
+    t.value = "0"; s.value = "major";
+  })();
+
+  function describe() {
+    var ds = degreeList(), steps = [], letters = [], i;
+    for (i = 0; i < ds.length; i++) {
+      var nxt = i + 1 < ds.length ? ds[i + 1] : 12;
+      steps.push(nxt - ds[i]);
+    }
+    var lettered = steps.every(function (s) { return s === 1 || s === 2; });
+    for (i = 0; i < steps.length; i++) { letters.push(steps[i] === 2 ? "W" : "H"); }
+    var sc = scaleById(scaleId);
+    var txt = NAMES[tonic] + " " + (sc.id === "custom" ? "custom scale" : sc.name.replace(/ \(=.*\)$/, "").toLowerCase()) + ": " + ds.length + (ds.length === 1 ? " pitch class" : " pitch classes") + ". ";
+    txt += "Steps in semitones: " + steps.join(" ") + (lettered ? " (" + letters.join(" ") + ")" : "") + ". ";
+    txt += "Tonic " + NAMES[tonic] + "4 = " + tonicFreq().toFixed(2) + " Hz.";
+    el("desc").textContent = txt;
+  }
+
+  function fmtSigned(v) {
+    var s = v.toFixed(1);
+    if (s === "-0.0") { s = "0.0"; }
+    return (v > 0.05 ? "+" : "") + s;
+  }
+  function buildTable() {
+    var ds = degreeList(), html = "<tr><th>Degree</th><th>Note</th><th>Semitones</th><th>Cents</th><th>Just ratio</th><th>Just minus equal (cents)</th><th>Hz</th></tr>";
+    for (var i = 0; i < ds.length; i++) {
+      var d = ds[i], pc = (tonic + d) % 12;
+      var cents = tuning === "et" ? String(100 * d) : justCents(d).toFixed(1);
+      html += "<tr><td" + (d === 0 ? " class=\"tonic\"" : "") + ">" + (i + 1) + "</td><td>" + NAMES[pc] + "</td><td>" + d + "</td><td>" + cents + "</td><td>" +
+        JI[d][0] + "/" + JI[d][1] + "</td><td>" + fmtSigned(justCents(d) - 100 * d) + "</td><td>" + freqOfKey(tonic + d, tuning).toFixed(2) + "</td></tr>";
+    }
+    el("degrees").innerHTML = html;
+  }
+
+  function refresh() {
+    describe(); buildTable(); drawCircle(); drawKeys(); chromaDirty = true;
+  }
+
+  // ---- audio ----
+  function ensureAudio() {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      master = ctx.createGain();
+      master.gain.value = 0.3 * parseFloat(el("vol").value) / 100;
+      // a limiter so that drone plus scale plus clicked keys can never clip
+      limiter = ctx.createDynamicsCompressor();
+      limiter.threshold.value = -8; limiter.knee.value = 0; limiter.ratio.value = 20;
+      limiter.attack.value = 0.002; limiter.release.value = 0.1;
+      analyser = ctx.createAnalyser();
+      analyser.fftSize = 16384;
+      analyser.smoothingTimeConstant = 0.5;
+      master.connect(limiter);
+      limiter.connect(analyser);
+      analyser.connect(ctx.destination);
+      var real = new Float32Array([0, 0, 0, 0, 0, 0, 0]);
+      var imag = new Float32Array([0, 1, 0.4, 0.25, 0.15, 0.1, 0.07]);
+      wave = ctx.createPeriodicWave(real, imag);
+      // which pitch class each FFT bin belongs to, for the chromagram
+      specData = new Float32Array(analyser.frequencyBinCount);
+      binPc = new Int8Array(analyser.frequencyBinCount);
+      var binHz = ctx.sampleRate / analyser.fftSize;
+      for (var b = 0; b < binPc.length; b++) {
+        var f = b * binHz;
+        if (f < 55 || f > 4200) { binPc[b] = -1; continue; }
+        binPc[b] = ((Math.round(12 * Math.log2(f / C4)) % 12) + 12) % 12;
+      }
+      for (b = 0; b < 12; b++) { chroma.push(0); }
+    }
+    if (ctx.state === "suspended") { ctx.resume(); }
+  }
+  function tone(freq, t0, dur, level) {
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.setPeriodicWave(wave);
+    o.frequency.value = freq;
+    g.gain.setValueAtTime(0, t0);
+    g.gain.linearRampToValueAtTime(level, t0 + 0.02);
+    g.gain.setTargetAtTime(level * 0.55, t0 + 0.02, 0.3);
+    g.gain.setTargetAtTime(0, t0 + dur, 0.05);
+    o.connect(g); g.connect(master);
+    o.start(t0); o.stop(t0 + dur + 0.4);
+    var v = { o: o, g: g };
+    voices.push(v);
+    o.onended = function () { var i = voices.indexOf(v); if (i >= 0) { voices.splice(i, 1); } };
+    return v;
+  }
+  function startDrone(t0) {
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.setPeriodicWave(wave);
+    o.frequency.value = tonicFreq() / 2;
+    g.gain.setValueAtTime(0, t0);
+    g.gain.linearRampToValueAtTime(0.4, t0 + 0.3);
+    o.connect(g); g.connect(master); o.start(t0);
+    drone = { o: o, g: g };
+  }
+  function endDrone(t, tau) {
+    if (!drone) { return; }
+    var d = drone; drone = null;
+    d.g.gain.cancelScheduledValues(t);
+    d.g.gain.setTargetAtTime(0, t, tau);
+    d.o.stop(t + 8 * tau);
+  }
+  function playKey(k) {
+    ensureAudio();
+    var t0 = ctx.currentTime + 0.02;
+    tone(freqOfKey(k, tuning), t0, 0.7, 0.35);
+    schedule.push({ t: t0, k: k, dur: 0.7 });
+  }
+  function playScale(tune, onDone) {
+    ensureAudio();
+    var seq = sequence(), beat = 60 / parseFloat(el("bpm").value);
+    var dur = Math.max(0.15, beat * 0.9), t0 = ctx.currentTime + 0.1, i;
+    if (el("drone").checked && !drone) { startDrone(t0); }
+    for (i = 0; i < seq.length; i++) {
+      tone(freqOfKey(seq[i], tune), t0 + i * beat, dur, 0.35);
+      schedule.push({ t: t0 + i * beat, k: seq[i], dur: dur });
+    }
+    var tEnd = t0 + (seq.length - 1) * beat + dur;
+    doneTimer = setTimeout(function () { doneTimer = null; onDone(tEnd); }, (tEnd - ctx.currentTime) * 1000 + 50);
+  }
+  function setPlaying(on) { playing = on; }
+  function label(tune) { return tune === "et" ? "equal temperament" : "just intonation"; }
+  function dirLabel() { return el("dir").options[el("dir").selectedIndex].text.toLowerCase(); }
+  function play() {
+    stopAll();
+    setPlaying(true);
+    el("status").textContent = "Playing " + NAMES[tonic] + " " + scaleById(scaleId).name.replace(/ \(=.*\)$/, "").toLowerCase() + ", " + dirLabel() + ", " + label(tuning) + ".";
+    playScale(tuning, function (tEnd) {
+      endDrone(tEnd, 0.15); setPlaying(false); el("status").textContent = "";
+    });
+  }
+  function compare() {
+    stopAll();
+    setPlaying(true);
+    el("status").textContent = "A: " + label("et") + ".";
+    playScale("et", function (tEnd) {
+      el("status").textContent = "B: " + label("ji") + ".";
+      playScale("ji", function (tEnd2) {
+        endDrone(tEnd2, 0.15); setPlaying(false);
+        el("status").textContent = "A was equal temperament, B was just intonation.";
+      });
+    });
+  }
+  function stopAll() {
+    if (doneTimer) { clearTimeout(doneTimer); doneTimer = null; }
+    if (ctx) {
+      var t = ctx.currentTime;
+      for (var i = 0; i < voices.length; i++) {
+        voices[i].g.gain.cancelScheduledValues(t);
+        voices[i].g.gain.setTargetAtTime(0, t, 0.02);
+        voices[i].o.stop(t + 0.15);
+      }
+      voices = [];
+      endDrone(t, 0.02);
+    }
+    schedule = [];
+    setPlaying(false);
+    el("status").textContent = "";
+    if (current !== -1) { current = -1; drawCircle(); drawKeys(); }
+  }
+
+  // ---- drawing ----
+  function cssVar(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+  function theme() {
+    return { bg: cssVar("--canvas"), fg: cssVar("--fg"), muted: cssVar("--muted"), border: cssVar("--border"),
+      accent: cssVar("--accent"), accentFg: cssVar("--accent-fg"), tonic: cssVar("--tonic"), tint: cssVar("--tint"), now: cssVar("--now"), key: cssVar("--key") };
+  }
+  function fit(cv, cssH) {
+    var dpr = window.devicePixelRatio || 1, w = cv.clientWidth || 300;
+    cv.style.height = cssH + "px";
+    if (cv.width !== Math.round(w * dpr) || cv.height !== Math.round(cssH * dpr)) {
+      cv.width = Math.round(w * dpr); cv.height = Math.round(cssH * dpr);
+    }
+    var c = cv.getContext("2d");
+    c.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return { w: w, h: cssH };
+  }
+  function circleGeom() {
+    var w = circle.clientWidth || 300, h = Math.min(380, w);
+    return { w: w, h: h, cx: w / 2, cy: h / 2 + 4, R: Math.min(w, h) / 2 - 40 };
+  }
+  function posOf(pc, g, r) {
+    var a = -Math.PI / 2 + pc / 12 * 2 * Math.PI;
+    return { x: g.cx + r * Math.cos(a), y: g.cy + r * Math.sin(a) };
+  }
+  function drawCircle() {
+    var g = circleGeom(), th = theme(), i, p;
+    fit(circle, g.h);
+    cc.fillStyle = th.bg; cc.fillRect(0, 0, g.w, g.h);
+    cc.font = "13px system-ui, sans-serif"; cc.textAlign = "left"; cc.textBaseline = "middle";
+    cc.fillStyle = th.muted; cc.fillText("Pitch-class circle", 8, 14);
+    cc.strokeStyle = th.border; cc.lineWidth = 1;
+    cc.beginPath(); cc.arc(g.cx, g.cy, g.R, 0, 2 * Math.PI); cc.stroke();
+    // the scale as a shape
+    var ds = degreeList();
+    if (ds.length > 1) {
+      cc.beginPath();
+      for (i = 0; i < ds.length; i++) {
+        p = posOf((tonic + ds[i]) % 12, g, g.R);
+        if (i === 0) { cc.moveTo(p.x, p.y); } else { cc.lineTo(p.x, p.y); }
+      }
+      cc.closePath();
+      cc.fillStyle = th.accent; cc.globalAlpha = 0.12; cc.fill(); cc.globalAlpha = 1;
+      cc.strokeStyle = th.accent; cc.lineWidth = 1.5; cc.stroke();
+    }
+    cc.textAlign = "center";
+    for (i = 0; i < 12; i++) {
+      var d = ((i - tonic) % 12 + 12) % 12, member = members[d], k = tonic + d;
+      p = posOf(i, g, g.R);
+      if (current >= 0 && ((current - i) % 12 + 12) % 12 === 0) {
+        cc.fillStyle = th.now; cc.beginPath(); cc.arc(p.x, p.y, 15, 0, 2 * Math.PI); cc.fill();
+      }
+      cc.fillStyle = d === 0 ? th.tonic : (member ? th.accent : th.bg);
+      cc.strokeStyle = member ? cc.fillStyle : th.border; cc.lineWidth = 1.5;
+      cc.beginPath(); cc.arc(p.x, p.y, member ? 10 : 6, 0, 2 * Math.PI); cc.fill(); cc.stroke();
+      cc.font = (member ? "600 " : "") + "14px system-ui, sans-serif";
+      cc.fillStyle = member ? th.fg : th.muted;
+      var q = posOf(i, g, g.R + 24);
+      cc.fillText(NAMES[i], q.x, q.y);
+      if (member) {
+        cc.font = "12px system-ui, sans-serif"; cc.fillStyle = th.muted;
+        q = posOf(i, g, g.R - 24);
+        cc.fillText(String(degreeOfKey(k)), q.x, q.y);
+      }
+    }
+    cc.font = "12px system-ui, sans-serif"; cc.fillStyle = th.muted;
+    cc.fillText(NAMES[tonic] + " = degree 1", g.cx, g.cy - 8);
+    cc.fillText(scaleId === "custom" ? "click to add or remove" : "", g.cx, g.cy + 10);
+  }
+  var WHITE_PC = [0, 2, 4, 5, 7, 9, 11], BLACK_AFTER = { 1: 0, 3: 1, 6: 3, 8: 4, 10: 5 };
+  function keyGeom() {
+    var w = keys.clientWidth || 300, h = Math.max(110, Math.min(190, Math.round(w * 0.26)));
+    var ww = (w - 2) / 15, bw = ww * 0.6, bh = h * 0.6;
+    var out = { w: w, h: h, white: [], black: [] };
+    for (var k = 0; k < NKEYS; k++) {
+      var oct = Math.floor(k / 12), pc = k % 12, wi = WHITE_PC.indexOf(pc);
+      if (wi >= 0) { out.white.push({ k: k, x: 1 + (oct * 7 + wi) * ww, y: 1, w: ww, h: h - 2 }); }
+      else { out.black.push({ k: k, x: 1 + (oct * 7 + BLACK_AFTER[pc] + 1) * ww - bw / 2, y: 1, w: bw, h: bh }); }
+    }
+    return out;
+  }
+  function drawKeys() {
+    var g = keyGeom(), th = theme(), i, r;
+    fit(keys, g.h);
+    kc.fillStyle = th.bg; kc.fillRect(0, 0, g.w, g.h);
+    kc.textAlign = "center"; kc.textBaseline = "middle";
+    for (i = 0; i < g.white.length; i++) {
+      r = g.white[i];
+      var deg = degreeOfKey(r.k);
+      kc.fillStyle = r.k === current ? th.now : (deg ? (isTonicKey(r.k) ? th.tonic : th.tint) : th.bg);
+      kc.fillRect(r.x, r.y, r.w, r.h);
+      kc.strokeStyle = th.border; kc.lineWidth = 1; kc.strokeRect(r.x + 0.5, r.y + 0.5, r.w - 1, r.h - 1);
+      kc.font = "11px system-ui, sans-serif"; kc.fillStyle = (isTonicKey(r.k) && deg && r.k !== current) ? th.accentFg : th.muted;
+      kc.fillText(NAMES[r.k % 12] + (r.k % 12 === 0 ? String(4 + r.k / 12) : ""), r.x + r.w / 2, r.h - 10);
+      if (deg) {
+        kc.font = "600 14px system-ui, sans-serif"; kc.fillStyle = (isTonicKey(r.k) && r.k !== current) ? th.accentFg : th.fg;
+        kc.fillText(String(deg), r.x + r.w / 2, r.h * 0.74);
+      }
+    }
+    for (i = 0; i < g.black.length; i++) {
+      r = g.black[i];
+      var bdeg = degreeOfKey(r.k);
+      kc.fillStyle = r.k === current ? th.now : (bdeg ? (isTonicKey(r.k) ? th.tonic : th.accent) : th.key);
+      kc.fillRect(r.x, r.y, r.w, r.h);
+      kc.strokeStyle = th.border; kc.strokeRect(r.x + 0.5, r.y + 0.5, r.w - 1, r.h - 1);
+      if (bdeg) {
+        kc.font = "600 13px system-ui, sans-serif"; kc.fillStyle = r.k === current ? th.fg : th.accentFg;
+        kc.fillText(String(bdeg), r.x + r.w / 2, r.h - 12);
+      }
+    }
+  }
+  function updateChroma() {
+    if (!analyser) { return; }
+    analyser.getFloatFrequencyData(specData);
+    var fresh = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], i;
+    for (i = 0; i < specData.length; i++) {
+      if (binPc[i] < 0) { continue; }
+      fresh[binPc[i]] += Math.pow(10, specData[i] / 10);
+    }
+    for (i = 0; i < 12; i++) { chroma[i] = 0.9 * chroma[i] + 0.1 * fresh[i]; }
+  }
+  function drawChroma() {
+    var w = chromaCv.clientWidth || 300, h = Math.min(380, Math.max(200, Math.round(w * 0.8))), th = theme(), i;
+    fit(chromaCv, h);
+    hc.fillStyle = th.bg; hc.fillRect(0, 0, w, h);
+    hc.font = "13px system-ui, sans-serif"; hc.textAlign = "left"; hc.textBaseline = "middle";
+    hc.fillStyle = th.muted; hc.fillText("Chromagram of the sound now", 8, 14);
+    var mL = 10, mR = 10, top = 30, bottom = 24, bw = (w - mL - mR) / 12, max = 0;
+    for (i = 0; i < 12; i++) { if (chroma[i] > max) { max = chroma[i]; } }
+    var silent = max < 1e-7;
+    hc.textAlign = "center";
+    for (i = 0; i < 12; i++) {
+      var d = ((i - tonic) % 12 + 12) % 12, x = mL + i * bw;
+      var v = silent ? 0 : Math.sqrt(chroma[i] / max); // magnitude rather than power, so the weaker partials show
+      var bh = v * (h - top - bottom);
+      hc.fillStyle = d === 0 ? th.tonic : (members[d] ? th.accent : th.border);
+      hc.fillRect(x + 3, h - bottom - bh, bw - 6, bh);
+      hc.strokeStyle = th.border; hc.lineWidth = 1;
+      hc.strokeRect(x + 3.5, top + 0.5, bw - 7, h - top - bottom - 1);
+      hc.font = (d === 0 ? "600 " : "") + "12px system-ui, sans-serif";
+      hc.fillStyle = d === 0 ? th.tonic : (members[d] ? th.fg : th.muted);
+      hc.fillText(NAMES[i], x + bw / 2, h - 10);
+    }
+    if (silent) {
+      hc.fillStyle = th.muted; hc.font = "12px system-ui, sans-serif";
+      hc.fillText("Play something to see its pitch classes", w / 2, (top + h - bottom) / 2);
+    }
+  }
+  function loop() {
+    requestAnimationFrame(loop);
+    if (ctx) {
+      updateChroma();
+      drawChroma();
+      // the time now reaching the ears, not the time being scheduled
+      var now = ctx.currentTime - (ctx.outputLatency || 0) - (ctx.baseLatency || 0), k = -1, i;
+      for (i = schedule.length - 1; i >= 0; i--) {
+        if (schedule[i].t <= now && now < schedule[i].t + schedule[i].dur) { k = schedule[i].k; break; }
+      }
+      while (schedule.length && schedule[0].t + schedule[0].dur < now - 1) { schedule.shift(); }
+      if (k !== current) { current = k; drawCircle(); drawKeys(); }
+    } else if (chromaDirty) {
+      drawChroma(); chromaDirty = false;
+    }
+  }
+
+  // ---- interaction ----
+  function canvasPoint(cv, e) {
+    var r = cv.getBoundingClientRect();
+    return { x: e.clientX - r.left, y: e.clientY - r.top };
+  }
+  circle.addEventListener("click", function (e) {
+    var g = circleGeom(), pt = canvasPoint(circle, e);
+    for (var i = 0; i < 12; i++) {
+      var p = posOf(i, g, g.R);
+      if (Math.hypot(pt.x - p.x, pt.y - p.y) <= 18) {
+        var d = ((i - tonic) % 12 + 12) % 12;
+        if (scaleId === "custom" && d !== 0) { members[d] = !members[d]; refresh(); }
+        playKey(tonic + d);
+        return;
+      }
+    }
+  });
+  keys.addEventListener("click", function (e) {
+    var g = keyGeom(), pt = canvasPoint(keys, e), i, r;
+    for (i = 0; i < g.black.length; i++) {
+      r = g.black[i];
+      if (pt.x >= r.x && pt.x <= r.x + r.w && pt.y >= r.y && pt.y <= r.y + r.h) { playKey(r.k); return; }
+    }
+    for (i = 0; i < g.white.length; i++) {
+      r = g.white[i];
+      if (pt.x >= r.x && pt.x <= r.x + r.w && pt.y >= r.y && pt.y <= r.y + r.h) { playKey(r.k); return; }
+    }
+  });
+  el("tonic").addEventListener("change", function () { tonic = parseInt(this.value, 10); refresh(); });
+  el("scale").addEventListener("change", function () {
+    scaleId = this.value;
+    if (scaleId !== "custom") { setMembersFrom(scaleById(scaleId).set); }
+    refresh();
+  });
+  var tuneBtns = document.querySelectorAll("button[data-tune]");
+  for (var b = 0; b < tuneBtns.length; b++) {
+    tuneBtns[b].addEventListener("click", function () {
+      for (var j = 0; j < tuneBtns.length; j++) { tuneBtns[j].setAttribute("aria-pressed", "false"); }
+      this.setAttribute("aria-pressed", "true");
+      tuning = this.getAttribute("data-tune");
+      refresh();
+    });
+  }
+  el("play").addEventListener("click", play);
+  el("ab").addEventListener("click", compare);
+  el("stop").addEventListener("click", stopAll);
+  function updateLabels() {
+    el("bpmdisp").textContent = el("bpm").value;
+    el("voldisp").textContent = el("vol").value + " %";
+    if (ctx) { master.gain.setTargetAtTime(0.3 * parseFloat(el("vol").value) / 100, ctx.currentTime, 0.03); }
+  }
+  el("bpm").addEventListener("input", updateLabels);
+  el("vol").addEventListener("input", updateLabels);
+  window.addEventListener("resize", function () { drawCircle(); drawKeys(); chromaDirty = true; });
+  if (window.matchMedia) {
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function () { drawCircle(); drawKeys(); chromaDirty = true; });
+  }
+
+  setMembersFrom(scaleById(scaleId).set);
+  updateLabels();
+  refresh();
+  loop();
+})();
+  </script>
+</body>
+</html>

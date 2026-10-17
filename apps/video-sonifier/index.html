@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Video sonifier</title>
+  <style>
+    :root {
+      --bg: #fdfdfd; --fg: #1c1e21; --muted: #5a6069; --panel: #f1f2f4;
+      --border: #c9ccd1; --accent: #0b6e99; --accent-fg: #ffffff; --canvas: #ffffff;
+      --left: #c2571a; --right: #0b6e99; --grid: #e3e5e8;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #15171b; --fg: #e6e7e9; --muted: #9aa0a8; --panel: #20242b;
+        --border: #3a3f47; --accent: #4da3c7; --accent-fg: #0d1117; --canvas: #101216;
+        --left: #e08a4f; --right: #4da3c7; --grid: #2a2f37;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      margin: 0 auto; padding: 16px; max-width: 780px;
+      background: var(--bg); color: var(--fg); line-height: 1.45;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 8px; }
+    p.intro { margin: 0 0 14px; }
+    .hint { font-size: 0.9rem; color: var(--muted); margin-top: 10px; display: block; }
+    .privacy {
+      border: 1px solid var(--border); border-radius: 8px; background: var(--panel);
+      padding: 8px 12px; margin: 0 0 14px; font-size: 0.9rem; color: var(--muted);
+    }
+    fieldset {
+      border: 1px solid var(--border); border-radius: 8px; min-width: 0;
+      margin: 0 0 12px; padding: 10px 12px; background: var(--panel);
+    }
+    legend { font-weight: 600; font-size: 0.95rem; padding: 0 6px; }
+    label { display: block; font-weight: 600; font-size: 0.9rem; margin: 8px 0 2px; }
+    label.check { display: inline-flex; align-items: center; gap: 6px; margin: 0; font-weight: normal; }
+    .vals { font-weight: normal; color: var(--muted); margin-left: 4px; font-variant-numeric: tabular-nums; }
+    input[type="range"] { width: 100%; margin: 2px 0 4px; accent-color: var(--accent); }
+    input[type="checkbox"] { accent-color: var(--accent); }
+    button {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 14px; font-size: 1rem; cursor: pointer;
+    }
+    button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+    button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+    button:disabled { opacity: 0.5; cursor: default; }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px; }
+    @media (max-width: 480px) { .grid2 { grid-template-columns: 1fr; } }
+    .views { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 560px) { .views { grid-template-columns: 1fr; } }
+    .views figure { margin: 0; min-width: 0; }
+    .views figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
+    .status { color: var(--muted); font-size: 0.9rem; min-height: 1.4em; margin: 4px 0 12px; }
+    .status.error { color: var(--left); font-weight: 600; }
+    canvas { display: block; width: 100%; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; background: var(--canvas); }
+    #video, #motion { aspect-ratio: 4 / 3; }
+    #mg { height: 220px; }
+    #balance { height: 52px; }
+    video { display: none; }
+    a { color: var(--accent); }
+    .credit { font-size: 0.85rem; color: var(--muted); margin-top: 18px; }
+  </style>
+</head>
+<body>
+  <h1>Video sonifier</h1>
+  <p class="intro">Sonification is the auditory counterpart of visualisation: instead of turning data into a picture, it turns them into sound. This app sonifies the motion in front of your camera. Each video frame is compared with the one before, and the difference shows where the image changed. That difference is averaged along every row of the image, which gives one motion value per row, and the column of values is used as the spectrum of a sound. Motion near the top of the image becomes high frequencies, motion near the bottom becomes low frequencies, and when nothing moves there is silence. Press Start, allow camera access, and move.</p>
+  <p class="privacy">Privacy: the video is analysed locally in your browser, frame by frame, and immediately discarded. Nothing is recorded, stored, or sent anywhere.</p>
+
+  <div class="row">
+    <button type="button" id="power" class="primary">Start camera and sound</button>
+    <button type="button" id="mute" aria-pressed="false" disabled>Mute</button>
+    <label style="flex:1; min-width:150px; margin:0;">Volume <span class="vals" id="voldisp"></span>
+      <input type="range" id="vol" min="0" max="100" step="1" value="50" aria-label="Volume"/>
+    </label>
+  </div>
+  <p class="status" id="status" role="status" aria-live="polite"></p>
+
+  <fieldset>
+    <legend>What the camera sees</legend>
+    <div class="views">
+      <figure>
+        <canvas id="video" aria-label="The live camera image"></canvas>
+        <figcaption>Camera image</figcaption>
+      </figure>
+      <figure>
+        <canvas id="motion" aria-label="The motion image: the difference between the current and the previous video frame"></canvas>
+        <figcaption>Motion image (frame difference)</figcaption>
+      </figure>
+    </div>
+    <span class="hint">The motion image keeps only what changed since the previous frame. Anything that stays still, such as the wall behind you, fades into the background, and a moving hand shows up as an outline. Even when you hold still, a faint speckle of camera noise remains; the noise gate below keeps it from being heard.</span>
+  </fieldset>
+
+  <fieldset>
+    <legend>Motiongram, heard as a spectrogram</legend>
+    <canvas id="mg" aria-label="Scrolling motiongram with a frequency axis: each column is the motion per image row, used as the spectrum of the sound"></canvas>
+    <span class="hint" id="mghint"></span>
+    <canvas id="balance" aria-label="Balance between motion in the left and right halves of the image"></canvas>
+    <span class="hint">The balance meter compares the motion in the left and right halves of the image. It sets where the sound is placed between the left and right speakers, so a sound made by moving on the left comes from the left. Use headphones to hear it clearly.</span>
+  </fieldset>
+
+  <fieldset>
+    <legend>Shaping the sound</legend>
+    <div class="grid2">
+      <div>
+        <label for="gain">Sensitivity <span class="vals" id="gaindisp"></span></label>
+        <input type="range" id="gain" min="1" max="20" step="0.5" value="6"/>
+      </div>
+      <div>
+        <label for="gate">Noise gate <span class="vals" id="gatedisp"></span></label>
+        <input type="range" id="gate" min="0" max="0.3" step="0.005" value="0.06"/>
+      </div>
+      <div>
+        <label for="fmin">Lowest frequency (bottom row) <span class="vals" id="fmindisp"></span></label>
+        <input type="range" id="fmin" min="40" max="1000" step="10" value="100"/>
+      </div>
+      <div>
+        <label for="fmax">Highest frequency (top row) <span class="vals" id="fmaxdisp"></span></label>
+        <input type="range" id="fmax" min="300" max="6000" step="50" value="1600"/>
+      </div>
+      <div>
+        <label for="smooth">Smoothing <span class="vals" id="smoothdisp"></span></label>
+        <input type="range" id="smooth" min="0" max="0.95" step="0.01" value="0.5"/>
+      </div>
+      <div>
+        <div class="row" style="margin-top:14px;">
+          <label class="check"><input type="checkbox" id="mirror" checked/> Mirror the image</label>
+          <label class="check"><input type="checkbox" id="stereo" checked/> Stereo panning</label>
+        </div>
+      </div>
+    </div>
+    <span class="hint">Sensitivity multiplies the motion before it is used, so small movements become louder. The noise gate sets to zero every row whose motion is below the chosen level, which silences camera noise and flicker. The two frequency sliders set which range of the spectrum the image is spread over; a narrow, low range sounds soft and dark, a wide, high range sounds bright and hissy. Smoothing lets each value fade out gradually instead of jumping, which turns quick, buzzy changes into calmer swells. Mirroring makes the image behave like a mirror, so your right hand appears on the right.</span>
+  </fieldset>
+
+  <p class="hint">Things to try: move one hand slowly up and down in front of the camera and listen to the sound move from a high region to a low one, following your hand in the motiongram. Hold completely still and listen to the silence; then lower the noise gate to zero and hear the camera noise appear. Move only on the left side of the image, then only on the right, with headphones on. Ask a second person to move together with you, one high and one low, and look at the two bands that appear in the motiongram. Finally, narrow the frequency range to 100–400 Hz and compare the sound with 100–4000 Hz.</p>
+
+  <p class="credit">Based on <a href="https://github.com/alexarje/webvideosonifyer">webvideosonifyer</a> and the <a href="https://github.com/fourMs/MGT-python">Musical Gestures Toolbox</a>.</p>
+
+  <video id="cam" playsinline muted></video>
+
+  <script>
+(function () {
+  "use strict";
+  var el = function (id) { return document.getElementById(id); };
+  var PROC_W = 128;                 // analysis width in pixels; the height follows the camera's aspect ratio
+  var MG_COLS = 300;                // columns of motiongram history
+  var ANALYSIS_MS = 30;             // at most about 33 motion vectors per second
+  var AXIS_W = 46;
+
+  // ---- sound synthesis, shared by the AudioWorklet and the ScriptProcessor fallback ----
+  // The motion vector (one value per image row, top row first) is read as a magnitude spectrum on a
+  // linear frequency scale from minHz (bottom row) to maxHz (top row). Each hop, the spectrum gets a
+  // random phase, is turned into a time signal with an inverse FFT, windowed with a Hann window, and
+  // overlap-added. A peak limiter and a soft clipper keep every output sample below 0.6.
+  function makeSynth(sr) {
+    var N = sr > 60000 ? 4096 : 2048, HOP = N / 4, HALF = N / 2, TAU = 2 * Math.PI;
+    var win = new Float32Array(N), re = new Float32Array(N), im = new Float32Array(N);
+    var acc = new Float32Array(N), fr = new Float32Array(N), hopOut = new Float32Array(HOP);
+    var i;
+    for (i = 0; i < N; i++) { win[i] = 0.5 - 0.5 * Math.cos(TAU * i / N); }
+    var OLA = 1 / Math.sqrt(N / HOP * 0.375);   // overlapping Hann windows with random phase add in power
+    var st = { motion: null, minHz: 100, maxHz: 1600, volume: 0.5, pan: 0, stereo: true, muted: false };
+    var pos = HOP, seed = 22222, vol = 0, panNow = 0, lim = 1;
+    var aVol = 1 - Math.exp(-1 / (0.03 * sr)), aPan = 1 - Math.exp(-1 / (0.08 * sr));
+    var aRel = 1 - Math.exp(-1 / (0.4 * sr)), CEIL = 0.7;
+    function rand() { seed ^= seed << 13; seed ^= seed >>> 17; seed ^= seed << 5; return (seed >>> 0) / 4294967296; }
+    function ifft(re, im) {                      // radix-2, in place, unnormalised, e^{+i}
+      var n = re.length, j = 0, k, len, t;
+      for (k = 1; k < n; k++) {
+        var bit = n >> 1;
+        for (; j & bit; bit >>= 1) { j ^= bit; }
+        j ^= bit;
+        if (k < j) { t = re[k]; re[k] = re[j]; re[j] = t; t = im[k]; im[k] = im[j]; im[j] = t; }
+      }
+      for (len = 2; len <= n; len <<= 1) {
+        var ang = TAU / len, wr0 = Math.cos(ang), wi0 = Math.sin(ang), half = len >> 1;
+        for (var s = 0; s < n; s += len) {
+          var wr = 1, wi = 0;
+          for (k = 0; k < half; k++) {
+            var a = s + k, b = a + half;
+            var vr = re[b] * wr - im[b] * wi, vi = re[b] * wi + im[b] * wr;
+            re[b] = re[a] - vr; im[b] = im[a] - vi; re[a] += vr; im[a] += vi;
+            t = wr * wr0 - wi * wi0; wi = wr * wi0 + wi * wr0; wr = t;
+          }
+        }
+      }
+    }
+    // Fill out (length N) with one windowed frame; return false when the spectrum is empty.
+    function frame(out) {
+      var m = st.motion;
+      if (!m || !m.length) { return false; }
+      var H = m.length, lo = Math.max(1, Math.ceil(st.minHz * N / sr)), hi = Math.min(HALF - 1, Math.floor(st.maxHz * N / sr));
+      if (hi < lo) { return false; }
+      var span = Math.max(1, st.maxHz - st.minHz), nB = hi - lo + 1, any = false, k;
+      for (k = 0; k < N; k++) { re[k] = 0; im[k] = 0; }
+      for (k = lo; k <= hi; k++) {
+        var t = (k * sr / N - st.minHz) / span; t = t < 0 ? 0 : t > 1 ? 1 : t;
+        var y = (1 - t) * (H - 1), y0 = Math.floor(y), y1 = Math.min(H - 1, y0 + 1), f = y - y0;
+        var mag = (m[y0] * (1 - f) + m[y1] * f) * (1 - 0.5 * t);   // gentle tilt: high rows a little softer
+        if (!(mag > 0)) { continue; }
+        any = true;
+        var ph = rand() * TAU;
+        re[k] = mag * Math.cos(ph); im[k] = mag * Math.sin(ph);
+        re[N - k] = re[k]; im[N - k] = -im[k];
+      }
+      if (!any) { return false; }
+      ifft(re, im);
+      var g = OLA / (2 * Math.sqrt(nB));        // all bins at 1 gives an RMS of about 0.7
+      for (k = 0; k < N; k++) { out[k] = re[k] * g * win[k]; }
+      return true;
+    }
+    function nextHop() {
+      var k;
+      if (frame(fr)) { for (k = 0; k < N; k++) { acc[k] += fr[k]; } }
+      for (k = 0; k < HOP; k++) { hopOut[k] = acc[k]; }
+      for (k = 0; k < N - HOP; k++) { acc[k] = acc[k + HOP]; }
+      for (k = N - HOP; k < N; k++) { acc[k] = 0; }
+    }
+    return {
+      N: N, frame: frame,
+      set: function (msg) { for (var key in msg) { if (Object.prototype.hasOwnProperty.call(msg, key)) { st[key] = msg[key]; } } },
+      render: function (L, R) {
+        for (var j = 0; j < L.length; j++) {
+          if (pos >= HOP) { nextHop(); pos = 0; }
+          var s = hopOut[pos++];
+          vol += ((st.muted ? 0 : st.volume) - vol) * aVol;
+          panNow += ((st.stereo ? st.pan : 0) - panNow) * aPan;
+          s *= 2 * vol;
+          var a = Math.abs(s * lim);
+          if (a > CEIL) { lim *= CEIL / a; } else { lim += (1 - lim) * aRel; }
+          s *= lim;
+          s = 0.85 * Math.tanh(s / 0.85);
+          if (R) {
+            var ang = (panNow + 1) * Math.PI / 4;
+            L[j] = s * Math.cos(ang); R[j] = s * Math.sin(ang);
+          } else { L[j] = s; }
+        }
+      }
+    };
+  }
+  var WORKLET_CODE = "var makeSynth = " + makeSynth.toString() + ";\n" +
+    "class VideoSonifier extends AudioWorkletProcessor {\n" +
+    "  constructor() { super(); var s = this.s = makeSynth(sampleRate); this.port.onmessage = function (e) { s.set(e.data); }; }\n" +
+    "  process(inputs, outputs) { var o = outputs[0]; if (o && o.length) { this.s.render(o[0], o.length > 1 ? o[1] : null); } return true; }\n" +
+    "}\n" +
+    "registerProcessor('video-sonifier', VideoSonifier);\n";
+
+  // ---- state ----
+  var actx = null, node = null, mainSynth = null, usingWorklet = false;
+  var stream = null, raf = 0, running = false, muted = false;
+  var cam = el("cam");
+  var procH = 96, procCanvas = document.createElement("canvas"), procCtx = null;
+  var prevLuma = null, diffImg = null, rowS = null, colS = null;
+  var mgBuf = null, mgW = 0, mgCanvas = document.createElement("canvas");
+  var motionCanvas = document.createElement("canvas");
+  var panTarget = 0, panShown = 0, leftAmt = 0, rightAmt = 0, lastAnalysis = 0;
+
+  function setStatus(msg, isError) {
+    el("status").textContent = msg;
+    el("status").className = isError ? "status error" : "status";
+  }
+  function num(id) { return parseFloat(el(id).value); }
+  function freqRange() {
+    var lo = num("fmin"), hi = num("fmax");
+    if (hi < lo + 100) { hi = lo + 100; }
+    return { lo: lo, hi: hi };
+  }
+  function send(msg) {
+    if (!node) { return; }
+    if (usingWorklet) { node.port.postMessage(msg); } else { mainSynth.set(msg); }
+  }
+  function sendConfig() {
+    var r = freqRange();
+    send({ minHz: r.lo, maxHz: r.hi, volume: num("vol") / 100, stereo: el("stereo").checked, muted: muted });
+  }
+
+  // ---- controls ----
+  function showValues() {
+    var r = freqRange();
+    el("voldisp").textContent = el("vol").value + " %";
+    el("gaindisp").textContent = "× " + num("gain").toFixed(1);
+    el("gatedisp").textContent = num("gate").toFixed(3);
+    el("fmindisp").textContent = r.lo + " Hz";
+    el("fmaxdisp").textContent = r.hi + " Hz" + (r.hi !== num("fmax") ? " (kept 100 Hz above the lowest)" : "");
+    el("smoothdisp").textContent = num("smooth").toFixed(2);
+    el("mghint").textContent = "Each new column at the right edge is the motion image squeezed into a single column: the average motion in every row. " +
+      "The columns scroll to the left, so time runs from left to right, as in a spectrogram. The same column is the spectrum of the sound you hear: " +
+      "the top row sounds at " + r.hi + " Hz, the bottom row at " + r.lo + " Hz, and the rows in between are spread evenly (a linear scale), as on the axis to the left. " +
+      "The picture is therefore also a spectrogram of the sound, and the brighter a row, the louder that frequency.";
+  }
+  ["gain", "gate", "fmin", "fmax", "smooth", "vol"].forEach(function (id) {
+    el(id).addEventListener("input", function () { showValues(); sendConfig(); if (!running) { drawAll(); } });
+  });
+  el("stereo").addEventListener("change", function () { sendConfig(); drawBalance(); });
+  el("mirror").addEventListener("change", function () { prevLuma = null; if (!running) { drawAll(); } });
+  el("mute").addEventListener("click", function () {
+    muted = !muted;
+    this.setAttribute("aria-pressed", muted ? "true" : "false");
+    this.textContent = muted ? "Muted" : "Mute";
+    sendConfig();
+  });
+  el("power").addEventListener("click", function () { if (running) { stop(); } else { start(); } });
+
+  // ---- audio ----
+  function startAudio() {
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) { return Promise.reject(new Error("noaudio")); }
+    actx = new AC({ latencyHint: "interactive" });
+    if (actx.state === "suspended") { actx.resume(); }
+    function fallback() {
+      usingWorklet = false;
+      mainSynth = makeSynth(actx.sampleRate);
+      var sp = actx.createScriptProcessor(1024, 1, 2);
+      sp.onaudioprocess = function (e) {
+        mainSynth.render(e.outputBuffer.getChannelData(0), e.outputBuffer.numberOfChannels > 1 ? e.outputBuffer.getChannelData(1) : null);
+      };
+      return sp;
+    }
+    function connect(n) { node = n; sendConfig(); node.connect(actx.destination); }
+    if (actx.audioWorklet && window.AudioWorkletNode) {
+      var url = URL.createObjectURL(new Blob([WORKLET_CODE], { type: "application/javascript" }));
+      return actx.audioWorklet.addModule(url).then(function () {
+        usingWorklet = true;
+        connect(new AudioWorkletNode(actx, "video-sonifier", { numberOfInputs: 0, numberOfOutputs: 1, outputChannelCount: [2] }));
+      }, function () { connect(fallback()); });
+    }
+    connect(fallback());
+    return Promise.resolve();
+  }
+  function stopAudio() {
+    if (node) { try { node.disconnect(); } catch (e) { /* already disconnected */ } }
+    if (node && node.onaudioprocess) { node.onaudioprocess = null; }
+    node = null; mainSynth = null;
+    if (actx) { actx.close(); actx = null; }
+  }
+
+  // ---- camera ----
+  function cameraError(err) {
+    var n = err && err.name;
+    if (n === "NotAllowedError" || n === "SecurityError" || n === "PermissionDeniedError") {
+      setStatus("Camera access was declined. Nothing is wrong: allow camera access in the browser's address bar and press Start again when you are ready.", true);
+    } else if (n === "NotFoundError" || n === "DevicesNotFoundError" || n === "OverconstrainedError") {
+      setStatus("No camera was found on this device. Connect a camera, or open the app on a laptop or phone that has one.", true);
+    } else if (n === "NotReadableError" || n === "TrackStartError" || n === "AbortError") {
+      setStatus("The camera is busy. Close other apps or browser tabs that use it (video calls, for example) and press Start again.", true);
+    } else {
+      setStatus("The camera could not be started (" + (n || (err && err.message) || "unknown reason") + ").", true);
+    }
+  }
+  function start() {
+    if (!window.isSecureContext) {
+      setStatus("Camera access needs a secure page. Open the app over https, or from localhost if you run it on your own computer.", true);
+      return;
+    }
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      setStatus("This browser does not offer camera access. Try a current version of Chrome, Edge, Firefox, or Safari.", true);
+      return;
+    }
+    running = true;
+    el("power").textContent = "Stop"; el("power").classList.remove("primary");
+    setStatus("Asking for camera access...");
+    // The audio context is created inside the click, so the browser allows it to play.
+    var audioReady = startAudio();
+    navigator.mediaDevices.getUserMedia({ video: { width: { ideal: 640 }, height: { ideal: 480 }, facingMode: "user" }, audio: false })
+      .then(function (s) {
+        if (!running) { s.getTracks().forEach(function (t) { t.stop(); }); return; }
+        stream = s;
+        cam.srcObject = s;
+        return cam.play().then(function () { return audioReady; }).then(function () {
+          setupAnalysis();
+          el("mute").disabled = false;
+          setStatus("Running. Move in front of the camera" + (usingWorklet ? "." : " (using the older audio engine of this browser)."));
+          raf = requestAnimationFrame(loop);
+        });
+      })
+      .catch(function (err) {
+        stop();
+        if (err && err.message === "noaudio") { setStatus("This browser does not support the Web Audio API, so no sound can be made.", true); }
+        else { cameraError(err); }
+      });
+  }
+  function stop() {
+    running = false;
+    if (raf) { cancelAnimationFrame(raf); raf = 0; }
+    if (stream) { stream.getTracks().forEach(function (t) { t.stop(); }); stream = null; }
+    cam.srcObject = null;
+    stopAudio();
+    prevLuma = null;
+    el("power").textContent = "Start camera and sound"; el("power").classList.add("primary");
+    el("mute").disabled = true;
+    setStatus("Stopped. The camera is released.");
+    drawAll();
+  }
+
+  // ---- analysis ----
+  function setupAnalysis() {
+    var vw = cam.videoWidth || 640, vh = cam.videoHeight || 480;
+    procH = Math.max(48, Math.min(160, Math.round(PROC_W * vh / vw)));
+    procCanvas.width = PROC_W; procCanvas.height = procH;
+    procCtx = procCanvas.getContext("2d", { willReadFrequently: true });
+    motionCanvas.width = PROC_W; motionCanvas.height = procH;
+    mgCanvas.width = MG_COLS; mgCanvas.height = procH;
+    prevLuma = null;
+    diffImg = new Float32Array(PROC_W * procH);
+    rowS = new Float32Array(procH); colS = new Float32Array(PROC_W);
+    mgBuf = new Float32Array(MG_COLS * procH); mgW = 0;
+    var ar = vw + " / " + vh;
+    el("video").style.aspectRatio = ar; el("motion").style.aspectRatio = ar;
+  }
+  function analyse() {
+    var W = PROC_W, H = procH, x, y, i;
+    procCtx.save();
+    if (el("mirror").checked) { procCtx.translate(W, 0); procCtx.scale(-1, 1); }
+    procCtx.drawImage(cam, 0, 0, W, H);
+    procCtx.restore();
+    var px = procCtx.getImageData(0, 0, W, H).data;
+    var luma = new Float32Array(W * H);
+    for (i = 0; i < W * H; i++) { luma[i] = (0.2126 * px[i * 4] + 0.7152 * px[i * 4 + 1] + 0.0722 * px[i * 4 + 2]) / 255; }
+    if (!prevLuma) { prevLuma = luma; return false; }
+    var gain = num("gain"), gate = num("gate"), a = num("smooth"), total = 0;
+    var rows = new Float32Array(H), cols = new Float32Array(W);
+    for (y = 0; y < H; y++) {
+      for (x = 0; x < W; x++) {
+        i = y * W + x;
+        var d = Math.abs(luma[i] - prevLuma[i]);
+        diffImg[i] = d; rows[y] += d; cols[x] += d; total += d;
+      }
+    }
+    prevLuma = luma;
+    if (total === 0) { return false; }          // a repeated frame, not stillness: skip it
+    function shape(v) { v = Math.min(1, v * gain); return v <= gate ? 0 : (v - gate) / (1 - gate); }
+    for (y = 0; y < H; y++) { rowS[y] = rowS[y] * a + shape(rows[y] / W) * (1 - a); }
+    for (x = 0; x < W; x++) { colS[x] = colS[x] * a + shape(cols[x] / H) * (1 - a); }
+    var L = 0, R = 0;
+    for (x = 0; x < W; x++) { if (x < W / 2) { L += colS[x]; } else { R += colS[x]; } }
+    leftAmt = L / (W / 2); rightAmt = R / (W / 2);
+    if (L + R > 0.02) { panTarget = (R - L) / (R + L); }
+    // the motiongram history: one column per analysis step
+    for (y = 0; y < H; y++) { mgBuf[mgW * H + y] = rowS[y]; }
+    mgW = (mgW + 1) % MG_COLS;
+    send({ motion: new Float32Array(rowS), pan: panTarget });
+    return true;
+  }
+  function loop(ts) {
+    if (!running) { return; }
+    raf = requestAnimationFrame(loop);
+    drawVideo();
+    if (ts - lastAnalysis >= ANALYSIS_MS && cam.readyState >= 2) {
+      lastAnalysis = ts;
+      if (analyse()) { drawMotion(); drawMotiongram(); drawBalance(); }
+    }
+  }
+
+  // ---- drawing ----
+  function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+  function rgb(hex) {
+    var h = hex.replace("#", "");
+    if (h.length === 3) { h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2]; }
+    var v = parseInt(h, 16);
+    return [(v >> 16) & 255, (v >> 8) & 255, v & 255];
+  }
+  function mix(a, b, t) { return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]; }
+  function ramp(v, c0, c1, c2) {           // background, then accent, then foreground as v grows
+    v = Math.sqrt(Math.max(0, Math.min(1, v)));
+    return v < 0.5 ? mix(c0, c1, v * 2) : mix(c1, c2, v * 2 - 1);
+  }
+  function prep(c) {
+    var dpr = window.devicePixelRatio || 1, w = c.clientWidth, h = c.clientHeight;
+    if (c.width !== Math.round(w * dpr) || c.height !== Math.round(h * dpr)) { c.width = Math.round(w * dpr); c.height = Math.round(h * dpr); }
+    var g = c.getContext("2d"); g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    g.fillStyle = css("--canvas"); g.fillRect(0, 0, w, h);
+    g.font = "12px system-ui, sans-serif"; g.textBaseline = "middle";
+    return { g: g, w: w, h: h };
+  }
+  function placeholder(o, text) {
+    o.g.fillStyle = css("--muted"); o.g.textAlign = "center"; o.g.fillText(text, o.w / 2, o.h / 2);
+  }
+  function drawVideo() {
+    var o = prep(el("video"));
+    if (!running || !stream) { placeholder(o, "Camera off"); return; }
+    o.g.save();
+    if (el("mirror").checked) { o.g.translate(o.w, 0); o.g.scale(-1, 1); }
+    o.g.drawImage(cam, 0, 0, o.w, o.h);
+    o.g.restore();
+  }
+  function drawMotion() {
+    var o = prep(el("motion"));
+    if (!running || !diffImg) { placeholder(o, "Camera off"); return; }
+    var c0 = rgb(css("--canvas")), c2 = rgb(css("--fg")), gain = num("gain");
+    var mc = motionCanvas.getContext("2d"), img = mc.createImageData(PROC_W, procH), d = img.data;
+    for (var i = 0; i < diffImg.length; i++) {
+      var c = mix(c0, c2, Math.min(1, diffImg[i] * gain * 2));
+      d[i * 4] = c[0]; d[i * 4 + 1] = c[1]; d[i * 4 + 2] = c[2]; d[i * 4 + 3] = 255;
+    }
+    mc.putImageData(img, 0, 0);
+    o.g.imageSmoothingEnabled = true;
+    o.g.drawImage(motionCanvas, 0, 0, o.w, o.h);
+  }
+  function niceStep(span) {
+    var steps = [50, 100, 200, 250, 500, 1000, 2000], s = steps[steps.length - 1];
+    for (var i = 0; i < steps.length; i++) { if (span / steps[i] <= 6) { s = steps[i]; break; } }
+    return s;
+  }
+  function drawMotiongram() {
+    var o = prep(el("mg")), g = o.g, pw = o.w - AXIS_W, top = 8, bot = o.h - 8, ph = bot - top;
+    var r = freqRange();
+    if (running && mgBuf) {
+      var H = procH, c0 = rgb(css("--canvas")), c1 = rgb(css("--accent")), c2 = rgb(css("--fg"));
+      var mc = mgCanvas.getContext("2d"), img = mc.createImageData(MG_COLS, H), d = img.data;
+      for (var x = 0; x < MG_COLS; x++) {
+        var src = (mgW + x) % MG_COLS;           // oldest column on the left
+        for (var y = 0; y < H; y++) {
+          var c = ramp(mgBuf[src * H + y], c0, c1, c2), k = (y * MG_COLS + x) * 4;
+          d[k] = c[0]; d[k + 1] = c[1]; d[k + 2] = c[2]; d[k + 3] = 255;
+        }
+      }
+      mc.putImageData(img, 0, 0);
+      g.imageSmoothingEnabled = false;
+      g.drawImage(mgCanvas, AXIS_W, top, pw, ph);
+    } else {
+      g.fillStyle = css("--muted"); g.textAlign = "center";
+      g.fillText("The motiongram appears here", AXIS_W + pw / 2, o.h / 2);
+    }
+    // frequency axis: top row = highest frequency, linear
+    g.fillStyle = css("--canvas"); g.fillRect(0, 0, AXIS_W, o.h);
+    g.strokeStyle = css("--border"); g.fillStyle = css("--muted"); g.lineWidth = 1; g.textAlign = "right";
+    var yOf = function (f) { return bot - (f - r.lo) / (r.hi - r.lo) * ph; };
+    var step = niceStep(r.hi - r.lo), labels = [r.lo, r.hi];
+    for (var f = Math.ceil(r.lo / step) * step; f < r.hi; f += step) { labels.push(f); }
+    labels.forEach(function (f) {
+      var yy = yOf(f);
+      if (f !== r.lo && f !== r.hi && (Math.abs(yy - top) < 14 || Math.abs(yy - bot) < 14)) { return; }
+      g.beginPath(); g.moveTo(AXIS_W - 5, yy); g.lineTo(AXIS_W, yy); g.stroke();
+      g.fillText(f >= 1000 ? (f / 1000) + "k" : String(f), AXIS_W - 7, yy);
+    });
+    g.save(); g.translate(10, o.h / 2); g.rotate(-Math.PI / 2); g.textAlign = "center"; g.fillText("Hz", 0, 0); g.restore();
+    g.strokeStyle = css("--border"); g.strokeRect(AXIS_W + 0.5, top + 0.5, pw - 1, ph - 1);
+  }
+  function drawBalance() {
+    var o = prep(el("balance")), g = o.g, m = 30, w = o.w - 2 * m, cy = o.h / 2 + 4, cx = m + w / 2;
+    g.fillStyle = css("--muted"); g.textAlign = "center";
+    g.fillText("L", m / 2, cy); g.fillText("R", o.w - m / 2, cy);
+    g.fillText(el("stereo").checked ? "Left–right balance" : "Stereo panning is off: the sound stays in the middle", cx, 10);
+    g.fillStyle = css("--grid"); g.fillRect(m, cy - 7, w, 14);
+    if (running && el("stereo").checked) {
+      panShown += (panTarget - panShown) * 0.3;
+      var active = leftAmt + rightAmt > 0.01, px = cx + panShown * w / 2;
+      g.globalAlpha = active ? 1 : 0.35;
+      g.fillStyle = css(panShown < 0 ? "--left" : "--right");
+      g.fillRect(Math.min(cx, px), cy - 7, Math.abs(px - cx), 14);
+      g.fillStyle = css("--fg"); g.fillRect(px - 2, cy - 11, 4, 22);
+      g.globalAlpha = 1;
+    }
+    g.strokeStyle = css("--border"); g.beginPath(); g.moveTo(cx, cy - 11); g.lineTo(cx, cy + 11); g.stroke();
+  }
+  function drawAll() { drawVideo(); drawMotion(); drawMotiongram(); drawBalance(); }
+  window.addEventListener("resize", function () { if (!running) { drawAll(); } else { drawMotiongram(); drawBalance(); drawMotion(); } });
+  if (window.matchMedia) {
+    var mq = window.matchMedia("(prefers-color-scheme: dark)");
+    if (mq.addEventListener) { mq.addEventListener("change", drawAll); }
+  }
+  window.addEventListener("pagehide", function () { if (running) { stop(); } });
+
+  showValues();
+  drawAll();
+  if (!window.isSecureContext) {
+    setStatus("Camera access needs a secure page. Open the app over https, or from localhost if you run it on your own computer.", true);
+  }
+})();
+  </script>
+</body>
+</html>
