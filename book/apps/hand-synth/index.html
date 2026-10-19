@@ -66,6 +66,8 @@
     .mapping b { display: inline-grid; flex: 0 0 23px; height: 23px; place-items: center; border-radius: 7px; background: #263c47; color: var(--accent); font-size: .82rem; }
     .mapping div:nth-child(2) b { color: var(--accent-2); }
     .tips { margin: 14px 0 0; color: var(--muted); font-size: .88rem; }
+    .artists { margin-top: 14px; }
+    .artists p { margin-bottom: 0; color: var(--muted); }
     .credit { margin: 18px 0 0; color: #8596a3; font-size: .8rem; }
     a { color: var(--accent); }
     @media (max-width: 700px) { .layout { grid-template-columns: 1fr; } .meters { grid-template-columns: 1fr 1fr; } .mapping, .tips { grid-column: 1 / -1; } }
@@ -122,6 +124,11 @@
       </div>
     </section>
   </main>
+
+  <aside class="panel artists" aria-labelledby="artists-title">
+    <h2 id="artists-title">Artists to explore</h2>
+    <p><a href="https://www.instagram.com/neles0n/reels/" target="_blank" rel="noopener noreferrer">@neles0n</a> · <a href="https://www.instagram.com/wxll.hx/" target="_blank" rel="noopener noreferrer">@wxll.hx</a></p>
+  </aside>
 
   <p class="credit">Hand landmarks are detected with <a href="https://ai.google.dev/edge/mediapipe/solutions/vision/hand_landmarker/web_js">MediaPipe Hand Landmarker</a>. Use headphones and begin with a low listening level.</p>
 
