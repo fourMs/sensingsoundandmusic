@@ -19,7 +19,7 @@ Action–perception loop
 : The continuous cycle in which movement shapes what we perceive and perception shapes the next movement, central to embodied accounts of music.
 
 Action–sound coupling
-: The lawful, mechanical link between an action and the sound it produces on an acoustic instrument, which listeners internalise through experience.
+: The lawful, mechanical link between an action and the sound it produces on an acoustic instrument, which perceivers internalise through experience.
 
 Action–sound mapping
 : The designed relation between action and sound in an electronic instrument, which can be arbitrary and reprogrammed, unlike a mechanical coupling.
@@ -58,13 +58,13 @@ Autonomic nervous system
 : The involuntary control system of the body whose sympathetic and parasympathetic branches regulate arousal and recovery.
 
 Beat
-: The basic pulse listeners tap along to, typically most comfortable at intervals of roughly half a second; also called the tactus.
+: The basic pulse perceivers tap along to, typically most comfortable at intervals of roughly half a second; also called the tactus.
 
 Beat delay and anticipation
 : Playing systematically behind or ahead of the beat by tens of milliseconds; a slight delay is heard as laid-back, a slight anticipation as pushed, and too much of either as dragging or rushing.
 
 Beat tracking
-: Estimating the times of the beats in a recording, usually from onsets and a tempo estimate; prone to the octave error of choosing a level twice or half as fast as a listener would tap.
+: Estimating the times of the beats in a recording, usually from onsets and a tempo estimate; prone to the octave error of choosing a level twice or half as fast as a perceiver would tap.
 
 Binaural audio
 : Headphone reproduction that delivers to each eardrum the signal it would receive in the recorded space, using dummy-head recording or HRTF filtering.
@@ -313,7 +313,7 @@ Metre
 : A hierarchical framework of nested pulse levels, from fast subdivisions through the beat to bar-length groupings, against which rhythms are heard.
 
 Metric accent
-: The emphasis a listener feels on certain positions in the metre, such as beat 1 in 4/4; in groove-based styles practice can shift it, as when the backbeat on 2 and 4 feels strongest.
+: The emphasis a perceiver feels on certain positions in the metre, such as beat 1 in 4/4; in groove-based styles practice can shift it, as when the backbeat on 2 and 4 feels strongest.
 
 Metronome
 : A device that produces clicks at a set rate; the clockwork version of Maelzel from 1815 gave rise to the metronome marking, such as a quarter note equals 120.
@@ -448,7 +448,7 @@ Psychoacoustics
 : The study of how physical sound relates to what listeners actually perceive, covering loudness, pitch, timbre, and spatial hearing.
 
 Pulse
-: The regular series of moments that a listener feels the music moving in; the same as the beat, though the word is also used for any regular stream of events, such as an eighth-note pulse. A pulse can be felt even when no sound marks it.
+: The regular series of moments that a perceiver feels the music moving in; the same as the beat, though the word is also used for any regular stream of events, such as an eighth-note pulse. A pulse can be felt even when no sound marks it.
 
 Pupillometry
 : Measuring changes in pupil diameter as an index of arousal, attention, and mental effort, with careful control of lighting.
