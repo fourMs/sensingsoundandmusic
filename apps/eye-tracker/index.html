@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Eye tracker</title>
+  <style>
+    :root {
+      --bg: #fdfdfd; --fg: #1c1e21; --muted: #5a6069; --panel: #f1f2f4;
+      --border: #c9ccd1; --accent: #0b6e99; --accent-fg: #ffffff; --canvas: #ffffff;
+      --grid: #e3e5e8; --cx: #c2571a; --cy: #7a4fb0; --error: #a8322b;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #15171b; --fg: #e6e7e9; --muted: #9aa0a8; --panel: #20242b;
+        --border: #3a3f47; --accent: #4da3c7; --accent-fg: #0d1117; --canvas: #101216;
+        --grid: #2a2f37; --cx: #e08a4f; --cy: #b48ee0; --error: #ef8a80;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      margin: 0 auto; padding: 16px; max-width: 780px;
+      background: var(--bg); color: var(--fg); line-height: 1.45;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 8px; }
+    h2 { font-size: 0.95rem; margin: 10px 0 0; font-weight: 600; }
+    p.intro { margin: 0 0 14px; }
+    .hint { font-size: 0.9rem; color: var(--muted); margin-top: 10px; display: block; }
+    .privacy {
+      border: 1px solid var(--border); border-radius: 8px; background: var(--panel);
+      padding: 8px 12px; margin: 0 0 14px; font-size: 0.9rem; color: var(--muted);
+    }
+    fieldset {
+      border: 1px solid var(--border); border-radius: 8px;
+      margin: 0 0 12px; padding: 10px 12px; background: var(--panel); min-width: 0;
+    }
+    legend { font-weight: 600; font-size: 0.95rem; padding: 0 6px; }
+    label { display: block; font-weight: 600; font-size: 0.9rem; margin: 8px 0 2px; }
+    label.check { display: inline-flex; align-items: center; gap: 6px; margin: 0; font-weight: normal; }
+    .vals { font-weight: normal; color: var(--muted); margin-left: 4px; }
+    input[type="range"] { width: 100%; margin: 2px 0 4px; accent-color: var(--accent); }
+    button {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 14px; font-size: 1rem; cursor: pointer;
+    }
+    button.small { padding: 4px 10px; font-size: 0.9rem; }
+    button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+    button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+    button:disabled { opacity: 0.5; cursor: default; }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+    .status { color: var(--muted); font-size: 0.9rem; min-height: 1.4em; margin: 6px 0 0; }
+    .status.error { color: var(--error); }
+    .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 12px; align-items: start; }
+    .wrap > div { min-width: 0; }
+    @media (max-width: 560px) { .wrap { grid-template-columns: 1fr; } }
+    canvas { display: block; width: 100%; border: 1px solid var(--border); border-radius: 6px; margin-top: 6px; background: var(--canvas); }
+    canvas.frame { aspect-ratio: 4 / 3; height: auto; touch-action: none; cursor: grab; }
+    canvas.crop { aspect-ratio: 5 / 3; height: auto; }
+    #stim { aspect-ratio: 16 / 9; height: auto; }
+    #pupilplot { height: 170px; }
+    .axis { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
+    .readout { font-size: 0.95rem; margin: 6px 0 0; font-variant-numeric: tabular-nums; }
+    .readout.error { color: var(--error); }
+    .tablewrap { overflow-x: auto; margin-top: 6px; }
+    table { border-collapse: collapse; font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+    th, td { text-align: left; padding: 2px 10px 2px 0; border-bottom: 1px solid var(--grid); vertical-align: top; }
+    th { font-weight: 600; }
+    td.num, th.num { text-align: right; }
+    .credit { font-size: 0.85rem; color: var(--muted); margin-top: 18px; }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <h1>Eye tracker</h1>
+  <p class="intro">A video eye tracker is a camera pointed at the eyes and a program that finds the pupil in every frame. The pupil is the darkest round thing in the picture, so a brightness threshold finds it, and its position in the image shifts as the eye turns. A short calibration, looking at a few known points on the screen, teaches the program which pupil position means which gaze point; after that, every frame gives an estimated gaze point, from which fixations, saccades, and scanpaths can be drawn. Research eye trackers add infrared light and a reflection on the cornea so that the head can move; this app has neither, so it works only while the head stays still. It is a demonstration of the principle for teaching, not a research instrument. Press Start camera and allow access when the browser asks.</p>
+  <p class="privacy">Privacy: the camera image is analysed locally in your browser, drawn to the screen, and immediately discarded. Nothing is recorded, stored, or sent anywhere. The only thing that ever leaves this page is a CSV file or a picture you choose to save with one of the Download buttons, and it goes to your own device.</p>
+
+  <div class="row">
+    <button type="button" id="start" class="primary">Start camera</button>
+    <button type="button" id="mirror" aria-pressed="true">Mirror</button>
+  </div>
+  <p class="status" id="status" role="status"></p>
+
+  <fieldset>
+    <legend>Step 1: find your eyes</legend>
+    <canvas id="video" class="frame" width="640" height="480" aria-label="The live camera image with two adjustable eye boxes"></canvas>
+    <span class="hint">Sit close to the camera, face a window or a lamp so that your eyes are well lit, and keep your head still. Drag the two boxes over your eyes, or use the sliders. The tracker follows the pupil in the image, not the head, so if the head moves, the estimated gaze moves with it.</span>
+    <div class="wrap">
+      <div>
+        <label for="lx">Left box, horizontal <span class="vals" id="lxdisp"></span></label>
+        <input type="range" id="lx" min="0" max="100" step="0.5" value="36"/>
+        <label for="ly">Left box, vertical <span class="vals" id="lydisp"></span></label>
+        <input type="range" id="ly" min="0" max="100" step="0.5" value="42"/>
+      </div>
+      <div>
+        <label for="rx">Right box, horizontal <span class="vals" id="rxdisp"></span></label>
+        <input type="range" id="rx" min="0" max="100" step="0.5" value="64"/>
+        <label for="ry">Right box, vertical <span class="vals" id="rydisp"></span></label>
+        <input type="range" id="ry" min="0" max="100" step="0.5" value="42"/>
+      </div>
+    </div>
+    <div class="wrap">
+      <div>
+        <label for="bw">Box width <span class="vals" id="bwdisp"></span></label>
+        <input type="range" id="bw" min="5" max="30" step="0.5" value="14"/>
+      </div>
+      <div>
+        <label for="thr">Darkness threshold <span class="vals" id="thrdisp"></span></label>
+        <input type="range" id="thr" min="5" max="200" step="1" value="60"/>
+      </div>
+    </div>
+    <div class="wrap">
+      <div>
+        <h2>Left box, enlarged</h2>
+        <canvas id="cropL" class="crop" aria-label="The left eye box enlarged, with the threshold mask and the detected pupil"></canvas>
+        <p class="readout" id="readL">Left eye: no data yet</p>
+      </div>
+      <div>
+        <h2>Right box, enlarged</h2>
+        <canvas id="cropR" class="crop" aria-label="The right eye box enlarged, with the threshold mask and the detected pupil"></canvas>
+        <p class="readout" id="readR">Right eye: no data yet</p>
+      </div>
+    </div>
+    <span class="hint">Inside each box, every pixel is converted to grey and compared with the darkness threshold (on a scale of 0–255). Pixels darker than the threshold are tinted red. The dark pixels are then grouped into connected blobs, and the largest reasonably round blob is taken to be the pupil, drawn in blue with a cross at its centroid. Its area is counted in pixels of the camera image. Lower the threshold until only the pupil remains red; raise it if the pupil breaks into pieces. Eyebrows, eyelashes, and the frames of glasses are the usual false pupils.</span>
+  </fieldset>
+
+  <fieldset>
+    <legend>Step 2: calibrate</legend>
+    <div class="row">
+      <button type="button" id="calib" class="primary" disabled>Calibrate</button>
+      <button type="button" id="residuals" aria-pressed="false" disabled>Show residuals</button>
+      <span style="font-weight:600; font-size:0.9rem;">Mapping:</span>
+      <button type="button" class="small" id="mapaffine" aria-pressed="true">Affine (6 parameters)</button>
+      <button type="button" class="small" id="mapquad" aria-pressed="false">Quadratic (12 parameters)</button>
+    </div>
+    <p class="readout" id="calibread">Not calibrated. Find both pupils in step 1, then press Calibrate.</p>
+    <div class="tablewrap" id="calibtablewrap" style="display:none;">
+      <table id="calibtable" aria-label="Calibration error per target">
+        <thead><tr><th>Target</th><th class="num">Error (px)</th><th>Eyes used</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <span class="hint">Nine dots appear one at a time on the stimulus screen below, each for about 1.5 s. Look at each dot and keep your head still. For each dot the app records the mean pupil position, then fits a mapping from pupil position to screen position by least squares. The affine mapping is a stretch, a rotation, and a shift; the quadratic mapping can also bend, which helps at the edges of the screen but needs cleaner data. The error is the distance between each target and where the fitted mapping places the mean pupil position recorded at that target, so it says how well the mapping explains its own calibration data, not how accurate the tracker will be afterwards. Press Show residuals to see the errors as arrows on the stimulus screen, and Calibrate again whenever the head has moved.</span>
+  </fieldset>
+
+  <fieldset>
+    <legend>Step 3: track</legend>
+    <div class="row">
+      <span style="font-weight:600; font-size:0.9rem;">Stimulus:</span>
+      <button type="button" class="small" data-stim="notation" aria-pressed="true">Staff notation</button>
+      <button type="button" class="small" data-stim="shapes" aria-pressed="false">Shape grid</button>
+      <button type="button" class="small" data-stim="text" aria-pressed="false">Text</button>
+      <button type="button" class="small" data-stim="dot" aria-pressed="false">Single dot</button>
+    </div>
+    <canvas id="stim" aria-label="The stimulus screen, with the estimated gaze point, scanpath, fixations, and heatmap"></canvas>
+    <div class="row">
+      <label class="check"><input type="checkbox" id="showtrail" checked/> Scanpath trail</label>
+      <label class="check"><input type="checkbox" id="showfix" checked/> Fixations and saccades</label>
+      <label class="check"><input type="checkbox" id="showheat"/> Heatmap</label>
+      <button type="button" class="small" id="reset">Clear</button>
+    </div>
+    <div class="wrap">
+      <div>
+        <label for="smooth">Smoothing <span class="vals" id="smoothdisp"></span></label>
+        <input type="range" id="smooth" min="0" max="90" step="5" value="60"/>
+      </div>
+      <div>
+        <label for="disp">Fixation dispersion <span class="vals" id="dispdisp"></span></label>
+        <input type="range" id="disp" min="10" max="150" step="5" value="60"/>
+      </div>
+      <div>
+        <label for="mindur">Minimum fixation duration <span class="vals" id="mindurdisp"></span></label>
+        <input type="range" id="mindur" min="50" max="500" step="10" value="150"/>
+      </div>
+    </div>
+    <p class="readout" id="gazeread">Gaze: calibrate first</p>
+    <p class="readout" id="fixread">Fixations: none yet</p>
+    <div class="tablewrap">
+      <table id="dwelltable" aria-label="Dwell time per region of the stimulus">
+        <thead><tr><th>Region</th><th class="num">Dwell (s)</th><th class="num">Share</th><th class="num">Fixations</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <span class="hint">The estimated gaze point is drawn as a ring, smoothed over the last frames (more smoothing gives a calmer point that lags behind the eye). The trail shows the last 5 s of the scanpath. A fixation is counted when the gaze stays within the dispersion distance for at least the minimum duration; it is drawn as a circle whose size grows with its duration, and the lines between circles are the saccades. The heatmap adds up how long the gaze rested at each place. Dwell time is the total time the gaze spent in each region of the stimulus: a bar of the notation, a cell of the shape grid, a line of the text, or the neighbourhood of the dot.</span>
+    <div class="row">
+      <button type="button" class="small" id="dlcsv">Download CSV</button>
+      <button type="button" class="small" id="dlpng">Download scanpath PNG</button>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Pupillometry</legend>
+    <canvas id="pupilplot" aria-label="Pupil area of each eye over the last 30 seconds"></canvas>
+    <div class="axis"><span>−30 s</span><span>now</span></div>
+    <p class="readout" id="pupilread">Pupil area: no data yet</p>
+    <span class="hint">The area of each pupil blob, in pixels of the camera image, over the last 30 s. The number itself means little: it grows when you lean towards the camera and shrinks when the threshold cuts off the edge of the pupil, and the camera's own exposure control changes the picture as the room brightens. Only changes under constant light and constant position are worth reading. Try this: keep still, look at a bright white part of the screen for 10 s, then at a dark part, and watch the area fall and rise as the pupil constricts and dilates. Then look at the dot stimulus and multiply two two-digit numbers in your head; a pupil that widens while the light stays the same is the response to mental effort that pupillometry is after.</span>
+  </fieldset>
+
+  <p class="hint">Things to try: calibrate, then look at each corner of the stimulus screen in turn and see how far the ring lands from where you look. Turn your head a few degrees without moving your eyes and watch the gaze point slide away, which is why research systems track the head or the corneal reflection too. Read the text stimulus and compare the number and duration of fixations with those on the staff notation; then read the notation as if sight-reading it, and look at where the fixations fall relative to the bars. Switch the mapping between affine and quadratic without recalibrating and compare the errors. Raise the smoothing until the point stops jittering, and note how much later it arrives. Lower the dispersion threshold until a steady gaze breaks into many short fixations, which shows how much a fixation count depends on the detector's settings.</p>
+  <p class="hint">This app demonstrates the principle of video eye tracking with a webcam and a few lines of image processing. Research eye trackers, with infrared illumination, corneal reflection, far higher frame rates, and a model of the eye, are far more accurate and tolerate head movement; the numbers this page produces are for understanding the method, not for measuring anyone.</p>
+
+  <video id="cam" playsinline muted style="display:none;"></video>
+
+  <script>
+(function () {
+  "use strict";
+  var el = function (id) { return document.getElementById(id); };
+
+  // ---- pure image processing: find the pupil in a crop ----
+  // img: {data, width, height} as from getImageData. thr: grey level below which a pixel is dark.
+  // Returns {blob, mask, width, height, blobs}; blob is null when nothing round enough was found.
+  function findPupil(img, thr, minArea) {
+    var w = img.width, h = img.height, d = img.data, n = w * h;
+    var dark = new Uint8Array(n), label = new Int32Array(n), stack = new Int32Array(n);
+    var i, o, g, blobs = [], id = 0, sp, p, x, y;
+    minArea = minArea || 6;
+    for (i = 0, o = 0; i < n; i++, o += 4) {
+      g = 0.299 * d[o] + 0.587 * d[o + 1] + 0.114 * d[o + 2];
+      if (g < thr) { dark[i] = 1; }
+    }
+    for (i = 0; i < n; i++) {
+      if (!dark[i] || label[i]) { continue; }
+      id++; sp = 0; stack[sp++] = i; label[i] = id;
+      var cnt = 0, sx = 0, sy = 0, minx = w, maxx = -1, miny = h, maxy = -1;
+      while (sp > 0) {
+        p = stack[--sp]; x = p % w; y = (p - x) / w;
+        cnt++; sx += x; sy += y;
+        if (x < minx) { minx = x; } if (x > maxx) { maxx = x; }
+        if (y < miny) { miny = y; } if (y > maxy) { maxy = y; }
+        if (x > 0 && dark[p - 1] && !label[p - 1]) { label[p - 1] = id; stack[sp++] = p - 1; }
+        if (x < w - 1 && dark[p + 1] && !label[p + 1]) { label[p + 1] = id; stack[sp++] = p + 1; }
+        if (y > 0 && dark[p - w] && !label[p - w]) { label[p - w] = id; stack[sp++] = p - w; }
+        if (y < h - 1 && dark[p + w] && !label[p + w]) { label[p + w] = id; stack[sp++] = p + w; }
+      }
+      blobs.push({
+        id: id, area: cnt, x: sx / cnt + 0.5, y: sy / cnt + 0.5,
+        minx: minx, maxx: maxx, miny: miny, maxy: maxy,
+        fill: cnt / ((maxx - minx + 1) * (maxy - miny + 1))
+      });
+    }
+    // the pupil: the largest blob that is compact enough (a disc fills about 79 % of its bounding box)
+    var best = null;
+    for (i = 0; i < blobs.length; i++) {
+      if (blobs[i].area >= minArea && blobs[i].fill >= 0.4 && (!best || blobs[i].area > best.area)) { best = blobs[i]; }
+    }
+    var mask = new Uint8Array(n);
+    for (i = 0; i < n; i++) { mask[i] = dark[i] ? (best && label[i] === best.id ? 2 : 1) : 0; }
+    return { blob: best, mask: mask, width: w, height: h, blobs: blobs.length };
+  }
+
+  // ---- pure least squares: pupil position to screen position ----
+  function solve(A, b) {   // Gaussian elimination with partial pivoting; A is n x n, b is n
+    var n = b.length, i, j, k, M = [], f;
+    for (i = 0; i < n; i++) { M.push(A[i].slice()); M[i].push(b[i]); }
+    for (k = 0; k < n; k++) {
+      var piv = k;
+      for (i = k + 1; i < n; i++) { if (Math.abs(M[i][k]) > Math.abs(M[piv][k])) { piv = i; } }
+      if (Math.abs(M[piv][k]) < 1e-12) { return null; }
+      var tmp = M[k]; M[k] = M[piv]; M[piv] = tmp;
+      for (i = k + 1; i < n; i++) {
+        f = M[i][k] / M[k][k];
+        for (j = k; j <= n; j++) { M[i][j] -= f * M[k][j]; }
+      }
+    }
+    var xs = new Array(n);
+    for (i = n - 1; i >= 0; i--) {
+      var s = M[i][n];
+      for (j = i + 1; j < n; j++) { s -= M[i][j] * xs[j]; }
+      xs[i] = s / M[i][i];
+    }
+    return xs;
+  }
+  function terms(kind, u, v) {
+    return kind === "quadratic" ? [1, u, v, u * u, u * v, v * v] : [1, u, v];
+  }
+  // points: [{px, py, sx, sy}] pupil position (image px) and screen position (normalised 0..1)
+  function fitMapping(points, kind) {
+    var n = points.length, m = kind === "quadratic" ? 6 : 3, i, j, k;
+    if (n < m) { return null; }
+    var mx = 0, my = 0, sx = 0, sy = 0;
+    for (i = 0; i < n; i++) { mx += points[i].px; my += points[i].py; }
+    mx /= n; my /= n;
+    for (i = 0; i < n; i++) { sx += Math.abs(points[i].px - mx); sy += Math.abs(points[i].py - my); }
+    sx = sx / n || 1; sy = sy / n || 1;       // scale the inputs so the normal equations stay well conditioned
+    var AtA = [], Atx = [], Aty = [];
+    for (i = 0; i < m; i++) { AtA.push(new Array(m).fill(0)); Atx.push(0); Aty.push(0); }
+    for (i = 0; i < n; i++) {
+      var t = terms(kind, (points[i].px - mx) / sx, (points[i].py - my) / sy);
+      for (j = 0; j < m; j++) {
+        for (k = 0; k < m; k++) { AtA[j][k] += t[j] * t[k]; }
+        Atx[j] += t[j] * points[i].sx; Aty[j] += t[j] * points[i].sy;
+      }
+    }
+    for (j = 0; j < m; j++) { AtA[j][j] += 1e-9; }
+    var cx = solve(AtA, Atx), cy = solve(AtA, Aty);
+    if (!cx || !cy) { return null; }
+    return { kind: kind, mx: mx, my: my, sx: sx, sy: sy, cx: cx, cy: cy, n: n };
+  }
+  function applyMapping(fit, px, py) {
+    var t = terms(fit.kind, (px - fit.mx) / fit.sx, (py - fit.my) / fit.sy), x = 0, y = 0, j;
+    for (j = 0; j < t.length; j++) { x += fit.cx[j] * t[j]; y += fit.cy[j] * t[j]; }
+    return { x: x, y: y };
+  }
+
+  // ---- pure fixation detection: the dispersion threshold algorithm (I-DT), fed one sample at a time ----
+  function FixationDetector(dispersion, minDur) {
+    this.dispersion = dispersion; this.minDur = minDur;
+    this.win = []; this.inFix = false;
+  }
+  function spread(win) {
+    var minx = Infinity, maxx = -Infinity, miny = Infinity, maxy = -Infinity, i;
+    for (i = 0; i < win.length; i++) {
+      if (win[i].x < minx) { minx = win[i].x; } if (win[i].x > maxx) { maxx = win[i].x; }
+      if (win[i].y < miny) { miny = win[i].y; } if (win[i].y > maxy) { maxy = win[i].y; }
+    }
+    return (maxx - minx) + (maxy - miny);
+  }
+  function summarise(win) {
+    var sx = 0, sy = 0, i;
+    for (i = 0; i < win.length; i++) { sx += win[i].x; sy += win[i].y; }
+    return { x: sx / win.length, y: sy / win.length, t0: win[0].t, t1: win[win.length - 1].t, dur: win[win.length - 1].t - win[0].t, n: win.length };
+  }
+  // push a sample {t, x, y}, or null when there is no gaze; returns a finished fixation or null
+  FixationDetector.prototype.push = function (s) {
+    var done = null;
+    if (!s) {
+      if (this.inFix && this.win.length > 1) { done = summarise(this.win); }
+      this.win = []; this.inFix = false;
+      return done;
+    }
+    this.win.push(s);
+    if (this.inFix) {
+      if (spread(this.win) <= this.dispersion) { return null; }
+      this.win.pop();
+      done = summarise(this.win);
+      this.win = [s]; this.inFix = false;
+      return done;
+    }
+    while (this.win.length > 2 && this.win[this.win.length - 1].t - this.win[1].t >= this.minDur) { this.win.shift(); }
+    if (this.win[this.win.length - 1].t - this.win[0].t >= this.minDur && spread(this.win) <= this.dispersion) { this.inFix = true; }
+    return null;
+  };
+  FixationDetector.prototype.current = function () { return this.inFix && this.win.length > 1 ? summarise(this.win) : null; };
+  FixationDetector.prototype.flush = function () { return this.push(null); };
+
+  // ---- settings and state ----
+  var MAX_FPS = 30, PLOT_S = 30, TRAIL_MS = 5000, LOG_MAX = 40000;
+  var SETTLE_MS = 600, TARGET_MS = 1600;     // per calibration target: settle, then collect until the end
+  var stream = null, running = false, mirrored = true, started = false;
+  var newFrame = false, useRvfc = false, lastT = 0;
+  var cam = el("cam"), testSource = null;
+  var frame = document.createElement("canvas"), fctx = frame.getContext("2d", { willReadFrequently: true });
+  var eyes = { L: null, R: null };          // latest detection per eye: {x, y, area, result, box}
+  var log = [], pupilHist = [], t0 = 0;
+  var mode = "idle";                        // idle | setup | calibrating | tracking
+  var mapKind = "affine";
+  var calib = null;                         // {targets: [{tx, ty, L: {x, y, n}|null, R: ...}], fits: {L, R}, errors: [...], mean, eyesUsed}
+  var cal = null;                           // the calibration in progress
+  var showResiduals = false;
+  var stimulus = "notation", stimCache = null, stimKey = "", regions = [];
+  var gaze = null, gazeRaw = null, lastSampleT = 0;
+  var trail = [], fixations = [], detector = null, dwell = {}, trackT0 = 0, trackedMs = 0;
+  var heat = null, HEAT_W = 96, HEAT_H = 54, heatMax = 0, heatBuf = document.createElement("canvas");
+  heatBuf.width = HEAT_W; heatBuf.height = HEAT_H;
+  var drag = null;
+
+  function setStatus(msg, isError) {
+    el("status").textContent = msg;
+    el("status").className = isError ? "status error" : "status";
+  }
+  function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+  function num(id) { return parseFloat(el(id).value); }
+  function boxes() {
+    var w = num("bw") / 100;                                   // box width as a share of the picture width
+    var h = w * 0.6 * frame.width / Math.max(1, frame.height);  // box height as a share of the picture height, keeping the box 5:3 in pixels
+    return {
+      L: { cx: num("lx") / 100, cy: num("ly") / 100, w: w, h: h },
+      R: { cx: num("rx") / 100, cy: num("ry") / 100, w: w, h: h }
+    };
+  }
+  function boxPx(b) {
+    var W = frame.width, H = frame.height;
+    var w = Math.max(8, Math.round(b.w * W)), h = Math.max(6, Math.round(b.h * H));
+    var x = Math.round(b.cx * W - w / 2), y = Math.round(b.cy * H - h / 2);
+    x = Math.max(0, Math.min(W - w, x)); y = Math.max(0, Math.min(H - h, y));
+    return { x: x, y: y, w: w, h: h };
+  }
+
+  // ---- camera ----
+  function start() {
+    if (running) { return; }
+    if (!window.isSecureContext) {
+      setStatus("The browser only offers the camera to pages opened over https (or from localhost). Open the app from the book's website instead of a plain http address.", true);
+      return;
+    }
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      setStatus("This browser does not offer camera access. Try a current version of Firefox, Chrome, Edge, or Safari.", true);
+      return;
+    }
+    setStatus("Asking for camera access...");
+    el("start").disabled = true;
+    navigator.mediaDevices.getUserMedia({ video: { width: { ideal: 1280 }, height: { ideal: 720 }, facingMode: "user" }, audio: false })
+      .then(function (s) {
+        stream = s;
+        cam.srcObject = stream;
+        return cam.play();
+      })
+      .then(function () {
+        running = true; started = true; mode = "setup";
+        t0 = performance.now(); log = []; pupilHist = [];
+        el("start").textContent = "Stop camera";
+        el("start").classList.remove("primary");
+        el("start").disabled = false;
+        el("calib").disabled = false;
+        useRvfc = typeof cam.requestVideoFrameCallback === "function";
+        if (useRvfc) { cam.requestVideoFrameCallback(onVideoFrame); }
+        setStatus("Camera running. Place the two boxes over your eyes.");
+      })
+      .catch(function (err) {
+        stopTracks();
+        el("start").disabled = false;
+        var name = err && err.name ? err.name : "";
+        if (name === "NotAllowedError" || name === "SecurityError") {
+          setStatus("Camera access was declined. Nothing is wrong: allow access in the browser's address bar (or in the system settings) and press Start camera again when you are ready.", true);
+        } else if (name === "NotFoundError" || name === "OverconstrainedError") {
+          setStatus("No camera was found on this device.", true);
+        } else if (name === "NotReadableError" || name === "AbortError") {
+          setStatus("The camera could not be started. Check that another app, such as a video call, is not using it.", true);
+        } else {
+          setStatus("The camera could not be started (" + (name || "unknown reason") + ").", true);
+        }
+      });
+  }
+  function stopTracks() {
+    if (stream) { stream.getTracks().forEach(function (t) { t.stop(); }); stream = null; }
+    cam.srcObject = null;
+  }
+  function stop() {
+    running = false; mode = "idle"; cal = null;
+    stopTracks();
+    el("start").textContent = "Start camera";
+    el("start").classList.add("primary");
+    el("calib").disabled = true;
+    setStatus("Camera stopped and released. The last pictures stay on screen, and the data can still be downloaded.");
+    drawAll();
+  }
+  function onVideoFrame() {
+    newFrame = true;
+    if (running && cam.requestVideoFrameCallback) { cam.requestVideoFrameCallback(onVideoFrame); }
+  }
+
+  // ---- one frame ----
+  function grab() {
+    var src = testSource || cam;
+    var vw = testSource ? src.width : cam.videoWidth, vh = testSource ? src.height : cam.videoHeight;
+    if (!vw || !vh) { return false; }
+    if (frame.width !== vw || frame.height !== vh) {
+      frame.width = vw; frame.height = vh;
+      el("video").style.aspectRatio = vw + " / " + vh;
+    }
+    fctx.save();
+    fctx.setTransform(1, 0, 0, 1, 0, 0);
+    if (mirrored) { fctx.translate(vw, 0); fctx.scale(-1, 1); }
+    fctx.drawImage(src, 0, 0, vw, vh);
+    fctx.restore();
+    return true;
+  }
+  function detect() {
+    var b = boxes(), thr = num("thr"), k, r, img, res;
+    for (k in b) {
+      r = boxPx(b[k]);
+      img = fctx.getImageData(r.x, r.y, r.w, r.h);
+      res = findPupil(img, thr, 6);
+      eyes[k] = { box: r, result: res, found: !!res.blob,
+        x: res.blob ? r.x + res.blob.x : null, y: res.blob ? r.y + res.blob.y : null,
+        area: res.blob ? res.blob.area : null };
+    }
+  }
+  function estimateGaze() {      // normalised screen coordinates from the eyes that are found and calibrated
+    if (!calib) { return null; }
+    var sx = 0, sy = 0, n = 0, k, e;
+    for (k in eyes) {
+      e = eyes[k];
+      if (e && e.found && calib.fits[k]) { e = applyMapping(calib.fits[k], e.x, e.y); sx += e.x; sy += e.y; n++; }
+    }
+    return n ? { x: sx / n, y: sy / n } : null;
+  }
+  function analyse(now) {
+    if (!grab()) { return; }
+    detect();
+    var t = now - t0, L = eyes.L, R = eyes.R;
+    pupilHist.push({ t: t, la: L.area, ra: R.area });
+    while (pupilHist.length && pupilHist[0].t < t - PLOT_S * 1000 - 500) { pupilHist.shift(); }
+    var entry = { t: t, phase: mode, stim: stimulus,
+      lx: L.x, ly: L.y, la: L.area, rx: R.x, ry: R.y, ra: R.area, gx: null, gy: null, fix: "" };
+    if (mode === "calibrating") { calibrationStep(now); }
+    if (mode === "tracking") { trackingStep(now, entry); }
+    log.push(entry);
+    if (log.length > LOG_MAX) { log.shift(); }
+  }
+
+  // ---- calibration ----
+  var TARGETS = [];
+  [0.15, 0.5, 0.85].forEach(function (ty) { [0.12, 0.5, 0.88].forEach(function (tx) { TARGETS.push({ tx: tx, ty: ty }); }); });
+  var TARGET_NAMES = ["top left", "top centre", "top right", "middle left", "centre", "middle right", "bottom left", "bottom centre", "bottom right"];
+
+  function startCalibration() {
+    if (!running) { setStatus("Start the camera first.", true); return; }
+    if (!(eyes.L && eyes.L.found) && !(eyes.R && eyes.R.found)) {
+      setStatus("No pupil is found in either box. Adjust the boxes and the darkness threshold in step 1 until at least one pupil is marked, then calibrate.", true);
+      return;
+    }
+    mode = "calibrating"; showResiduals = false; el("residuals").setAttribute("aria-pressed", "false");
+    cal = { index: 0, stageStart: performance.now(), acc: [] };
+    cal.acc = TARGETS.map(function () { return { L: { sx: 0, sy: 0, n: 0 }, R: { sx: 0, sy: 0, n: 0 } }; });
+    el("calib").disabled = true;
+    el("calibread").textContent = "Calibrating: look at each dot as it appears, and keep your head still.";
+    el("stim").scrollIntoView({ block: "center", behavior: "smooth" });
+    setStatus("Calibrating: look at the dots on the stimulus screen.");
+  }
+  function calibrationStep(now) {
+    var e = now - cal.stageStart, a = cal.acc[cal.index], k;
+    if (e >= SETTLE_MS) {
+      for (k in eyes) { if (eyes[k].found) { a[k].sx += eyes[k].x; a[k].sy += eyes[k].y; a[k].n++; } }
+    }
+    if (e >= TARGET_MS) {
+      cal.index++; cal.stageStart = now;
+      if (cal.index >= TARGETS.length) { finishCalibration(); }
+    }
+  }
+  function finishCalibration() {
+    var targets = TARGETS.map(function (tg, i) {
+      var a = cal.acc[i];
+      return { tx: tg.tx, ty: tg.ty,
+        L: a.L.n >= 3 ? { x: a.L.sx / a.L.n, y: a.L.sy / a.L.n, n: a.L.n } : null,
+        R: a.R.n >= 3 ? { x: a.R.sx / a.R.n, y: a.R.sy / a.R.n, n: a.R.n } : null };
+    });
+    cal = null;
+    el("calib").disabled = false;
+    calib = buildCalibration(targets, mapKind);
+    if (!calib) {
+      mode = "setup";
+      el("calibread").textContent = "Calibration failed: the pupil was found at too few targets. Check the boxes and the threshold in step 1, keep the head still, and press Calibrate again.";
+      setStatus("Calibration failed: too few targets with a pupil.", true);
+      el("residuals").disabled = true;
+      return;
+    }
+    mode = "tracking"; resetTracking();
+    showResiduals = true; el("residuals").setAttribute("aria-pressed", "true"); el("residuals").disabled = false;
+    el("calib").textContent = "Recalibrate";
+    reportCalibration();
+    setStatus("Calibrated. Look around the stimulus screen; press Recalibrate if the head has moved.");
+  }
+  function buildCalibration(targets, kind) {
+    var fits = {}, k, pts, i, eyesUsed = [];
+    for (k in eyes) {
+      pts = [];
+      for (i = 0; i < targets.length; i++) { if (targets[i][k]) { pts.push({ px: targets[i][k].x, py: targets[i][k].y, sx: targets[i].tx, sy: targets[i].ty }); } }
+      var need = kind === "quadratic" ? 7 : 4;
+      fits[k] = pts.length >= need ? fitMapping(pts, kind) : null;
+      if (fits[k]) { eyesUsed.push(k); }
+    }
+    if (!eyesUsed.length) { return null; }
+    var errors = targets.map(function (tg) {
+      var sx = 0, sy = 0, n = 0, used = [], e;
+      for (k in fits) {
+        if (fits[k] && tg[k]) { e = applyMapping(fits[k], tg[k].x, tg[k].y); sx += e.x; sy += e.y; n++; used.push(k); }
+      }
+      return n ? { tx: tg.tx, ty: tg.ty, ex: sx / n, ey: sy / n, used: used } : { tx: tg.tx, ty: tg.ty, ex: null, ey: null, used: [] };
+    });
+    return { targets: targets, fits: fits, errors: errors, kind: kind, eyesUsed: eyesUsed };
+  }
+  function errorPx(err, w, h) {
+    if (err.ex === null) { return null; }
+    var dx = (err.ex - err.tx) * w, dy = (err.ey - err.ty) * h;
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+  function reportCalibration() {
+    if (!calib) { return; }
+    var c = el("stim"), w = c.clientWidth, h = c.clientHeight, body = el("calibtable").querySelector("tbody");
+    var sum = 0, n = 0, worst = 0, missing = 0, html = "";
+    calib.errors.forEach(function (err, i) {
+      var px = errorPx(err, w, h);
+      if (px === null) { missing++; html += "<tr><td>" + (i + 1) + ", " + TARGET_NAMES[i] + "</td><td class=\"num\">no pupil</td><td>none</td></tr>"; return; }
+      sum += px; n++; if (px > worst) { worst = px; }
+      html += "<tr><td>" + (i + 1) + ", " + TARGET_NAMES[i] + "</td><td class=\"num\">" + px.toFixed(0) + "</td><td>" +
+        err.used.map(function (k) { return k === "L" ? "left" : "right"; }).join(" and ") + "</td></tr>";
+    });
+    body.innerHTML = html;
+    el("calibtablewrap").style.display = "";
+    var names = calib.eyesUsed.map(function (k) { return k === "L" ? "left" : "right"; }).join(" and ");
+    el("calibread").textContent = "Calibrated with the " + calib.kind + " mapping from the " + names + " eye" + (calib.eyesUsed.length > 1 ? "s" : "") +
+      ": mean error " + (n ? (sum / n).toFixed(0) : "-") + " px over " + n + " of 9 targets, worst " + worst.toFixed(0) + " px" +
+      (missing ? ", " + missing + " target" + (missing > 1 ? "s" : "") + " without a pupil" : "") +
+      " (the stimulus screen is " + w + " × " + h + " px).";
+  }
+  function refit() {
+    if (!calib) { return; }
+    var c = buildCalibration(calib.targets, mapKind);
+    if (!c) {
+      el("calibread").textContent = "The " + mapKind + " mapping needs more targets with a pupil than this calibration has. Keeping the " + calib.kind + " mapping.";
+      return;
+    }
+    calib = c; reportCalibration();
+  }
+
+  // ---- tracking ----
+  function resetTracking() {
+    gaze = null; gazeRaw = null; trail = []; fixations = []; dwell = {}; trackedMs = 0; lastSampleT = 0;
+    detector = new FixationDetector(num("disp"), num("mindur"));
+    heat = new Float32Array(HEAT_W * HEAT_H); heatMax = 0;
+    trackT0 = performance.now();
+  }
+  function regionAt(x, y) {
+    for (var i = 0; i < regions.length; i++) { if (regions[i].contains(x, y)) { return regions[i]; } }
+    return null;
+  }
+  function trackingStep(now, entry) {
+    var c = el("stim"), w = c.clientWidth, h = c.clientHeight;
+    var g = estimateGaze(), a = num("smooth") / 100, t = now - trackT0, fin;
+    if (!g) {
+      gaze = null; gazeRaw = null;
+      fin = detector.push(null);
+      if (fin) { addFixation(fin); }
+      lastSampleT = 0;
+      return;
+    }
+    gazeRaw = { x: g.x * w, y: g.y * h };
+    gaze = gaze ? { x: a * gaze.x + (1 - a) * gazeRaw.x, y: a * gaze.y + (1 - a) * gazeRaw.y } : { x: gazeRaw.x, y: gazeRaw.y };
+    entry.gx = gaze.x; entry.gy = gaze.y;
+    trail.push({ t: now, x: gaze.x, y: gaze.y });
+    while (trail.length && trail[0].t < now - TRAIL_MS) { trail.shift(); }
+    // dwell time per region and the heatmap, both weighted by the time since the last sample
+    var dt = lastSampleT ? Math.min(100, t - lastSampleT) : 0;
+    lastSampleT = t;
+    if (dt > 0) {
+      trackedMs += dt;
+      var r = regionAt(gaze.x, gaze.y);
+      if (r) { if (!dwell[r.id]) { dwell[r.id] = { ms: 0, fix: 0 }; } dwell[r.id].ms += dt; }
+      var hx = gaze.x / w * HEAT_W, hy = gaze.y / h * HEAT_H, i, j, d2;
+      for (j = -3; j <= 3; j++) {
+        for (i = -3; i <= 3; i++) {
+          var cx = Math.round(hx) + i, cy = Math.round(hy) + j;
+          if (cx < 0 || cy < 0 || cx >= HEAT_W || cy >= HEAT_H) { continue; }
+          d2 = (cx + 0.5 - hx) * (cx + 0.5 - hx) + (cy + 0.5 - hy) * (cy + 0.5 - hy);
+          var v = heat[cy * HEAT_W + cx] + dt * Math.exp(-d2 / 4.5);
+          heat[cy * HEAT_W + cx] = v; if (v > heatMax) { heatMax = v; }
+        }
+      }
+    }
+    fin = detector.push({ t: t, x: gaze.x, y: gaze.y });
+    if (fin) { addFixation(fin); }
+    var cur = detector.current();
+    entry.fix = cur ? fixations.length + 1 : "";
+  }
+  function addFixation(f) {
+    if (f.dur < num("mindur")) { return; }
+    f.id = fixations.length + 1;
+    fixations.push(f);
+    var r = regionAt(f.x, f.y);
+    if (r) { if (!dwell[r.id]) { dwell[r.id] = { ms: 0, fix: 0 }; } dwell[r.id].fix++; }
+  }
+
+  // ---- stimuli drawn on canvas ----
+  function makeRect(id, label, x, y, w, h) {
+    return { id: id, label: label, x: x, y: y, w: w, h: h, contains: function (px, py) { return px >= x && px < x + w && py >= y && py < y + h; } };
+  }
+  function drawClef(g, x, top, s) {     // an approximate treble clef; s is the space between staff lines, top is the top line
+    var u = function (v) { return x + v * s; }, v = function (w) { return top + w * s; };
+    g.save();
+    g.lineWidth = s * 0.22; g.lineCap = "round"; g.lineJoin = "round";
+    g.beginPath();
+    g.moveTo(u(0.55), v(5.4));
+    g.bezierCurveTo(u(-0.3), v(5.4), u(-0.2), v(4.5), u(0.45), v(4.65));
+    g.lineTo(u(0.9), v(-1.6));
+    g.bezierCurveTo(u(1.5), v(-1.0), u(1.5), v(-0.1), u(0.6), v(0.9));
+    g.bezierCurveTo(u(-0.3), v(1.8), u(-0.6), v(3.0), u(0.45), v(3.75));
+    g.bezierCurveTo(u(1.35), v(3.85), u(1.7), v(2.9), u(1.05), v(2.4));
+    g.bezierCurveTo(u(0.45), v(2.1), u(-0.05), v(2.7), u(0.35), v(3.1));
+    g.stroke();
+    g.beginPath(); g.arc(u(0.5), v(5.35), s * 0.22, 0, 2 * Math.PI); g.fill();
+    g.restore();
+  }
+  var MELODY = [
+    [{ p: 2, d: "q" }, { p: 3, d: "q" }, { p: 4, d: "q" }, { p: 5, d: "q" }],
+    [{ p: 6, d: "e", beam: 1 }, { p: 5, d: "e", beam: 1 }, { p: 4, d: "q" }, { p: 3, d: "h" }],
+    [{ p: 2, d: "q" }, { p: 0, d: "q" }, { p: 1, d: "e", beam: 2 }, { p: 2, d: "e", beam: 2 }, { p: 3, d: "q" }],
+    [{ p: 2, d: "w" }]
+  ];
+  var BEATS = { w: 4, h: 2, q: 1, e: 0.5 };
+  function drawNotation(g, w, h) {
+    var s = h / 24, top = h * 0.5 - 2 * s, left = w * 0.05, right = w * 0.96, fg = css("--fg"), regs = [], i, j;
+    g.strokeStyle = fg; g.fillStyle = fg; g.lineWidth = Math.max(1, s * 0.07);
+    for (i = 0; i < 5; i++) { g.beginPath(); g.moveTo(left, top + i * s); g.lineTo(right, top + i * s); g.stroke(); }
+    drawClef(g, left + s * 0.9, top, s);
+    g.font = "bold " + (2 * s) + "px Georgia, 'Times New Roman', serif"; g.textAlign = "center"; g.textBaseline = "middle";
+    g.fillText("4", left + 3.4 * s, top + s); g.fillText("4", left + 3.4 * s, top + 3 * s);
+    var head = left + 4.4 * s, barW = (right - head) / MELODY.length, bottom = top + 4 * s;
+    var yOf = function (p) { return bottom - p * s / 2; };
+    for (i = 0; i < MELODY.length; i++) {
+      var bx = head + i * barW, pos = 0, stems = {}, k;
+      g.lineWidth = Math.max(1, s * 0.07);
+      g.beginPath(); g.moveTo(bx, top); g.lineTo(bx, bottom); g.stroke();
+      regs.push(makeRect("bar" + (i + 1), "Bar " + (i + 1), bx, 0, barW, h));
+      for (j = 0; j < MELODY[i].length; j++) {
+        var n = MELODY[i][j], x = bx + s * 1.3 + pos / 4 * (barW - s * 2.2), y = yOf(n.p);
+        pos += BEATS[n.d];
+        if (n.p <= -2) { g.beginPath(); g.moveTo(x - s * 0.9, y); g.lineTo(x + s * 0.9, y); g.stroke(); }
+        g.save(); g.translate(x, y); g.rotate(-0.35);
+        g.beginPath(); g.ellipse(0, 0, s * 0.62, s * 0.45, 0, 0, 2 * Math.PI);
+        if (n.d === "w" || n.d === "h") { g.lineWidth = s * 0.18; g.stroke(); } else { g.fill(); }
+        g.restore();
+        if (n.d !== "w") {
+          var up = n.p < 4, sx = up ? x + s * 0.55 : x - s * 0.55, sy = up ? y - 3.3 * s : y + 3.3 * s;
+          g.lineWidth = Math.max(1, s * 0.1);
+          g.beginPath(); g.moveTo(sx, y); g.lineTo(sx, sy); g.stroke();
+          if (n.beam) { if (!stems[n.beam]) { stems[n.beam] = []; } stems[n.beam].push({ x: sx, y: sy }); }
+        }
+      }
+      for (k in stems) {
+        if (stems[k].length === 2) {
+          g.lineWidth = s * 0.45; g.beginPath(); g.moveTo(stems[k][0].x, stems[k][0].y); g.lineTo(stems[k][1].x, stems[k][1].y); g.stroke();
+        }
+      }
+    }
+    g.lineWidth = Math.max(1, s * 0.07);
+    g.beginPath(); g.moveTo(right - s * 0.35, top); g.lineTo(right - s * 0.35, bottom); g.stroke();
+    g.lineWidth = s * 0.25;
+    g.beginPath(); g.moveTo(right, top); g.lineTo(right, bottom); g.stroke();
+    return regs;
+  }
+  var SHAPES = [
+    ["circle", "#d7263d", "red"], ["square", "#1f6fb2", "blue"], ["triangle", "#2e9e4f", "green"], ["diamond", "#e8842c", "orange"],
+    ["star", "#7a4fb0", "purple"], ["hexagon", "#e3b505", "yellow"], ["ring", "#1f6fb2", "blue"], ["cross", "#d7263d", "red"],
+    ["pentagon", "#e8842c", "orange"], ["triangle", "#7a4fb0", "purple"], ["square", "#e3b505", "yellow"], ["circle", "#2e9e4f", "green"]
+  ];
+  function polygon(g, cx, cy, r, n, rot) {
+    var i, a;
+    g.beginPath();
+    for (i = 0; i < n; i++) { a = rot + i * 2 * Math.PI / n; if (i) { g.lineTo(cx + r * Math.cos(a), cy + r * Math.sin(a)); } else { g.moveTo(cx + r * Math.cos(a), cy + r * Math.sin(a)); } }
+    g.closePath();
+  }
+  function drawShapes(g, w, h) {
+    var cols = 4, rows = 3, cw = w / cols, ch = h / rows, regs = [], i, r = Math.min(cw, ch) * 0.28;
+    g.strokeStyle = css("--grid"); g.lineWidth = 1;
+    for (i = 1; i < cols; i++) { g.beginPath(); g.moveTo(i * cw, 0); g.lineTo(i * cw, h); g.stroke(); }
+    for (i = 1; i < rows; i++) { g.beginPath(); g.moveTo(0, i * ch); g.lineTo(w, i * ch); g.stroke(); }
+    SHAPES.forEach(function (sh, k) {
+      var col = k % cols, row = Math.floor(k / cols), cx = (col + 0.5) * cw, cy = (row + 0.5) * ch, a;
+      regs.push(makeRect("cell" + (k + 1), sh[2] + " " + sh[0], col * cw, row * ch, cw, ch));
+      g.fillStyle = sh[1]; g.strokeStyle = sh[1]; g.lineWidth = r * 0.3;
+      switch (sh[0]) {
+        case "circle": g.beginPath(); g.arc(cx, cy, r, 0, 2 * Math.PI); g.fill(); break;
+        case "square": g.fillRect(cx - r * 0.9, cy - r * 0.9, r * 1.8, r * 1.8); break;
+        case "triangle": polygon(g, cx, cy + r * 0.1, r * 1.1, 3, -Math.PI / 2); g.fill(); break;
+        case "diamond": polygon(g, cx, cy, r * 1.1, 4, -Math.PI / 2); g.fill(); break;
+        case "pentagon": polygon(g, cx, cy, r * 1.05, 5, -Math.PI / 2); g.fill(); break;
+        case "hexagon": polygon(g, cx, cy, r * 1.05, 6, 0); g.fill(); break;
+        case "ring": g.beginPath(); g.arc(cx, cy, r * 0.85, 0, 2 * Math.PI); g.stroke(); break;
+        case "cross": g.fillRect(cx - r * 0.25, cy - r, r * 0.5, 2 * r); g.fillRect(cx - r, cy - r * 0.25, 2 * r, r * 0.5); break;
+        case "star":
+          g.beginPath();
+          for (i = 0; i < 10; i++) { a = -Math.PI / 2 + i * Math.PI / 5; var rr = i % 2 ? r * 0.45 : r * 1.1; if (i) { g.lineTo(cx + rr * Math.cos(a), cy + rr * Math.sin(a)); } else { g.moveTo(cx + rr * Math.cos(a), cy + rr * Math.sin(a)); } }
+          g.closePath(); g.fill(); break;
+      }
+    });
+    return regs;
+  }
+  var TEXT = "When you read, your eyes do not glide along the line. They jump from one landing point to the next in saccades of a few letters, and pause for about a quarter of a second at each landing. Long or unusual words hold the eyes longer, and the eyes sometimes jump back to a word that was not understood the first time. At the end of a line, one long saccade carries the gaze to the start of the next.";
+  function drawText(g, w, h) {
+    var size = Math.max(9, w / 34), lh, margin = w * 0.07, words = TEXT.split(" "), lines, line, i, regs = [];
+    g.fillStyle = css("--fg"); g.textAlign = "left"; g.textBaseline = "middle";
+    do {   // wrap the paragraph, and shrink the type until it fits the height of the screen
+      lh = size * 1.6; lines = []; line = "";
+      g.font = size + "px Georgia, 'Times New Roman', serif";
+      for (i = 0; i < words.length; i++) {
+        var trial = line ? line + " " + words[i] : words[i];
+        if (g.measureText(trial).width > w - 2 * margin && line) { lines.push(line); line = words[i]; } else { line = trial; }
+      }
+      if (line) { lines.push(line); }
+      size -= 1;
+    } while (lines.length * lh > h * 0.86 && size >= 9);
+    var top = h / 2 - lines.length * lh / 2;
+    lines.forEach(function (ln, k) {
+      g.fillText(ln, margin, top + (k + 0.5) * lh);
+      regs.push(makeRect("line" + (k + 1), "Line " + (k + 1), 0, top + k * lh, w, lh));
+    });
+    return regs;
+  }
+  function drawDot(g, w, h) {
+    var r = Math.max(6, w * 0.012), cx = w / 2, cy = h / 2, near = Math.max(60, w * 0.12);
+    g.fillStyle = css("--fg"); g.beginPath(); g.arc(cx, cy, r, 0, 2 * Math.PI); g.fill();
+    return [
+      { id: "near", label: "Near the dot (within " + Math.round(near) + " px)", contains: function (px, py) { return (px - cx) * (px - cx) + (py - cy) * (py - cy) <= near * near; } },
+      { id: "far", label: "Elsewhere", contains: function () { return true; } }
+    ];
+  }
+  var DRAWERS = { notation: drawNotation, shapes: drawShapes, text: drawText, dot: drawDot };
+  function ensureStimulus(w, h, dpr) {
+    var key = stimulus + "|" + w + "|" + h + "|" + dpr + "|" + css("--fg");
+    if (key === stimKey && stimCache) { return; }
+    stimKey = key;
+    stimCache = document.createElement("canvas");
+    stimCache.width = Math.round(w * dpr); stimCache.height = Math.round(h * dpr);
+    var g = stimCache.getContext("2d");
+    g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    g.fillStyle = css("--canvas"); g.fillRect(0, 0, w, h);
+    regions = DRAWERS[stimulus](g, w, h);
+  }
+
+  // ---- drawing ----
+  function prep(c) {
+    var dpr = window.devicePixelRatio || 1, w = c.clientWidth, h = c.clientHeight;
+    if (c.width !== Math.round(w * dpr) || c.height !== Math.round(h * dpr)) { c.width = Math.round(w * dpr); c.height = Math.round(h * dpr); }
+    var g = c.getContext("2d"); g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    g.fillStyle = css("--canvas"); g.fillRect(0, 0, w, h);
+    g.font = "12px system-ui, sans-serif"; g.textBaseline = "middle";
+    return { g: g, w: w, h: h, dpr: dpr };
+  }
+  function placeholder(o, text) {
+    o.g.fillStyle = css("--muted"); o.g.textAlign = "center";
+    o.g.fillText(text, o.w / 2, o.h / 2);
+  }
+  function drawVideo() {
+    var o = prep(el("video")), g = o.g;
+    if (!started) { placeholder(o, "Press Start camera"); return; }
+    g.imageSmoothingEnabled = true;
+    g.drawImage(frame, 0, 0, o.w, o.h);
+    var kx = o.w / frame.width, ky = o.h / frame.height, k, e;
+    for (k in eyes) {
+      e = eyes[k];
+      if (!e) { continue; }
+      g.strokeStyle = css(k === "L" ? "--cx" : "--cy"); g.lineWidth = 2;
+      g.strokeRect(e.box.x * kx, e.box.y * ky, e.box.w * kx, e.box.h * ky);
+      g.fillStyle = g.strokeStyle; g.textAlign = "left"; g.font = "12px system-ui, sans-serif";
+      g.fillText(k === "L" ? "left box" : "right box", e.box.x * kx + 4, e.box.y * ky - 9);
+      if (e.found) {
+        var r = Math.sqrt(e.area / Math.PI) * kx;
+        g.strokeStyle = css("--accent"); g.lineWidth = 2;
+        g.beginPath(); g.arc(e.x * kx, e.y * ky, Math.max(3, r), 0, 2 * Math.PI); g.stroke();
+      }
+    }
+  }
+  function drawCrop(id, k) {
+    var o = prep(el(id)), g = o.g, e = eyes[k];
+    if (!started) { placeholder(o, "Press Start camera"); return; }
+    if (!e) { return; }
+    var res = e.result, cw = res.width, ch = res.height, img = fctx.getImageData(e.box.x, e.box.y, cw, ch), d = img.data, i, o4, v;
+    for (i = 0, o4 = 0; i < cw * ch; i++, o4 += 4) {
+      v = 0.299 * d[o4] + 0.587 * d[o4 + 1] + 0.114 * d[o4 + 2];
+      if (res.mask[i] === 2) { d[o4] = 40; d[o4 + 1] = 140; d[o4 + 2] = 220; }
+      else if (res.mask[i] === 1) { d[o4] = Math.min(255, v * 0.5 + 150); d[o4 + 1] = v * 0.4; d[o4 + 2] = v * 0.4; }
+      else { d[o4] = d[o4 + 1] = d[o4 + 2] = v; }
+    }
+    var tmp = document.createElement("canvas"); tmp.width = cw; tmp.height = ch;
+    tmp.getContext("2d").putImageData(img, 0, 0);
+    g.imageSmoothingEnabled = false;
+    g.drawImage(tmp, 0, 0, o.w, o.h);
+    if (e.found) {
+      var x = res.blob.x / cw * o.w, y = res.blob.y / ch * o.h;
+      g.strokeStyle = "#ffffff"; g.lineWidth = 2;
+      g.beginPath(); g.moveTo(x - 8, y); g.lineTo(x + 8, y); g.moveTo(x, y - 8); g.lineTo(x, y + 8); g.stroke();
+    }
+  }
+  function drawCalibrationTarget(o) {
+    var g = o.g, tg = TARGETS[cal.index], x = tg.tx * o.w, y = tg.ty * o.h;
+    var e = (performance.now() - cal.stageStart) / TARGET_MS, r = 26 - 18 * Math.min(1, e);
+    g.strokeStyle = css("--accent"); g.lineWidth = 3;
+    g.beginPath(); g.arc(x, y, r, 0, 2 * Math.PI); g.stroke();
+    g.fillStyle = css("--fg"); g.beginPath(); g.arc(x, y, 5, 0, 2 * Math.PI); g.fill();
+    g.fillStyle = css("--muted"); g.textAlign = "center"; g.font = "14px system-ui, sans-serif";
+    g.fillText("Look at the dot and keep your head still (" + (cal.index + 1) + " of 9)", o.w / 2, o.h - 16);
+  }
+  function drawResiduals(o) {
+    var g = o.g, w = o.w, h = o.h;
+    g.font = "12px system-ui, sans-serif"; g.textAlign = "left";
+    calib.errors.forEach(function (err, i) {
+      var x = err.tx * w, y = err.ty * h;
+      g.strokeStyle = css("--muted"); g.lineWidth = 1.5;
+      g.beginPath(); g.arc(x, y, 7, 0, 2 * Math.PI); g.stroke();
+      if (err.ex === null) { g.fillStyle = css("--error"); g.fillText("no pupil", x + 10, y - 10); return; }
+      var ex = err.ex * w, ey = err.ey * h, px = errorPx(err, w, h);
+      g.strokeStyle = css("--error"); g.fillStyle = css("--error"); g.lineWidth = 2;
+      g.beginPath(); g.moveTo(x, y); g.lineTo(ex, ey); g.stroke();
+      g.beginPath(); g.arc(ex, ey, 3, 0, 2 * Math.PI); g.fill();
+      g.fillText(px.toFixed(0) + " px", x + 10, y - 10);
+    });
+  }
+  var stops = [[68, 1, 84], [59, 82, 139], [33, 145, 140], [94, 201, 98], [253, 231, 37]];
+  function colour(v) {
+    var p = Math.max(0, Math.min(0.9999, v)) * (stops.length - 1);
+    var i = Math.floor(p), fr = p - i;
+    return [
+      Math.round(stops[i][0] + fr * (stops[i + 1][0] - stops[i][0])),
+      Math.round(stops[i][1] + fr * (stops[i + 1][1] - stops[i][1])),
+      Math.round(stops[i][2] + fr * (stops[i + 1][2] - stops[i][2]))
+    ];
+  }
+  function drawHeat(g, w, h) {
+    if (!heat || heatMax <= 0) { return; }
+    var hc = heatBuf.getContext("2d"), img = hc.createImageData(HEAT_W, HEAT_H), d = img.data, i, v, c;
+    for (i = 0; i < HEAT_W * HEAT_H; i++) {
+      v = heat[i] / heatMax;
+      c = colour(v);
+      d[i * 4] = c[0]; d[i * 4 + 1] = c[1]; d[i * 4 + 2] = c[2]; d[i * 4 + 3] = Math.round(190 * Math.min(1, v * 1.5));
+    }
+    hc.putImageData(img, 0, 0);
+    g.imageSmoothingEnabled = true;
+    g.drawImage(heatBuf, 0, 0, w, h);
+  }
+  function drawScanpath(g, now) {
+    var i, f, prev = null;
+    if (el("showtrail").checked && trail.length > 1) {
+      g.lineWidth = 2;
+      for (i = 1; i < trail.length; i++) {
+        g.strokeStyle = css("--accent"); g.globalAlpha = 0.15 + 0.85 * (1 - (now - trail[i].t) / TRAIL_MS);
+        g.beginPath(); g.moveTo(trail[i - 1].x, trail[i - 1].y); g.lineTo(trail[i].x, trail[i].y); g.stroke();
+      }
+      g.globalAlpha = 1;
+    }
+    if (el("showfix").checked) {
+      var list = fixations.slice(), cur = detector ? detector.current() : null;
+      if (cur) { list.push(cur); }
+      g.strokeStyle = css("--cx"); g.lineWidth = 1.5;
+      for (i = 0; i < list.length; i++) {
+        f = list[i];
+        if (prev) { g.beginPath(); g.moveTo(prev.x, prev.y); g.lineTo(f.x, f.y); g.stroke(); }
+        prev = f;
+      }
+      for (i = 0; i < list.length; i++) {
+        f = list[i];
+        var r = 6 + 24 * Math.sqrt(Math.min(2000, f.dur) / 2000);
+        g.fillStyle = css("--cx"); g.globalAlpha = 0.25;
+        g.beginPath(); g.arc(f.x, f.y, r, 0, 2 * Math.PI); g.fill();
+        g.globalAlpha = 1; g.strokeStyle = css("--cx"); g.lineWidth = 1.5; g.stroke();
+        if (f.id) { g.fillStyle = css("--fg"); g.textAlign = "center"; g.font = "11px system-ui, sans-serif"; g.fillText(String(f.id), f.x, f.y); }
+      }
+    }
+  }
+  function drawGazeMarker(g) {
+    if (!gaze) { return; }
+    g.strokeStyle = css("--accent"); g.lineWidth = 3;
+    g.beginPath(); g.arc(gaze.x, gaze.y, 14, 0, 2 * Math.PI); g.stroke();
+    g.fillStyle = css("--accent"); g.beginPath(); g.arc(gaze.x, gaze.y, 3, 0, 2 * Math.PI); g.fill();
+  }
+  function drawStimulus() {
+    var o = prep(el("stim")), g = o.g, now = performance.now();
+    ensureStimulus(o.w, o.h, o.dpr);
+    if (mode === "calibrating") { drawCalibrationTarget(o); return; }
+    g.drawImage(stimCache, 0, 0, o.w, o.h);
+    if (el("showheat").checked) { drawHeat(g, o.w, o.h); }
+    drawScanpath(g, now);
+    if (mode === "tracking" || !running) { drawGazeMarker(g); }
+    if (showResiduals && calib) { drawResiduals(o); }
+    if (!calib && started) {
+      g.fillStyle = css("--muted"); g.textAlign = "center"; g.font = "14px system-ui, sans-serif";
+      g.fillText("Calibrate in step 2 to see the gaze point here", o.w / 2, o.h - 16);
+    }
+  }
+  function niceMax(v) {
+    var steps = [10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000];
+    for (var i = 0; i < steps.length; i++) { if (v <= steps[i]) { return steps[i]; } }
+    return 100000;
+  }
+  function drawPupilPlot() {
+    var o = prep(el("pupilplot")), g = o.g, mL = 46, mR = 10, mT = 24, mB = 10;
+    var pw = o.w - mL - mR, ph = o.h - mT - mB, i, peak = 0;
+    var now = running ? performance.now() - t0 : (pupilHist.length ? pupilHist[pupilHist.length - 1].t : 0);
+    for (i = 0; i < pupilHist.length; i++) {
+      if (pupilHist[i].la > peak) { peak = pupilHist[i].la; }
+      if (pupilHist[i].ra > peak) { peak = pupilHist[i].ra; }
+    }
+    var yMax = niceMax(Math.max(10, peak * 1.1));
+    var xOf = function (t) { return mL + (1 - (now - t) / (PLOT_S * 1000)) * pw; };
+    var yOf = function (v) { return mT + ph - v / yMax * ph; };
+    g.strokeStyle = css("--grid"); g.lineWidth = 1; g.fillStyle = css("--muted"); g.textAlign = "right";
+    [0, yMax / 2, yMax].forEach(function (v) {
+      var y = yOf(v);
+      g.beginPath(); g.moveTo(mL, y); g.lineTo(mL + pw, y); g.stroke();
+      g.fillText(String(v), mL - 5, y);
+    });
+    for (i = 0; i <= PLOT_S; i += 5) {
+      var x = mL + (1 - i / PLOT_S) * pw;
+      g.beginPath(); g.moveTo(x, mT); g.lineTo(x, mT + ph); g.stroke();
+    }
+    if (!started) { placeholder(o, "Press Start camera"); return; }
+    g.save(); g.beginPath(); g.rect(mL, mT, pw, ph); g.clip();
+    [{ key: "la", col: "--cx", label: "left eye" }, { key: "ra", col: "--cy", label: "right eye" }].forEach(function (sr) {
+      g.strokeStyle = css(sr.col); g.lineWidth = 2; g.beginPath();
+      var pen = false;
+      for (i = 0; i < pupilHist.length; i++) {
+        var v = pupilHist[i][sr.key];
+        if (v === null) { pen = false; continue; }
+        var x = xOf(pupilHist[i].t), y = yOf(v);
+        if (pen) { g.lineTo(x, y); } else { g.moveTo(x, y); pen = true; }
+      }
+      g.stroke();
+    });
+    g.restore();
+    var lx = mL + 8; g.textAlign = "left";
+    [{ col: "--cx", label: "left eye" }, { col: "--cy", label: "right eye" }].forEach(function (sr) {
+      g.fillStyle = css(sr.col); g.fillRect(lx, 9, 14, 3);
+      g.fillStyle = css("--fg"); g.fillText(sr.label, lx + 18, 11);
+      lx += 18 + g.measureText(sr.label).width + 14;
+    });
+    g.fillStyle = css("--muted"); g.fillText("px", lx + 4, 11);
+  }
+
+  // ---- readouts ----
+  function eyeText(name, e) {
+    if (!e) { return name + ": no data yet"; }
+    if (!e.found) { return name + ": pupil not found. Move the box over the eye, or change the darkness threshold until the pupil is the only red blob."; }
+    return name + ": pupil at (" + e.x.toFixed(0) + ", " + e.y.toFixed(0) + ") in the camera image, area " + e.area + " px" + (e.result.blobs > 1 ? ", " + (e.result.blobs - 1) + " other dark blob" + (e.result.blobs > 2 ? "s" : "") + " ignored" : "");
+  }
+  function updateReadouts() {
+    var L = eyes.L, R = eyes.R;
+    el("readL").textContent = eyeText("Left eye", L); el("readL").className = L && !L.found ? "readout error" : "readout";
+    el("readR").textContent = eyeText("Right eye", R); el("readR").className = R && !R.found ? "readout error" : "readout";
+    el("pupilread").textContent = !started ? "Pupil area: no data yet" :
+      "Pupil area: left " + (L && L.found ? L.area + " px" : "not found") + ", right " + (R && R.found ? R.area + " px" : "not found");
+    if (!calib) { el("gazeread").textContent = "Gaze: calibrate first"; }
+    else if (mode === "tracking" && !gaze) { el("gazeread").textContent = "Gaze: no pupil found, so no estimate"; }
+    else if (gaze) { el("gazeread").textContent = "Gaze: (" + gaze.x.toFixed(0) + ", " + gaze.y.toFixed(0) + ") px on the stimulus screen" + (gazeRaw ? ", unsmoothed (" + gazeRaw.x.toFixed(0) + ", " + gazeRaw.y.toFixed(0) + ")" : ""); }
+    if (fixations.length) {
+      var sum = 0, i;
+      for (i = 0; i < fixations.length; i++) { sum += fixations[i].dur; }
+      el("fixread").textContent = "Fixations: " + fixations.length + ", mean duration " + (sum / fixations.length).toFixed(0) + " ms, over " + (trackedMs / 1000).toFixed(1) + " s of tracking";
+    } else {
+      el("fixread").textContent = calib ? "Fixations: none yet (" + (trackedMs / 1000).toFixed(1) + " s of tracking)" : "Fixations: none yet";
+    }
+    var body = el("dwelltable").querySelector("tbody"), html = "";
+    regions.forEach(function (r) {
+      var d = dwell[r.id] || { ms: 0, fix: 0 };
+      html += "<tr><td>" + r.label + "</td><td class=\"num\">" + (d.ms / 1000).toFixed(1) + "</td><td class=\"num\">" +
+        (trackedMs ? (100 * d.ms / trackedMs).toFixed(0) : "0") + " %</td><td class=\"num\">" + d.fix + "</td></tr>";
+    });
+    if (body.innerHTML !== html) { body.innerHTML = html; }
+  }
+  function drawAll() {
+    drawVideo(); drawCrop("cropL", "L"); drawCrop("cropR", "R");
+    drawStimulus(); drawPupilPlot(); updateReadouts();
+  }
+  function loop(now) {
+    requestAnimationFrame(loop);
+    if (!running) { return; }
+    var due = now - lastT >= 1000 / MAX_FPS - 2;
+    if ((useRvfc && !testSource) ? (newFrame && due) : due) {
+      newFrame = false; lastT = now;
+      analyse(now);
+      drawAll();
+    }
+  }
+
+  // ---- dragging the boxes on the video ----
+  function canvasPoint(ev) {
+    var c = el("video"), r = c.getBoundingClientRect();
+    return { x: (ev.clientX - r.left) / r.width, y: (ev.clientY - r.top) / r.height };
+  }
+  el("video").addEventListener("pointerdown", function (ev) {
+    if (!started) { return; }
+    var p = canvasPoint(ev), b = boxes(), k, best = null, d;
+    for (k in b) {
+      d = Math.abs(p.x - b[k].cx) / b[k].w + Math.abs(p.y - b[k].cy) / b[k].h;
+      if (d < 1.2 && (!best || d < best.d)) { best = { k: k, d: d, dx: b[k].cx - p.x, dy: b[k].cy - p.y }; }
+    }
+    if (!best) { best = { k: (p.x < 0.5 ? "L" : "R"), dx: 0, dy: 0 }; }
+    drag = best;
+    el("video").setPointerCapture(ev.pointerId);
+    ev.preventDefault();
+  });
+  el("video").addEventListener("pointermove", function (ev) {
+    if (!drag) { return; }
+    var p = canvasPoint(ev);
+    el(drag.k === "L" ? "lx" : "rx").value = Math.max(0, Math.min(100, 100 * (p.x + drag.dx))).toFixed(1);
+    el(drag.k === "L" ? "ly" : "ry").value = Math.max(0, Math.min(100, 100 * (p.y + drag.dy))).toFixed(1);
+    sliders();
+  });
+  function endDrag() { drag = null; }
+  el("video").addEventListener("pointerup", endDrag);
+  el("video").addEventListener("pointercancel", endDrag);
+
+  // ---- downloads ----
+  function save(blob, name) {
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = name;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+  }
+  function f1(v) { return v === null || v === undefined ? "" : (typeof v === "number" ? v.toFixed(1) : String(v)); }
+  function csvText() {
+    var lines = ["time_s,phase,stimulus,left_pupil_x,left_pupil_y,left_pupil_area,right_pupil_x,right_pupil_y,right_pupil_area,gaze_x,gaze_y,fixation"], i, e;
+    for (i = 0; i < log.length; i++) {
+      e = log[i];
+      lines.push([(e.t / 1000).toFixed(3), e.phase, e.stim, f1(e.lx), f1(e.ly), e.la === null ? "" : e.la, f1(e.rx), f1(e.ry), e.ra === null ? "" : e.ra, f1(e.gx), f1(e.gy), e.fix].join(","));
+    }
+    return lines.join("\n") + "\n";
+  }
+  el("dlcsv").addEventListener("click", function () {
+    if (!log.length) { setStatus("Start the camera first: there is nothing to save yet.", true); return; }
+    save(new Blob([csvText()], { type: "text/csv" }), "eye-tracker-samples.csv");
+  });
+  el("dlpng").addEventListener("click", function () {
+    if (!started) { setStatus("Start the camera first: there is nothing to save yet.", true); return; }
+    var c = el("stim"), w = c.clientWidth, h = c.clientHeight, k = 2;
+    var out = document.createElement("canvas"); out.width = w * k; out.height = h * k;
+    var g = out.getContext("2d"); g.setTransform(k, 0, 0, k, 0, 0);
+    ensureStimulus(w, h, c.width / w);
+    g.drawImage(stimCache, 0, 0, w, h);
+    if (el("showheat").checked) { drawHeat(g, w, h); }
+    drawScanpath(g, performance.now());
+    out.toBlob(function (blob) { save(blob, "eye-tracker-scanpath-" + stimulus + ".png"); }, "image/png");
+  });
+
+  // ---- wiring ----
+  el("start").addEventListener("click", function () { if (running) { stop(); } else { start(); } });
+  el("mirror").addEventListener("click", function () {
+    mirrored = !mirrored;
+    this.setAttribute("aria-pressed", mirrored ? "true" : "false");
+    if (calib) {
+      calib = null; showResiduals = false; mode = running ? "setup" : "idle";
+      el("residuals").disabled = true; el("residuals").setAttribute("aria-pressed", "false");
+      el("calibtablewrap").style.display = "none"; el("calib").textContent = "Calibrate";
+      el("calibread").textContent = "Mirroring changed, so the calibration no longer applies. Calibrate again.";
+    }
+    drawAll();
+  });
+  el("calib").addEventListener("click", startCalibration);
+  el("residuals").addEventListener("click", function () {
+    showResiduals = !showResiduals;
+    this.setAttribute("aria-pressed", showResiduals ? "true" : "false");
+    drawStimulus();
+  });
+  function setMapKind(k) {
+    mapKind = k;
+    el("mapaffine").setAttribute("aria-pressed", k === "affine" ? "true" : "false");
+    el("mapquad").setAttribute("aria-pressed", k === "quadratic" ? "true" : "false");
+    refit(); drawStimulus();
+  }
+  el("mapaffine").addEventListener("click", function () { setMapKind("affine"); });
+  el("mapquad").addEventListener("click", function () { setMapKind("quadratic"); });
+  var stimBtns = document.querySelectorAll("button[data-stim]");
+  function setStimulus(s) {
+    stimulus = s;
+    for (var i = 0; i < stimBtns.length; i++) { stimBtns[i].setAttribute("aria-pressed", stimBtns[i].getAttribute("data-stim") === s ? "true" : "false"); }
+    if (mode === "tracking") { resetTracking(); }
+    showResiduals = false; el("residuals").setAttribute("aria-pressed", "false");
+    drawAll();
+  }
+  for (var si = 0; si < stimBtns.length; si++) {
+    stimBtns[si].addEventListener("click", function () { setStimulus(this.getAttribute("data-stim")); });
+  }
+  el("reset").addEventListener("click", function () { if (calib) { resetTracking(); } drawAll(); });
+  ["showtrail", "showfix", "showheat"].forEach(function (id) { el(id).addEventListener("change", drawStimulus); });
+  function sliders() {
+    el("lxdisp").textContent = num("lx").toFixed(0) + " %"; el("lydisp").textContent = num("ly").toFixed(0) + " %";
+    el("rxdisp").textContent = num("rx").toFixed(0) + " %"; el("rydisp").textContent = num("ry").toFixed(0) + " %";
+    el("bwdisp").textContent = num("bw").toFixed(0) + " % of the picture width";
+    el("thrdisp").textContent = num("thr").toFixed(0);
+    el("smoothdisp").textContent = num("smooth").toFixed(0) + " %";
+    el("dispdisp").textContent = num("disp").toFixed(0) + " px";
+    el("mindurdisp").textContent = num("mindur").toFixed(0) + " ms";
+    if (detector) { detector.dispersion = num("disp"); detector.minDur = num("mindur"); }
+  }
+  ["lx", "ly", "rx", "ry", "bw", "thr", "smooth", "disp", "mindur"].forEach(function (id) { el(id).addEventListener("input", sliders); });
+  window.addEventListener("resize", function () { drawAll(); if (calib) { reportCalibration(); } });
+  if (window.matchMedia) { window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", drawAll); }
+  window.addEventListener("pagehide", stopTracks);
+
+  // test hooks, only when the page is opened with #test
+  if (window.location.hash === "#test") {
+    window.__eyeTracker = {
+      findPupil: findPupil, fitMapping: fitMapping, applyMapping: applyMapping, FixationDetector: FixationDetector,
+      setFrameSource: function (c) { testSource = c; },
+      state: function () {
+        return { mode: mode, running: running, calIndex: cal ? cal.index : -1, target: cal ? TARGETS[cal.index] : null,
+          calib: calib ? { kind: calib.kind, eyesUsed: calib.eyesUsed, errors: calib.errors } : null,
+          eyes: { L: eyes.L && { x: eyes.L.x, y: eyes.L.y, area: eyes.L.area, found: eyes.L.found }, R: eyes.R && { x: eyes.R.x, y: eyes.R.y, area: eyes.R.area, found: eyes.R.found } },
+          gaze: gaze, gazeRaw: gazeRaw, fixations: fixations, dwell: dwell, trackedMs: trackedMs, logLength: log.length, regions: regions.map(function (r) { return r.label; }),
+          streamActive: !!stream, camTracks: stream ? stream.getTracks().map(function (t) { return t.readyState; }) : [] };
+      },
+      csv: csvText
+    };
+  }
+
+  sliders();
+  drawAll();
+  requestAnimationFrame(loop);
+})();
+  </script>
+</body>
+</html>

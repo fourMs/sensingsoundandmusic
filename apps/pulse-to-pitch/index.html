@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>From pulse to pitch</title>
+  <style>
+    :root {
+      --bg: #fdfdfd; --fg: #1c1e21; --muted: #5a6069; --panel: #f1f2f4;
+      --border: #c9ccd1; --accent: #0b6e99; --accent-fg: #ffffff; --canvas: #ffffff;
+      --pulse: #c2571a; --flutter: #b08a1e; --tone: #0b6e99; --grid: #e3e5e8;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #15171b; --fg: #e6e7e9; --muted: #9aa0a8; --panel: #20242b;
+        --border: #3a3f47; --accent: #4da3c7; --accent-fg: #0d1117; --canvas: #101216;
+        --pulse: #e08a4f; --flutter: #d6b44a; --tone: #4da3c7; --grid: #2a2f37;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      margin: 0 auto; padding: 16px; max-width: 780px;
+      background: var(--bg); color: var(--fg); line-height: 1.45;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 8px; }
+    p.intro { margin: 0 0 14px; }
+    .hint { font-size: 0.9rem; color: var(--muted); margin-top: 10px; display: block; }
+    fieldset {
+      border: 1px solid var(--border); border-radius: 8px;
+      margin: 0 0 12px; padding: 10px 12px; background: var(--panel);
+    }
+    legend { font-weight: 600; font-size: 0.95rem; padding: 0 6px; }
+    label { display: block; font-weight: 600; font-size: 0.9rem; margin: 8px 0 2px; }
+    .vals { font-weight: normal; color: var(--muted); margin-left: 4px; }
+    input[type="range"] { width: 100%; margin: 2px 0 4px; accent-color: var(--accent); }
+    button {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 14px; font-size: 1rem; cursor: pointer;
+    }
+    button.small { padding: 4px 10px; font-size: 0.9rem; }
+    button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+    button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+    canvas { display: block; width: 100%; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; background: var(--canvas); }
+    #scale { height: 120px; } #wave { height: 130px; } #spec { height: 150px; }
+    .desc { font-size: 1.05rem; margin: 6px 0 0; font-variant-numeric: tabular-nums; }
+    .zone { font-weight: 600; }
+  </style>
+</head>
+<body>
+  <h1>From pulse to pitch</h1>
+  <p class="intro">A single click, as close to an ideal impulse as a sound card allows, repeated at a rate you choose. At slow rates you hear separate pulses and can count them. Make the gaps shorter and, at some point around a few tens of milliseconds, the pulses stop being events and merge into one buzzing tone. From then on the rate is heard as a pitch, and the click itself is heard only as the tone's timbre. Move slowly through the region in the middle and listen for the moment it tips over.</p>
+
+  <div class="row">
+    <button type="button" id="power" class="primary">Start</button>
+    <button type="button" id="one">Play one impulse</button>
+    <label style="flex:1; min-width:150px; margin:0;">Volume <span class="vals" id="voldisp"></span>
+      <input type="range" id="vol" min="0" max="100" step="1" value="50" aria-label="Volume"/>
+    </label>
+  </div>
+
+  <fieldset>
+    <legend>Rate of the impulses</legend>
+    <label>Rate <span class="vals" id="ratedisp"></span></label>
+    <input type="range" id="rate" min="0" max="1000" step="1" aria-label="Impulses per second, on a logarithmic scale"/>
+    <div class="row" id="marks"><span style="font-weight:600;">Jump to:</span></div>
+    <div class="row">
+      <span style="font-weight:600;">Glide:</span>
+      <button type="button" class="small" id="down">Down, from tone to pulses</button>
+      <button type="button" class="small" id="up">Up, from pulses to tone</button>
+      <label style="display:inline-flex; align-items:center; gap:6px; margin:0; font-weight:normal;">over <select id="glidelen"><option value="10">10 s</option><option value="20" selected>20 s</option><option value="40">40 s</option></select></label>
+    </div>
+    <p class="desc" id="desc"></p>
+    <canvas id="scale" aria-label="Rate and period on a logarithmic scale, with the regions heard as pulses, flutter, and tone"></canvas>
+    <span class="hint" id="zonehint"></span>
+  </fieldset>
+
+  <fieldset>
+    <legend>What the ear receives</legend>
+    <canvas id="wave" aria-label="The impulses over a fixed stretch of time"></canvas>
+    <canvas id="spec" aria-label="The spectrum of the impulse train: equal harmonics at multiples of the rate"></canvas>
+    <span class="hint">Top: the impulses in a fixed window of time. Bottom: the spectrum. One impulse contains every frequency at the same level, so its spectrum is flat. Repeating it keeps the flat outline but concentrates the energy into harmonics at whole multiples of the rate. When the rate is low, the harmonics lie too close for the ear to separate, and what you hear is the click repeated. When the rate is high, the harmonics are far enough apart to give a pitch at the rate itself.</span>
+    <div class="row">
+      <label style="display:inline-flex; align-items:center; gap:6px; margin:0; font-weight:normal;"><input type="checkbox" id="level" checked/> Keep the loudness roughly constant as the rate rises</label>
+    </div>
+    <span class="hint">More impulses per second means more energy. With the box ticked, the level is turned down as the rate rises so that the change you hear is in the character of the sound, not in its loudness. Untick it to hear the train grow louder.</span>
+  </fieldset>
+
+  <p class="hint">Things to try: start at 2 per second and count. Jump to 100 and describe what you hear in one word, then glide down and stop the moment you can count again; read off the period. Compare 30 and 60 per second: is the lower one a low tone, a rattle, or a fast series of clicks? Play one impulse, then 5 and 500 per second, and listen for the same click inside all three. The space bar starts and stops.</p>
+
+  <script>
+(function () {
+  "use strict";
+  var el = function (id) { return document.getElementById(id); };
+  var MIN_HZ = 1, MAX_HZ = 1000;
+  // Approximate perceptual regions as periods in ms; they vary with listener, level, and the sound used.
+  var TONE_BELOW_MS = 20, PULSES_ABOVE_MS = 50;
+  var LEVEL_REF_HZ = 20;                     // below this rate the peak level is kept, above it the mean power
+  var MARKS = [2, 5, 10, 20, 30, 50, 100, 200, 500];
+  var ctx = null, master = null, levelGain = null, gen = null, rateParam = null, fallbackRate = null;
+  var running = false, glide = null;
+
+  // Band-limited impulse train: the sum of all harmonics of the rate up to 45 % of the sample rate,
+  // each at the same amplitude, which is a Dirac comb with nothing above the Nyquist limit.
+  function makeGen() {
+    var phase = 0;
+    return function (rate, sr) {
+      var h = Math.max(1, Math.floor(0.45 * sr / rate)), m = 2 * h + 1;
+      var s = Math.sin(Math.PI * phase), y;
+      y = Math.abs(s) < 1e-9 ? 1 : Math.sin(Math.PI * m * phase) / (m * s);
+      phase += rate / sr; if (phase >= 1) { phase -= 1; }
+      return (y - 1 / m) * m / (2 * h);      // remove the DC term and scale each peak to 1
+    };
+  }
+  var WORKLET_CODE = "var makeGen = " + makeGen.toString() + ";\n" +
+    "class Blit extends AudioWorkletProcessor {\n" +
+    "  static get parameterDescriptors() { return [{ name: 'rate', defaultValue: 100, minValue: 0.1, maxValue: 5000 }]; }\n" +
+    "  constructor() { super(); this.g = makeGen(); }\n" +
+    "  process(inputs, outputs, params) {\n" +
+    "    var out = outputs[0][0], r = params.rate;\n" +
+    "    for (var i = 0; i < out.length; i++) { out[i] = this.g(r.length > 1 ? r[i] : r[0], sampleRate); }\n" +
+    "    return true;\n" +
+    "  }\n" +
+    "}\n" +
+    "registerProcessor('blit', Blit);\n";
+
+  // ---- rate on a log slider ----
+  function sliderToHz(v) { return MIN_HZ * Math.pow(MAX_HZ / MIN_HZ, v / 1000); }
+  function hzToSlider(f) { return 1000 * Math.log(f / MIN_HZ) / Math.log(MAX_HZ / MIN_HZ); }
+  var rate = 100;
+  function zoneOf(f) {
+    var ms = 1000 / f;
+    if (ms > PULSES_ABOVE_MS) { return { name: "separate pulses", col: "--pulse" }; }
+    if (ms > TONE_BELOW_MS) { return { name: "between pulses and tone", col: "--flutter" }; }
+    return { name: "a tone with a pitch", col: "--tone" };
+  }
+  function fmt(x) { return x >= 100 ? x.toFixed(0) : x >= 10 ? x.toFixed(1) : x.toFixed(2); }
+
+  function setRate(f, fromSlider) {
+    rate = Math.min(MAX_HZ, Math.max(MIN_HZ, f));
+    if (!fromSlider) { el("rate").value = hzToSlider(rate); }
+    if (ctx) {
+      if (rateParam) { rateParam.setTargetAtTime(rate, ctx.currentTime, 0.005); } else { fallbackRate = rate; }
+      var g = el("level").checked ? Math.min(1, Math.sqrt(LEVEL_REF_HZ / rate)) : 1;
+      levelGain.gain.setTargetAtTime(g, ctx.currentTime, 0.01);
+    }
+    var z = zoneOf(rate);
+    el("ratedisp").textContent = fmt(rate) + " per second (Hz)";
+    el("desc").innerHTML = fmt(rate) + " Hz, one impulse every " + fmt(1000 / rate) + " ms: <span class=\"zone\" style=\"color:var(" + z.col + ")\">" + z.name + "</span>";
+    draw();
+  }
+  el("rate").addEventListener("input", function () { stopGlide(); setRate(sliderToHz(parseFloat(this.value)), true); });
+  el("level").addEventListener("change", function () { setRate(rate); });
+  MARKS.forEach(function (f) {
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "small"; b.textContent = f + " Hz (" + fmt(1000 / f) + " ms)";
+    b.addEventListener("click", function () { stopGlide(); setRate(f); });
+    el("marks").appendChild(b);
+  });
+  el("zonehint").textContent = "The regions are approximate: periods longer than about " + PULSES_ABOVE_MS +
+    " ms (below " + Math.round(1000 / PULSES_ABOVE_MS) + " Hz) are heard as separate pulses, periods shorter than about " +
+    TONE_BELOW_MS + " ms (above " + Math.round(1000 / TONE_BELOW_MS) + " Hz) as a tone, and in between the sound is a rattle or flutter that can be heard either way. Where the boundaries fall varies between listeners and with the level.";
+
+  // ---- glides ----
+  function stopGlide() {
+    if (glide) { cancelAnimationFrame(glide.raf); glide = null; }
+    el("down").setAttribute("aria-pressed", "false"); el("up").setAttribute("aria-pressed", "false");
+  }
+  function startGlide(f0, f1, btn) {
+    stopGlide();
+    if (!running) { start(); }
+    var dur = parseFloat(el("glidelen").value) * 1000, t0 = performance.now();
+    el(btn).setAttribute("aria-pressed", "true");
+    glide = { raf: 0 };
+    (function stepGlide() {
+      var u = Math.min(1, (performance.now() - t0) / dur);
+      setRate(f0 * Math.pow(f1 / f0, u));
+      if (u < 1 && glide) { glide.raf = requestAnimationFrame(stepGlide); } else { stopGlide(); }
+    })();
+  }
+  el("down").addEventListener("click", function () { startGlide(500, 2, "down"); });
+  el("up").addEventListener("click", function () { startGlide(2, 500, "up"); });
+
+  // ---- audio ----
+  function ensureAudio() {
+    if (ctx) { if (ctx.state === "suspended") { ctx.resume(); } return Promise.resolve(); }
+    ctx = new (window.AudioContext || window.webkitAudioContext)();
+    master = ctx.createGain(); master.gain.value = 0;
+    levelGain = ctx.createGain();
+    levelGain.connect(master); master.connect(ctx.destination);
+    function fallback() {
+      var g = makeGen(), node = ctx.createScriptProcessor(1024, 1, 1);
+      fallbackRate = rate;
+      node.onaudioprocess = function (e) {
+        var out = e.outputBuffer.getChannelData(0);
+        for (var i = 0; i < out.length; i++) { out[i] = g(fallbackRate, ctx.sampleRate); }
+      };
+      return node;
+    }
+    if (ctx.audioWorklet && window.AudioWorkletNode) {
+      var url = URL.createObjectURL(new Blob([WORKLET_CODE], { type: "application/javascript" }));
+      return ctx.audioWorklet.addModule(url).then(function () {
+        gen = new AudioWorkletNode(ctx, "blit"); rateParam = gen.parameters.get("rate");
+        rateParam.value = rate; gen.connect(levelGain);
+      }, function () { gen = fallback(); gen.connect(levelGain); });
+    }
+    gen = fallback(); gen.connect(levelGain);
+    return Promise.resolve();
+  }
+  function volume() { return 0.5 * parseFloat(el("vol").value) / 100; }
+  function start() {
+    running = true;
+    el("power").textContent = "Stop"; el("power").classList.remove("primary");
+    ensureAudio().then(function () {
+      setRate(rate);
+      if (running) { master.gain.setTargetAtTime(volume(), ctx.currentTime, 0.01); }
+    });
+  }
+  function stop() {
+    running = false; stopGlide();
+    if (ctx) { master.gain.setTargetAtTime(0, ctx.currentTime, 0.01); }
+    el("power").textContent = "Start"; el("power").classList.add("primary");
+  }
+  el("power").addEventListener("click", function () { if (running) { stop(); } else { start(); } });
+  el("one").addEventListener("click", function () {
+    ensureAudio().then(function () {
+      var b = ctx.createBuffer(1, 2, ctx.sampleRate); b.getChannelData(0)[0] = 1;
+      var src = ctx.createBufferSource(), g = ctx.createGain();
+      g.gain.value = volume(); src.buffer = b; src.connect(g); g.connect(ctx.destination);
+      src.start(ctx.currentTime + 0.02);
+    });
+  });
+  el("vol").addEventListener("input", function () {
+    el("voldisp").textContent = el("vol").value + " %";
+    if (ctx && running) { master.gain.setTargetAtTime(volume(), ctx.currentTime, 0.03); }
+  });
+  document.addEventListener("keydown", function (e) {
+    var t = document.activeElement.tagName;
+    if (e.code === "Space" && !e.repeat && t !== "BUTTON" && t !== "INPUT" && t !== "SELECT") { e.preventDefault(); if (running) { stop(); } else { start(); } }
+  });
+
+  // ---- drawing ----
+  function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+  function prep(c) {
+    var dpr = window.devicePixelRatio || 1, w = c.clientWidth, h = c.clientHeight;
+    if (c.width !== Math.round(w * dpr) || c.height !== Math.round(h * dpr)) { c.width = Math.round(w * dpr); c.height = Math.round(h * dpr); }
+    var g = c.getContext("2d"); g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    g.fillStyle = css("--canvas"); g.fillRect(0, 0, w, h);
+    g.font = "12px system-ui, sans-serif"; g.textBaseline = "middle";
+    return { g: g, w: w, h: h };
+  }
+  function drawScale() {
+    var o = prep(el("scale")), g = o.g, mL = 14, mR = 14, pw = o.w - mL - mR, y0 = 42, bh = 34;
+    var x = function (f) { return mL + Math.log(f / MIN_HZ) / Math.log(MAX_HZ / MIN_HZ) * pw; };
+    var fP = 1000 / PULSES_ABOVE_MS, fT = 1000 / TONE_BELOW_MS;
+    [[MIN_HZ, fP, "--pulse", "pulses"], [fP, fT, "--flutter", "flutter"], [fT, MAX_HZ, "--tone", "tone, pitch"]].forEach(function (z) {
+      g.globalAlpha = 0.25; g.fillStyle = css(z[2]); g.fillRect(x(z[0]), y0, x(z[1]) - x(z[0]), bh);
+      g.globalAlpha = 1; g.fillStyle = css(z[2]); g.textAlign = "center";
+      if (x(z[1]) - x(z[0]) > 50) { g.fillText(z[3], (x(z[0]) + x(z[1])) / 2, y0 + bh / 2); }
+    });
+    g.fillStyle = css("--muted"); g.textAlign = "left"; g.fillText("Rate (Hz)", mL, 12);
+    g.fillText("Period (ms)", mL, o.h - 10);
+    var ticks = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000];
+    g.strokeStyle = css("--border"); g.lineWidth = 1; g.textAlign = "center";
+    ticks.forEach(function (f) {
+      var xx = x(f);
+      g.beginPath(); g.moveTo(xx, y0 - 4); g.lineTo(xx, y0 + bh + 4); g.stroke();
+      if (xx > mL + 60 || f === 1) { g.fillText(String(f), Math.max(xx, mL + 4), y0 - 12); }
+      var ms = 1000 / f;
+      if (xx < o.w - mR - 70 || f === MAX_HZ) { g.fillText(String(ms), Math.min(xx, o.w - mR - 8), y0 + bh + 14); }
+    });
+    var xr = x(rate);
+    g.strokeStyle = css("--fg"); g.lineWidth = 3;
+    g.beginPath(); g.moveTo(xr, y0 - 6); g.lineTo(xr, y0 + bh + 6); g.stroke();
+  }
+  function drawWave() {
+    var o = prep(el("wave")), g = o.g, mL = 14, mR = 14, pw = o.w - mL - mR, WIN = 250, base = o.h - 30, top = 30;
+    var x = function (ms) { return mL + ms / WIN * pw; };
+    g.fillStyle = css("--muted"); g.textAlign = "left";
+    g.fillText("Impulses in " + WIN + " ms", mL, 11);
+    g.strokeStyle = css("--grid"); g.lineWidth = 1;
+    g.beginPath(); g.moveTo(mL, base); g.lineTo(o.w - mR, base); g.stroke();
+    g.textAlign = "center";
+    for (var t = 0; t <= WIN; t += (pw < 500 ? 125 : 50)) { g.fillText(t + " ms", Math.min(Math.max(x(t), mL + 16), o.w - mR - 20), base + 16); }
+    var z = zoneOf(rate), per = 1000 / rate;
+    g.strokeStyle = css(z.col); g.lineWidth = 1.5;
+    g.beginPath();
+    for (var k = 0; k * per <= WIN; k++) { var xx = x(k * per); g.moveTo(xx, base); g.lineTo(xx, top); }
+    g.stroke();
+    if (per <= WIN && x(per) - x(0) > 30) {
+      var yb = top + 12; g.strokeStyle = css("--fg"); g.lineWidth = 1;
+      g.beginPath(); g.moveTo(x(0) + 3, yb); g.lineTo(x(per) - 3, yb); g.stroke();
+      g.fillStyle = css("--fg"); g.fillText(fmt(per) + " ms", (x(0) + x(per)) / 2, yb - 9);
+    }
+  }
+  function drawSpec() {
+    var o = prep(el("spec")), g = o.g, mL = 14, mR = 14, pw = o.w - mL - mR, FMAX = 4000, base = o.h - 30, top = 30;
+    var x = function (f) { return mL + f / FMAX * pw; };
+    g.fillStyle = css("--muted"); g.textAlign = "left";
+    g.fillText("Spectrum, 0–" + FMAX / 1000 + " kHz: harmonics every " + fmt(rate) + " Hz", mL, 11);
+    g.strokeStyle = css("--grid"); g.lineWidth = 1;
+    g.beginPath(); g.moveTo(mL, base); g.lineTo(o.w - mR, base); g.stroke();
+    g.textAlign = "center";
+    for (var f = 0; f <= FMAX; f += 1000) { g.fillText(f / 1000 + " kHz", Math.min(Math.max(x(f), mL + 16), o.w - mR - 24), base + 16); }
+    var col = css(zoneOf(rate).col), gap = x(rate) - x(0);
+    if (gap < 2) {
+      g.globalAlpha = 0.5; g.fillStyle = col; g.fillRect(mL, top, pw, base - top); g.globalAlpha = 1;
+      g.fillStyle = css("--fg"); g.fillText(pw < 500 ? "too dense to draw: flat" : "harmonics too dense to draw: the flat spectrum of a single click", o.w / 2, (top + base) / 2);
+    } else {
+      g.strokeStyle = col; g.lineWidth = gap > 6 ? 2 : 1;
+      g.beginPath();
+      for (var k = 1; k * rate <= FMAX; k++) { var xx = x(k * rate); g.moveTo(xx, base); g.lineTo(xx, top); }
+      g.stroke();
+      if (gap > 24) { g.fillStyle = css("--fg"); g.fillText("1st", x(rate), top - 9); }
+    }
+  }
+  function draw() { drawScale(); drawWave(); drawSpec(); }
+  window.addEventListener("resize", draw);
+  if (window.matchMedia) { window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", draw); }
+
+  el("voldisp").textContent = el("vol").value + " %";
+  setRate(rate);
+})();
+  </script>
+</body>
+</html>

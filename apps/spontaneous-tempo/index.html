@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Spontaneous tempo</title>
+  <style>
+    :root {
+      --bg: #fdfdfd; --fg: #1c1e21; --muted: #5a6069; --panel: #f1f2f4;
+      --border: #c9ccd1; --accent: #0b6e99; --accent-fg: #ffffff; --canvas: #ffffff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #15171b; --fg: #e6e7e9; --muted: #9aa0a8; --panel: #20242b;
+        --border: #3a3f47; --accent: #4da3c7; --accent-fg: #0d1117; --canvas: #101216;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      margin: 0 auto; padding: 16px; max-width: 780px;
+      background: var(--bg); color: var(--fg); line-height: 1.45;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 8px; }
+    h2 { font-size: 1.05rem; margin: 16px 0 6px; }
+    p.intro { margin: 0 0 14px; }
+    .hint { font-size: 0.9rem; color: var(--muted); margin-top: 10px; }
+    fieldset {
+      border: 1px solid var(--border); border-radius: 8px;
+      margin: 0 0 12px; padding: 10px 12px; background: var(--panel);
+    }
+    legend { font-weight: 600; font-size: 0.95rem; padding: 0 6px; }
+    label { font-weight: 600; font-size: 0.9rem; }
+    .vals { font-weight: normal; color: var(--muted); margin-left: 4px; }
+    select { font-size: 1rem; padding: 4px 6px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg); color: var(--fg); }
+    button {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 14px; font-size: 1rem; cursor: pointer;
+    }
+    button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+    button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+    button:disabled { opacity: 0.5; cursor: default; }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+    #pad {
+      display: block; width: 100%; padding: 36px 10px; margin: 12px 0 0;
+      font-size: 1.2rem; font-weight: 700; border-radius: 10px;
+      border: 2px solid var(--accent); background: var(--panel); color: var(--fg);
+      touch-action: manipulation; user-select: none; -webkit-user-select: none;
+    }
+    #pad.feedback:active { background: var(--accent); color: var(--accent-fg); }
+    #live {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px;
+      font-variant-numeric: tabular-nums;
+    }
+    @media (max-width: 480px) { #live { grid-template-columns: 1fr 1fr; } }
+    .tile { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; }
+    .tile .k { font-size: 0.8rem; color: var(--muted); }
+    .tile .v { font-size: 1.4rem; font-weight: 700; }
+    .stats { font-size: 1rem; margin: 10px 0 0; font-variant-numeric: tabular-nums; }
+    canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; background: var(--canvas); }
+    table { border-collapse: collapse; width: 100%; font-size: 0.9rem; margin-top: 8px; font-variant-numeric: tabular-nums; }
+    th, td { border-bottom: 1px solid var(--border); padding: 4px 6px; text-align: right; }
+    th:first-child, td:first-child { text-align: left; }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <h1>Spontaneous tempo</h1>
+  <p class="intro">Tap at whatever rate feels natural, with no music playing, and find your spontaneous motor tempo. In <em>blind</em> mode the page shows nothing while you tap, so that the rate is your own; the statistics appear when the time is up. In <em>live</em> mode the tempo and the interval between taps are drawn as you go, so you can watch yourself drift.</p>
+
+  <fieldset>
+    <legend>Settings</legend>
+    <div class="row">
+      <span style="font-weight:600;">Mode:</span>
+      <button type="button" id="modeBlind" aria-pressed="true">Blind</button>
+      <button type="button" id="modeLive" aria-pressed="false">Live</button>
+      <label for="dur" style="margin-left:12px;">Duration</label>
+      <select id="dur" aria-label="Tapping duration in seconds">
+        <option value="10">10 s</option>
+        <option value="20" selected>20 s</option>
+        <option value="30">30 s</option>
+        <option value="60">60 s</option>
+      </select>
+      <label style="display:inline-flex; align-items:center; gap:6px; font-weight:normal;">
+        <input type="checkbox" id="beeps" checked/> Beep at start and end
+      </label>
+    </div>
+  </fieldset>
+
+  <div class="row">
+    <button type="button" id="start" class="primary">Start</button>
+    <button type="button" id="cancel" disabled>Cancel</button>
+    <span class="vals" id="status">Press Start, then tap with the space bar or the large button. Timing begins at your first tap.</span>
+  </div>
+
+  <button type="button" id="pad" class="feedback">Tap here (or press the space bar)</button>
+
+  <div id="live" class="hidden">
+    <div class="tile"><div class="k">Elapsed</div><div class="v" id="lvElapsed">0.0 s</div></div>
+    <div class="tile"><div class="k">Last interval</div><div class="v" id="lvIoi">–</div></div>
+    <div class="tile"><div class="k">Tempo (last 8 taps)</div><div class="v" id="lvBpm">–</div></div>
+  </div>
+
+  <div class="stats" id="stats"></div>
+  <canvas id="plot" width="900" height="260" aria-label="Interval between taps over time" class="hidden"></canvas>
+
+  <h2>Runs so far</h2>
+  <p class="hint">Each finished run is added here so you can repeat the task later and compare. The table is kept only in this page; copy it before you leave.</p>
+  <table id="log" aria-label="Completed runs">
+    <thead><tr><th>Time</th><th>Mode</th><th>Length</th><th>Taps</th><th>Mean IOI</th><th>Tempo</th><th>SD</th><th>CV</th><th>Drift</th></tr></thead>
+    <tbody></tbody>
+  </table>
+  <div class="row">
+    <button type="button" id="copy" disabled>Copy table as CSV</button>
+    <button type="button" id="clear" disabled>Clear table</button>
+    <span class="vals" id="copied"></span>
+  </div>
+
+  <p class="hint">Reading the numbers: the inter-onset interval (IOI) is the time between two taps and the tempo is its inverse in beats per minute. The standard deviation (SD) says how steady you were, the coefficient of variation (CV) is the SD as a percentage of the mean, and the drift is the tempo of the second half minus the first half. Most people settle between 100 and 120 BPM. Keyboard and touch input add a few milliseconds of jitter, which is small compared with the variability of the tapper.</p>
+
+  <script>
+(function () {
+  "use strict";
+  var el = function (id) { return document.getElementById(id); };
+  var mode = "blind";
+  var state = "idle";            // idle | armed | running | done
+  var taps = [];                 // performance.now() timestamps in ms
+  var t0 = 0, durMs = 20000;
+  var timer = null, liveTimer = null;
+  var runs = [];
+  var ctx = null;
+  var canvas = el("plot"), c2d = canvas.getContext("2d");
+
+  // ---- audio (beeps only, after a user gesture) ----
+  function ensureAudio() {
+    if (!el("beeps").checked) { return; }
+    if (!ctx) { ctx = new (window.AudioContext || window.webkitAudioContext)(); }
+    if (ctx.state === "suspended") { ctx.resume(); }
+  }
+  function beep(freq, len) {
+    if (!ctx || !el("beeps").checked) { return; }
+    var t = ctx.currentTime;
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = "sine"; o.frequency.value = freq;
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(0.25, t + 0.005);
+    g.gain.setTargetAtTime(0, t + len, 0.03);
+    o.connect(g); g.connect(ctx.destination);
+    o.start(t); o.stop(t + len + 0.2);
+  }
+
+  // ---- modes ----
+  function setMode(m) {
+    mode = m;
+    el("modeBlind").setAttribute("aria-pressed", m === "blind" ? "true" : "false");
+    el("modeLive").setAttribute("aria-pressed", m === "live" ? "true" : "false");
+    if (state === "idle" || state === "done") { applyIdleView(); }
+  }
+  el("modeBlind").addEventListener("click", function () { setMode("blind"); });
+  el("modeLive").addEventListener("click", function () { setMode("live"); });
+
+  function applyIdleView() {
+    el("live").classList.toggle("hidden", mode !== "live" || state !== "running");
+    el("pad").classList.toggle("feedback", mode === "live" || state !== "running");
+  }
+
+  // ---- run control ----
+  function arm() {
+    ensureAudio();
+    durMs = parseInt(el("dur").value, 10) * 1000;
+    taps = [];
+    state = "armed";
+    el("start").disabled = true;
+    el("cancel").disabled = false;
+    el("dur").disabled = true;
+    el("stats").textContent = "";
+    canvas.classList.add("hidden");
+    el("status").textContent = mode === "blind"
+      ? "Ready. Your first tap starts the clock; keep tapping until the end beep. Nothing will be shown until then."
+      : "Ready. Your first tap starts the clock.";
+    el("pad").textContent = "Tap to begin";
+    el("pad").classList.toggle("feedback", mode === "live");
+    if (mode === "live") { el("live").classList.remove("hidden"); drawPlot(true); canvas.classList.remove("hidden"); }
+  }
+  function begin(now) {
+    state = "running";
+    t0 = now;
+    beep(880, 0.08);
+    el("status").textContent = mode === "blind" ? "Tapping. Keep going until the beep." : "Tapping.";
+    el("pad").textContent = mode === "blind" ? "Keep tapping" : "Tap here (or press the space bar)";
+    timer = setTimeout(finish, durMs);
+    if (mode === "live") { liveTimer = setInterval(updateLive, 100); }
+  }
+  function finish() {
+    if (timer) { clearTimeout(timer); timer = null; }
+    if (liveTimer) { clearInterval(liveTimer); liveTimer = null; }
+    state = "done";
+    beep(440, 0.25);
+    el("start").disabled = false;
+    el("cancel").disabled = true;
+    el("dur").disabled = false;
+    el("pad").textContent = "Tap here (or press the space bar)";
+    el("pad").classList.add("feedback");
+    el("live").classList.add("hidden");
+    el("status").textContent = "Done. Press Start for another run.";
+    report();
+  }
+  function cancel() {
+    if (timer) { clearTimeout(timer); timer = null; }
+    if (liveTimer) { clearInterval(liveTimer); liveTimer = null; }
+    state = "idle";
+    taps = [];
+    el("start").disabled = false;
+    el("cancel").disabled = true;
+    el("dur").disabled = false;
+    el("pad").textContent = "Tap here (or press the space bar)";
+    el("status").textContent = "Cancelled.";
+    el("live").classList.add("hidden");
+    canvas.classList.add("hidden");
+    el("pad").classList.add("feedback");
+  }
+  el("start").addEventListener("click", arm);
+  el("cancel").addEventListener("click", cancel);
+
+  // ---- tap capture ----
+  function registerTap(now) {
+    if (state === "armed") { taps.push(now); begin(now); return; }
+    if (state !== "running") { return; }
+    if (now - t0 > durMs) { return; }
+    taps.push(now);
+    if (mode === "live") { updateLive(); }
+  }
+  el("pad").addEventListener("pointerdown", function (e) {
+    e.preventDefault();
+    registerTap(performance.now());
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.code === "Space" && !e.repeat) {
+      e.preventDefault();
+      registerTap(performance.now());
+    }
+  });
+
+  // ---- statistics ----
+  function iois() {
+    var out = [];
+    for (var i = 1; i < taps.length; i++) { out.push(taps[i] - taps[i - 1]); }
+    return out;
+  }
+  function mean(a) {
+    var s = 0; for (var i = 0; i < a.length; i++) { s += a[i]; }
+    return a.length ? s / a.length : NaN;
+  }
+  function sd(a) {
+    if (a.length < 2) { return NaN; }
+    var m = mean(a), s = 0;
+    for (var i = 0; i < a.length; i++) { s += (a[i] - m) * (a[i] - m); }
+    return Math.sqrt(s / (a.length - 1));
+  }
+  function bpmOf(ioiMs) { return 60000 / ioiMs; }
+  function summary() {
+    var v = iois();
+    if (v.length < 2) { return null; }
+    var m = mean(v), s = sd(v);
+    var half = Math.floor(v.length / 2);
+    var b1 = bpmOf(mean(v.slice(0, half))), b2 = bpmOf(mean(v.slice(half)));
+    return {
+      taps: taps.length, n: v.length, length: (taps[taps.length - 1] - taps[0]) / 1000,
+      meanIoi: m, bpm: bpmOf(m), sd: s, cv: 100 * s / m,
+      minIoi: Math.min.apply(null, v), maxIoi: Math.max.apply(null, v),
+      bpm1: b1, bpm2: b2, drift: b2 - b1
+    };
+  }
+
+  function report() {
+    var r = summary();
+    if (!r) {
+      el("stats").textContent = "Too few taps to compute anything. Try again.";
+      return;
+    }
+    el("stats").innerHTML =
+      "<strong>" + r.taps + " taps</strong> in " + r.length.toFixed(1) + " s. " +
+      "Mean interval " + r.meanIoi.toFixed(0) + " ms, which is a tempo of <strong>" + r.bpm.toFixed(1) + " BPM</strong>. " +
+      "Standard deviation " + r.sd.toFixed(0) + " ms (CV " + r.cv.toFixed(1) + " %), " +
+      "range " + r.minIoi.toFixed(0) + "–" + r.maxIoi.toFixed(0) + " ms. " +
+      "First half " + r.bpm1.toFixed(1) + " BPM, second half " + r.bpm2.toFixed(1) + " BPM (" +
+      (r.drift >= 0 ? "speeding up by " : "slowing down by ") + Math.abs(r.drift).toFixed(1) + " BPM).";
+    canvas.classList.remove("hidden");
+    drawPlot(false);
+    addRun(r);
+  }
+
+  // ---- live view ----
+  function updateLive() {
+    var elapsed = Math.min(durMs, performance.now() - t0) / 1000;
+    el("lvElapsed").textContent = elapsed.toFixed(1) + " s";
+    var v = iois();
+    el("lvIoi").textContent = v.length ? v[v.length - 1].toFixed(0) + " ms" : "–";
+    var recent = v.slice(-8);
+    el("lvBpm").textContent = recent.length >= 2 ? bpmOf(mean(recent)).toFixed(1) + " BPM" : "–";
+    drawPlot(true);
+  }
+
+  // ---- plot: IOI against time ----
+  function theme() {
+    var d = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return d ? { bg: "#101216", grid: "#2a2f37", dot: "#4da3c7", mean: "#e08a4f", band: "rgba(224,138,79,0.15)", text: "#9aa0a8" }
+             : { bg: "#ffffff", grid: "#e3e5e8", dot: "#0b6e99", mean: "#c2571a", band: "rgba(194,87,26,0.12)", text: "#5a6069" };
+  }
+  function drawPlot(live) {
+    var th = theme();
+    var w = canvas.width, h = canvas.height;
+    var mB = 34, mT = 26, mL = 52, mR = 16;
+    var pw = w - mL - mR, ph = h - mT - mB;
+    c2d.fillStyle = th.bg; c2d.fillRect(0, 0, w, h);
+    var v = iois();
+    var xs = [];
+    for (var i = 1; i < taps.length; i++) { xs.push((taps[i] - t0) / 1000); }
+    var xMax = durMs / 1000;
+    var yLo = 200, yHi = 1200;
+    if (v.length) {
+      var lo = Math.min.apply(null, v), hi = Math.max.apply(null, v);
+      yLo = Math.max(0, Math.floor((lo - 60) / 100) * 100);
+      yHi = Math.ceil((hi + 60) / 100) * 100;
+      if (yHi - yLo < 300) { yHi = yLo + 300; }
+    }
+    var X = function (s) { return mL + s / xMax * pw; };
+    var Y = function (ms) { return mT + ph - (ms - yLo) / (yHi - yLo) * ph; };
+    // grid and axes
+    c2d.strokeStyle = th.grid; c2d.lineWidth = 1;
+    c2d.fillStyle = th.text; c2d.font = "12px system-ui, sans-serif";
+    var step = (yHi - yLo) > 1000 ? 500 : ((yHi - yLo) > 500 ? 200 : 100);
+    c2d.textAlign = "right";
+    for (var y = yLo; y <= yHi; y += step) {
+      c2d.beginPath(); c2d.moveTo(mL, Y(y)); c2d.lineTo(mL + pw, Y(y)); c2d.stroke();
+      c2d.fillText(String(y), mL - 6, Y(y) + 4);
+    }
+    c2d.textAlign = "center";
+    for (var s = 0; s <= xMax; s += (xMax > 30 ? 10 : 5)) {
+      c2d.beginPath(); c2d.moveTo(X(s), mT); c2d.lineTo(X(s), mT + ph); c2d.stroke();
+      c2d.fillText(String(s), X(s), h - 12);
+    }
+    c2d.fillText("Time since first tap (s)", mL + pw / 2, h - 0);
+    c2d.textAlign = "left";
+    c2d.fillText("Interval between taps (ms)", mL, 12);
+    // mean and SD band
+    if (v.length >= 2) {
+      var m = mean(v), s2 = sd(v);
+      c2d.fillStyle = th.band;
+      c2d.fillRect(mL, Y(m + s2), pw, Y(m - s2) - Y(m + s2));
+      c2d.strokeStyle = th.mean; c2d.lineWidth = 1.5;
+      c2d.beginPath(); c2d.moveTo(mL, Y(m)); c2d.lineTo(mL + pw, Y(m)); c2d.stroke();
+      c2d.fillStyle = th.mean; c2d.textAlign = "left";
+      c2d.fillText("mean " + m.toFixed(0) + " ms = " + bpmOf(m).toFixed(1) + " BPM", mL + 6, mT + 14);
+    }
+    // points and line
+    if (v.length) {
+      c2d.strokeStyle = th.dot; c2d.lineWidth = 1;
+      c2d.beginPath();
+      for (i = 0; i < v.length; i++) {
+        if (i === 0) { c2d.moveTo(X(xs[i]), Y(v[i])); } else { c2d.lineTo(X(xs[i]), Y(v[i])); }
+      }
+      c2d.stroke();
+      c2d.fillStyle = th.dot;
+      for (i = 0; i < v.length; i++) {
+        c2d.beginPath(); c2d.arc(X(xs[i]), Y(v[i]), 3.5, 0, Math.PI * 2); c2d.fill();
+      }
+    }
+    if (live && state === "running") {
+      var now = Math.min(xMax, (performance.now() - t0) / 1000);
+      c2d.strokeStyle = th.text; c2d.setLineDash([4, 4]);
+      c2d.beginPath(); c2d.moveTo(X(now), mT); c2d.lineTo(X(now), mT + ph); c2d.stroke();
+      c2d.setLineDash([]);
+    }
+  }
+
+  // ---- run log ----
+  function addRun(r) {
+    var d = new Date();
+    var hh = String(d.getHours()).padStart(2, "0"), mm = String(d.getMinutes()).padStart(2, "0");
+    var row = {
+      time: hh + ":" + mm, mode: mode, length: r.length, taps: r.taps, meanIoi: r.meanIoi,
+      bpm: r.bpm, sd: r.sd, cv: r.cv, drift: r.drift
+    };
+    runs.push(row);
+    var tr = document.createElement("tr");
+    tr.innerHTML = "<td>" + row.time + "</td><td>" + row.mode + "</td><td>" + row.length.toFixed(1) + " s</td><td>" +
+      row.taps + "</td><td>" + row.meanIoi.toFixed(0) + " ms</td><td>" + row.bpm.toFixed(1) + " BPM</td><td>" +
+      row.sd.toFixed(0) + " ms</td><td>" + row.cv.toFixed(1) + " %</td><td>" + (row.drift >= 0 ? "+" : "") + row.drift.toFixed(1) + " BPM</td>";
+    el("log").querySelector("tbody").appendChild(tr);
+    el("copy").disabled = false;
+    el("clear").disabled = false;
+  }
+  el("copy").addEventListener("click", function () {
+    var lines = ["time,mode,length_s,taps,mean_ioi_ms,tempo_bpm,sd_ms,cv_percent,drift_bpm"];
+    for (var i = 0; i < runs.length; i++) {
+      var r = runs[i];
+      lines.push([r.time, r.mode, r.length.toFixed(2), r.taps, r.meanIoi.toFixed(1), r.bpm.toFixed(2),
+                  r.sd.toFixed(1), r.cv.toFixed(2), r.drift.toFixed(2)].join(","));
+    }
+    var text = lines.join("\n");
+    var done = function () { el("copied").textContent = "Copied " + runs.length + " run(s)."; };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () { window.prompt("Copy the CSV:", text); });
+    } else {
+      window.prompt("Copy the CSV:", text);
+    }
+  });
+  el("clear").addEventListener("click", function () {
+    runs = [];
+    el("log").querySelector("tbody").innerHTML = "";
+    el("copy").disabled = true;
+    el("clear").disabled = true;
+    el("copied").textContent = "";
+  });
+
+  applyIdleView();
+})();
+  </script>
+</body>
+</html>
