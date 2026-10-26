@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Mini synthesiser</title>
+  <style>
+    :root {
+      --bg: #fdfdfd; --fg: #1c1e21; --muted: #5a6069; --panel: #f1f2f4;
+      --border: #c9ccd1; --accent: #0b6e99; --accent-fg: #ffffff; --canvas: #ffffff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #15171b; --fg: #e6e7e9; --muted: #9aa0a8; --panel: #20242b;
+        --border: #3a3f47; --accent: #4da3c7; --accent-fg: #0d1117; --canvas: #101216;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      margin: 0 auto; padding: 16px; max-width: 780px;
+      background: var(--bg); color: var(--fg); line-height: 1.45;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 8px; }
+    p.intro { margin: 0 0 14px; }
+    .hint { font-size: 0.9rem; color: var(--muted); margin-top: 10px; }
+    fieldset {
+      border: 1px solid var(--border); border-radius: 8px;
+      margin: 0 0 12px; padding: 10px 12px; background: var(--panel);
+    }
+    legend { font-weight: 600; font-size: 0.95rem; padding: 0 6px; }
+    label { display: block; margin: 8px 0 2px; font-weight: 600; font-size: 0.9rem; }
+    .vals { font-weight: normal; color: var(--muted); margin-left: 4px; }
+    input[type="range"] { width: 100%; margin: 2px 0 4px; accent-color: var(--accent); }
+    select {
+      font-size: 1rem; padding: 6px 8px; border-radius: 6px;
+      border: 1px solid var(--border); background: var(--bg); color: var(--fg);
+    }
+    button {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 14px; font-size: 1rem; cursor: pointer;
+    }
+    button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 10px 0; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px; }
+    @media (max-width: 480px) { .grid2 { grid-template-columns: 1fr; } }
+    canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; background: var(--canvas); }
+    #keys { position: relative; height: 130px; margin-top: 10px; user-select: none; touch-action: none; }
+    .wkey, .bkey {
+      position: absolute; top: 0; border: 1px solid var(--border);
+      border-radius: 0 0 6px 6px; cursor: pointer; padding: 0;
+    }
+    .wkey { height: 100%; background: var(--bg); z-index: 1; }
+    .bkey { height: 60%; background: var(--fg); z-index: 2; }
+    .wkey.down { background: var(--accent); }
+    .bkey.down { background: var(--accent); }
+    .keyhint { position: absolute; bottom: 4px; left: 0; right: 0; text-align: center; font-size: 0.75rem; color: var(--muted); pointer-events: none; }
+  </style>
+</head>
+<body>
+  <h1>Mini synthesiser</h1>
+  <p class="intro">A small subtractive synthesiser. Choose a waveform, shape its brightness with the lowpass filter, and set how each note starts and ends with the envelope sliders. Play using the on-screen keys, or the computer keys A to K (with W, E, T, Y, U for the black keys). Press <strong>Start audio</strong> first.</p>
+
+  <div class="row">
+    <button type="button" id="power" class="primary">Start audio</button>
+    <button type="button" id="panic">Stop all notes</button>
+    <label style="flex:1; min-width:160px; margin:0;">Master volume <span class="vals" id="voldisp"></span>
+      <input type="range" id="vol" min="0" max="100" step="1" value="60" aria-label="Master volume"/>
+    </label>
+  </div>
+
+  <fieldset>
+    <legend>Oscillator and presets</legend>
+    <div class="row">
+      <label style="margin:0;">Waveform
+        <select id="wave" aria-label="Waveform">
+          <option value="sawtooth" selected>Sawtooth</option>
+          <option value="square">Square</option>
+          <option value="triangle">Triangle</option>
+          <option value="sine">Sine</option>
+        </select>
+      </label>
+      <span style="align-self:end;">Presets:</span>
+      <button type="button" id="preOrgan">Organ</button>
+      <button type="button" id="preBrass">Brass</button>
+      <button type="button" id="prePluck">Pluck</button>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Lowpass filter</legend>
+    <div class="grid2">
+      <div>
+        <label>Cutoff <span class="vals" id="cutdisp"></span> Hz</label>
+        <input type="range" id="cutoff" min="0" max="100" step="1" value="80" aria-label="Filter cutoff"/>
+      </div>
+      <div>
+        <label>Resonance (Q) <span class="vals" id="qdisp"></span></label>
+        <input type="range" id="reso" min="0.1" max="20" step="0.1" value="1" aria-label="Filter resonance"/>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Envelope (ADSR)</legend>
+    <div class="grid2">
+      <div>
+        <label>Attack <span class="vals" id="adisp"></span> s</label>
+        <input type="range" id="att" min="0.005" max="1" step="0.005" value="0.02" aria-label="Attack time"/>
+      </div>
+      <div>
+        <label>Decay <span class="vals" id="ddisp"></span> s</label>
+        <input type="range" id="dec" min="0.01" max="1" step="0.01" value="0.15" aria-label="Decay time"/>
+      </div>
+      <div>
+        <label>Sustain <span class="vals" id="sdisp"></span></label>
+        <input type="range" id="sus" min="0" max="1" step="0.01" value="0.7" aria-label="Sustain level"/>
+      </div>
+      <div>
+        <label>Release <span class="vals" id="rdisp"></span> s</label>
+        <input type="range" id="rel" min="0.01" max="2" step="0.01" value="0.3" aria-label="Release time"/>
+      </div>
+    </div>
+  </fieldset>
+
+  <div id="keys" aria-label="One-octave keyboard"></div>
+
+  <canvas id="scope" width="900" height="300" aria-label="Waveform and spectrum display"></canvas>
+  <p class="hint">What to notice: lowering the cutoff makes the sound darker without changing its pitch, and the envelope changes whether a note feels like an organ, a horn or a plucked string.</p>
+
+  <script>
+(function () {
+  "use strict";
+  var ctx = null, master = null, analyser = null;
+  var voices = {};          // midi note -> { oscs: [], gain, filter }
+  var organMode = false;    // set by the organ preset, cleared by manual waveform change
+  var running = false;
+
+  var el = function (id) { return document.getElementById(id); };
+  var waveEl = el("wave"), cutEl = el("cutoff"), qEl = el("reso");
+  var aEl = el("att"), dEl = el("dec"), sEl = el("sus"), rEl = el("rel");
+  var volEl = el("vol");
+  var canvas = el("scope"), c2d = canvas.getContext("2d");
+
+  function cutoffHz() {
+    // 0..100 slider mapped logarithmically 80 Hz .. 12000 Hz
+    var v = parseFloat(cutEl.value) / 100;
+    return 80 * Math.pow(12000 / 80, v);
+  }
+  function params() {
+    return {
+      wave: waveEl.value,
+      cutoff: cutoffHz(),
+      q: parseFloat(qEl.value),
+      a: parseFloat(aEl.value),
+      d: parseFloat(dEl.value),
+      s: parseFloat(sEl.value),
+      r: parseFloat(rEl.value),
+      vol: parseFloat(volEl.value) / 100
+    };
+  }
+  function updateLabels() {
+    var p = params();
+    el("cutdisp").textContent = Math.round(p.cutoff);
+    el("qdisp").textContent = p.q.toFixed(1);
+    el("adisp").textContent = p.a.toFixed(3);
+    el("ddisp").textContent = p.d.toFixed(2);
+    el("sdisp").textContent = p.s.toFixed(2);
+    el("rdisp").textContent = p.r.toFixed(2);
+    el("voldisp").textContent = Math.round(p.vol * 100) + " %";
+  }
+
+  function ensureAudio() {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      master = ctx.createGain();
+      master.gain.value = 0;
+      analyser = ctx.createAnalyser();
+      analyser.fftSize = 2048;
+      analyser.smoothingTimeConstant = 0.7;
+      master.connect(analyser);
+      analyser.connect(ctx.destination);
+    }
+    if (ctx.state === "suspended") { ctx.resume(); }
+    if (!running) {
+      running = true;
+      master.gain.setTargetAtTime(0.25 * params().vol, ctx.currentTime, 0.03);
+      el("power").textContent = "Stop audio";
+      el("power").classList.remove("primary");
+    }
+  }
+  function powerToggle() {
+    if (!running) { ensureAudio(); return; }
+    allNotesOff();
+    master.gain.setTargetAtTime(0, ctx.currentTime, 0.03);
+    running = false;
+    el("power").textContent = "Start audio";
+    el("power").classList.add("primary");
+  }
+
+  function midiToHz(m) { return 440 * Math.pow(2, (m - 69) / 12); }
+
+  function noteOn(midi) {
+    ensureAudio();
+    if (voices[midi]) { return; }
+    var p = params();
+    var t = ctx.currentTime;
+    var g = ctx.createGain();
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(1, t + p.a);
+    g.gain.setTargetAtTime(p.s, t + p.a, Math.max(0.01, p.d / 3));
+    var filt = ctx.createBiquadFilter();
+    filt.type = "lowpass";
+    filt.frequency.value = p.cutoff;
+    filt.Q.value = p.q;
+    filt.connect(g);
+    g.connect(master);
+    var f0 = midiToHz(midi);
+    var oscs = [];
+    var partials = organMode ? [[1, 0.6], [2, 0.35], [3, 0.2]] : [[1, 0.55]];
+    for (var i = 0; i < partials.length; i++) {
+      var osc = ctx.createOscillator();
+      osc.type = organMode ? "sine" : p.wave;
+      osc.frequency.value = f0 * partials[i][0];
+      var og = ctx.createGain();
+      og.gain.value = partials[i][1];
+      osc.connect(og);
+      og.connect(filt);
+      osc.start(t);
+      oscs.push(osc);
+    }
+    voices[midi] = { oscs: oscs, gain: g, filter: filt };
+    setKeyDown(midi, true);
+  }
+
+  function noteOff(midi) {
+    var v = voices[midi];
+    setKeyDown(midi, false);
+    if (!v || !ctx) { return; }
+    delete voices[midi];
+    var p = params();
+    var t = ctx.currentTime;
+    v.gain.gain.cancelScheduledValues(t);
+    v.gain.gain.setTargetAtTime(0, t, Math.max(0.008, p.r / 4));
+    for (var i = 0; i < v.oscs.length; i++) { v.oscs[i].stop(t + p.r + 0.5); }
+  }
+
+  function allNotesOff() {
+    for (var m in voices) { if (voices.hasOwnProperty(m)) { noteOff(parseInt(m, 10)); } }
+  }
+
+  function updateVoices() {
+    var p = params();
+    if (!ctx) { return; }
+    var t = ctx.currentTime;
+    if (running) { master.gain.setTargetAtTime(0.25 * p.vol, t, 0.02); }
+    for (var m in voices) {
+      if (voices.hasOwnProperty(m)) {
+        voices[m].filter.frequency.setTargetAtTime(p.cutoff, t, 0.02);
+        voices[m].filter.Q.setTargetAtTime(p.q, t, 0.02);
+      }
+    }
+  }
+
+  // ---- presets ----
+  function applyPreset(vals) {
+    organMode = !!vals.organ;
+    waveEl.value = vals.wave;
+    cutEl.value = vals.cut; qEl.value = vals.q;
+    aEl.value = vals.a; dEl.value = vals.d; sEl.value = vals.s; rEl.value = vals.r;
+    updateLabels();
+    updateVoices();
+  }
+  el("preOrgan").addEventListener("click", function () {
+    applyPreset({ organ: true, wave: "sine", cut: 95, q: 0.7, a: 0.02, d: 0.05, s: 1, r: 0.08 });
+  });
+  el("preBrass").addEventListener("click", function () {
+    applyPreset({ wave: "sawtooth", cut: 55, q: 4, a: 0.09, d: 0.25, s: 0.7, r: 0.25 });
+  });
+  el("prePluck").addEventListener("click", function () {
+    applyPreset({ wave: "triangle", cut: 75, q: 2, a: 0.005, d: 0.14, s: 0, r: 0.12 });
+  });
+  waveEl.addEventListener("change", function () { organMode = false; });
+
+  // ---- keyboard UI ----
+  var keysDiv = el("keys");
+  var whiteNotes = [60, 62, 64, 65, 67, 69, 71, 72];
+  var whiteHints = ["A", "S", "D", "F", "G", "H", "J", "K"];
+  var blackNotes = [61, 63, 66, 68, 70];
+  var blackPos = [12.5, 25, 50, 62.5, 75]; // percent of container width
+  var keyEls = {};
+
+  function makeKey(midi, cls, style, hint) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = cls;
+    b.setAttribute("style", style);
+    b.setAttribute("aria-label", "Note " + midi);
+    if (hint) {
+      var s = document.createElement("span");
+      s.className = "keyhint";
+      s.textContent = hint;
+      b.appendChild(s);
+    }
+    b.addEventListener("pointerdown", function (e) {
+      e.preventDefault();
+      b.setPointerCapture(e.pointerId);
+      noteOn(midi);
+    });
+    var up = function (e) { e.preventDefault(); noteOff(midi); };
+    b.addEventListener("pointerup", up);
+    b.addEventListener("pointercancel", up);
+    keysDiv.appendChild(b);
+    keyEls[midi] = b;
+  }
+  var i;
+  for (i = 0; i < whiteNotes.length; i++) {
+    makeKey(whiteNotes[i], "wkey",
+      "left:" + (i * 12.5) + "%; width:12.5%;", whiteHints[i]);
+  }
+  for (i = 0; i < blackNotes.length; i++) {
+    makeKey(blackNotes[i], "bkey",
+      "left:" + (blackPos[i] - 3.5) + "%; width:7%;", null);
+  }
+  function setKeyDown(midi, down) {
+    if (keyEls[midi]) { keyEls[midi].classList.toggle("down", down); }
+  }
+
+  // ---- computer keyboard ----
+  var keyMap = { a: 60, w: 61, s: 62, e: 63, d: 64, f: 65, t: 66, g: 67, y: 68, h: 69, u: 70, j: 71, k: 72 };
+  document.addEventListener("keydown", function (e) {
+    if (e.repeat || e.metaKey || e.ctrlKey || e.altKey) { return; }
+    var m = keyMap[e.key.toLowerCase()];
+    if (m !== undefined) { e.preventDefault(); noteOn(m); }
+  });
+  document.addEventListener("keyup", function (e) {
+    var m = keyMap[e.key.toLowerCase()];
+    if (m !== undefined) { noteOff(m); }
+  });
+
+  // ---- drawing ----
+  function theme() {
+    var d = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return d ? { bg: "#101216", grid: "#2a2f37", line: "#7fc4e0", bar: "#4da3c7", text: "#9aa0a8" }
+             : { bg: "#ffffff", grid: "#e3e5e8", line: "#0b6e99", bar: "#0b6e99", text: "#5a6069" };
+  }
+  var timeData = new Float32Array(2048);
+  var freqData = new Uint8Array(1024);
+  function draw() {
+    requestAnimationFrame(draw);
+    var th = theme();
+    var w = canvas.width, h = canvas.height, half = h / 2;
+    c2d.fillStyle = th.bg;
+    c2d.fillRect(0, 0, w, h);
+    c2d.strokeStyle = th.grid;
+    c2d.beginPath(); c2d.moveTo(0, half); c2d.lineTo(w, half); c2d.stroke();
+    if (analyser) {
+      analyser.getFloatTimeDomainData(timeData);
+      c2d.strokeStyle = th.line;
+      c2d.lineWidth = 1.5;
+      c2d.beginPath();
+      var n = timeData.length, x, y, j;
+      for (j = 0; j < n; j++) {
+        x = j / (n - 1) * w;
+        y = half / 2 - timeData[j] * (half / 2 - 8) * 2.2;
+        if (j === 0) { c2d.moveTo(x, y); } else { c2d.lineTo(x, y); }
+      }
+      c2d.stroke();
+      analyser.getByteFrequencyData(freqData);
+      c2d.fillStyle = th.bar;
+      var bins = 256; // ~5.9 kHz at 48 kHz sample rate: the musically useful range
+      var bw = w / bins;
+      for (j = 0; j < bins; j++) {
+        var v = freqData[j] / 255;
+        c2d.fillRect(j * bw, h - v * (half - 18), Math.max(1, bw - 1), v * (half - 18));
+      }
+    }
+    c2d.fillStyle = th.text;
+    c2d.font = "13px system-ui, sans-serif";
+    c2d.fillText("Waveform (time)", 8, 16);
+    c2d.fillText("Spectrum (frequency)", 8, half + 16);
+  }
+  draw();
+
+  // ---- wiring ----
+  el("power").addEventListener("click", powerToggle);
+  el("panic").addEventListener("click", allNotesOff);
+  var ins = [cutEl, qEl, volEl, aEl, dEl, sEl, rEl];
+  for (i = 0; i < ins.length; i++) {
+    ins[i].addEventListener("input", function () { updateLabels(); updateVoices(); });
+  }
+  updateLabels();
+})();
+  </script>
+</body>
+</html>
