@@ -62,11 +62,15 @@
     .cell.l3 .lv { height: 100%; }
     .cell.now { box-shadow: inset 0 0 0 3px var(--now); }
     @media (max-width: 560px) { .cell { min-height: 24px; } #grid .name { font-size: 0.75rem; } }
-  </style>
+      details.more { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+    details.more summary { cursor: pointer; font-weight: 600; color: inherit; }
+    details.more h3 { font-size: 0.95rem; margin: 14px 0 4px; }
+    details.more p { margin: 6px 0; }
+</style>
 </head>
 <body>
   <h1>Drum machine</h1>
-  <p class="intro">One bar of four beats, and a choice of how finely each beat is divided: into two (eighth notes), three (triplets, the 12/8 feel), or four (sixteenth notes). Draw a pattern by clicking cells, then change the subdivision and hear how the same four beats carry a different density and a different style. Each hit has one of three loudness levels, so you can also give the pattern a metric accent, and a swing control delays the off-beat subdivisions, which is the subject of a later section.</p>
+  <p class="intro">One bar of four beats, divided into two, three or four. Draw a pattern, change the subdivision, and hear how the same four beats carry a different feel. Each hit has three loudness levels, and a swing control delays the off-beats.</p>
 
   <div class="row">
     <button type="button" id="power" class="primary">Start</button>
@@ -86,7 +90,7 @@
       <button type="button" id="div4" aria-pressed="true">4: sixteenth notes (16 steps)</button>
     </div>
     <div id="grid" aria-label="Drum pattern grid"></div>
-    <span class="hint">Each thick line starts a beat. Click a cell to cycle its hit through medium, strong, soft, and off; the fill shows the level. The pattern is kept when you change the subdivision, as far as the positions exist on the new grid.</span>
+    <span class="hint">Click a cell to cycle through medium, strong, soft and off. The pattern survives a change of subdivision where the positions exist.</span>
   </fieldset>
 
   <fieldset>
@@ -114,7 +118,7 @@
       <button type="button" class="small" data-div="3" data-bpm="140" data-sw="50" data-k="100100100100" data-s="000001000000" data-h="300302300302" data-o="000000000000">Jazz swing ride</button>
       <button type="button" class="small" data-div="3" data-bpm="100" data-sw="50" data-k="300000300000" data-s="000000000000" data-h="202022020202" data-o="000000000000">West African bell (12/8)</button>
     </div>
-    <span class="hint">The style presets also set the tempo and the swing. Each is a one-bar sketch of a style's core pattern, reduced to kick, snare, and hi-hats; the snare row stands in for rim, clave, or comping where the style has no backbeat, and the closed hi-hat row for ride or bell.</span>
+    <span class="hint">Style presets also set the tempo and the swing; each is a one-bar sketch reduced to kick, snare and hi-hats.</span>
     <div class="row">
       <span style="font-weight:600;">Accents:</span>
       <button type="button" class="small" id="accentBeats">Strong on the beats, soft between</button>
@@ -134,14 +138,20 @@
       <button type="button" class="small" data-swing="67">2:1 triplet</button>
       <button type="button" class="small" data-swing="75">3:1 hard</button>
     </div>
-    <span class="hint">The slider gives the share of each pair of subdivisions taken by the first note; the ratio is that share against the rest. Every second subdivision is delayed accordingly, so a pair of eighths or sixteenths becomes long–short. It has no effect on the triplet grid, which is already long–short by construction.</span>
+    <span class="hint">The slider sets how much of each pair of subdivisions the first note takes. It has no effect on the triplet grid.</span>
     <div class="row" style="margin-top:8px;">
       <label style="display:inline-flex; align-items:center; gap:6px; margin:0; font-weight:normal;"><input type="checkbox" id="clickBeats"/> Click on every beat</label>
       <label style="display:inline-flex; align-items:center; gap:6px; margin:0; font-weight:normal;"><input type="checkbox" id="tickSub"/> Quiet tick on every subdivision</label>
     </div>
   </fieldset>
 
-  <p class="hint">Things to try: keep the rock pattern and switch to sixteenths, then to triplets, and notice that the beat has not changed while the feel has. Put hi-hats on every step at each subdivision and raise the tempo until the subdivisions stop sounding like separate events. Set only beat 1 with the subdivision tick on and count the divisions aloud. The space bar starts and stops.</p>
+  <details class="more">
+  <summary>More about this app</summary>
+  <h3>How it works</h3>
+  <p>The three subdivisions are eighth notes (8 steps), triplets (12 steps, the 12/8 feel) and sixteenth notes (16 steps); each thick line starts a beat. In the style presets the snare row stands in for rim, clave or comping where the style has no backbeat, and the closed hi-hat row for ride or bell. Swing delays every second subdivision so that a pair of eighths or sixteenths becomes long–short; the triplet grid is already long–short by construction.</p>
+  <h3>Things to try</h3>
+  <p>Keep the rock pattern and switch to sixteenths, then to triplets, and notice that the beat has not changed while the feel has. Put hi-hats on every step at each subdivision and raise the tempo until the subdivisions stop sounding like separate events. Set only beat 1 with the subdivision tick on and count the divisions aloud. The space bar starts and stops.</p>
+</details>
 
   <script>
 (function () {

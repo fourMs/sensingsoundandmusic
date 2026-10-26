@@ -69,12 +69,16 @@
     td.num, th.num { text-align: right; }
     .credit { font-size: 0.85rem; color: var(--muted); margin-top: 18px; }
     a { color: var(--accent); }
-  </style>
+      details.more { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+    details.more summary { cursor: pointer; font-weight: 600; color: inherit; }
+    details.more h3 { font-size: 0.95rem; margin: 14px 0 4px; }
+    details.more p { margin: 6px 0; }
+</style>
 </head>
 <body>
   <h1>Eye tracker</h1>
-  <p class="intro">A video eye tracker is a camera pointed at the eyes and a program that finds the pupil in every frame. The pupil is the darkest round thing in the picture, so a brightness threshold finds it, and its position in the image shifts as the eye turns. A short calibration, looking at a few known points on the screen, teaches the program which pupil position means which gaze point; after that, every frame gives an estimated gaze point, from which fixations, saccades, and scanpaths can be drawn. Research eye trackers add infrared light and a reflection on the cornea so that the head can move; this app has neither, so it works only while the head stays still. It is a demonstration of the principle for teaching, not a research instrument. Press Start camera and allow access when the browser asks.</p>
-  <p class="privacy">Privacy: the camera image is analysed locally in your browser, drawn to the screen, and immediately discarded. Nothing is recorded, stored, or sent anywhere. The only thing that ever leaves this page is a CSV file or a picture you choose to save with one of the Download buttons, and it goes to your own device.</p>
+  <p class="intro">A webcam, a brightness threshold that finds the pupil, and a short calibration give an estimated gaze point, from which fixations and scanpaths are drawn. Keep your head still. Press Start camera and allow access when the browser asks.</p>
+  <p class="privacy">Privacy: the camera image is analysed in your browser and discarded. Nothing is recorded or sent anywhere; only the files you choose to download leave this page.</p>
 
   <div class="row">
     <button type="button" id="start" class="primary">Start camera</button>
@@ -85,7 +89,7 @@
   <fieldset>
     <legend>Step 1: find your eyes</legend>
     <canvas id="video" class="frame" width="640" height="480" aria-label="The live camera image with two adjustable eye boxes"></canvas>
-    <span class="hint">Sit close to the camera, face a window or a lamp so that your eyes are well lit, and keep your head still. Drag the two boxes over your eyes, or use the sliders. The tracker follows the pupil in the image, not the head, so if the head moves, the estimated gaze moves with it.</span>
+    <span class="hint">Sit close, with your eyes well lit, and keep your head still. Drag the two boxes over your eyes, or use the sliders.</span>
     <div class="wrap">
       <div>
         <label for="lx">Left box, horizontal <span class="vals" id="lxdisp"></span></label>
@@ -122,7 +126,7 @@
         <p class="readout" id="readR">Right eye: no data yet</p>
       </div>
     </div>
-    <span class="hint">Inside each box, every pixel is converted to grey and compared with the darkness threshold (on a scale of 0–255). Pixels darker than the threshold are tinted red. The dark pixels are then grouped into connected blobs, and the largest reasonably round blob is taken to be the pupil, drawn in blue with a cross at its centroid. Its area is counted in pixels of the camera image. Lower the threshold until only the pupil remains red; raise it if the pupil breaks into pieces. Eyebrows, eyelashes, and the frames of glasses are the usual false pupils.</span>
+    <span class="hint">Red pixels are darker than the threshold, and the largest round blob of them is taken as the pupil. Lower the threshold until only the pupil is red.</span>
   </fieldset>
 
   <fieldset>
@@ -141,7 +145,7 @@
         <tbody></tbody>
       </table>
     </div>
-    <span class="hint">Nine dots appear one at a time on the stimulus screen below, each for about 1.5 s. Look at each dot and keep your head still. For each dot the app records the mean pupil position, then fits a mapping from pupil position to screen position by least squares. The affine mapping is a stretch, a rotation, and a shift; the quadratic mapping can also bend, which helps at the edges of the screen but needs cleaner data. The error is the distance between each target and where the fitted mapping places the mean pupil position recorded at that target, so it says how well the mapping explains its own calibration data, not how accurate the tracker will be afterwards. Press Show residuals to see the errors as arrows on the stimulus screen, and Calibrate again whenever the head has moved.</span>
+    <span class="hint">Nine dots appear in turn on the stimulus screen. Look at each one with your head still. Calibrate again whenever the head has moved.</span>
   </fieldset>
 
   <fieldset>
@@ -182,7 +186,7 @@
         <tbody></tbody>
       </table>
     </div>
-    <span class="hint">The estimated gaze point is drawn as a ring, smoothed over the last frames (more smoothing gives a calmer point that lags behind the eye). The trail shows the last 5 s of the scanpath. A fixation is counted when the gaze stays within the dispersion distance for at least the minimum duration; it is drawn as a circle whose size grows with its duration, and the lines between circles are the saccades. The heatmap adds up how long the gaze rested at each place. Dwell time is the total time the gaze spent in each region of the stimulus: a bar of the notation, a cell of the shape grid, a line of the text, or the neighbourhood of the dot.</span>
+    <span class="hint">Ring: the smoothed gaze point. Circles: fixations, sized by duration, joined by saccades. The table gives the dwell time in each region of the stimulus.</span>
     <div class="row">
       <button type="button" class="small" id="dlcsv">Download CSV</button>
       <button type="button" class="small" id="dlpng">Download scanpath PNG</button>
@@ -194,11 +198,24 @@
     <canvas id="pupilplot" aria-label="Pupil area of each eye over the last 30 seconds"></canvas>
     <div class="axis"><span>−30 s</span><span>now</span></div>
     <p class="readout" id="pupilread">Pupil area: no data yet</p>
-    <span class="hint">The area of each pupil blob, in pixels of the camera image, over the last 30 s. The number itself means little: it grows when you lean towards the camera and shrinks when the threshold cuts off the edge of the pupil, and the camera's own exposure control changes the picture as the room brightens. Only changes under constant light and constant position are worth reading. Try this: keep still, look at a bright white part of the screen for 10 s, then at a dark part, and watch the area fall and rise as the pupil constricts and dilates. Then look at the dot stimulus and multiply two two-digit numbers in your head; a pupil that widens while the light stays the same is the response to mental effort that pupillometry is after.</span>
+    <span class="hint">Pupil area in camera pixels over the last 30 s. Only changes under constant light and position mean anything.</span>
   </fieldset>
 
-  <p class="hint">Things to try: calibrate, then look at each corner of the stimulus screen in turn and see how far the ring lands from where you look. Turn your head a few degrees without moving your eyes and watch the gaze point slide away, which is why research systems track the head or the corneal reflection too. Read the text stimulus and compare the number and duration of fixations with those on the staff notation; then read the notation as if sight-reading it, and look at where the fixations fall relative to the bars. Switch the mapping between affine and quadratic without recalibrating and compare the errors. Raise the smoothing until the point stops jittering, and note how much later it arrives. Lower the dispersion threshold until a steady gaze breaks into many short fixations, which shows how much a fixation count depends on the detector's settings.</p>
-  <p class="hint">This app demonstrates the principle of video eye tracking with a webcam and a few lines of image processing. Research eye trackers, with infrared illumination, corneal reflection, far higher frame rates, and a model of the eye, are far more accurate and tolerate head movement; the numbers this page produces are for understanding the method, not for measuring anyone.</p>
+  <details class="more">
+  <summary>More about this app</summary>
+  <h3>How it works</h3>
+  <p>Inside each eye box every pixel is converted to grey and compared with the darkness threshold (0–255). The dark pixels are grouped into connected blobs, and the largest reasonably round blob is taken to be the pupil, drawn in blue with a cross at its centroid. Eyebrows, eyelashes and the frames of glasses are the usual false pupils.</p>
+  <p>Calibration records the mean pupil position while you look at each of nine dots, then fits a mapping from pupil position to screen position by least squares. The affine mapping is a stretch, a rotation and a shift; the quadratic mapping can also bend, which helps at the edges but needs cleaner data. The error reported is how well the mapping explains its own calibration data, not how accurate the tracker will be afterwards. Show residuals draws the errors as arrows.</p>
+  <p>The gaze point is smoothed over the last frames; more smoothing gives a calmer point that lags behind the eye. A fixation is counted when the gaze stays within the dispersion distance for at least the minimum duration. The heatmap adds up how long the gaze rested at each place.</p>
+  <p>The pupil area grows when you lean towards the camera, shrinks when the threshold cuts off the edge of the pupil, and changes with the camera's own exposure control. Try this: keep still, look at a bright white part of the screen for 10 s, then at a dark part, and watch the area fall and rise. Then look at the dot stimulus and multiply two two-digit numbers in your head; a pupil that widens while the light stays the same is the response to mental effort that pupillometry is after.</p>
+  <h3>Things to try</h3>
+  <p>Calibrate, then look at each corner of the stimulus screen in turn and see how far the ring lands from where you look. Turn your head a few degrees without moving your eyes and watch the gaze point slide away, which is why research systems track the head or the corneal reflection too.</p>
+  <p>Read the text stimulus and compare the number and duration of fixations with those on the staff notation; then read the notation as if sight-reading it, and look at where the fixations fall relative to the bars.</p>
+  <p>Switch the mapping between affine and quadratic without recalibrating and compare the errors. Raise the smoothing until the point stops jittering, and note how much later it arrives. Lower the dispersion threshold until a steady gaze breaks into many short fixations, which shows how much a fixation count depends on the detector's settings.</p>
+  <h3>Limits</h3>
+  <p>This page demonstrates the principle of video eye tracking with a webcam and a few lines of image processing. Research eye trackers add infrared illumination, a corneal reflection, far higher frame rates and a model of the eye, so they are far more accurate and tolerate head movement. The numbers here are for understanding the method, not for measuring anyone.</p>
+</details>
+  
 
   <video id="cam" playsinline muted style="display:none;"></video>
 

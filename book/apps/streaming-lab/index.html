@@ -57,11 +57,15 @@
     th, td { border: 1px solid var(--border); padding: 4px 8px; text-align: left; }
     th { background: var(--panel); }
     p { margin: 8px 0; }
-  </style>
+      details.more { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+    details.more summary { cursor: pointer; font-weight: 600; color: inherit; }
+    details.more h3 { font-size: 0.95rem; margin: 14px 0 4px; }
+    details.more p { margin: 6px 0; }
+</style>
 </head>
 <body>
   <h1>Streaming lab</h1>
-  <p class="intro">Two tones, A and B, alternate at a steady rate. When they are close in frequency and the rate is slow, you hear one line that jumps up and down. Pull them apart, or speed the sequence up, and the line splits into two streams, a low one and a high one, each with its own slower pulse. This is auditory stream segregation, the sequential grouping problem of auditory scene analysis made audible, and the sliders below are the grouping cues: proximity in frequency and time, similarity of timbre and loudness. Change one thing at a time and listen for the moment the percept flips, then measure your own boundaries in the experiment at the bottom. Headphones help but are not required.</p>
+  <p class="intro">Two tones alternate. Close together and slow, they form one line that jumps up and down; pull them apart or speed up, and the line splits into two streams. Change one thing at a time and listen for the moment it flips. Headphones help.</p>
 
   <div class="row">
     <button type="button" id="power" class="primary">Play</button>
@@ -105,7 +109,7 @@
         <select id="timb" aria-label="Timbre of tone B"><option value="sine">Sine</option><option value="bright">Bright</option></select></span>
       </div>
     </div>
-    <p class="hint">The separation is in semitones, so the same slider position means the same musical interval whatever the frequency of A. Tempo is in tones per second, with the interval between onsets beside it, since the literature usually gives the rate as that interval. The bright timbre adds harmonics to the sine, which lets you test timbre contrast as a grouping cue (the similarity principle) without moving the frequencies at all.</p>
+    <p class="hint">Separation is in semitones, tempo in tones per second. The bright timbre adds harmonics, so timbre contrast can be tested on its own.</p>
   </fieldset>
 
   <fieldset>
@@ -117,12 +121,12 @@
     </div>
     <canvas id="seq" aria-label="The alternating tones drawn as rectangles in time and frequency, with a playhead"></canvas>
     <p class="desc" id="readout"></p>
-    <p class="hint">The rectangles are the tones in time and frequency; the frequency axis is logarithmic so that equal semitone steps are equal heights, and the playhead follows the sound. The dashed line is not in the signal: it is the connection your ear makes, as in the chapter figure. Set the toggle to what you hear, and notice that the picture of the signal does not change when the percept does. Streaming builds up over a few seconds, so give each setting time.</p>
+    <p class="hint">The rectangles are the tones; the dashed line is the connection your ear makes. Set the toggle to what you hear, and give each setting a few seconds.</p>
   </fieldset>
 
   <fieldset>
     <legend>Find your boundary</legend>
-    <p>The app plays the sequence at a fixed tempo while the separation drifts between 0 and 15 semitones over 30 s, upwards or downwards at random. Press the button (or the space bar) at the moment the percept flips: from one stream to two on an upward sweep, from two streams to one on a downward sweep. The app records the separation at that moment and repeats at three tempi, 3, 6 and 12 tones per second. The pattern, the frequency of A, the duration, the loudness and the timbres stay as you set them above, so you can repeat the run with a different timbre contrast and compare the points.</p>
+    <p class="hint">The separation sweeps between 0 and 15 semitones over 30 s, up or down at random, at three tempi. Press the button (or the space bar) the moment the percept flips.</p>
     <div class="row">
       <button type="button" id="expstart" class="primary">Start experiment</button>
       <button type="button" id="flip" disabled>It flipped</button>
@@ -131,14 +135,22 @@
     </div>
     <p class="status" id="expstatus">No trials yet.</p>
     <canvas id="chart" aria-label="Recorded boundary points, separation against tempo, with the two reference boundaries as bands"></canvas>
-    <p class="hint">The reference bands follow van Noorden (1975) and are approximate. The fission boundary (lower band) lies at about 3–5 semitones and hardly depends on tempo; below it the sequence is always heard as one stream. The temporal coherence boundary (upper band) rises steeply as the tempo slows; above it the sequence is always heard as two streams. Between the bands either percept can be chosen, and attention decides: that is the ambiguous region. Filled points are upward sweeps (one stream became two), open points downward sweeps (two became one). Expect your own points to scatter, and expect the upward and downward points to differ, since a percept tends to persist once it has formed.</p>
+    <p class="hint">Filled points: one stream became two. Open points: two became one. The bands are van Noorden's fission and temporal-coherence boundaries; between them, attention decides.</p>
     <div id="results"></div>
     <div class="row">
       <button type="button" id="csv" disabled>Download CSV</button>
     </div>
   </fieldset>
 
-  <p class="hint">Things to try: hold the separation at 6 semitones and change only the tempo; at 3 tones per second the line stays whole, at 12 it falls apart, although no frequency has moved. Hold the tempo and, at a separation of 2 or 3 semitones, give B the bright timbre; the two tones can split on timbre alone. Choose the galloping pattern at a large separation and try to hear the gallop; it is gone, because rhythm belongs to a stream, and the slow pulse of B and the quicker pulse of A are each heard on their own. Make B much softer than A and listen for the moment it turns into a background stream. Finally, run the experiment twice, once with equal timbres and once with contrasting ones, and compare the two sets of points.</p>
+  <details class="more">
+  <summary>More about this app</summary>
+  <h3>How it works</h3>
+  <p>This is auditory stream segregation, the sequential grouping problem of auditory scene analysis made audible. The sliders are the grouping cues: proximity in frequency and time, similarity of timbre and loudness. The frequency axis of the picture is logarithmic, so equal semitone steps are equal heights, and the picture of the signal does not change when the percept does. Streaming builds up over a few seconds.</p>
+  <p>In the experiment the pattern, the frequency of A, the duration, the loudness and the timbres stay as you set them, so you can repeat the run with a different timbre contrast and compare. The reference bands follow van Noorden (1975) and are approximate. The fission boundary lies at about 3–5 semitones and hardly depends on tempo; below it the sequence is always one stream. The temporal coherence boundary rises steeply as the tempo slows; above it the sequence is always two streams. Expect your points to scatter, and expect the upward and downward sweeps to differ, since a percept tends to persist once it has formed.</p>
+  <h3>Things to try</h3>
+  <p>Hold the separation at 6 semitones and change only the tempo: at 3 tones per second the line stays whole, at 12 it falls apart, although no frequency has moved. Hold the tempo and, at 2 or 3 semitones, give B the bright timbre; the two tones can split on timbre alone.</p>
+  <p>Choose the galloping pattern at a large separation and try to hear the gallop; it is gone, because rhythm belongs to a stream. Make B much softer than A and listen for the moment it turns into a background stream. Run the experiment twice, once with equal timbres and once with contrasting ones, and compare the two sets of points.</p>
+</details>
 
   <script>
 (function () {

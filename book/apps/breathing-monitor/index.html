@@ -68,12 +68,16 @@
     th:first-child, td:first-child { text-align: left; }
     th { background: var(--panel); position: sticky; top: 0; }
     a { color: var(--accent); }
-  </style>
+      details.more { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+    details.more summary { cursor: pointer; font-weight: 600; color: inherit; }
+    details.more h3 { font-size: 0.95rem; margin: 14px 0 4px; }
+    details.more p { margin: 6px 0; }
+</style>
 </head>
 <body>
   <h1>Breathing monitor</h1>
-  <p class="intro">Breathing is the physiological signal that music reaches first and that musicians control most directly: a singer plans every breath, and a listener breathes more slowly to a calm piece and faster to a driving one. In the lab, breathing is recorded with a belt around the chest that stretches with every breath. This app does a rougher version of the same thing with a device you already have. A phone lying on the chest or belly tilts a little with every breath, and its motion sensor records the tilt; a webcam watching the chest and shoulders sees them rise and fall. Either way the result is a waveform that goes up and down once per breath, from which the app counts breaths and finds the breathing rate. Choose a source, press Start, and sit or lie still.</p>
-  <p class="privacy">Privacy: the motion-sensor and camera data are analysed locally in your browser and drawn to the screen; nothing is uploaded, stored, or sent anywhere. The only thing that ever leaves this page is the CSV file you choose to download, and it goes to your own device.</p>
+  <p class="intro">A phone lying on the chest tilts a little with every breath, and a webcam sees the shoulders rise and fall. Either gives a waveform from which the app counts breaths and finds the breathing rate. Choose a source, press Start, and sit or lie still.</p>
+  <p class="privacy">Privacy: the sensor and camera data are analysed in your browser and never uploaded; only the CSV file you choose to download leaves this page.</p>
 
   <fieldset>
     <legend>Source</legend>
@@ -94,11 +98,11 @@
         </label>
         <span class="vals" id="axisread">No data yet</span>
       </div>
-      <span class="hint">Lie down and lay the phone flat on your chest or belly with the screen up, or sit and hold it flat against the chest. Every breath tilts the phone a little, and the share of gravity that falls on each of its three axes changes with the tilt. The app filters all three axes (and their combined magnitude), keeps the one that swings most, removes the steady part, and smooths away anything faster than about one swing per second, which leaves the breathing. Choose the axis yourself if the automatic choice jumps about. The phone must not slide, and the page must be opened over https for the browser to offer the sensor.</span>
+      <span class="hint">Lie down with the phone flat on your chest or belly, screen up, or hold it flat against the chest. It must not slide, and the page must be opened over https for the sensor to be offered.</span>
     </div>
     <div id="panelcamera" style="display:none;">
       <canvas id="preview" width="320" height="240" aria-label="The camera image, scaled down, with the analysis box drawn on top"></canvas>
-      <span class="hint">Sit still, facing the camera, with the chest and shoulders in the picture, and drag a box over them in the preview. The rows of the box are averaged into one brightness value each, and the brightness-weighted mean row (the vertical centre of brightness in the box) is the signal: when the shoulders rise on an in-breath, the bands of light and dark inside the box move up, and the number moves with them. The image is analysed at 160 × 120 pixels, so a movement counts only when it shifts an edge between light and dark. A plain top against a plain wall gives a weak signal; a collar, a necklace, or a patterned top gives a strong one.</span>
+      <span class="hint">Sit still facing the camera and drag the box over your chest and shoulders. A collar or a patterned top gives a stronger signal than a plain one.</span>
     </div>
   </fieldset>
 
@@ -115,14 +119,14 @@
     <canvas id="wave" aria-label="The filtered breathing signal over the last 60 seconds, with detected breaths marked"></canvas>
     <p class="readout big" id="rateread">Breathing rate: no data yet</p>
     <p class="readout" id="statsread"></p>
-    <span class="hint">The trace is the filtered signal over the last 60 s, scaled to fit the box, with the detected breaths marked as dots. A breath is counted when the trace rises and then falls by more than half of its recent swing, and two breaths closer than 1.5 s are taken as one. The breathing rate is 60 divided by the median of the last five breath intervals, so one odd breath does not move it much. Resting adults breathe roughly 12–20 times a minute; singing, speaking, and simply paying attention all change it. The coefficient of variation is the standard deviation of the intervals divided by their mean, so it says how regular the breathing is regardless of how fast it is.</span>
+    <span class="hint">The filtered signal over the last 60 s, with detected breaths as dots. Resting adults breathe roughly 12–20 times a minute.</span>
   </fieldset>
 
   <fieldset>
     <legend>Spectrum of the last 30 s</legend>
     <canvas id="spec" aria-label="Spectrum of the last 30 seconds of the breathing signal, in breaths per minute"></canvas>
     <p class="readout" id="specread">Spectrum: waiting for 10 s of data</p>
-    <span class="hint">The spectrum is the Fourier transform of the last 30 s of the filtered trace, computed by the app itself. Regular breathing shows up as one peak, and its position on the axis is the breathing rate found a second way: from what repeats, rather than from counting events. The shaded band is the typical resting range. The two estimates agree when the breathing is regular and drift apart when it is not, which is itself worth noticing. With only 30 s of signal the peak is a few breaths per minute wide, as the window explorer app shows for sound.</span>
+    <span class="hint">A second estimate of the rate, from what repeats in the last 30 s rather than from counting breaths. The shaded band is the resting range.</span>
   </fieldset>
 
   <fieldset>
@@ -131,7 +135,7 @@
     <div class="row">
       <button type="button" class="small" id="csv">Download CSV</button>
     </div>
-    <span class="hint">Each row is one detected breath with the time since the previous one. The CSV has one row per sample: the time in seconds, the raw signal (acceleration in m/s² on the chosen axis, or the row position in the camera box), the filtered signal, and a 1 in the last column at each detected breath, so the analysis can be redone in a spreadsheet or in Python.</span>
+    <span class="hint">One row per detected breath. The CSV has one row per sample: time, raw signal, filtered signal, and a 1 at each detected breath.</span>
   </fieldset>
 
   <fieldset>
@@ -142,11 +146,23 @@
       <button type="button" id="tone">Start tone</button>
       <span class="readout" id="phase" style="margin:0;"></span>
     </div>
-    <span class="hint">The tone rises in pitch while you breathe in and falls while you breathe out, at the pace set here. Breathe along with it for a minute and compare the rate and the coefficient of variation with those of your free breathing before it; the pace is also marked in the spectrum. The <a href="../breath-pulse/">Breath and pulse</a> app has a fuller guide with a breathing circle.</span>
+    <span class="hint">The tone rises while you breathe in and falls while you breathe out. Breathe along for a minute and compare with your free breathing. The <a href="../breath-pulse/">Breath and pulse</a> app has a fuller guide.</span>
   </fieldset>
 
-  <p class="hint">Things to try: sit quietly for two minutes and note the rate and the coefficient of variation. Then read a paragraph aloud and watch both change: speech makes the breaths short and uneven, because the in-breaths come where the sentences allow. Hum one long note for as long as you can and see a single slow breath appear in the trace. Listen to a slow piece and then a fast one, three minutes each, and compare. Finally, measure the same person with both sources at the same time (the phone on the chest, the laptop camera on the shoulders) and compare the two rates and the two traces: they measure the same breathing in two different ways and should agree, but they will not agree perfectly.</p>
-  <p class="hint">Limits: the app measures the motion of the chest or belly, not the air that moves in and out, so a shallow breath and a deep one can look alike, and a shift of posture can look like a breath. The person must sit or lie still; walking, gesturing, and laughing all swamp the signal. The phone must not slide, and clothing that moves on its own confuses the camera. Breaths shorter than 1.5 s are not counted, and the first few seconds after Start are unreliable while the filters settle. This is a classroom device, not a medical one: it is fine for comparing conditions within one person and poor at comparing people.</p>
+  <details class="more">
+  <summary>More about this app</summary>
+  <h3>How it works</h3>
+  <p>Phone: every breath tilts the phone, and the share of gravity on each of its three axes changes with the tilt. The app filters all three axes and their combined magnitude, keeps the one that swings most, removes the steady part, and smooths away anything faster than about one swing per second. Choose the axis yourself if the automatic choice jumps about.</p>
+  <p>Webcam: the image is analysed at 160 × 120 pixels. The rows of the box are averaged into one brightness value each, and the brightness-weighted mean row is the signal: when the shoulders rise on an in-breath, the bands of light and dark inside the box move up, and the number moves with them.</p>
+  <p>A breath is counted when the trace rises and then falls by more than half of its recent swing; two breaths closer than 1.5 s are taken as one. The breathing rate is 60 divided by the median of the last five breath intervals, so one odd breath does not move it much. The coefficient of variation is the standard deviation of the intervals divided by their mean: how regular the breathing is, regardless of how fast.</p>
+  <p>The spectrum is the Fourier transform of the last 30 s of the filtered trace. Regular breathing shows up as one peak, whose position is the breathing rate found a second way. With only 30 s of signal the peak is a few breaths per minute wide, as the window explorer app shows for sound. The two estimates agree when the breathing is regular and drift apart when it is not.</p>
+  <h3>Things to try</h3>
+  <p>Sit quietly for two minutes and note the rate and the coefficient of variation. Then read a paragraph aloud and watch both change: speech makes the breaths short and uneven, because the in-breaths come where the sentences allow. Hum one long note for as long as you can and see a single slow breath appear in the trace.</p>
+  <p>Listen to a slow piece and then a fast one, three minutes each, and compare. Finally, measure the same person with both sources at once (the phone on the chest, the laptop camera on the shoulders) and compare the two rates and traces: they measure the same breathing in two ways and should agree, but not perfectly.</p>
+  <h3>Limits</h3>
+  <p>The app measures the motion of the chest or belly, not the air that moves in and out, so a shallow breath and a deep one can look alike, and a shift of posture can look like a breath. The person must sit or lie still; walking, gesturing and laughing all swamp the signal. Breaths shorter than 1.5 s are not counted, and the first few seconds after Start are unreliable while the filters settle. This is a classroom device, not a medical one: fine for comparing conditions within one person, poor at comparing people.</p>
+</details>
+  
 
   <video id="cam" playsinline muted style="display:none;"></video>
 

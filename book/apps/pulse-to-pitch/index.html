@@ -46,11 +46,15 @@
     #scale { height: 120px; } #wave { height: 130px; } #spec { height: 150px; }
     .desc { font-size: 1.05rem; margin: 6px 0 0; font-variant-numeric: tabular-nums; }
     .zone { font-weight: 600; }
-  </style>
+      details.more { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+    details.more summary { cursor: pointer; font-weight: 600; color: inherit; }
+    details.more h3 { font-size: 0.95rem; margin: 14px 0 4px; }
+    details.more p { margin: 6px 0; }
+</style>
 </head>
 <body>
   <h1>From pulse to pitch</h1>
-  <p class="intro">A single click, as close to an ideal impulse as a sound card allows, repeated at a rate you choose. At slow rates you hear separate pulses and can count them. Make the gaps shorter and, at some point around a few tens of milliseconds, the pulses stop being events and merge into one buzzing tone. From then on the rate is heard as a pitch, and the click itself is heard only as the tone's timbre. Move slowly through the region in the middle and listen for the moment it tips over.</p>
+  <p class="intro">A click repeated at a rate you choose. Slow, it is a series of pulses you can count; once the gaps shrink to a few tens of milliseconds, it merges into a tone whose pitch is the rate. Move slowly through the middle and listen for the moment it tips over.</p>
 
   <div class="row">
     <button type="button" id="power" class="primary">Start</button>
@@ -80,14 +84,20 @@
     <legend>What the ear receives</legend>
     <canvas id="wave" aria-label="The impulses over a fixed stretch of time"></canvas>
     <canvas id="spec" aria-label="The spectrum of the impulse train: equal harmonics at multiples of the rate"></canvas>
-    <span class="hint">Top: the impulses in a fixed window of time. Bottom: the spectrum. One impulse contains every frequency at the same level, so its spectrum is flat. Repeating it keeps the flat outline but concentrates the energy into harmonics at whole multiples of the rate. When the rate is low, the harmonics lie too close for the ear to separate, and what you hear is the click repeated. When the rate is high, the harmonics are far enough apart to give a pitch at the rate itself.</span>
+    <span class="hint">Top: the impulses in time. Bottom: their spectrum, with harmonics at whole multiples of the rate.</span>
     <div class="row">
       <label style="display:inline-flex; align-items:center; gap:6px; margin:0; font-weight:normal;"><input type="checkbox" id="level" checked/> Keep the loudness roughly constant as the rate rises</label>
     </div>
-    <span class="hint">More impulses per second means more energy. With the box ticked, the level is turned down as the rate rises so that the change you hear is in the character of the sound, not in its loudness. Untick it to hear the train grow louder.</span>
+    <span class="hint">With the box ticked, the level is turned down as the rate rises, so that what changes is the character of the sound, not its loudness.</span>
   </fieldset>
 
-  <p class="hint">Things to try: start at 2 per second and count. Jump to 100 and describe what you hear in one word, then glide down and stop the moment you can count again; read off the period. Compare 30 and 60 per second: is the lower one a low tone, a rattle, or a fast series of clicks? Play one impulse, then 5 and 500 per second, and listen for the same click inside all three. The space bar starts and stops.</p>
+  <details class="more">
+  <summary>More about this app</summary>
+  <h3>How it works</h3>
+  <p>One impulse contains every frequency at the same level, so its spectrum is flat. Repeating it keeps the flat outline but concentrates the energy into harmonics at whole multiples of the rate. When the rate is low, the harmonics lie too close for the ear to separate, and what you hear is the click repeated. When the rate is high, the harmonics are far enough apart to give a pitch at the rate itself, and the click is heard only as the tone's timbre. More impulses per second also means more energy, which is why the loudness box exists.</p>
+  <h3>Things to try</h3>
+  <p>Start at 2 per second and count. Jump to 100 and describe what you hear in one word, then glide down and stop the moment you can count again; read off the period. Compare 30 and 60 per second: is the lower one a low tone, a rattle, or a fast series of clicks? Play one impulse, then 5 and 500 per second, and listen for the same click inside all three. The space bar starts and stops.</p>
+</details>
 
   <script>
 (function () {

@@ -65,12 +65,16 @@
     .readout { font-size: 1rem; margin: 6px 0 0; font-variant-numeric: tabular-nums; }
     .credit { font-size: 0.85rem; color: var(--muted); margin-top: 18px; }
     a { color: var(--accent); }
-  </style>
+      details.more { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+    details.more summary { cursor: pointer; font-weight: 600; color: inherit; }
+    details.more h3 { font-size: 0.95rem; margin: 14px 0 4px; }
+    details.more p { margin: 6px 0; }
+</style>
 </head>
 <body>
   <h1>Video visualiser</h1>
-  <p class="intro">A video is a stack of still images, and most of what is interesting about a moving body happens between them. This app takes the image from your webcam and turns it into some of the visualisations used in music and movement research. The motion image keeps only what changed from one frame to the next. Videograms and motiongrams squeeze each frame into a single line and lay the lines side by side, so a few seconds of movement can be seen in one picture. The self-similarity matrix shows when the image returns to something it has shown before, and the plot at the bottom reduces all of it to a few numbers over time. Press Start camera and allow access when the browser asks.</p>
-  <p class="privacy">Privacy: the camera image is analysed locally in your browser, drawn to the screen, and immediately discarded. Nothing is recorded, stored, or sent anywhere. The only thing that ever leaves this page is a picture you choose to save with one of the Download buttons, and it goes to your own device.</p>
+  <p class="intro">Your webcam, turned into the visualisations used in music and movement research: a motion image, videograms and motiongrams, a self-similarity matrix, and the quantity and centroid of motion. Press Start camera and allow access when the browser asks.</p>
+  <p class="privacy">Privacy: the camera image is analysed in your browser and discarded. Nothing is recorded or sent anywhere; only the pictures you choose to download leave this page.</p>
 
   <div class="row">
     <button type="button" id="start" class="primary">Start camera</button>
@@ -91,7 +95,7 @@
         <canvas id="motion" class="frame" width="320" height="240" aria-label="The motion image: the absolute difference between consecutive frames"></canvas>
       </div>
     </div>
-    <span class="hint">The camera image is scaled down to 160 × 120 pixels before anything is analysed. In the motion image, each pixel is the difference in brightness between this frame and the previous one, so whatever stands still turns black and whatever moves lights up. Only edges show clearly: a plain shirt moving sideways changes little in its middle.</span>
+    <span class="hint">The motion image shows what changed since the previous frame: what stands still turns black, what moves lights up.</span>
     <div class="wrap">
       <div>
         <label for="thr">Noise threshold <span class="vals" id="thrdisp"></span></label>
@@ -102,7 +106,7 @@
         <input type="range" id="gain" min="1" max="30" step="1" value="6"/>
       </div>
     </div>
-    <span class="hint">A camera never delivers two identical frames, even of a still room: the sensor adds a little flicker of noise to every pixel. Differences smaller than the threshold (on a scale of 0–255) are set to zero. Raise it until the motion image is black when you hold still. The gain only brightens what is drawn in the motion image and motiongrams; it does not change the measurements below.</span>
+    <span class="hint">Raise the threshold until the motion image is black when you hold still. The gain only brightens the display.</span>
     <div class="row">
       <label class="check"><input type="checkbox" id="showcentroid" checked/> Mark the centroid of motion in the motion image</label>
     </div>
@@ -117,40 +121,50 @@
     <h2 id="titleV">Vertical videogram</h2>
     <canvas id="gramV" aria-label="Vertical gram: each frame averaged into one column, time running to the right"></canvas>
     <div class="axis"><span id="spanV">earlier</span><span>now</span></div>
-    <span class="hint">Each frame is averaged across its width into a single column of pixels, and the columns are placed side by side with the newest on the right. Up and down in the picture is the same as up and down in the video, so a hand that rises draws a line that climbs.</span>
+    <span class="hint">Each frame squeezed into one column, newest on the right. A hand that rises draws a line that climbs.</span>
     <div class="row"><button type="button" class="small" id="dlV">Download PNG</button></div>
 
     <h2 id="titleH">Horizontal videogram</h2>
     <canvas id="gramH" aria-label="Horizontal gram: each frame averaged into one row, time running downwards"></canvas>
     <div class="axis"><span>newest at the top</span><span id="spanH">earlier at the bottom</span></div>
-    <span class="hint">Here each frame is averaged down its height into a single row, and the newest row is added at the top so that older rows move downwards. Left and right in the picture is the same as left and right in the video, so swaying from side to side draws a wavy line.</span>
+    <span class="hint">Each frame squeezed into one row, newest at the top. Swaying from side to side draws a wavy line.</span>
     <div class="row"><button type="button" class="small" id="dlH">Download PNG</button></div>
-    <span class="hint">A videogram is made from the frames themselves and shows everything, including the furniture. A motiongram is made from the motion image, so the still background disappears and only movement leaves a trace. Both kinds are kept while the camera runs, so you can switch back and forth without losing anything.</span>
+    <span class="hint">A videogram shows everything, furniture included; a motiongram keeps only the movement.</span>
   </fieldset>
 
   <fieldset>
     <legend>Self-similarity matrix</legend>
     <canvas id="ssm" aria-label="Self-similarity matrix of the recent frames"></canvas>
     <div class="axis" style="max-width:360px;"><span id="spanS">earlier</span><span>now</span></div>
-    <span class="hint">Every recent frame is compared with every other one. Both axes are time, running from the top left (earlier) to the bottom right (now), and the colour at a point says how alike the two frames are: yellow is very alike, dark blue is very different. The diagonal compares each frame with itself, so it is always bright. Holding still fills the matrix with one even colour; a repeated movement produces a chequered pattern of squares or stripes parallel to the diagonal, spaced by the period of the repetition. The matrix follows the videogram or motiongram switch above.</span>
+    <span class="hint">Every recent frame compared with every other; both axes are time. A repeated movement gives stripes parallel to the diagonal, spaced by its period.</span>
   </fieldset>
 
   <fieldset>
     <legend>Quantity and centroid of motion</legend>
     <canvas id="qom" aria-label="Quantity of motion over the last seconds"></canvas>
     <p class="readout" id="qomread">Quantity of motion: no data yet</p>
-    <span class="hint">The quantity of motion is the share of pixels in the motion image that changed by more than the threshold, given as a percentage of the whole picture. It is a single number for how much is moving in the whole picture, regardless of where. The vertical scale adapts to the largest value shown.</span>
+    <span class="hint">The share of pixels that changed, as a percentage of the picture.</span>
     <div class="row">
       <label class="check"><input type="checkbox" id="plotcentroid" checked/> Also plot the centroid of motion</label>
     </div>
     <div id="centroidbox">
       <canvas id="centroid" aria-label="Horizontal and vertical centroid of motion over the last seconds"></canvas>
       <p class="readout" id="cread">Centroid of motion: no data yet</p>
-      <span class="hint">The centroid of motion is the centre of gravity of the motion image: the average position of everything that changed, weighted by how much it changed. It is given from 0 (left or top) to 1 (right or bottom). When nothing moves there is no centroid, and the lines break.</span>
+      <span class="hint">The average position of everything that changed, from 0 (left or top) to 1 (right or bottom).</span>
     </div>
   </fieldset>
 
-  <p class="hint">Things to try: move one arm slowly through a large arc, then quickly through the same arc, and compare the traces in the motiongrams and the height of the quantity of motion. Hold completely still for a few seconds and watch which displays go quiet and which do not (the videograms keep showing you, the motiongrams do not). Clap at a steady rate in front of your chest and look for the evenly spaced marks in the vertical motiongram and the stripes in the self-similarity matrix. Put on some music and sway to it: the horizontal motiongram and the horizontal centroid of motion turn the sway into a wave that you can compare with the beat. Finally, turn the threshold down to 0 and hold still to see the camera noise that the threshold is there to remove.</p>
+  <details class="more">
+  <summary>More about this app</summary>
+  <h3>How it works</h3>
+  <p>The camera image is scaled down to 160 × 120 pixels before anything is analysed. In the motion image each pixel is the difference in brightness between this frame and the previous one. Only edges show clearly: a plain shirt moving sideways changes little in its middle. A camera never delivers two identical frames, even of a still room, so differences smaller than the noise threshold (0–255) are set to zero.</p>
+  <p>A videogram averages each frame across its width into one column (vertical videogram) or down its height into one row (horizontal videogram) and lays the lines side by side. A motiongram does the same with the motion image, so the still background disappears. Both kinds are kept while the camera runs, so you can switch back and forth without losing anything.</p>
+  <p>In the self-similarity matrix the colour at a point says how alike two frames are: yellow very alike, dark blue very different. The diagonal compares each frame with itself, so it is always bright. Holding still fills the matrix with one even colour. The matrix follows the videogram or motiongram switch.</p>
+  <p>The quantity of motion is the share of pixels in the motion image that changed by more than the threshold: one number for how much is moving, regardless of where. The centroid of motion is the centre of gravity of the motion image, weighted by how much each pixel changed. When nothing moves there is no centroid, and the lines break.</p>
+  <h3>Things to try</h3>
+  <p>Move one arm slowly through a large arc, then quickly through the same arc, and compare the traces in the motiongrams and the height of the quantity of motion. Hold completely still for a few seconds and watch which displays go quiet and which do not: the videograms keep showing you, the motiongrams do not.</p>
+  <p>Clap at a steady rate in front of your chest and look for the evenly spaced marks in the vertical motiongram and the stripes in the self-similarity matrix. Put on some music and sway to it: the horizontal motiongram and the horizontal centroid turn the sway into a wave you can compare with the beat. Finally, turn the threshold down to 0 and hold still to see the camera noise the threshold removes.</p>
+</details>
 
   <p class="credit">Based on <a href="https://github.com/alexarje/videoviz">VideoViz</a> and the <a href="https://github.com/fourMs/MGT-python">Musical Gestures Toolbox</a>.</p>
 

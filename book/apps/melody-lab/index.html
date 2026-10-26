@@ -56,11 +56,15 @@
     .pcrow { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
     .pcrow button { min-width: 42px; padding: 6px 8px; font-size: 0.95rem; }
     .pcrow button.deg { font-weight: 600; }
-  </style>
+      details.more { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+    details.more summary { cursor: pointer; font-weight: 600; color: inherit; }
+    details.more h3 { font-size: 0.95rem; margin: 14px 0 4px; }
+    details.more p { margin: 6px 0; }
+</style>
 </head>
 <body>
   <h1>Melody lab</h1>
-  <p class="intro">A melody is a line of notes heard as one shape, and much of its effect comes from expectation. A listener who has grown up on a repertoire half-knows which note comes next, and feels it when the melody agrees or departs. Draw a melody on the grid, read its contour and its interval profile, and then compare it with what a small corpus of German folksongs would have predicted at every step.</p>
+  <p class="intro">Draw a melody on the grid, read its contour and its interval profile, and compare it with what a corpus of German folksongs would have predicted at every step.</p>
 
   <fieldset>
     <legend>Melody grid</legend>
@@ -106,7 +110,7 @@
       <button type="button" class="small" data-preset="rising">Rising line</button>
       <button type="button" class="small" id="clear">Clear</button>
     </div>
-    <p class="hint">Each column is an eighth note (thin lines mark beats, thick lines bars) and each row a note of the chosen scale; switch to chromatic to see all twelve. Click a cell to place a note and click it again to remove it. Clicking the cell right after a note of the same pitch gives a repeated note, and clicking that cell once more turns the repeat into a held note, which is how the chapter's scale ends on a whole note. The presets are written in C and follow the key selector.</p>
+    <p class="hint">Columns are eighth notes, rows the notes of the chosen scale. Click a cell to place a note; click the cell right after a note of the same pitch for a repeat, and once more for a held note.</p>
   </fieldset>
 
   <fieldset>
@@ -116,7 +120,7 @@
       <canvas id="ivprof" aria-label="Interval profile: histogram of signed interval sizes in semitones"></canvas>
     </div>
     <p class="readout" id="anaread"></p>
-    <p class="hint">Contour is pitch against time, the shape listeners remember best from a single hearing. Its name comes from a simple rule: a range of two semitones or less is flat, and three or more changes of direction make a wave; otherwise the notes are split into three parts in order, and if the middle part averages at least a semitone above both ends the shape is an arch, if the last part is at least a semitone above the first it is ascending, below it descending, and anything else is a wave. The interval profile counts the distance from each note to the next in semitones, upward positive and downward negative; a held note counts as one note. Steps are intervals of two semitones or less, repeats included, as in the chapter's count of the corpus. The grey outline is the same profile for the corpus described below.</p>
+    <p class="hint">Contour is pitch against time. The interval profile counts the semitones from each note to the next, with the corpus profile in grey.</p>
   </fieldset>
 
   <fieldset>
@@ -136,7 +140,16 @@
     <p class="hint" id="gamehint"></p>
   </fieldset>
 
-  <p class="hint">Things to try: draw a melody that is all leaps and watch the surprise climb, then smooth it into steps and watch it fall. Make a melody that avoids the tonic, or ends on the note just above it, and feel the lack of closure; then let the last note land on the tonic and hold it. Place any note and look at the bars: the corpus most often predicts a repeat or a step, and after the leading note it predicts the tonic strongly. Play the game in another key and notice that the predictions follow the tonic, because the model, like a listener, hears relative pitch.</p>
+  <details class="more">
+  <summary>More about this app</summary>
+  <h3>How it works</h3>
+  <p>Much of a melody's effect comes from expectation: a listener who has grown up on a repertoire half-knows which note comes next, and feels it when the melody agrees or departs. The presets are written in C and follow the key selector; switch to chromatic to see all twelve rows.</p>
+  <p>The contour name follows a simple rule. A range of two semitones or less is flat, and three or more changes of direction make a wave. Otherwise the notes are split into three parts in order: if the middle part averages at least a semitone above both ends the shape is an arch; if the last part is at least a semitone above the first it is ascending, below it descending; anything else is a wave.</p>
+  <p>The interval profile counts the distance from each note to the next in semitones, upward positive and downward negative; a held note counts as one note. Steps are intervals of two semitones or less, repeats included, as in the chapter's count of the corpus.</p>
+  <h3>Things to try</h3>
+  <p>Draw a melody that is all leaps and watch the surprise climb, then smooth it into steps and watch it fall. Make a melody that avoids the tonic, or ends on the note just above it, and feel the lack of closure; then let the last note land on the tonic and hold it.</p>
+  <p>Place any note and look at the bars: the corpus most often predicts a repeat or a step, and after the leading note it predicts the tonic strongly. Play the game in another key and notice that the predictions follow the tonic, because the model, like a listener, hears relative pitch.</p>
+</details>
 
   <script>
 (function () {

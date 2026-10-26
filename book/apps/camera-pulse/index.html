@@ -70,12 +70,16 @@
     th { background: var(--panel); position: sticky; top: 0; }
     .empty { padding: 8px; color: var(--muted); font-size: 0.9rem; }
     a { color: var(--accent); }
-  </style>
+      details.more { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+    details.more summary { cursor: pointer; font-weight: 600; color: inherit; }
+    details.more h3 { font-size: 0.95rem; margin: 14px 0 4px; }
+    details.more p { margin: 6px 0; }
+</style>
 </head>
 <body>
   <h1>Camera pulse</h1>
-  <p class="intro">A pulse oximeter clips on to a fingertip, shines light through it, and watches how much light comes out the other side. With every heartbeat a little more blood arrives in the finger, the blood absorbs a little more of the light, and the brightness dips. The dips mark the beats. This is photoplethysmography (PPG), the same principle as the heart-rate sensor on the back of a smartwatch, and a phone camera can do it too: the lens looks at the fingertip, the torch lights it, and the app reads the brightness of the picture, frame by frame. From the beats it computes heart rate, inter-beat intervals, and a rough heart-rate variability. A music researcher who needs reliable beat timing uses a chest strap or an ECG, as described in the physiology chapter; this app shows what the optical principle can and cannot do.</p>
-  <p class="privacy">Privacy: the camera frames are analysed locally in your browser and immediately discarded. No picture is recorded, stored, or sent anywhere. The only thing that ever leaves this page is the CSV file you choose to download, and it goes to your own device.</p>
+  <p class="intro">With every heartbeat a little more blood reaches the fingertip, and the picture from a camera pressed against it darkens slightly. This is photoplethysmography (PPG), the principle behind the heart-rate sensor in a smartwatch. Choose a mode and press Start.</p>
+  <p class="privacy">Privacy: the camera frames are analysed in your browser and discarded. Nothing is recorded or sent anywhere; only the CSV file you choose to download leaves this page.</p>
 
   <fieldset>
     <legend>Mode</legend>
@@ -124,13 +128,13 @@
     <p class="readout" id="qualread">Signal quality: no signal</p>
     <canvas id="spectrum" aria-label="The spectrum of the last 20 seconds of signal, in beats per minute"></canvas>
     <div class="axis"><span>40 bpm</span><span>180 bpm</span></div>
-    <span class="hint">The trace is the mean brightness of the camera picture (the red channel in fingertip mode, the green channel of the region in face mode) with the slow trend removed (above 0.7 Hz) and the fast flicker smoothed away (below 3 Hz). It is flipped so that a peak means more blood in the tissue. Each marked peak is a detected beat: a local maximum that rises above 40 % of the largest peak in the last 3 s and comes at least 0.33 s after the previous beat. The first heart rate is the median of the last 10 inter-beat intervals, so it follows changes within a few beats. The second comes from the spectrum below, which asks which repetition rate is strongest in the last 20 s and therefore changes slowly. Signal quality compares the height of that spectral peak with the level around it and checks the frame rate; when the two estimates disagree, trust neither.</span>
+    <span class="hint">The filtered brightness of the picture, flipped so that a peak means more blood. Each marked peak is a detected beat; the spectrum gives a second, slower estimate of the rate. When the two disagree, trust neither.</span>
   </fieldset>
 
   <fieldset>
     <legend>Heart-rate variability</legend>
     <p class="readout" id="hrvread">HRV: needs 30 s of good signal</p>
-    <span class="hint">RMSSD is the root mean square of the differences between successive inter-beat intervals, and SDNN is the standard deviation of the intervals, both in milliseconds, as in the physiology chapter. Intervals outside 0.33–2 s, or more than 30 % away from the median interval, are left out as artefacts. A camera samples at about 30 frames per second, so each beat is located to within a few tens of milliseconds even with interpolation between frames, and that is the same order as the quantity being measured. Treat these values as rough; an ECG sampled at hundreds of hertz is needed for proper HRV.</span>
+    <span class="hint">RMSSD and SDNN in milliseconds, as in the physiology chapter. A camera at 30 frames per second locates each beat only roughly, so treat these as indicative.</span>
   </fieldset>
 
   <fieldset>
@@ -140,11 +144,22 @@
       <span class="vals" id="recinfo"></span>
     </div>
     <div class="tablewrap" id="tablehost"><div class="empty">No beats recorded yet.</div></div>
-    <span class="hint">The table lists every detected beat since Start or Reset, with the interval from the previous beat. The CSV holds one row per camera frame: time in seconds since Start, the raw mean brightness (0–255), the filtered signal, and a 1 on the frame where a beat was detected. Reset clears the table and the signal without stopping the camera.</span>
+    <span class="hint">One row per detected beat. The CSV has one row per camera frame, with the raw and filtered signal and a beat marker.</span>
   </fieldset>
 
-  <p class="hint">Things to try: sit quietly for a minute and note the rate, then stand up and watch it climb before it settles again. Put on a favourite piece of music and watch whether the rate moves, and when. Count your pulse by hand for 30 s, as in the breath and pulse app, and compare the doubled count with what the camera says. Finally, breathe slowly and deeply at about 6 breaths per minute and look for the intervals lengthening on the out-breath and shortening on the in-breath, which is respiratory sinus arrhythmia.</p>
-  <p class="hint">Limits: movement, changing light and a cold fingertip all break the measurement, and face mode breaks with far less. The app is a demonstration of a measurement principle, not a medical device. Do not use it to make decisions about your health, and compare it with a proper sensor before trusting it in a study.</p>
+  <details class="more">
+  <summary>More about this app</summary>
+  <h3>How it works</h3>
+  <p>The signal is the mean brightness of the camera picture (the red channel in fingertip mode, the green channel of the chosen region in face mode), with the slow trend removed above 0.7 Hz and the fast flicker smoothed away below 3 Hz. A beat is a local maximum that rises above 40 % of the largest peak in the last 3 s and comes at least 0.33 s after the previous beat.</p>
+  <p>The first heart rate is the median of the last 10 inter-beat intervals, so it follows changes within a few beats. The second comes from the spectrum, which asks which repetition rate is strongest in the last 20 s and therefore changes slowly. Signal quality compares the height of that spectral peak with the level around it and checks the frame rate.</p>
+  <p>For HRV, intervals outside 0.33–2 s, or more than 30 % away from the median interval, are left out as artefacts. A camera samples at about 30 frames per second, so each beat is located to within a few tens of milliseconds even with interpolation between frames, which is the same order as the quantity being measured. An ECG sampled at hundreds of hertz is needed for proper HRV.</p>
+  <h3>Things to try</h3>
+  <p>Sit quietly for a minute and note the rate, then stand up and watch it climb before it settles again. Put on a favourite piece of music and watch whether the rate moves, and when. Count your pulse by hand for 30 s, as in the breath and pulse app, and compare the doubled count with what the camera says.</p>
+  <p>Breathe slowly and deeply at about 6 breaths per minute and look for the intervals lengthening on the out-breath and shortening on the in-breath, which is respiratory sinus arrhythmia.</p>
+  <h3>Limits</h3>
+  <p>Movement, changing light and a cold fingertip all break the measurement, and face mode breaks with far less. The app demonstrates a measurement principle and is not a medical device. Do not use it to make decisions about your health, and compare it with a proper sensor before trusting it in a study. A music researcher who needs reliable beat timing uses a chest strap or an ECG, as the physiology chapter describes.</p>
+</details>
+  
 
   <video id="cam" playsinline muted style="display:none;"></video>
 

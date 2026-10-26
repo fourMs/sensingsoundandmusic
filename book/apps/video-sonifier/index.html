@@ -63,11 +63,15 @@
     video { display: none; }
     a { color: var(--accent); }
     .credit { font-size: 0.85rem; color: var(--muted); margin-top: 18px; }
-  </style>
+      details.more { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+    details.more summary { cursor: pointer; font-weight: 600; color: inherit; }
+    details.more h3 { font-size: 0.95rem; margin: 14px 0 4px; }
+    details.more p { margin: 6px 0; }
+</style>
 </head>
 <body>
   <h1>Video sonifier</h1>
-  <p class="intro">Sonification is the auditory counterpart of visualisation: instead of turning data into a picture, it turns them into sound. This app sonifies the motion in front of your camera. Each video frame is compared with the one before, and the difference shows where the image changed. That difference is averaged along every row of the image, which gives one motion value per row, and the column of values is used as the spectrum of a sound. Motion near the top of the image becomes high frequencies, motion near the bottom becomes low frequencies, and when nothing moves there is silence. Press Start, allow camera access, and move.</p>
+  <p class="intro">The motion in front of your camera, heard as sound: movement near the top of the image becomes high frequencies, movement near the bottom low ones, and stillness is silence. Press Start, allow camera access, and move.</p>
   <p class="privacy">Privacy: the video is analysed locally in your browser, frame by frame, and immediately discarded. Nothing is recorded, stored, or sent anywhere.</p>
 
   <div class="row">
@@ -91,7 +95,7 @@
         <figcaption>Motion image (frame difference)</figcaption>
       </figure>
     </div>
-    <span class="hint">The motion image keeps only what changed since the previous frame. Anything that stays still, such as the wall behind you, fades into the background, and a moving hand shows up as an outline. Even when you hold still, a faint speckle of camera noise remains; the noise gate below keeps it from being heard.</span>
+    <span class="hint">The motion image keeps only what changed since the previous frame; the noise gate keeps the camera's faint speckle from being heard.</span>
   </fieldset>
 
   <fieldset>
@@ -99,7 +103,7 @@
     <canvas id="mg" aria-label="Scrolling motiongram with a frequency axis: each column is the motion per image row, used as the spectrum of the sound"></canvas>
     <span class="hint" id="mghint"></span>
     <canvas id="balance" aria-label="Balance between motion in the left and right halves of the image"></canvas>
-    <span class="hint">The balance meter compares the motion in the left and right halves of the image. It sets where the sound is placed between the left and right speakers, so a sound made by moving on the left comes from the left. Use headphones to hear it clearly.</span>
+    <span class="hint">The balance meter places the sound between left and right according to where the motion is. Use headphones.</span>
   </fieldset>
 
   <fieldset>
@@ -132,10 +136,18 @@
         </div>
       </div>
     </div>
-    <span class="hint">Sensitivity multiplies the motion before it is used, so small movements become louder. The noise gate sets to zero every row whose motion is below the chosen level, which silences camera noise and flicker. The two frequency sliders set which range of the spectrum the image is spread over; a narrow, low range sounds soft and dark, a wide, high range sounds bright and hissy. Smoothing lets each value fade out gradually instead of jumping, which turns quick, buzzy changes into calmer swells. Mirroring makes the image behave like a mirror, so your right hand appears on the right.</span>
+    <span class="hint">Sensitivity makes small movements louder, the noise gate silences camera noise, the frequency sliders set the range the image is spread over, and smoothing turns buzzy changes into swells.</span>
   </fieldset>
 
-  <p class="hint">Things to try: move one hand slowly up and down in front of the camera and listen to the sound move from a high region to a low one, following your hand in the motiongram. Hold completely still and listen to the silence; then lower the noise gate to zero and hear the camera noise appear. Move only on the left side of the image, then only on the right, with headphones on. Ask a second person to move together with you, one high and one low, and look at the two bands that appear in the motiongram. Finally, narrow the frequency range to 100–400 Hz and compare the sound with 100–4000 Hz.</p>
+  <details class="more">
+  <summary>More about this app</summary>
+  <h3>How it works</h3>
+  <p>Sonification is the auditory counterpart of visualisation: data turned into sound rather than into a picture. Each video frame is compared with the one before, and the difference is averaged along every row of the image, which gives one motion value per row. That column of values is used as the spectrum of a sound, so the motiongram is heard as a spectrogram.</p>
+  <p>Sensitivity multiplies the motion before it is used. The noise gate sets to zero every row whose motion is below the chosen level. The two frequency sliders set which range of the spectrum the image is spread over; a narrow, low range sounds soft and dark, a wide, high range bright and hissy. Smoothing lets each value fade out gradually instead of jumping. Mirroring makes the image behave like a mirror, so your right hand appears on the right.</p>
+  <h3>Things to try</h3>
+  <p>Move one hand slowly up and down in front of the camera and listen to the sound follow it from high to low. Hold completely still and listen to the silence; then lower the noise gate to zero and hear the camera noise appear. Move only on the left side of the image, then only on the right, with headphones on.</p>
+  <p>Ask a second person to move together with you, one high and one low, and look at the two bands that appear in the motiongram. Finally, narrow the frequency range to 100–400 Hz and compare the sound with 100–4000 Hz.</p>
+</details>
 
   <p class="credit">Based on <a href="https://github.com/alexarje/webvideosonifyer">webvideosonifyer</a> and the <a href="https://github.com/fourMs/MGT-python">Musical Gestures Toolbox</a>.</p>
 

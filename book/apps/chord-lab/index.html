@@ -68,11 +68,15 @@
     .slot.now { box-shadow: inset 0 0 0 3px var(--now); }
     .slot.now .name { color: var(--fg); font-weight: 600; }
     [hidden] { display: none; }
-  </style>
+      details.more { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+    details.more summary { cursor: pointer; font-weight: 600; color: inherit; }
+    details.more h3 { font-size: 0.95rem; margin: 14px 0 4px; }
+    details.more p { margin: 6px 0; }
+</style>
 </head>
 <body>
   <h1>Chord lab</h1>
-  <p class="intro">A chord is a stack of thirds, and a progression is a path through chords in a key. Build any chord on a keyboard and a staff, listen to it as a block or an arpeggio, and then string chords together with Roman numerals, hear the four cadences, and watch how the voices move from one chord to the next. A chromagram at the bottom shows the pitch-class energy of what is sounding, and a key estimate guesses the key from the chords you have played.</p>
+  <p class="intro">Build a chord on a keyboard and a staff, then string chords together with Roman numerals, hear the four cadences, and watch the voices move. A chromagram and a key estimate follow what sounds.</p>
 
   <div class="row">
     <button type="button" data-mode="build" aria-pressed="true">Chord builder</button>
@@ -105,7 +109,7 @@
     </div>
     <canvas id="kbd1" class="kbd" aria-label="Keyboard with the chord notes marked"></canvas>
     <canvas id="staff" class="staff" aria-label="The chord as stacked thirds on a treble staff"></canvas>
-    <span class="hint">The staff shows the chord as a stack of thirds in root position, which is how it is named. The keyboard shows what actually sounds: an inversion puts a chord tone other than the root in the bass (the bass key is orange), a close voicing packs the notes tightly, an open voicing lifts every second note an octave, and a drop-2 voicing takes the second note from the top and drops it an octave, as a jazz pianist or guitarist would.</span>
+    <span class="hint">The staff shows the chord in root position, as it is named; the keyboard shows what sounds, with the bass key in orange.</span>
   </fieldset>
 
   <fieldset id="prog" hidden>
@@ -150,7 +154,7 @@
     <p class="status" id="pstatus"></p>
     <canvas id="kbd2" class="kbd" aria-label="Keyboard with the current chord marked and the voice movements drawn"></canvas>
     <p class="readout" id="voicelist"></p>
-    <span class="hint">Four voices play each chord, so a triad gets one of its notes doubled. With smooth voice leading the app tries every way of placing the four voices on chord tones within the two octaves, over all inversions, and keeps the one in which the voices move the fewest semitones in total from the previous chord: common tones stay, and the rest move by step where they can. The orange lines on the keyboard show where each voice came from, a hollow circle marks a voice that stayed. With no voice leading every chord sits in root position, so the whole chord jumps.</span>
+    <span class="hint">Four voices play each chord. With smooth voice leading each voice moves as little as possible from the previous chord; the orange lines show where it came from.</span>
   </fieldset>
 
   <fieldset>
@@ -160,10 +164,18 @@
     <div class="row">
       <button type="button" id="chromareset" class="small">Forget the recent chords</button>
     </div>
-    <span class="hint">The tall bars are the energy per pitch class in the sound right now, measured from the audio with a spectrum analyser and folded into one octave; the paler bars behind them are the same energy remembered over the last few chords. The key estimate correlates that memory with a major key profile (after Krumhansl) for each of the 12 tonics and names the best match, with the recent chords read as Roman numerals in that key. The harmonics of each tone leak into other pitch classes, mostly the fifth, which is also what a key-finding algorithm has to cope with on a real recording.</span>
+    <span class="hint">Tall bars: pitch-class energy in the sound right now. Pale bars: the memory of the last few chords, on which the key estimate is based.</span>
   </fieldset>
 
-  <p class="hint">Things to try: play the four triads on C one after the other and hear the difference between major, minor, diminished, and augmented. Set a progression that ends on vi instead of I and notice the deceptive cadence. Switch voice leading off and listen to the leaps. Build C13 and change the quality down through C11, C9, and C7 to hear each added third disappear until the plain dominant seventh is back.</p>
+  <details class="more">
+  <summary>More about this app</summary>
+  <h3>How it works</h3>
+  <p>An inversion puts a chord tone other than the root in the bass. A close voicing packs the notes tightly, an open voicing lifts every second note an octave, and a drop-2 voicing takes the second note from the top and drops it an octave, as a jazz pianist or guitarist would.</p>
+  <p>With smooth voice leading the app tries every way of placing the four voices on chord tones within two octaves, over all inversions, and keeps the one in which the voices move the fewest semitones in total: common tones stay, and the rest move by step where they can. A hollow circle marks a voice that stayed. With no voice leading every chord sits in root position, so the whole chord jumps.</p>
+  <p>The chromagram is measured from the audio with a spectrum analyser and folded into one octave. The key estimate correlates the remembered chromagram with a major key profile (after Krumhansl) for each of the 12 tonics and names the best match, reading the recent chords as Roman numerals in that key. The harmonics of each tone leak into other pitch classes, mostly the fifth, which is also what a key-finding algorithm has to cope with on a real recording.</p>
+  <h3>Things to try</h3>
+  <p>Play the four triads on C one after the other and hear the difference between major, minor, diminished and augmented. Set a progression that ends on vi instead of I and notice the deceptive cadence. Switch voice leading off and listen to the leaps. Build C13 and change the quality down through C11, C9 and C7 to hear each added third disappear until the plain dominant seventh is back.</p>
+</details>
 
   <script>
 (function () {

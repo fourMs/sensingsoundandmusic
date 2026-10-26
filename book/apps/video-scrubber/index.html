@@ -64,11 +64,15 @@
     #gram { height: 170px; } #wave { height: 70px; } #spec { height: 190px; }
     .credit { font-size: 0.85rem; color: var(--muted); margin-top: 18px; }
     a { color: var(--accent); }
-  </style>
+      details.more { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+    details.more summary { cursor: pointer; font-weight: 600; color: inherit; }
+    details.more h3 { font-size: 0.95rem; margin: 14px 0 4px; }
+    details.more p { margin: 6px 0; }
+</style>
 </head>
 <body>
   <h1>Video scrubber</h1>
-  <p class="intro">A video recording holds two streams of data: a sequence of pictures and a sound track. This app lays both out along the same time axis, so that you can see where things happen without watching and listening through the whole recording. The videogram squeezes each video frame into a single column of pixels, the motiongram does the same with the changes between frames, and the spectrogram shows how the frequencies in the sound change over time. Click any of them to jump to that moment in the video.</p>
+  <p class="intro">A recording laid out along one time axis: a videogram or motiongram of the pictures, and the waveform and spectrogram of the sound. Click any panel to jump to that moment.</p>
   <p class="privacy">Privacy: files you choose and clips you record stay in your browser. They are analysed on your own device and are never uploaded or stored anywhere.</p>
 
   <fieldset>
@@ -88,7 +92,7 @@
       <button type="button" id="recstop" disabled>Stop now</button>
       <button type="button" id="save" disabled>Save the clip</button>
     </div>
-    <p class="hint">The browser asks for permission to use the camera and the microphone. The camera is switched off as soon as the clip is finished, and the clip is then analysed like a file. Save the clip only if you want to keep a copy on your own device.</p>
+    <p class="hint">The camera is switched off as soon as the clip is finished. Save the clip only if you want a copy.</p>
   </fieldset>
 
   <fieldset>
@@ -130,12 +134,19 @@
     <canvas id="wave" aria-label="Waveform of the sound track"></canvas>
     <p class="hint">The waveform: how far the sound pressure swings at each moment. Loud moments are tall, silence is a flat line.</p>
     <canvas id="spec" aria-label="Spectrogram of the sound track"></canvas>
-    <p class="hint">The spectrogram: time runs to the right, frequency upwards, and colour shows how strong each frequency is, from dark (80 dB below the loudest moment) to yellow (the loudest). A clap is a short vertical stripe across many frequencies; a sung or spoken vowel is a stack of horizontal lines, its harmonics. The logarithmic axis gives each octave the same height, closer to how we hear pitch; the linear axis gives each hertz the same height.</p>
+    <p class="hint">The spectrogram: time to the right, frequency upwards, colour for strength. A clap is a vertical stripe; a vowel is a stack of harmonics.</p>
     <div class="row"><button type="button" class="small" id="dlspec" disabled>Download PNG</button></div>
   </fieldset>
 
-  <p class="hint">All panels share one time axis, in seconds. Click a panel to jump to that moment; the red line follows the playback. Drag across a panel to mark a stretch of time, and playback then loops within it until you clear the loop.</p>
-  <p class="hint">Things to try: record yourself clapping three times, then waving a hand, then clapping again, and find the claps in both the motiongram and the spectrogram. Does the hand movement before each clap show up in the motiongram? Load a music video and look for the cuts in the videogram and the beat in the waveform. Record yourself speaking a sentence and then singing it, and compare the spectrograms: where are the harmonics clear and steady, and where do they glide? Switch between the logarithmic and the linear frequency axis and see where the voice ends up.</p>
+  <p class="hint">Click a panel to jump to that moment. Drag across one to loop a stretch of time.</p>
+  <details class="more">
+  <summary>More about this app</summary>
+  <h3>How it works</h3>
+  <p>The videogram squeezes each video frame into a single column of pixels, the motiongram does the same with the changes between frames, and the spectrogram shows how the frequencies in the sound change over time, from dark (80 dB below the loudest moment) to yellow (the loudest). The logarithmic frequency axis gives each octave the same height, closer to how we hear pitch; the linear axis gives each hertz the same height. All panels share one time axis in seconds, and the red line follows the playback.</p>
+  <h3>Things to try</h3>
+  <p>Record yourself clapping three times, then waving a hand, then clapping again, and find the claps in both the motiongram and the spectrogram. Does the hand movement before each clap show up in the motiongram? Load a music video and look for the cuts in the videogram and the beat in the waveform.</p>
+  <p>Record yourself speaking a sentence and then singing it, and compare the spectrograms: where are the harmonics clear and steady, and where do they glide? Switch between the logarithmic and the linear frequency axis and see where the voice ends up.</p>
+</details>
   <p class="credit">Based on <a href="https://github.com/alexarje/videoscrub">VideoScrub</a> and the <a href="https://github.com/fourMs/MGT-python">Musical Gestures Toolbox</a>.</p>
 
   <script>
