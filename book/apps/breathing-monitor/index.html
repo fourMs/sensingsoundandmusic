@@ -57,6 +57,10 @@
     .status.error { color: var(--error); }
     canvas { display: block; width: 100%; border: 1px solid var(--border); border-radius: 6px; margin-top: 6px; background: var(--canvas); }
     #preview { aspect-ratio: 4 / 3; height: auto; max-width: 360px; touch-action: none; cursor: crosshair; }
+    .regionrow { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 10px; margin: 0 0 4px; }
+    .regionrow label { margin: 0; font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .regionrow input[type="range"] { margin: 0 0 2px; }
+    @media (max-width: 560px) { .regionrow { grid-template-columns: 1fr 1fr; } }
     #wave { height: 220px; }
     #spec { height: 160px; }
     .readout { font-size: 1rem; margin: 6px 0 0; font-variant-numeric: tabular-nums; }
@@ -101,8 +105,14 @@
       <span class="hint">Lie down with the phone flat on your chest or belly, screen up, or hold it flat against the chest. It must not slide, and the page must be opened over https for the sensor to be offered.</span>
     </div>
     <div id="panelcamera" style="display:none;">
+      <div class="regionrow">
+        <div><label for="bleft">Left <span class="vals" id="bleftdisp"></span></label><input type="range" id="bleft" min="0" max="85" step="1" value="13"/></div>
+        <div><label for="btop">Top <span class="vals" id="btopdisp"></span></label><input type="range" id="btop" min="0" max="85" step="1" value="47"/></div>
+        <div><label for="bwidth">Width <span class="vals" id="bwidthdisp"></span></label><input type="range" id="bwidth" min="10" max="100" step="1" value="75"/></div>
+        <div><label for="bheight">Height <span class="vals" id="bheightdisp"></span></label><input type="range" id="bheight" min="10" max="100" step="1" value="50"/></div>
+      </div>
       <canvas id="preview" width="320" height="240" aria-label="The camera image, scaled down, with the analysis box drawn on top"></canvas>
-      <span class="hint">Sit still facing the camera and drag the box over your chest and shoulders. A collar or a patterned top gives a stronger signal than a plain one.</span>
+      <span class="hint">Sit still facing the camera and place the box over your chest and shoulders, by dragging on the picture or with the sliders. A collar or a patterned top gives a stronger signal than a plain one.</span>
     </div>
   </fieldset>
 
@@ -745,7 +755,24 @@
     var x0 = Math.min(a.x, b.x), x1 = Math.max(a.x, b.x), y0 = Math.min(a.y, b.y), y1 = Math.max(a.y, b.y);
     if (x1 - x0 < 8 || y1 - y0 < 8) { return; }
     region = { x0: x0, y0: y0, x1: x1, y1: y1 };
+    slidersFromRegion();
   }
+  // the four sliders and the drag box describe the same region, in per cent of the picture
+  var SLIDERS = ["bleft", "btop", "bwidth", "bheight"];
+  function slidersFromRegion() {
+    el("bleft").value = Math.round(region.x0 / W * 100); el("btop").value = Math.round(region.y0 / H * 100);
+    el("bwidth").value = Math.round((region.x1 - region.x0) / W * 100); el("bheight").value = Math.round((region.y1 - region.y0) / H * 100);
+    SLIDERS.forEach(function (id) { el(id + "disp").textContent = el(id).value + " %"; });
+  }
+  function regionFromSliders() {
+    var l = parseFloat(el("bleft").value), t = parseFloat(el("btop").value), w = parseFloat(el("bwidth").value), h = parseFloat(el("bheight").value);
+    var x0 = Math.round(l / 100 * W), y0 = Math.round(t / 100 * H);
+    region = { x0: x0, y0: y0, x1: Math.max(x0 + 8, Math.min(W, Math.round((l + w) / 100 * W))), y1: Math.max(y0 + 8, Math.min(H, Math.round((t + h) / 100 * H))) };
+    SLIDERS.forEach(function (id) { el(id + "disp").textContent = el(id).value + " %"; });
+    if (!running) { drawPreview(); }
+  }
+  SLIDERS.forEach(function (id) { el(id).addEventListener("input", regionFromSliders); });
+  slidersFromRegion();
   el("preview").addEventListener("pointerdown", function (ev) {
     drag = boxPoint(ev); this.setPointerCapture(ev.pointerId); ev.preventDefault();
   });
@@ -770,7 +797,7 @@
     el("panelmotion").style.display = s === "motion" ? "" : "none";
     el("panelcamera").style.display = s === "camera" ? "" : "none";
     freshAnalysis(); renderTable();
-    setStatus(s === "motion" ? "Source: the phone's motion sensor. Press Start and lay the phone on the chest or belly." : "Source: the webcam. Drag a box over the chest and shoulders, then press Start.");
+    setStatus(s === "motion" ? "Source: the phone's motion sensor. Press Start and lay the phone on the chest or belly." : "Source: the webcam. Place the box over the chest and shoulders, then press Start.");
     drawAll();
   }
   el("srcmotion").addEventListener("click", function () { setSource("motion"); });

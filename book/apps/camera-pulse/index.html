@@ -51,12 +51,17 @@
     .status { color: var(--muted); font-size: 0.9rem; min-height: 1.4em; margin: 6px 0 10px; }
     .status.error { color: var(--error); }
     .bigtime { font-size: 1.4rem; font-weight: 600; font-variant-numeric: tabular-nums; margin-left: auto; }
-    .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 12px; align-items: start; }
-    .wrap > div { min-width: 0; }
-    @media (max-width: 560px) { .wrap { grid-template-columns: 1fr; } }
+    .regionrow { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 10px; margin: 0 0 4px; }
+    .regionrow label { margin: 0; font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .regionrow input[type="range"] { margin: 0 0 2px; }
+    @media (max-width: 560px) { .regionrow { grid-template-columns: 1fr 1fr; } }
     canvas { display: block; width: 100%; border: 1px solid var(--border); border-radius: 6px; margin-top: 6px; background: var(--canvas); }
-    #preview { aspect-ratio: 4 / 3; height: auto; max-width: 320px; }
+    #preview { aspect-ratio: 4 / 3; height: auto; max-width: 320px; touch-action: none; }
+    #preview.face { cursor: crosshair; }
     #plot { height: 200px; }
+    .side { display: grid; grid-template-columns: 320px minmax(0, 1fr); gap: 0 12px; align-items: start; }
+    .side #plot { height: 218px; }
+    @media (max-width: 700px) { .side { grid-template-columns: 1fr; } .side #plot { height: 160px; } }
     #spectrum { height: 130px; }
     .axis { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
     .readout { font-size: 1rem; margin: 6px 0 0; font-variant-numeric: tabular-nums; }
@@ -99,30 +104,22 @@
   <p class="status" id="status" role="status"></p>
 
   <fieldset>
-    <legend>Camera</legend>
-    <div class="wrap">
+    <legend>Camera and pulse signal</legend>
+    <div id="facecontrols" class="regionrow" style="display:none;">
+      <div><label for="rleft">Left <span class="vals" id="rleftdisp"></span></label><input type="range" id="rleft" min="0" max="70" step="1" value="35"/></div>
+      <div><label for="rtop">Top <span class="vals" id="rtopdisp"></span></label><input type="range" id="rtop" min="0" max="70" step="1" value="10"/></div>
+      <div><label for="rwidth">Width <span class="vals" id="rwidthdisp"></span></label><input type="range" id="rwidth" min="10" max="60" step="1" value="30"/></div>
+      <div><label for="rheight">Height <span class="vals" id="rheightdisp"></span></label><input type="range" id="rheight" min="10" max="60" step="1" value="40"/></div>
+    </div>
+    <div class="side">
+      <canvas id="preview" width="320" height="240" aria-label="The live camera image, with the measured region drawn in face mode"></canvas>
       <div>
-        <canvas id="preview" width="320" height="240" aria-label="The live camera image, with the measured region drawn in face mode"></canvas>
-        <p class="readout" id="sourceread">Signal source: waiting for the camera</p>
-      </div>
-      <div id="facecontrols" style="display:none;">
-        <label for="rleft">Region left <span class="vals" id="rleftdisp"></span></label>
-        <input type="range" id="rleft" min="0" max="70" step="1" value="35"/>
-        <label for="rtop">Region top <span class="vals" id="rtopdisp"></span></label>
-        <input type="range" id="rtop" min="0" max="70" step="1" value="10"/>
-        <label for="rwidth">Region width <span class="vals" id="rwidthdisp"></span></label>
-        <input type="range" id="rwidth" min="10" max="60" step="1" value="30"/>
-        <label for="rheight">Region height <span class="vals" id="rheightdisp"></span></label>
-        <input type="range" id="rheight" min="10" max="60" step="1" value="40"/>
+        <canvas id="plot" aria-label="The filtered pulse signal over the last 20 seconds, with detected beats marked"></canvas>
+        <div class="axis"><span>−20 s</span><span>now</span></div>
       </div>
     </div>
+    <p class="readout" id="sourceread">Signal source: waiting for the camera</p>
     <span class="hint" id="camerahint"></span>
-  </fieldset>
-
-  <fieldset>
-    <legend>Pulse signal</legend>
-    <canvas id="plot" aria-label="The filtered pulse signal over the last 20 seconds, with detected beats marked"></canvas>
-    <div class="axis"><span>−20 s</span><span>now</span></div>
     <p class="readout" id="rateread">Heart rate: no beats yet</p>
     <p class="readout" id="specread">Heart rate from the spectrum: collecting</p>
     <p class="readout" id="qualread">Signal quality: no signal</p>
@@ -388,11 +385,11 @@
   // ---- mode ----
   var MODE_HINT = {
     finger: "Cover the rear camera lens completely with the pad of a fingertip, and the torch beside it if the phone has one. Press gently: too hard squeezes the blood out of the finger, too light lets in daylight. The torch shines through the fingertip and the camera sees a red picture that brightens and darkens a little with every beat. Blood volume changes are large in a fingertip, so this signal is strong.",
-    face: "Sit still facing the webcam in good, steady light (daylight from a window is best, a flickering lamp is worst). The rectangle marks the region that is measured; move it over the forehead and cheeks with the sliders and keep the hair and the background out of it. This is remote photoplethysmography: the skin reflects slightly less green light each time blood arrives. The signal is much weaker than from a fingertip, so it needs 20–30 s of stillness and steady light before a rate appears, and even a small head movement spoils it."
+    face: "Sit still facing the webcam in good, steady light (daylight from a window is best, a flickering lamp is worst). The rectangle marks the region that is measured; drag on the picture or use the sliders to place it over the forehead and cheeks, and keep the hair and the background out of it. This is remote photoplethysmography: the skin reflects slightly less green light each time blood arrives. The signal is much weaker than from a fingertip, so it needs 20–30 s of stillness and steady light before a rate appears, and even a small head movement spoils it."
   };
   var CAM_HINT = {
     finger: "The picture should be an even red or orange. If it shows the room, the finger is not covering the lens. If it is almost white, the light is too strong: press a little more gently or turn away from the lamp.",
-    face: "The picture is mirrored, like a mirror. The region is given as a share of the picture width and height."
+    face: "The picture is mirrored, like a mirror. Drag on it to draw a new region; the sliders give the region as a share of the picture."
   };
   function setMode(m) {
     if (running) { stop(); }
@@ -402,6 +399,7 @@
     el("modehint").textContent = MODE_HINT[m];
     el("camerahint").textContent = CAM_HINT[m];
     el("facecontrols").style.display = m === "face" ? "" : "none";
+    el("preview").classList.toggle("face", m === "face");
     resetAnalysis();
     drawAll();
   }
@@ -785,6 +783,26 @@
     ["rleft", "rtop", "rwidth", "rheight"].forEach(function (id) { el(id + "disp").textContent = el(id).value + " %"; });
   }
   ["rleft", "rtop", "rwidth", "rheight"].forEach(function (id) { el(id).addEventListener("input", function () { sliders(); if (!running) { drawPreview(); } }); });
+  // drag on the preview to draw a new region (face mode); the sliders follow
+  var dragFrom = null;
+  function previewPoint(ev) {
+    var r = el("preview").getBoundingClientRect();
+    return { x: Math.max(0, Math.min(100, (ev.clientX - r.left) / r.width * 100)), y: Math.max(0, Math.min(100, (ev.clientY - r.top) / r.height * 100)) };
+  }
+  function regionFromDrag(a, b) {
+    var x0 = Math.min(a.x, b.x), x1 = Math.max(a.x, b.x), y0 = Math.min(a.y, b.y), y1 = Math.max(a.y, b.y);
+    if (x1 - x0 < 10 || y1 - y0 < 10) { return; }
+    el("rleft").value = Math.round(Math.min(70, x0)); el("rtop").value = Math.round(Math.min(70, y0));
+    el("rwidth").value = Math.round(Math.max(10, Math.min(60, x1 - x0))); el("rheight").value = Math.round(Math.max(10, Math.min(60, y1 - y0)));
+    sliders(); if (!running) { drawPreview(); }
+  }
+  el("preview").addEventListener("pointerdown", function (ev) {
+    if (mode !== "face") { return; }
+    dragFrom = previewPoint(ev); this.setPointerCapture(ev.pointerId); ev.preventDefault();
+  });
+  el("preview").addEventListener("pointermove", function (ev) { if (dragFrom) { regionFromDrag(dragFrom, previewPoint(ev)); } });
+  el("preview").addEventListener("pointerup", function (ev) { if (dragFrom) { regionFromDrag(dragFrom, previewPoint(ev)); dragFrom = null; } });
+  el("preview").addEventListener("pointercancel", function () { dragFrom = null; });
   window.addEventListener("resize", drawAll);
   if (window.matchMedia) { window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", drawAll); }
   window.addEventListener("pagehide", stopTracks);
