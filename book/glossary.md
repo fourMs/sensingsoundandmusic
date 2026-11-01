@@ -108,8 +108,8 @@ Cochlea
 Cocktail party effect
 : The ability to focus on one voice among many competing sounds, combining spatial hearing with selective attention.
 
-Communicative gestures
-: Performer movements directed at other musicians or the audience, such as cueing an entrance, one category in the taxonomy of music-related body motion.
+Communicative actions
+: Actions whose purpose is to convey meaning, emotion, or instructions to other performers or the audience, such as a conductor's beat, a nod to cue an entry, or an expressive hand movement; one of the four categories of music-related body motion, and the one in which the gesture, the meaning-bearing part, dominates.
 
 Consonance
 : The perceived stability of simultaneous pitches, as against the tension of dissonance; shaped both by the auditory system and by cultural exposure.
