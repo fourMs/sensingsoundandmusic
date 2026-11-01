@@ -51,8 +51,17 @@ Asynchrony
 Attack time
 : The time from the physical onset of a sound to its energy peak; sounds with slow attacks are heard as beginning later than their onsets.
 
+Audio–video
+: The technical pair: audio is the capture, storage, processing and reproduction of sound, video the same for moving images. Used for recordings and devices, not for perception; compare auditory–visual.
+
+Audiovisual
+: An everyday word the book avoids, because it joins audio from the technical pair with visual from the perceptual pair and so hides whether a claim is about files or about perception. Film scholarship keeps it as its own term.
+
 Auditory scene analysis
 : The process by which the auditory system sorts a single incoming pressure wave into separate sound sources and streams.
+
+Auditory–visual
+: The perceptual pair: the auditory and visual senses and what the brain does with what they report, as in auditory–visual integration or illusions. Used for perception, not for recordings; compare audio–video.
 
 Autonomic nervous system
 : The involuntary control system of the body whose sympathetic and parasympathetic branches regulate arousal and recovery.
