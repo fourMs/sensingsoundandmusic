@@ -366,6 +366,9 @@ Music information retrieval (MIR)
 Musicking
 : Small's term for music understood as an activity that includes performing, dancing, listening, and organising, rather than as an object.
 
+Musicking quadrant
+: A layout of musical engagement along two axes, creation to experience and in time to out of time, giving four roles: composer, performer, perceiver, and analyst.
+
 Musique concrète
 : Schaeffer's compositional practice of shaping recorded sounds directly, treating environmental and instrumental recordings as raw material.
 
@@ -418,7 +421,10 @@ Perceived and induced emotion
 : The distinction between recognising the emotion a piece of music expresses and actually feeling an emotion oneself, which any study of musical emotion must specify.
 
 Perceiver
-: A person experiencing music through any of the senses; used instead of "listener" to include watching, feeling, and moving.
+: A person experiencing music in time, with any of the senses and the whole body; one of the four roles of the musicking quadrant. Used where everyday language says listener, which the book keeps for hearing alone.
+
+Perception
+: In this book, the level of description at which the ear and the early auditory system turn a sound wave into pitch, loudness, timbre, and location; the topic of psychoacoustics. For the broader activity of taking music in, the book says experience.
 
 Perceptual centre
 : The moment at which a listener places a sound in time, usually after its physical onset and before its energy peak; also called the P-centre or perceived attack time. It depends on the attack, so sounds that start together may not be heard together.
