@@ -156,6 +156,9 @@ Duty cycle
 Dynamic attending
 : The theory that metre is a behaviour of attention, with expectancy peaking periodically so that events on strong positions become more salient.
 
+Echo
+: A single reflection heard as a repeat of a sound, roughly 50 ms or more after the direct sound, as from a cliff or a far wall; distinct from reverberation, in which thousands of reflections fuse into one decaying tail.
+
 Echoic memory
 : The sensory memory that holds raw sound for a fraction of a second; it fuses fast events into a single tone and fixes where an attack is heard to begin.
 
@@ -519,6 +522,9 @@ Sound-accompanying actions
 Sound-facilitating actions
 : Support movements that do not themselves produce sound but help performance, such as a pianist's arm trajectories or breathing.
 
+Sound signal
+: In Schafer's soundscape vocabulary, a foreground sound that is listened to consciously because it carries information, such as a siren, a bell, or a bird call; the counterpart of the keynote, and unrelated to the signal of signal processing.
+
 Soundmark
 : A sound with special significance for a community, the sonic counterpart of a landmark, such as particular church bells.
 
@@ -647,6 +653,9 @@ Vibrato
 
 Videogram
 : An image made by collapsing each video frame into a single line of averaged pixels and placing the lines side by side over time, so that the movement in a whole video can be seen at a glance.
+
+Volume
+: The everyday word that covers both level, which is measured in decibels, and loudness, which is perceived; the book uses the two precise words instead.
 
 Window
 : The short segment of signal, tapered at its edges, that is analysed at each step when computing a spectrogram, with its size setting the trade-off between time and frequency resolution.
