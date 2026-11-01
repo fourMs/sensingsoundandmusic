@@ -1,0 +1,26 @@
+<svg width="800" height="700" viewBox="0 0 800 700" xmlns="http://www.w3.org/2000/svg">
+<line x1="400.0" y1="250.0" x2="400.0" y2="216.0" stroke="black" stroke-width="2.5"/>
+<line x1="278.8" y1="460.0" x2="249.3" y2="477.0" stroke="black" stroke-width="2.5"/>
+<line x1="521.2" y1="460.0" x2="550.7" y2="477.0" stroke="black" stroke-width="2.5"/>
+<circle cx="400" cy="390" r="140" fill="white" stroke="black" stroke-width="3"/>
+<line x1="260" y1="390" x2="540" y2="390" stroke="black" stroke-width="1" stroke-dasharray="6 6"/>
+<line x1="400" y1="250" x2="400" y2="530" stroke="black" stroke-width="1" stroke-dasharray="6 6"/>
+<text x="332.0" y="318.0" text-anchor="middle" font-size="16" font-weight="normal" font-style="italic" font-family="Helvetica, Arial, sans-serif" fill="#000">analysing</text>
+<text x="468.0" y="318.0" text-anchor="middle" font-size="16" font-weight="normal" font-style="italic" font-family="Helvetica, Arial, sans-serif" fill="#000">perceiving</text>
+<text x="332.0" y="468.0" text-anchor="middle" font-size="16" font-weight="normal" font-style="italic" font-family="Helvetica, Arial, sans-serif" fill="#000">composing</text>
+<text x="468.0" y="468.0" text-anchor="middle" font-size="16" font-weight="normal" font-style="italic" font-family="Helvetica, Arial, sans-serif" fill="#000">performing</text>
+<rect x="322" y="370" width="156" height="40" fill="white"/>
+<text x="400.0" y="399.0" text-anchor="middle" font-size="28" font-weight="bold" font-style="normal" font-family="Helvetica, Arial, sans-serif" fill="#000">Musicking</text>
+<circle cx="400.0" cy="128.0" r="88" fill="white" stroke="black" stroke-width="3"/>
+<text x="400.0" y="118.0" text-anchor="middle" font-size="20" font-weight="bold" font-style="normal" font-family="Helvetica, Arial, sans-serif" fill="#000">Phenomenology</text>
+<text x="400.0" y="144.0" text-anchor="middle" font-size="14" font-weight="normal" font-style="italic" font-family="Helvetica, Arial, sans-serif" fill="#000">describes experience</text>
+<text x="400.0" y="170.0" text-anchor="middle" font-size="15" font-weight="normal" font-style="normal" font-family="Helvetica, Arial, sans-serif" fill="#000">mind</text>
+<circle cx="173.1" cy="521.0" r="88" fill="white" stroke="black" stroke-width="3"/>
+<text x="173.1" y="511.0" text-anchor="middle" font-size="20" font-weight="bold" font-style="normal" font-family="Helvetica, Arial, sans-serif" fill="#000">Technology</text>
+<text x="173.1" y="537.0" text-anchor="middle" font-size="14" font-weight="normal" font-style="italic" font-family="Helvetica, Arial, sans-serif" fill="#000">builds the devices</text>
+<text x="173.1" y="563.0" text-anchor="middle" font-size="15" font-weight="normal" font-style="normal" font-family="Helvetica, Arial, sans-serif" fill="#000">air, file</text>
+<circle cx="626.9" cy="521.0" r="88" fill="white" stroke="black" stroke-width="3"/>
+<text x="626.9" y="511.0" text-anchor="middle" font-size="20" font-weight="bold" font-style="normal" font-family="Helvetica, Arial, sans-serif" fill="#000">Psychology</text>
+<text x="626.9" y="537.0" text-anchor="middle" font-size="14" font-weight="normal" font-style="italic" font-family="Helvetica, Arial, sans-serif" fill="#000">measures perception</text>
+<text x="626.9" y="563.0" text-anchor="middle" font-size="15" font-weight="normal" font-style="normal" font-family="Helvetica, Arial, sans-serif" fill="#000">ear</text>
+</svg>
