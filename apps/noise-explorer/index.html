@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Noise explorer</title>
+  <style>
+    :root {
+      --bg: #fdfdfd; --fg: #1c1e21; --muted: #5a6069; --panel: #f1f2f4;
+      --border: #c9ccd1; --accent: #0b6e99; --accent-fg: #ffffff; --canvas: #ffffff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #15171b; --fg: #e6e7e9; --muted: #9aa0a8; --panel: #20242b;
+        --border: #3a3f47; --accent: #4da3c7; --accent-fg: #0d1117; --canvas: #101216;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      margin: 0 auto; padding: 16px; max-width: 780px;
+      background: var(--bg); color: var(--fg); line-height: 1.45;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 8px; }
+    p.intro { margin: 0 0 14px; }
+    .hint { font-size: 0.9rem; color: var(--muted); margin-top: 10px; }
+    fieldset {
+      border: 1px solid var(--border); border-radius: 8px;
+      margin: 0 0 12px; padding: 10px 12px; background: var(--panel);
+    }
+    legend { font-weight: 600; font-size: 0.95rem; padding: 0 6px; }
+    label { font-weight: 600; font-size: 0.9rem; }
+    .vals { font-weight: normal; color: var(--muted); margin-left: 4px; }
+    input[type="range"] { width: 100%; margin: 2px 0 4px; accent-color: var(--accent); }
+    button {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 14px; font-size: 1rem; cursor: pointer;
+    }
+    button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+    button[aria-pressed="true"] {
+      background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600;
+    }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 10px 0; }
+    canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; background: var(--canvas); }
+  </style>
+</head>
+<body>
+  <h1>Noise explorer</h1>
+  <p class="intro">Noise types are named after colours according to how their energy is spread across the spectrum. Pick a colour and switch the continuous noise on to hear its character, or press <strong>Impulse</strong> to hear the same noise as a short burst: the spectrum is similar, but the sonic feel is completely different.</p>
+
+  <div class="row">
+    <button type="button" id="power" class="primary">Noise: off</button>
+    <button type="button" id="impulse">Impulse</button>
+    <label style="flex:1; min-width:160px; margin:0;">Master volume <span class="vals" id="voldisp"></span>
+      <input type="range" id="vol" min="0" max="100" step="1" value="50" aria-label="Master volume"/>
+    </label>
+  </div>
+
+  <fieldset>
+    <legend>Noise type</legend>
+    <div class="row" id="types">
+      <button type="button" data-type="white" aria-pressed="true">White</button>
+      <button type="button" data-type="pink" aria-pressed="false">Pink</button>
+      <button type="button" data-type="brown" aria-pressed="false">Brownian</button>
+      <button type="button" data-type="blue" aria-pressed="false">Blue</button>
+      <button type="button" data-type="grey" aria-pressed="false">Grey</button>
+    </div>
+    <p class="hint" id="typedesc" style="margin:4px 0 0;"></p>
+  </fieldset>
+
+  <fieldset>
+    <legend>Impulse length</legend>
+    <label>Burst duration <span class="vals" id="impdisp"></span> ms</label>
+    <input type="range" id="implen" min="5" max="200" step="5" value="30" aria-label="Impulse length"/>
+  </fieldset>
+
+  <canvas id="scope" width="900" height="300" aria-label="Waveform and spectrum display"></canvas>
+  <p class="hint">What to notice: white noise hisses, pink noise sounds like rainfall, brownian noise rumbles, blue noise is sharp and bright, and grey noise (an approximation here) aims to sound equally loud across the spectrum. A short impulse of the same noise no longer sounds like a texture at all, but like a click, tick, or thump; the difference lies in how the energy is distributed in time, not in frequency.</p>
+
+  <script>
+(function () {
+  "use strict";
+  var ctx = null, master = null, analyser = null;
+  var contSource = null, contGain = null;
+  var running = false;
+  var currentType = "white";
+  var buffers = {};
+
+  var el = function (id) { return document.getElementById(id); };
+  var volEl = el("vol"), impEl = el("implen");
+  var canvas = el("scope"), c2d = canvas.getContext("2d");
+
+  var descriptions = {
+    white: "White noise: equal energy at every frequency, a flat spectrum. Sounds like radio static.",
+    pink:  "Pink noise: equal energy per octave, falling 3 dB per octave. Sounds like rainfall or wind.",
+    brown: "Brownian (red) noise: falls 6 dB per octave, generated by a random walk. A deep rumble.",
+    blue:  "Blue noise: rises 3 dB per octave, with most energy at high frequencies. Bright and sharp.",
+    grey:  "Grey noise: shaped by an inverse loudness curve so all frequencies sound roughly equally loud (approximated here)."
+  };
+
+  // ---- noise generation ----
+  function generate(type, n) {
+    var out = new Float32Array(n);
+    var i, w;
+    if (type === "white") {
+      for (i = 0; i < n; i++) { out[i] = Math.random() * 2 - 1; }
+    } else if (type === "pink") {
+      // Paul Kellet's economy pink noise filter
+      var b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+      for (i = 0; i < n; i++) {
+        w = Math.random() * 2 - 1;
+        b0 = 0.99886 * b0 + w * 0.0555179;
+        b1 = 0.99332 * b1 + w * 0.0750759;
+        b2 = 0.96900 * b2 + w * 0.1538520;
+        b3 = 0.86650 * b3 + w * 0.3104856;
+        b4 = 0.55000 * b4 + w * 0.5329522;
+        b5 = -0.7616 * b5 - w * 0.0168980;
+        out[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + w * 0.5362;
+        b6 = w * 0.115926;
+      }
+    } else if (type === "brown") {
+      var acc = 0;
+      for (i = 0; i < n; i++) {
+        acc = (acc + (Math.random() * 2 - 1) * 0.02) * 0.998;
+        out[i] = acc;
+      }
+    } else if (type === "blue") {
+      // differentiated pink noise rises at +3 dB per octave
+      var pink = generate("pink", n + 1);
+      for (i = 0; i < n; i++) { out[i] = pink[i + 1] - pink[i]; }
+    } else if (type === "grey") {
+      // rough inverse-loudness shape: strong lows and highs, dipped mids
+      var lo = generate("brown", n);
+      var hi = generate("blue", n);
+      var mid = generate("white", n);
+      for (i = 0; i < n; i++) { out[i] = 1.1 * lo[i] + 0.9 * hi[i] + 0.1 * mid[i]; }
+    }
+    // normalise to a common RMS so the types can be compared fairly
+    var sum = 0;
+    for (i = 0; i < n; i++) { sum += out[i] * out[i]; }
+    var rms = Math.sqrt(sum / n) || 1;
+    var k = 0.12 / rms;
+    for (i = 0; i < n; i++) { out[i] *= k; }
+    return out;
+  }
+
+  function bufferFor(type) {
+    if (!buffers[type]) {
+      var n = ctx.sampleRate * 2;
+      var data = generate(type, n);
+      var b = ctx.createBuffer(1, n, ctx.sampleRate);
+      b.copyToChannel(data, 0);
+      buffers[type] = b;
+    }
+    return buffers[type];
+  }
+
+  function ensureAudio() {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      master = ctx.createGain();
+      master.gain.value = parseFloat(volEl.value) / 100;
+      analyser = ctx.createAnalyser();
+      analyser.fftSize = 4096;
+      analyser.smoothingTimeConstant = 0.75;
+      master.connect(analyser);
+      analyser.connect(ctx.destination);
+    }
+    if (ctx.state === "suspended") { ctx.resume(); }
+  }
+
+  // ---- continuous noise ----
+  function startContinuous() {
+    stopContinuous(true);
+    contGain = ctx.createGain();
+    contGain.gain.value = 0;
+    contGain.connect(master);
+    contSource = ctx.createBufferSource();
+    contSource.buffer = bufferFor(currentType);
+    contSource.loop = true;
+    contSource.connect(contGain);
+    contSource.start();
+    contGain.gain.setTargetAtTime(1, ctx.currentTime, 0.03);
+  }
+
+  function stopContinuous(immediate) {
+    if (!contSource) { return; }
+    var s = contSource, g = contGain;
+    contSource = null;
+    contGain = null;
+    var t = ctx.currentTime;
+    if (immediate) {
+      s.stop();
+      g.disconnect();
+    } else {
+      g.gain.setTargetAtTime(0, t, 0.03);
+      s.stop(t + 0.3);
+    }
+  }
+
+  function powerToggle() {
+    ensureAudio();
+    running = !running;
+    el("power").textContent = "Noise: " + (running ? "on" : "off");
+    if (running) {
+      el("power").classList.remove("primary");
+      startContinuous();
+    } else {
+      el("power").classList.add("primary");
+      stopContinuous(false);
+    }
+  }
+
+  // ---- impulse ----
+  function playImpulse() {
+    ensureAudio();
+    var lenMs = parseFloat(impEl.value);
+    var n = Math.max(16, Math.floor(ctx.sampleRate * lenMs / 1000));
+    var data = generate(currentType, n);
+    // sharp attack, exponential decay over the burst
+    var attack = Math.min(n, Math.floor(ctx.sampleRate * 0.0005));
+    for (var i = 0; i < n; i++) {
+      var env = Math.exp(-4 * i / n);
+      if (i < attack) { env *= i / attack; }
+      data[i] *= env * 2.5;
+    }
+    var b = ctx.createBuffer(1, n, ctx.sampleRate);
+    b.copyToChannel(data, 0);
+    var src = ctx.createBufferSource();
+    src.buffer = b;
+    src.connect(master);
+    src.start();
+  }
+
+  // ---- type selection ----
+  function selectType(type) {
+    currentType = type;
+    var btns = document.querySelectorAll("#types button");
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].setAttribute("aria-pressed", btns[i].getAttribute("data-type") === type ? "true" : "false");
+    }
+    el("typedesc").textContent = descriptions[type];
+    if (running) { startContinuous(); }
+  }
+
+  function updateLabels() {
+    el("voldisp").textContent = volEl.value + " %";
+    el("impdisp").textContent = impEl.value;
+    if (ctx) {
+      master.gain.setTargetAtTime(parseFloat(volEl.value) / 100, ctx.currentTime, 0.03);
+    }
+  }
+
+  // ---- drawing ----
+  function theme() {
+    var d = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return d ? { bg: "#101216", grid: "#2a2f37", line: "#7fc4e0", bar: "#4da3c7", text: "#9aa0a8" }
+             : { bg: "#ffffff", grid: "#e3e5e8", line: "#0b6e99", bar: "#0b6e99", text: "#5a6069" };
+  }
+  var timeData = new Float32Array(4096);
+  var freqData = new Uint8Array(2048);
+  function draw() {
+    requestAnimationFrame(draw);
+    var th = theme();
+    var w = canvas.width, h = canvas.height, half = h / 2;
+    c2d.fillStyle = th.bg;
+    c2d.fillRect(0, 0, w, h);
+    c2d.strokeStyle = th.grid;
+    c2d.beginPath(); c2d.moveTo(0, half); c2d.lineTo(w, half); c2d.stroke();
+    if (analyser) {
+      analyser.getFloatTimeDomainData(timeData);
+      c2d.strokeStyle = th.line;
+      c2d.lineWidth = 1;
+      c2d.beginPath();
+      var j, x, y;
+      for (j = 0; j < timeData.length; j++) {
+        x = j / (timeData.length - 1) * w;
+        y = half / 2 - timeData[j] * (half / 2 - 8) * 2.5;
+        if (j === 0) { c2d.moveTo(x, y); } else { c2d.lineTo(x, y); }
+      }
+      c2d.stroke();
+      analyser.getByteFrequencyData(freqData);
+      var maxHz = 16000;
+      var bins = Math.min(freqData.length, Math.floor(maxHz / (ctx.sampleRate / analyser.fftSize)));
+      var bw = w / bins;
+      c2d.fillStyle = th.bar;
+      for (j = 0; j < bins; j++) {
+        var v = freqData[j] / 255;
+        c2d.fillRect(j * bw, h - v * (half - 18), Math.max(1, bw), v * (half - 18));
+      }
+    }
+    c2d.fillStyle = th.text;
+    c2d.font = "13px system-ui, sans-serif";
+    c2d.fillText("Waveform (time, ~90 ms)", 8, 16);
+    c2d.fillText("Spectrum (frequency, 0 to 16 kHz)", 8, half + 16);
+  }
+  draw();
+
+  // ---- wiring ----
+  el("power").addEventListener("click", powerToggle);
+  el("impulse").addEventListener("click", playImpulse);
+  volEl.addEventListener("input", updateLabels);
+  impEl.addEventListener("input", updateLabels);
+  var btns = document.querySelectorAll("#types button");
+  for (var b = 0; b < btns.length; b++) {
+    btns[b].addEventListener("click", function () {
+      selectType(this.getAttribute("data-type"));
+    });
+  }
+  selectType("white");
+  updateLabels();
+})();
+  </script>
+</body>
+</html>

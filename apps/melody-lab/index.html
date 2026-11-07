@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Melody lab</title>
+  <style>
+    :root {
+      --bg: #fdfdfd; --fg: #1c1e21; --muted: #5a6069; --panel: #f1f2f4;
+      --border: #c9ccd1; --accent: #0b6e99; --accent-fg: #ffffff; --canvas: #ffffff;
+      --beat: #e8eaed; --now: #c2571a;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #15171b; --fg: #e6e7e9; --muted: #9aa0a8; --panel: #20242b;
+        --border: #3a3f47; --accent: #4da3c7; --accent-fg: #0d1117; --canvas: #101216;
+        --beat: #262b33; --now: #e08a4f;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      margin: 0 auto; padding: 16px; max-width: 780px;
+      background: var(--bg); color: var(--fg); line-height: 1.45;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 8px; }
+    p.intro { margin: 0 0 14px; }
+    .hint { font-size: 0.9rem; color: var(--muted); margin-top: 10px; }
+    fieldset {
+      border: 1px solid var(--border); border-radius: 8px;
+      margin: 0 0 12px; padding: 10px 12px; background: var(--panel);
+    }
+    legend { font-weight: 600; font-size: 0.95rem; padding: 0 6px; }
+    label { font-weight: 600; font-size: 0.9rem; }
+    .vals { font-weight: normal; color: var(--muted); margin-left: 4px; }
+    input[type="range"] { width: 100%; margin: 2px 0 4px; accent-color: var(--accent); }
+    select {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 6px 8px; font-size: 1rem;
+    }
+    button {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 14px; font-size: 1rem; cursor: pointer;
+    }
+    button.small { padding: 4px 10px; font-size: 0.9rem; }
+    button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+    button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+    button:disabled { opacity: 0.5; cursor: default; }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+    .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: start; }
+    @media (max-width: 600px) { .wrap { grid-template-columns: 1fr; } }
+    canvas { display: block; width: 100%; border: 1px solid var(--border); border-radius: 6px; margin-top: 8px; background: var(--canvas); }
+    #grid { cursor: pointer; touch-action: manipulation; }
+    .readout { margin: 8px 0 0; font-size: 0.95rem; font-variant-numeric: tabular-nums; }
+    .status { color: var(--muted); font-size: 0.9rem; min-height: 1.4em; }
+    .pcrow { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+    .pcrow button { min-width: 42px; padding: 6px 8px; font-size: 0.95rem; }
+    .pcrow button.deg { font-weight: 600; }
+      details.more { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+    details.more summary { cursor: pointer; font-weight: 600; color: inherit; }
+    details.more h3 { font-size: 0.95rem; margin: 14px 0 4px; }
+    details.more p { margin: 6px 0; }
+</style>
+</head>
+<body>
+  <h1>Melody lab</h1>
+  <p class="intro">Draw a melody on the grid, read its contour and its interval profile, and compare it with what a corpus of German folksongs would have predicted at every step.</p>
+
+  <fieldset>
+    <legend>Melody grid</legend>
+    <div class="row">
+      <button type="button" id="power" class="primary">Play</button>
+      <label style="flex:1; min-width:140px; margin:0;">Tempo <span class="vals" id="bpmdisp"></span> bpm
+        <input type="range" id="bpm" min="50" max="160" step="1" value="100" aria-label="Tempo in beats per minute"/>
+      </label>
+      <label style="flex:1; min-width:120px; margin:0;">Volume <span class="vals" id="voldisp"></span>
+        <input type="range" id="vol" min="0" max="100" step="1" value="60" aria-label="Master volume"/>
+      </label>
+    </div>
+    <div class="row">
+      <label for="tonic" style="margin:0;">Key:</label>
+      <select id="tonic" aria-label="Key">
+        <option value="0" selected>C major</option>
+        <option value="1">Db major</option>
+        <option value="2">D major</option>
+        <option value="3">Eb major</option>
+        <option value="4">E major</option>
+        <option value="5">F major</option>
+        <option value="6">F# major</option>
+        <option value="7">G major</option>
+        <option value="8">Ab major</option>
+        <option value="9">A major</option>
+        <option value="10">Bb major</option>
+        <option value="11">B major</option>
+      </select>
+      <button type="button" class="small" data-mode="scale" aria-pressed="true">Scale notes</button>
+      <button type="button" class="small" data-mode="chrom" aria-pressed="false">Chromatic</button>
+      <span style="width:8px;"></span>
+      <button type="button" class="small" data-len="16" aria-pressed="true">16 steps</button>
+      <button type="button" class="small" data-len="32" aria-pressed="false">32 steps</button>
+    </div>
+    <canvas id="grid" aria-label="Pitch against time grid; click a cell to place or remove a note"></canvas>
+    <div class="row">
+      <span style="font-weight:600;">Presets:</span>
+      <button type="button" class="small" data-preset="scale">Scale up and down</button>
+      <button type="button" class="small" data-preset="twinkle">Twinkle opening</button>
+      <button type="button" class="small" data-preset="stepwise">Stepwise tune</button>
+      <button type="button" class="small" data-preset="leapy">Leapy tune</button>
+      <button type="button" class="small" data-preset="arch">Arch</button>
+      <button type="button" class="small" data-preset="rising">Rising line</button>
+      <button type="button" class="small" id="clear">Clear</button>
+    </div>
+    <p class="hint">Columns are eighth notes, rows the notes of the chosen scale. Click a cell to place a note; click the cell right after a note of the same pitch for a repeat, and once more for a held note.</p>
+  </fieldset>
+
+  <fieldset>
+    <legend>The melody as drawn</legend>
+    <div class="wrap">
+      <canvas id="contour" aria-label="Contour: pitch against time"></canvas>
+      <canvas id="ivprof" aria-label="Interval profile: histogram of signed interval sizes in semitones"></canvas>
+    </div>
+    <p class="readout" id="anaread"></p>
+    <p class="hint">Contour is pitch against time. The interval profile counts the semitones from each note to the next, with the corpus profile in grey.</p>
+  </fieldset>
+
+  <fieldset>
+    <legend>Expectation from a corpus</legend>
+    <canvas id="liveprobs" aria-label="Probability of each pitch class coming next, according to the corpus"></canvas>
+    <p class="readout" id="liveread"></p>
+    <p class="hint" id="livehint"></p>
+    <div class="row" style="margin-top:14px;">
+      <span style="font-weight:600;">Guess the next note:</span>
+      <button type="button" id="gamestart" class="primary">Start game</button>
+      <button type="button" id="gamehear" disabled>Hear it again</button>
+    </div>
+    <p class="status" id="gamestatus">The app draws a short phrase from the table, plays it, and asks which note comes next. Ten rounds.</p>
+    <div class="pcrow" id="pcrow" aria-label="Your guess"></div>
+    <canvas id="gameprobs" aria-label="The corpus probabilities for the phrase in the game, revealed after your guess"></canvas>
+    <p class="readout" id="gameread"></p>
+    <p class="hint" id="gamehint"></p>
+  </fieldset>
+
+  <details class="more">
+  <summary>More about this app</summary>
+  <h3>How it works</h3>
+  <p>Much of a melody's effect comes from expectation: a listener who has grown up on a repertoire half-knows which note comes next, and feels it when the melody agrees or departs. The presets are written in C and follow the key selector; switch to chromatic to see all twelve rows.</p>
+  <p>The contour name follows a simple rule. A range of two semitones or less is flat, and three or more changes of direction make a wave. Otherwise the notes are split into three parts in order: if the middle part averages at least a semitone above both ends the shape is an arch; if the last part is at least a semitone above the first it is ascending, below it descending; anything else is a wave.</p>
+  <p>The interval profile counts the distance from each note to the next in semitones, upward positive and downward negative; a held note counts as one note. Steps are intervals of two semitones or less, repeats included, as in the chapter's count of the corpus.</p>
+  <h3>Things to try</h3>
+  <p>Draw a melody that is all leaps and watch the surprise climb, then smooth it into steps and watch it fall. Make a melody that avoids the tonic, or ends on the note just above it, and feel the lack of closure; then let the last note land on the tonic and hold it.</p>
+  <p>Place any note and look at the bars: the corpus most often predicts a repeat or a step, and after the leading note it predicts the tonic strongly. Play the game in another key and notice that the predictions follow the tonic, because the model, like a listener, hears relative pitch.</p>
+</details>
+
+  <script>
+(function () {
+  "use strict";
+  // Pitch-class unigram and bigram counts from 172 major-mode Essen folksongs transposed to C,
+  // 8,443 notes, plus the signed interval histogram. Rows and columns run C, C#, D, ... B.
+  var ESSEN = {"source": "Essen folksong collection, altdeu10 (music21 corpus), major-mode songs transposed to C", "songs": 172, "notes": 8443, "pitch_classes": ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"], "unigram": [1637, 14, 1321, 11, 1609, 948, 73, 1839, 14, 592, 37, 348], "bigram": [[463, 9, 316, 2, 189, 49, 0, 198, 0, 53, 12, 209], [0, 0, 7, 0, 3, 0, 0, 1, 0, 0, 0, 3], [533, 2, 222, 1, 366, 40, 0, 91, 1, 22, 3, 31], [2, 0, 1, 1, 4, 1, 0, 2, 0, 0, 0, 0], [171, 0, 550, 0, 293, 368, 18, 163, 1, 39, 0, 0], [8, 0, 120, 5, 423, 124, 8, 250, 0, 8, 1, 0], [0, 0, 0, 0, 27, 2, 2, 39, 2, 1, 0, 0], [164, 2, 77, 2, 271, 340, 41, 663, 5, 246, 8, 9], [2, 0, 0, 0, 6, 0, 0, 3, 1, 2, 0, 0], [22, 1, 13, 0, 14, 23, 3, 347, 1, 73, 12, 78], [9, 0, 0, 0, 0, 0, 0, 6, 0, 18, 1, 3], [149, 0, 7, 0, 5, 0, 1, 39, 3, 128, 0, 13]], "interval_semitones": {"-12": 3, "-9": 1, "-7": 77, "-6": 1, "-5": 126, "-4": 241, "-3": 483, "-2": 1944, "-1": 700, "0": 1822, "1": 606, "2": 1286, "3": 245, "4": 212, "5": 285, "6": 3, "7": 194, "8": 3, "9": 6, "10": 1, "12": 32}};
+  var ALPHA = 0.5;   // added to every count so that no continuation is impossible
+
+  var el = function (id) { return document.getElementById(id); };
+  var SHARP = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+  var FLAT = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"];
+  var FLAT_KEYS = [1, 3, 5, 8, 10];
+  var MAJOR = [0, 2, 4, 5, 7, 9, 11, 12, 14, 16, 17, 19, 21, 23, 24];
+  var DEGREE = { 0: "1", 2: "2", 4: "3", 5: "4", 7: "5", 9: "6", 11: "7" };
+  var SPAN = 24, MAXSTEPS = 32, LABELW = 46;
+  var tonic = 0, chromatic = false, nSteps = 16;
+  var steps = [];                       // per step: null = rest, n >= 0 = note at offset n, -1 = hold the previous note
+  var PRESETS = {
+    scale:    [0, 2, 4, 5, 7, 5, 4, 2, 0, -1, -1, -1, -1, -1, -1, -1],
+    twinkle:  [0, 0, 7, 7, 9, 9, 7, -1, 5, 5, 4, 4, 2, 2, 0, -1],
+    stepwise: [4, 2, 0, 2, 4, 5, 4, 2, 0, 2, 4, 2, 0, 2, 4, -1],
+    leapy:    [0, 7, 0, 9, 4, 12, 5, 11, 2, 7, 0, 12, 7, 4, 0, -1],
+    arch:     [0, 2, 4, 7, 9, 12, -1, 9, 7, 4, 2, 0, -1, -1, -1, -1],
+    rising:   [0, 2, 4, 5, 7, 9, 11, 12, -1, -1, -1, -1, -1, -1, -1, -1]
+  };
+  var i;
+  for (i = 0; i < MAXSTEPS; i++) { steps.push(null); }
+
+  // ---- pitch helpers ----
+  function base() { return tonic <= 6 ? 60 + tonic : 48 + tonic; }   // the lowest row, the tonic
+  function names() { return FLAT_KEYS.indexOf(tonic) >= 0 ? FLAT : SHARP; }
+  function pcName(pc) { return names()[((pc % 12) + 12) % 12]; }
+  function midiName(m) { return pcName(m) + (Math.floor(m / 12) - 1); }
+  function rel(midi) { return (((midi - tonic) % 12) + 12) % 12; }   // pitch class relative to the tonic
+  function inScale(off) { return MAJOR.indexOf(((off % 12) + 12) % 12) >= 0; }
+  function rowOffsets() {
+    var out = [], k;
+    if (chromatic) { for (k = SPAN; k >= 0; k--) { out.push(k); } }
+    else { for (k = MAJOR.length - 1; k >= 0; k--) { out.push(MAJOR[k]); } }
+    return out;
+  }
+
+  // ---- the melody ----
+  function notes() {
+    var out = [], cur = null, k, s;
+    for (k = 0; k < nSteps; k++) {
+      s = steps[k];
+      if (s !== null && s >= 0) { cur = { step: k, off: s, len: 1, midi: base() + s }; out.push(cur); }
+      else if (s === -1 && cur && cur.step + cur.len === k) { cur.len++; }
+      else { cur = null; }
+    }
+    return out;
+  }
+  function ownerOf(col) {
+    var k = col;
+    while (k >= 0 && steps[k] === -1) { k--; }
+    return (k >= 0 && steps[k] !== null && steps[k] >= 0) ? k : -1;
+  }
+  function clearTiesFrom(col) {
+    var k = col;
+    while (k < MAXSTEPS && steps[k] === -1) { steps[k] = null; k++; }
+  }
+  function normalise() {
+    var k;
+    for (k = 0; k < MAXSTEPS; k++) {
+      if (steps[k] !== null && steps[k] >= 0 && !chromatic && !inScale(steps[k])) { steps[k] = null; clearTiesFrom(k + 1); }
+      if (steps[k] === -1 && ownerOf(k) < 0) { steps[k] = null; }
+    }
+  }
+  var lastPlaced = -1;
+  function toggle(col, off) {
+    var cur = steps[col], prevOwner;
+    if (cur === off) {
+      prevOwner = col > 0 ? ownerOf(col - 1) : -1;
+      if (prevOwner >= 0 && steps[prevOwner] === off) { steps[col] = -1; }   // repeat becomes a hold
+      else { steps[col] = null; clearTiesFrom(col + 1); lastPlaced = -1; }
+    } else if (cur === -1 && ownerOf(col) >= 0 && steps[ownerOf(col)] === off) {
+      steps[col] = null; clearTiesFrom(col + 1); lastPlaced = -1;
+    } else {
+      steps[col] = off; lastPlaced = col;
+      if (!running) { ensureAudio(); playNote(base() + off, ctx.currentTime, 0.35, 0.5); }
+    }
+    afterChange();
+  }
+  function setPreset(name) {
+    var p = PRESETS[name], k;
+    for (k = 0; k < MAXSTEPS; k++) { steps[k] = k < p.length ? p[k] : null; }
+    if (!chromatic) { normalise(); }
+    lastPlaced = -1;
+    afterChange();
+  }
+  function afterChange() {
+    drawGrid(running ? shownStep : -1);
+    analyse();
+    if (!running) { showLive(lastPlaced >= 0 ? indexAt(lastPlaced) : notes().length - 1); }
+  }
+  function indexAt(col) {
+    var ns = notes(), k;
+    for (k = 0; k < ns.length; k++) { if (ns[k].step === col) { return k; } }
+    return ns.length - 1;
+  }
+
+  // ---- canvas helpers ----
+  function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+  function theme() {
+    return { bg: css("--canvas"), fg: css("--fg"), muted: css("--muted"), border: css("--border"), accent: css("--accent"),
+             accentFg: css("--accent-fg"), beat: css("--beat"), now: css("--now"), panel: css("--panel") };
+  }
+  function fit(c, h) {
+    var dpr = window.devicePixelRatio || 1, w = c.clientWidth || 600;
+    c.style.height = h + "px";
+    if (c.width !== Math.round(w * dpr) || c.height !== Math.round(h * dpr)) { c.width = Math.round(w * dpr); c.height = Math.round(h * dpr); }
+    var g = c.getContext("2d");
+    g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    g.font = "11px system-ui, sans-serif";
+    return { g: g, w: w, h: h };
+  }
+  function roundRect(g, x, y, w, h, r) {
+    g.beginPath();
+    g.moveTo(x + r, y); g.lineTo(x + w - r, y); g.quadraticCurveTo(x + w, y, x + w, y + r);
+    g.lineTo(x + w, y + h - r); g.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    g.lineTo(x + r, y + h); g.quadraticCurveTo(x, y + h, x, y + h - r);
+    g.lineTo(x, y + r); g.quadraticCurveTo(x, y, x + r, y); g.closePath();
+  }
+
+  // ---- grid ----
+  var grid = el("grid"), geo = { top: 16, rowH: 18, cellW: 20, rows: [] };
+  function drawGrid(nowStep) {
+    var rows = rowOffsets(), rowH = chromatic ? 13 : 18, top = 16;
+    var f = fit(grid, top + rows.length * rowH + 1), g = f.g, w = f.w, th = theme();
+    var cellW = (w - LABELW - 1) / nSteps, r, k, x, y, ns, n;
+    geo = { top: top, rowH: rowH, cellW: cellW, rows: rows };
+    g.fillStyle = th.bg; g.fillRect(0, 0, w, f.h);
+    g.textBaseline = "middle";
+    for (r = 0; r < rows.length; r++) {
+      y = top + r * rowH;
+      if (rows[r] % 12 === 0) { g.fillStyle = th.beat; g.fillRect(LABELW, y, w - LABELW, rowH); }
+      else if (!inScale(rows[r])) { g.fillStyle = th.panel; g.fillRect(LABELW, y, w - LABELW, rowH); }
+      g.fillStyle = rows[r] % 12 === 0 ? th.fg : th.muted; g.textAlign = "right";
+      g.fillText(midiName(base() + rows[r]), LABELW - 6, y + rowH / 2);
+    }
+    g.strokeStyle = th.border; g.lineWidth = 1;
+    for (r = 0; r <= rows.length; r++) {
+      y = Math.round(top + r * rowH) + 0.5;
+      g.beginPath(); g.moveTo(LABELW, y); g.lineTo(w, y); g.stroke();
+    }
+    g.textAlign = "center";
+    for (k = 0; k <= nSteps; k++) {
+      x = Math.round(LABELW + k * cellW) + 0.5;
+      g.strokeStyle = k % 8 === 0 ? th.muted : (k % 2 === 0 ? th.muted : th.border);
+      g.lineWidth = k % 8 === 0 ? 2 : 1;
+      g.globalAlpha = k % 2 === 0 ? 1 : 0.6;
+      g.beginPath(); g.moveTo(x, top); g.lineTo(x, top + rows.length * rowH); g.stroke();
+      g.globalAlpha = 1;
+      if (k < nSteps && k % 2 === 0) { g.fillStyle = th.muted; g.fillText(String((k / 2) % 4 + 1), LABELW + (k + 1) * cellW, 8); }
+    }
+    if (nowStep >= 0 && nowStep < nSteps) {
+      g.fillStyle = th.now; g.globalAlpha = 0.18;
+      g.fillRect(LABELW + nowStep * cellW, top, cellW, rows.length * rowH);
+      g.globalAlpha = 1;
+      g.fillRect(LABELW + nowStep * cellW, 0, cellW, 3);
+    }
+    ns = notes();
+    for (k = 0; k < ns.length; k++) {
+      n = ns[k]; r = rows.indexOf(n.off);
+      if (r < 0) { continue; }
+      g.fillStyle = (nowStep >= n.step && nowStep < n.step + n.len) ? th.now : th.accent;
+      roundRect(g, LABELW + n.step * cellW + 1.5, top + r * rowH + 1.5, n.len * cellW - 3, rowH - 3, 3);
+      g.fill();
+    }
+    g.textBaseline = "alphabetic";
+  }
+  grid.addEventListener("click", function (e) {
+    var rc = grid.getBoundingClientRect(), x = e.clientX - rc.left, y = e.clientY - rc.top;
+    var col = Math.floor((x - LABELW) / geo.cellW), row = Math.floor((y - geo.top) / geo.rowH);
+    if (x < LABELW || y < geo.top || col < 0 || col >= nSteps || row < 0 || row >= geo.rows.length) { return; }
+    toggle(col, geo.rows[row]);
+  });
+
+  // ---- analysis of the drawn melody ----
+  function mean(a) { var s = 0, k; for (k = 0; k < a.length; k++) { s += a[k]; } return a.length ? s / a.length : 0; }
+  function turns(m) {
+    // changes of direction, ignoring repeated notes
+    var n = 0, dir = 0, k, d;
+    for (k = 1; k < m.length; k++) {
+      d = m[k] - m[k - 1];
+      if (d === 0) { continue; }
+      if (dir !== 0 && (d > 0) !== (dir > 0)) { n++; }
+      dir = d;
+    }
+    return n;
+  }
+  function shapeName(m) {
+    var n = m.length, k1, k2, a, b, c, lo, hi;
+    if (n < 2) { return "too short to name"; }
+    lo = Math.min.apply(null, m); hi = Math.max.apply(null, m);
+    if (hi - lo <= 2) { return "flat"; }
+    if (turns(m) >= 3) { return "wave"; }
+    k1 = Math.round(n / 3); k2 = Math.round(2 * n / 3);
+    a = mean(m.slice(0, k1)); b = mean(m.slice(k1, k2)); c = mean(m.slice(k2));
+    if (n >= 3 && b - Math.max(a, c) >= 1) { return "arch"; }
+    if (c - a >= 1) { return "ascending"; }
+    if (a - c >= 1) { return "descending"; }
+    return "wave";
+  }
+  function analysis() {
+    var ns = notes(), m = [], iv = [], hist = {}, stepsN = 0, k, d, out;
+    for (k = 0; k < ns.length; k++) { m.push(ns[k].midi); }
+    for (k = 1; k < m.length; k++) {
+      d = m[k] - m[k - 1]; iv.push(d);
+      if (Math.abs(d) <= 2) { stepsN++; }
+      hist[d] = (hist[d] || 0) + 1;
+    }
+    out = { count: m.length, midi: m, intervals: iv, hist: hist, shape: shapeName(m) };
+    if (m.length) {
+      out.lo = Math.min.apply(null, m); out.hi = Math.max.apply(null, m); out.range = out.hi - out.lo;
+      out.first = m[0]; out.last = m[m.length - 1]; out.closure = rel(out.last) === 0;
+    }
+    out.stepShare = iv.length ? stepsN / iv.length : null;
+    out.largest = iv.length ? Math.max.apply(null, iv.map(Math.abs)) : 0;
+    return out;
+  }
+  function pct(x) { return Math.round(x * 100) + " %"; }
+  function analyse() {
+    var a = analysis(), txt;
+    drawContour(a); drawIntervals(a);
+    if (!a.count) { el("anaread").textContent = "No notes yet. Click the grid or choose a preset."; return; }
+    txt = "Shape: " + a.shape + ". " + a.count + (a.count === 1 ? " note" : " notes");
+    if (a.count > 1) {
+      txt += " spanning " + a.range + " semitones (" + midiName(a.lo) + " to " + midiName(a.hi) + "). ";
+      txt += a.intervals.length + (a.intervals.length === 1 ? " interval, " : " intervals, ") + pct(a.stepShare) + " steps of two semitones or less, largest leap " + a.largest + ". ";
+    } else { txt += ". "; }
+    txt += "Starts on " + midiName(a.first) + " and ends on " + midiName(a.last) + ": ";
+    txt += a.closure ? "the tonic, which gives closure." : "not the tonic (" + pcName(tonic) + "), so the phrase stays open.";
+    el("anaread").textContent = txt;
+  }
+  function drawContour(a) {
+    var c = el("contour"), f = fit(c, 180), g = f.g, w = f.w, h = f.h, th = theme();
+    var mL = 36, mR = 8, mT = 24, mB = 18, pw = w - mL - mR, ph = h - mT - mB, k, n, ns = notes(), x, y;
+    function yOf(midi) { return mT + (base() + SPAN - midi) / SPAN * ph; }
+    function xOf(step) { return mL + step / nSteps * pw; }
+    g.fillStyle = th.bg; g.fillRect(0, 0, w, h);
+    g.textBaseline = "middle";
+    for (k = 0; k <= SPAN; k += 12) {
+      y = Math.round(yOf(base() + k)) + 0.5;
+      g.strokeStyle = th.border; g.lineWidth = 1; g.beginPath(); g.moveTo(mL, y); g.lineTo(w - mR, y); g.stroke();
+      g.fillStyle = th.muted; g.textAlign = "right"; g.fillText(midiName(base() + k), mL - 5, y);
+    }
+    g.textAlign = "left"; g.fillStyle = th.fg; g.font = "12px system-ui, sans-serif";
+    g.fillText(a.count ? "Contour: " + a.shape : "Contour: no notes yet", mL, 11);
+    g.font = "11px system-ui, sans-serif";
+    g.fillStyle = th.muted; g.textAlign = "center"; g.fillText("time", mL + pw / 2, h - 7);
+    if (!ns.length) { g.textBaseline = "alphabetic"; return; }
+    g.strokeStyle = th.accent; g.lineWidth = 2; g.beginPath();
+    for (k = 0; k < ns.length; k++) {
+      n = ns[k]; x = xOf(n.step + 0.5); y = yOf(n.midi);
+      if (k === 0) { g.moveTo(x, y); } else { g.lineTo(x, y); }
+      if (n.len > 1) { g.lineTo(xOf(n.step + n.len - 0.5), y); }
+    }
+    g.stroke();
+    for (k = 0; k < ns.length; k++) {
+      n = ns[k];
+      g.fillStyle = rel(n.midi) === 0 ? th.now : th.accent;
+      g.beginPath(); g.arc(xOf(n.step + 0.5), yOf(n.midi), 3.5, 0, Math.PI * 2); g.fill();
+    }
+    g.textBaseline = "alphabetic";
+  }
+  function corpusIntervalShares() {
+    var tot = 0, out = {}, k;
+    for (k = -12; k <= 12; k++) { tot += ESSEN.interval_semitones[String(k)] || 0; }
+    for (k = -12; k <= 12; k++) { out[k] = (ESSEN.interval_semitones[String(k)] || 0) / tot; }
+    return out;
+  }
+  var CORPUS_IV = corpusIntervalShares();
+  function drawIntervals(a) {
+    var c = el("ivprof"), f = fit(c, 180), g = f.g, w = f.w, h = f.h, th = theme();
+    var mL = 30, mR = 8, mT = 24, mB = 30, pw = w - mL - mR, ph = h - mT - mB, bw = pw / 25, k, x, ymax = 0.1, share, tot = a.intervals.length;
+    for (k = -12; k <= 12; k++) {
+      ymax = Math.max(ymax, CORPUS_IV[k], tot ? (a.hist[k] || 0) / tot : 0);
+    }
+    ymax = Math.ceil(ymax * 10) / 10;
+    g.fillStyle = th.bg; g.fillRect(0, 0, w, h);
+    g.textBaseline = "middle"; g.fillStyle = th.fg; g.textAlign = "left"; g.font = "12px system-ui, sans-serif";
+    g.fillText("Interval profile" + (tot ? ": " + pct(a.stepShare) + " steps" : ""), mL, 11);
+    g.font = "11px system-ui, sans-serif";
+    g.fillStyle = th.muted; g.textAlign = "right";
+    g.fillText(Math.round(ymax * 100) + " %", mL - 4, mT); g.fillText("0", mL - 4, mT + ph);
+    g.strokeStyle = th.border; g.beginPath(); g.moveTo(mL, mT + ph + 0.5); g.lineTo(w - mR, mT + ph + 0.5); g.stroke();
+    g.textAlign = "center";
+    for (k = -12; k <= 12; k++) {
+      x = mL + (k + 12) * bw;
+      if (tot && a.hist[k]) {
+        share = a.hist[k] / tot;
+        g.fillStyle = th.accent; g.fillRect(x + 1.5, mT + ph - share / ymax * ph, bw - 3, share / ymax * ph);
+      }
+      g.strokeStyle = th.muted; g.lineWidth = 1.2;
+      g.strokeRect(x + 1.5, mT + ph - CORPUS_IV[k] / ymax * ph, bw - 3, CORPUS_IV[k] / ymax * ph);
+      if ((bw >= 11 && k % 2 === 0) || k % 4 === 0) {
+        g.fillStyle = k === 0 ? th.fg : th.muted;
+        g.fillText((k > 0 ? "+" : "") + k, x + bw / 2, mT + ph + 9);
+      }
+    }
+    g.fillStyle = th.muted; g.fillText("semitones to the next note (filled: this melody, outline: corpus)", mL + pw / 2, h - 6);
+    g.textBaseline = "alphabetic";
+  }
+
+  // ---- the corpus table ----
+  function rowProbs(prevRel) {
+    var counts = prevRel === null ? ESSEN.unigram : ESSEN.bigram[prevRel], tot = 0, k, out = [];
+    for (k = 0; k < 12; k++) { tot += counts[k] + ALPHA; }
+    for (k = 0; k < 12; k++) { out.push((counts[k] + ALPHA) / tot); }
+    return out;
+  }
+  function surprise(p) { return -Math.log2(p); }
+  function argmax(a) { var b = 0, k; for (k = 1; k < a.length; k++) { if (a[k] > a[b]) { b = k; } } return b; }
+  function sum(a) { var s = 0, k; for (k = 0; k < a.length; k++) { s += a[k]; } return s; }
+  function baselineHitRate() {
+    // always guessing the most frequent continuation, scored on the corpus's own transitions
+    var hit = 0, tot = 0, k;
+    for (k = 0; k < 12; k++) { hit += Math.max.apply(null, ESSEN.bigram[k]); tot += sum(ESSEN.bigram[k]); }
+    return hit / tot;
+  }
+  function surprises(ns) {
+    var out = [], prev = null, k, probs, p;
+    for (k = 0; k < ns.length; k++) {
+      probs = rowProbs(prev === null ? null : rel(prev.midi));
+      p = probs[rel(ns[k].midi)];
+      out.push({ p: p, bits: surprise(p), probs: probs, prev: prev, note: ns[k] });
+      prev = ns[k];
+    }
+    return out;
+  }
+  function drawProbs(c, probs, marks, title) {
+    var f = fit(c, 190), g = f.g, w = f.w, h = f.h, th = theme();
+    var mL = 32, mR = 8, mT = 24, mB = 40, pw = w - mL - mR, ph = h - mT - mB, bw = pw / 12, k, x, bh, ymax, pc;
+    g.fillStyle = th.bg; g.fillRect(0, 0, w, h);
+    g.textBaseline = "middle"; g.textAlign = "left"; g.fillStyle = th.fg; g.font = "12px system-ui, sans-serif";
+    g.fillText(title, mL, 11);
+    g.font = "11px system-ui, sans-serif";
+    if (!probs) { g.textBaseline = "alphabetic"; return; }
+    ymax = Math.ceil(Math.max(0.3, Math.max.apply(null, probs)) * 10) / 10;
+    g.fillStyle = th.muted; g.textAlign = "right";
+    g.fillText(Math.round(ymax * 100) + " %", mL - 4, mT); g.fillText("0", mL - 4, mT + ph);
+    g.strokeStyle = th.border; g.beginPath(); g.moveTo(mL, mT + ph + 0.5); g.lineTo(w - mR, mT + ph + 0.5); g.stroke();
+    g.textAlign = "center";
+    for (k = 0; k < 12; k++) {
+      x = mL + k * bw; bh = probs[k] / ymax * ph; pc = (tonic + k) % 12;
+      g.fillStyle = k === marks.actual ? th.now : th.accent;
+      g.globalAlpha = (marks.actual === undefined || k === marks.actual) ? 1 : 0.75;
+      g.fillRect(x + 3, mT + ph - bh, bw - 6, bh);
+      g.globalAlpha = 1;
+      if (marks.guess !== undefined && k === marks.guess && k !== marks.actual) {
+        g.strokeStyle = th.fg; g.lineWidth = 2; g.strokeRect(x + 3, mT + ph - Math.max(bh, 3), bw - 6, Math.max(bh, 3));
+      }
+      if (probs[k] >= 0.02 && bw >= 22) { g.fillStyle = th.muted; g.fillText(Math.round(probs[k] * 100) + "", x + bw / 2, mT + ph - bh - 7); }
+      g.fillStyle = k === marks.actual ? th.now : (DEGREE[k] ? th.fg : th.muted);
+      g.font = DEGREE[k] ? "600 11px system-ui, sans-serif" : "11px system-ui, sans-serif";
+      g.fillText(pcName(pc), x + bw / 2, mT + ph + 10);
+      g.font = "10px system-ui, sans-serif"; g.fillStyle = th.muted;
+      if (DEGREE[k]) { g.fillText(DEGREE[k], x + bw / 2, mT + ph + 23); }
+      g.font = "11px system-ui, sans-serif";
+    }
+    if (marks.top !== undefined) {
+      x = mL + marks.top * bw + bw / 2;
+      g.fillStyle = th.fg; g.font = "10px system-ui, sans-serif";
+      g.fillText("most likely", x, mT + ph + 34);
+      g.font = "11px system-ui, sans-serif";
+    }
+    g.textBaseline = "alphabetic";
+  }
+  function fmtBits(b) { return (Math.round(b * 10) / 10).toFixed(1); }
+  function showLive(idx) {
+    var ns = notes(), ss, s, k, tot = 0, txt, top;
+    if (!ns.length || idx < 0) {
+      drawProbs(el("liveprobs"), null, {}, "Place a note to see what the corpus expected");
+      el("liveread").textContent = "The bars will show the twelve pitch classes with the corpus's probability of each coming next, given the note before.";
+      return;
+    }
+    idx = Math.min(idx, ns.length - 1);
+    ss = surprises(ns); s = ss[idx]; top = argmax(s.probs);
+    for (k = 0; k <= idx; k++) { tot += ss[k].bits; }
+    drawProbs(el("liveprobs"), s.probs, { actual: rel(s.note.midi), top: top },
+      s.prev ? "After " + midiName(s.prev.midi) + ": what the corpus expects next" : "First note: how often the corpus uses each pitch class");
+    txt = s.prev ? "After " + midiName(s.prev.midi) + " the corpus most expects " + pcName(tonic + top) + " (" + pct(s.probs[top]) + "). "
+                 : "For an opening note the corpus most often uses " + pcName(tonic + top) + " (" + pct(s.probs[top]) + "). ";
+    txt += "The melody has " + midiName(s.note.midi) + " (" + pct(s.p) + "): surprise " + fmtBits(s.bits) + " bits. ";
+    txt += "Mean so far: " + fmtBits(tot / (idx + 1)) + " bits per note over " + (idx + 1) + (idx === 0 ? " note." : " notes.");
+    el("liveread").textContent = txt;
+  }
+  el("livehint").textContent = "The table behind these bars: " + ESSEN.source + "; " + ESSEN.songs + " songs and " +
+    ESSEN.notes.toLocaleString("en-GB") + " notes, counted with the music21 toolkit as in the chapter. For every note it stores how often each of the twelve pitch classes came next, " +
+    "and the bars show those shares for the note before the current one, transposed to the chosen key, with " + ALPHA + " added to each count so that no continuation is impossible. " +
+    "The surprise of a note is minus the logarithm (base 2) of its probability, in bits: how unexpected this note was for someone who grew up on this corpus. " +
+    "A note with probability 1/2 carries " + fmtBits(surprise(0.5)) + " bit, 1/4 carries " + fmtBits(surprise(0.25)) + " bits, and 1/1024 carries " + fmtBits(surprise(1 / 1024)) + " bits. Statistical learning of such regularities is one way enculturation is thought to work.";
+
+  // ---- audio ----
+  var ctx = null, master = null, limiter = null, wave = null, voices = [];
+  var running = false, timer = null, animTimer = null, nextTime = 0, step = 0, queued = [], shownStep = -1;
+  var LOOKAHEAD = 0.12, TICK_MS = 25;
+  function vol() { return 0.4 * parseFloat(el("vol").value) / 100; }
+  function ensureAudio() {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      limiter = ctx.createDynamicsCompressor();
+      limiter.threshold.value = -6; limiter.knee.value = 0; limiter.ratio.value = 20;
+      limiter.attack.value = 0.002; limiter.release.value = 0.1;
+      master = ctx.createGain(); master.gain.value = vol();
+      master.connect(limiter); limiter.connect(ctx.destination);
+      // a soft tone: a few harmonics that fall off quickly, then a low-pass filter
+      wave = ctx.createPeriodicWave(new Float32Array([0, 0, 0, 0, 0, 0]), new Float32Array([0, 1, 0.35, 0.12, 0.06, 0.03]));
+    }
+    if (ctx.state === "suspended") { ctx.resume(); }
+  }
+  function playNote(midi, t0, dur, level) {
+    var o = ctx.createOscillator(), f = ctx.createBiquadFilter(), g = ctx.createGain(), v;
+    o.setPeriodicWave(wave); o.frequency.value = 440 * Math.pow(2, (midi - 69) / 12);
+    f.type = "lowpass"; f.frequency.value = 2200; f.Q.value = 0.5;
+    g.gain.setValueAtTime(0, t0);
+    g.gain.linearRampToValueAtTime(level, t0 + 0.015);
+    g.gain.setValueAtTime(level, t0 + Math.max(dur - 0.08, 0.02));
+    g.gain.linearRampToValueAtTime(0, t0 + dur);
+    o.connect(f); f.connect(g); g.connect(master);
+    o.start(t0); o.stop(t0 + dur + 0.05);
+    v = { o: o, g: g }; voices.push(v);
+    o.onended = function () { var k = voices.indexOf(v); if (k >= 0) { voices.splice(k, 1); } };
+  }
+  function silence() {
+    if (!ctx) { return; }
+    var now = ctx.currentTime, k, v;
+    for (k = 0; k < voices.length; k++) {
+      v = voices[k];
+      v.g.gain.cancelScheduledValues(now); v.g.gain.setValueAtTime(v.g.gain.value, now);
+      v.g.gain.linearRampToValueAtTime(0, now + 0.03);
+      try { v.o.stop(now + 0.05); } catch (e) { /* already stopped */ }
+    }
+    voices = [];
+  }
+  function stepDur() { return 60 / parseFloat(el("bpm").value) / 2; }
+  function lenAt(col) { var n = 1; while (col + n < nSteps && steps[col + n] === -1) { n++; } return n; }
+  function tick() {
+    while (nextTime < ctx.currentTime + LOOKAHEAD) {
+      var s = steps[step];
+      if (s !== null && s >= 0 && (chromatic || inScale(s))) { playNote(base() + s, nextTime, lenAt(step) * stepDur() - 0.02, 0.5); }
+      queued.push({ t: nextTime, step: step });
+      nextTime += stepDur(); step = (step + 1) % nSteps;
+    }
+  }
+  function start() {
+    ensureAudio(); running = true;
+    nextTime = ctx.currentTime + 0.15; step = 0; queued = []; shownStep = -1;
+    timer = setInterval(tick, TICK_MS); animTimer = setInterval(animate, 30);
+    el("power").textContent = "Stop"; el("power").classList.remove("primary");
+  }
+  function stop() {
+    running = false;
+    if (timer) { clearInterval(timer); timer = null; }
+    if (animTimer) { clearInterval(animTimer); animTimer = null; }
+    silence(); shownStep = -1; drawGrid(-1);
+    el("power").textContent = "Play"; el("power").classList.add("primary");
+  }
+  function animate() {
+    var now = ctx.currentTime - (ctx.outputLatency || 0) - (ctx.baseLatency || 0), q;
+    while (queued.length > 1 && queued[1].t <= now) { queued.shift(); }
+    q = queued[0];
+    if (!q || q.t > now || q.step === shownStep) { return; }
+    shownStep = q.step; drawGrid(q.step);
+    if (steps[q.step] !== null && steps[q.step] >= 0) { showLive(indexAt(q.step)); }
+  }
+  el("power").addEventListener("click", function () { if (running) { stop(); } else { start(); } });
+  document.addEventListener("keydown", function (e) {
+    var tag = document.activeElement.tagName;
+    if (e.code === "Space" && !e.repeat && tag !== "BUTTON" && tag !== "INPUT" && tag !== "SELECT") { e.preventDefault(); if (running) { stop(); } else { start(); } }
+  });
+
+  // ---- guess-the-next-note game ----
+  var ROUNDS = 10, gamesPlayed = 0;
+  var game = { phase: "idle", round: 0, hits: 0, baseHits: 0, rounds: [] };
+  function makeRng(seed) {
+    var s = seed % 2147483647; if (s <= 0) { s += 2147483646; }
+    return function () { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; };
+  }
+  function sampleRow(counts, r) {
+    var tot = sum(counts), acc = 0, k;
+    for (k = 0; k < 12; k++) { acc += counts[k]; if (r * tot < acc) { return k; } }
+    return 11;
+  }
+  function drawPhrase(rng) {
+    var len = 6 + Math.floor(rng() * 3), pcs = [0], k;
+    for (k = 1; k < len; k++) { pcs.push(sampleRow(ESSEN.bigram[pcs[k - 1]], rng())); }
+    return { pcs: pcs, answer: sampleRow(ESSEN.bigram[pcs[len - 1]], rng()), top: argmax(ESSEN.bigram[pcs[len - 1]]) };
+  }
+  function toRegister(pcs) {
+    var out = [], prev = base(), k, d, m;
+    for (k = 0; k < pcs.length; k++) {
+      d = ((pcs[k] - rel(prev)) % 12 + 12) % 12; if (d > 6) { d -= 12; }
+      m = k === 0 ? base() : prev + d;
+      if (m > base() + 19) { m -= 12; } if (m < base() - 7) { m += 12; }
+      out.push(m); prev = m;
+    }
+    return out;
+  }
+  function playSeq(midis, gap) {
+    ensureAudio();
+    var t0 = ctx.currentTime + 0.05, k;
+    for (k = 0; k < midis.length; k++) { playNote(midis[k], t0 + k * gap, gap * 0.9, 0.5); }
+    return midis.length * gap;
+  }
+  function setGuessButtons(on) {
+    var bs = el("pcrow").querySelectorAll("button"), k;
+    for (k = 0; k < bs.length; k++) { bs[k].disabled = !on; }
+  }
+  function buildGuessButtons() {
+    var host = el("pcrow"), k, b;
+    host.innerHTML = "";
+    for (k = 0; k < 12; k++) {
+      b = document.createElement("button"); b.type = "button";
+      b.className = DEGREE[k] ? "deg" : ""; b.dataset.rel = String(k);
+      b.textContent = pcName(tonic + k);
+      b.setAttribute("aria-label", pcName(tonic + k) + (DEGREE[k] ? ", scale degree " + DEGREE[k] : ""));
+      b.disabled = game.phase !== "guess";
+      b.addEventListener("click", function () { guess(parseInt(this.dataset.rel, 10)); });
+      host.appendChild(b);
+    }
+  }
+  function startGame() {
+    var rng = makeRng(20261012 + gamesPlayed), k;
+    gamesPlayed++;
+    game = { phase: "listen", round: 0, hits: 0, baseHits: 0, rounds: [] };
+    for (k = 0; k < ROUNDS; k++) { game.rounds.push(drawPhrase(rng)); }
+    el("gameread").textContent = "";
+    playRound();
+  }
+  function playRound() {
+    var r = game.rounds[game.round], midis = toRegister(r.pcs), secs;
+    game.phase = "listen"; setGuessButtons(false);
+    el("gamestart").textContent = "Playing..."; el("gamestart").disabled = true; el("gamehear").disabled = true;
+    el("gamestatus").textContent = "Round " + (game.round + 1) + " of " + ROUNDS + ". Listen: " + r.pcs.length + " notes in " + pcName(tonic) + " major, then click the note you expect next.";
+    drawProbs(el("gameprobs"), null, {}, "Round " + (game.round + 1) + ": " + midis.map(midiName).join(" ") + " ...");
+    secs = playSeq(midis, 0.45);
+    setTimeout(function () {
+      if (game.phase !== "listen") { return; }
+      game.phase = "guess"; setGuessButtons(true); el("gamehear").disabled = false;
+      el("gamestatus").textContent = "Round " + (game.round + 1) + " of " + ROUNDS + ". Which note comes next?";
+    }, secs * 1000 + 100);
+  }
+  function guess(relPc) {
+    if (game.phase !== "guess") { return; }
+    var r = game.rounds[game.round], probs = rowProbs(r.pcs[r.pcs.length - 1]), midis = toRegister(r.pcs.concat([r.answer])), hit = relPc === r.answer, txt;
+    game.phase = "revealed"; setGuessButtons(false);
+    if (hit) { game.hits++; }
+    if (r.top === r.answer) { game.baseHits++; }
+    playNote(midis[midis.length - 1], ctx.currentTime + 0.05, 0.6, 0.5);
+    drawProbs(el("gameprobs"), probs, { actual: r.answer, guess: relPc, top: r.top },
+      "After " + pcName(tonic + r.pcs[r.pcs.length - 1]) + ": the corpus's probabilities (orange: the note drawn, outline: your guess)");
+    txt = (hit ? "Hit. " : "Miss. ") + "You guessed " + pcName(tonic + relPc) + " (" + pct(probs[relPc]) + "); the table drew " + pcName(tonic + r.answer) + " (" + pct(probs[r.answer]) + ", surprise " + fmtBits(surprise(probs[r.answer])) + " bits). ";
+    txt += "Its most likely note was " + pcName(tonic + r.top) + " (" + pct(probs[r.top]) + ")" + (r.top === r.answer ? ", so the always-most-likely strategy scores too. " : ", so the always-most-likely strategy misses this one. ");
+    txt += "Score: you " + game.hits + ", most-likely strategy " + game.baseHits + ", after " + (game.round + 1) + (game.round === 0 ? " round." : " rounds.");
+    el("gameread").textContent = txt;
+    el("gamestatus").textContent = "Round " + (game.round + 1) + " of " + ROUNDS + ": " + (hit ? "hit." : "miss.");
+    el("gamestart").disabled = false;
+    el("gamestart").textContent = game.round + 1 < ROUNDS ? "Next round" : "See the result";
+  }
+  function finishGame() {
+    var base = baselineHitRate();
+    game.phase = "done"; setGuessButtons(false); el("gamehear").disabled = true;
+    el("gamestatus").textContent = "Game over.";
+    el("gameread").textContent = "Ten rounds: you hit " + game.hits + " of " + ROUNDS + " (" + pct(game.hits / ROUNDS) + "). " +
+      "Always choosing the table's most likely note would have hit " + game.baseHits + " of " + ROUNDS + " in this game, and " + pct(base) + " over the corpus as a whole; " +
+      "a random guess among the twelve notes hits " + pct(1 / 12) + ". The phrases are drawn from the same table, so the table has the home advantage; your ears bring rhythm, phrase shape and a lifetime of other music.";
+    el("gamestart").textContent = "New game";
+    drawProbs(el("gameprobs"), null, {}, "Start a new game for ten new phrases");
+  }
+  el("gamestart").addEventListener("click", function () {
+    if (game.phase === "idle" || game.phase === "done") { startGame(); }
+    else if (game.phase === "revealed") { game.round++; if (game.round < ROUNDS) { playRound(); } else { finishGame(); } }
+  });
+  el("gamehear").addEventListener("click", function () {
+    if (game.phase === "guess") { playSeq(toRegister(game.rounds[game.round].pcs), 0.45); }
+  });
+  el("gamehint").textContent = "This is a crude model: it looks at one previous note only, from one corpus of one tradition, and knows nothing about rhythm, position in the phrase, or harmony. A human expectation uses far more, which is why you may beat the table. Scored on its own transitions, always guessing the most likely next note is right " +
+    pct(baselineHitRate()) + " of the time, and a random guess " + pct(1 / 12) + ".";
+
+  // ---- controls ----
+  function setPressed(sel, attr, val) {
+    var bs = document.querySelectorAll(sel), k;
+    for (k = 0; k < bs.length; k++) { bs[k].setAttribute("aria-pressed", bs[k].dataset[attr] === val ? "true" : "false"); }
+  }
+  var modeBtns = document.querySelectorAll("button[data-mode]");
+  for (i = 0; i < modeBtns.length; i++) {
+    modeBtns[i].addEventListener("click", function () {
+      chromatic = this.dataset.mode === "chrom";
+      setPressed("button[data-mode]", "mode", this.dataset.mode);
+      normalise(); afterChange();
+    });
+  }
+  var lenBtns = document.querySelectorAll("button[data-len]");
+  for (i = 0; i < lenBtns.length; i++) {
+    lenBtns[i].addEventListener("click", function () {
+      nSteps = parseInt(this.dataset.len, 10);
+      setPressed("button[data-len]", "len", this.dataset.len);
+      if (running) { step = step % nSteps; }
+      afterChange();
+    });
+  }
+  var presBtns = document.querySelectorAll("button[data-preset]");
+  for (i = 0; i < presBtns.length; i++) {
+    presBtns[i].addEventListener("click", function () { setPreset(this.dataset.preset); });
+  }
+  el("clear").addEventListener("click", function () {
+    var k; for (k = 0; k < MAXSTEPS; k++) { steps[k] = null; }
+    lastPlaced = -1; afterChange();
+  });
+  el("tonic").addEventListener("change", function () {
+    tonic = parseInt(this.value, 10);
+    buildGuessButtons();
+    if (game.phase !== "idle" && game.phase !== "done") {
+      el("gamestatus").textContent = "The key changed, so the game was reset.";
+      game = { phase: "idle", round: 0, hits: 0, baseHits: 0, rounds: [] };
+      el("gamestart").textContent = "Start game"; el("gamestart").disabled = false; el("gamehear").disabled = true;
+      el("gameread").textContent = ""; drawProbs(el("gameprobs"), null, {}, "Start the game to hear a phrase");
+    }
+    afterChange();
+  });
+  function updateLabels() {
+    el("bpmdisp").textContent = el("bpm").value;
+    el("voldisp").textContent = el("vol").value + " %";
+    if (ctx) { master.gain.setTargetAtTime(vol(), ctx.currentTime, 0.03); }
+  }
+  el("bpm").addEventListener("input", updateLabels);
+  el("vol").addEventListener("input", updateLabels);
+  function redrawAll() { drawGrid(running ? shownStep : -1); analyse(); showLive(lastPlaced >= 0 ? indexAt(lastPlaced) : notes().length - 1); }
+  window.addEventListener("resize", redrawAll);
+  if (window.matchMedia) { window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", redrawAll); }
+
+  // a small read-only surface for tests and curious students
+  window.melodyLab = {
+    table: ESSEN, probs: rowProbs, surprise: surprise, baseline: baselineHitRate, shape: shapeName,
+    analysis: analysis, notes: notes, setPreset: setPreset, toRegister: toRegister, drawPhrase: drawPhrase, makeRng: makeRng
+  };
+
+  updateLabels();
+  buildGuessButtons();
+  drawProbs(el("gameprobs"), null, {}, "Start the game to hear a phrase");
+  setPreset("scale");
+})();
+  </script>
+</body>
+</html>

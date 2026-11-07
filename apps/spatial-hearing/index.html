@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Spatial hearing</title>
+  <style>
+    :root {
+      --bg: #fdfdfd; --fg: #1c1e21; --muted: #5a6069; --panel: #f1f2f4;
+      --border: #c9ccd1; --accent: #0b6e99; --accent-fg: #ffffff; --canvas: #ffffff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #15171b; --fg: #e6e7e9; --muted: #9aa0a8; --panel: #20242b;
+        --border: #3a3f47; --accent: #4da3c7; --accent-fg: #0d1117; --canvas: #101216;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      margin: 0 auto; padding: 16px; max-width: 780px;
+      background: var(--bg); color: var(--fg); line-height: 1.45;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 8px; }
+    p.intro { margin: 0 0 14px; }
+    .hint { font-size: 0.9rem; color: var(--muted); margin-top: 10px; }
+    .headphones {
+      border: 2px solid var(--accent); border-radius: 8px; background: var(--panel);
+      padding: 8px 12px; margin: 0 0 14px; font-weight: 600;
+    }
+    fieldset {
+      border: 1px solid var(--border); border-radius: 8px;
+      margin: 0 0 12px; padding: 10px 12px; background: var(--panel);
+    }
+    legend { font-weight: 600; font-size: 0.95rem; padding: 0 6px; }
+    label { font-weight: 600; font-size: 0.9rem; }
+    .vals { font-weight: normal; color: var(--muted); margin-left: 4px; }
+    input[type="range"] { width: 100%; margin: 2px 0 4px; accent-color: var(--accent); }
+    button {
+      background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 14px; font-size: 1rem; cursor: pointer;
+    }
+    button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+    button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 10px 0; }
+    .readout { font-size: 0.9rem; color: var(--muted); }
+    .fbnote { font-size: 0.9rem; color: var(--muted); min-height: 1.4em; margin: 4px 0 0; }
+    canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; background: var(--canvas); }
+  </style>
+</head>
+<body>
+  <h1>Spatial hearing</h1>
+  <p class="headphones">Headphones required. This app plays different signals to your two ears; through loudspeakers the effect disappears.</p>
+  <p class="intro">Move a sound around your head and listen to the two cues the brain uses to locate it: the tiny arrival-time difference between the ears (ITD, up to about 0.7 ms) and the level difference caused by the head&rsquo;s shadow (ILD). Switch the cues on and off to hear what each one does on its own. Press <strong>Start audio</strong> first.</p>
+
+  <div class="row">
+    <button type="button" id="power" class="primary">Start audio</button>
+    <label style="flex:1; min-width:160px; margin:0;">Master volume <span class="vals" id="voldisp"></span>
+      <input type="range" id="vol" min="0" max="100" step="1" value="60" aria-label="Master volume"/>
+    </label>
+  </div>
+
+  <fieldset>
+    <legend>Source</legend>
+    <div class="row">
+      <button type="button" data-src="clicks" aria-pressed="true">Low clicks</button>
+      <button type="button" data-src="noise" aria-pressed="false">Noise bursts</button>
+      <button type="button" data-src="melody" aria-pressed="false">Melodic loop</button>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Position</legend>
+    <label>Azimuth <span class="vals" id="azdisp"></span></label>
+    <input type="range" id="az" min="-180" max="180" step="1" value="0" aria-label="Azimuth in degrees"/>
+    <p class="fbnote" id="fbnote"></p>
+  </fieldset>
+
+  <fieldset>
+    <legend>Cues</legend>
+    <div class="row">
+      <button type="button" data-cue="both" aria-pressed="true">ITD + ILD</button>
+      <button type="button" data-cue="itd" aria-pressed="false">ITD only</button>
+      <button type="button" data-cue="ild" aria-pressed="false">ILD only</button>
+      <span class="readout" id="cuedisp"></span>
+    </div>
+  </fieldset>
+
+  <canvas id="head" width="900" height="360" aria-label="Top-down view of the head with the source position"></canvas>
+  <p class="hint">What to notice: the low clicks localise mainly by timing (switch to ITD only and they still move), while the hissy noise localises mainly by level. Angles behind you sound the same as the mirrored front angle, since headphones give none of the spectral cues that normally resolve front from back.</p>
+
+  <script>
+(function () {
+  "use strict";
+  var ctx = null, master = null, panner = null, splitter = null, merger = null;
+  var delayL = null, delayR = null, src = null;
+  var running = false;
+  var cueMode = "both";
+  var srcName = "clicks";
+  var MAX_ITD = 0.0007; // seconds
+
+  var el = function (id) { return document.getElementById(id); };
+  var azEl = el("az"), volEl = el("vol");
+  var canvas = el("head"), c2d = canvas.getContext("2d");
+
+  function lateral() {
+    // -1 (full left) .. +1 (full right); back angles fold onto the front
+    return Math.sin(parseFloat(azEl.value) * Math.PI / 180);
+  }
+
+  function ensureAudio() {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      master = ctx.createGain();
+      master.gain.value = 0;
+      if (ctx.createStereoPanner) {
+        panner = ctx.createStereoPanner();
+      } else {
+        // fallback: plain up-mix to stereo, ILD toggle then has no effect
+        panner = ctx.createGain();
+        panner.channelCount = 2;
+        panner.channelCountMode = "explicit";
+      }
+      splitter = ctx.createChannelSplitter(2);
+      merger = ctx.createChannelMerger(2);
+      delayL = ctx.createDelay(0.01);
+      delayR = ctx.createDelay(0.01);
+      panner.connect(splitter); // source connects to panner
+      splitter.connect(delayL, 0);
+      splitter.connect(delayR, 1);
+      delayL.connect(merger, 0, 0);
+      delayR.connect(merger, 0, 1);
+      merger.connect(master);
+      master.connect(ctx.destination);
+      setSource(srcName);
+    }
+    if (ctx.state === "suspended") { ctx.resume(); }
+  }
+
+  // ---- inline-synthesised looping sources (all mono buffers) ----
+  function makeBuffer(seconds, fill) {
+    var sr = ctx.sampleRate;
+    var buf = ctx.createBuffer(1, Math.floor(seconds * sr), sr);
+    fill(buf.getChannelData(0), sr);
+    return buf;
+  }
+  function buildClicks() {
+    // damped 400 Hz bursts every 400 ms: energy is low-frequency, so ITD dominates
+    return makeBuffer(1.6, function (d, sr) {
+      var starts = [0, 0.4, 0.8, 1.2];
+      for (var s = 0; s < starts.length; s++) {
+        var n0 = Math.floor(starts[s] * sr);
+        for (var i = 0; i < 0.05 * sr; i++) {
+          d[n0 + i] += Math.sin(2 * Math.PI * 400 * i / sr) * Math.exp(-i / (0.008 * sr)) * 0.9;
+        }
+      }
+    });
+  }
+  function buildNoise() {
+    // white-noise bursts every 400 ms: energy is broadband and hissy, so ILD dominates
+    return makeBuffer(1.6, function (d, sr) {
+      var starts = [0, 0.4, 0.8, 1.2];
+      for (var s = 0; s < starts.length; s++) {
+        var n0 = Math.floor(starts[s] * sr);
+        var len = Math.floor(0.15 * sr);
+        for (var i = 0; i < len; i++) {
+          var env = Math.min(1, i / (0.005 * sr)) * Math.exp(-i / (0.06 * sr));
+          d[n0 + i] += (Math.random() * 2 - 1) * env * 0.5;
+        }
+      }
+    });
+  }
+  function buildMelody() {
+    // a short pentatonic loop with a few harmonics
+    var notes = [220, 261.63, 293.66, 329.63, 293.66, 261.63, 329.63, 220];
+    var dur = 0.25;
+    return makeBuffer(notes.length * dur, function (d, sr) {
+      for (var n = 0; n < notes.length; n++) {
+        var n0 = Math.floor(n * dur * sr);
+        var len = Math.floor(dur * sr);
+        for (var i = 0; i < len; i++) {
+          var env = Math.min(1, i / (0.01 * sr)) * Math.exp(-i / (0.12 * sr));
+          var ph = 2 * Math.PI * notes[n] * i / sr;
+          d[n0 + i] += (Math.sin(ph) + 0.4 * Math.sin(2 * ph) + 0.2 * Math.sin(3 * ph)) * env * 0.35;
+        }
+      }
+    });
+  }
+
+  function setSource(name) {
+    srcName = name;
+    if (!ctx) { return; }
+    if (src) { try { src.stop(); } catch (e) {} src.disconnect(); }
+    src = ctx.createBufferSource();
+    src.buffer = name === "clicks" ? buildClicks() : name === "noise" ? buildNoise() : buildMelody();
+    src.loop = true;
+    src.connect(panner);
+    src.start();
+  }
+
+  function panGains(p) {
+    // equal-power law used by StereoPannerNode
+    var x = (p + 1) * Math.PI / 4;
+    return { l: Math.cos(x), r: Math.sin(x) };
+  }
+
+  function updateAudio() {
+    var az = parseFloat(azEl.value);
+    var lat = lateral();
+    el("azdisp").textContent = az + "° (0° is straight ahead)";
+    el("voldisp").textContent = volEl.value + " %";
+    var behind = Math.abs(az) > 90;
+    el("fbnote").textContent = behind
+      ? "Behind you. With headphones this sounds identical to " + Math.round(180 - Math.abs(az)) * (az < 0 ? -1 : 1) + "° in front: the cone of confusion."
+      : "";
+    var useItd = cueMode !== "ild";
+    var useIld = cueMode !== "itd";
+    var itd = useItd ? MAX_ITD * lat : 0; // positive: source right, left ear late
+    var pan = useIld ? lat : 0;
+    var g = panGains(pan);
+    var ild = 20 * Math.log10((g.r + 1e-6) / (g.l + 1e-6));
+    if (Math.abs(ild) < 0.05) { ild = 0; }
+    el("cuedisp").textContent = "ITD " + Math.round(itd * 1e6) + " µs, ILD " + ild.toFixed(1) + " dB";
+    if (!ctx) { return; }
+    var t = ctx.currentTime;
+    if (panner.pan) { panner.pan.setTargetAtTime(pan, t, 0.02); }
+    delayL.delayTime.setTargetAtTime(Math.max(0, itd), t, 0.02);
+    delayR.delayTime.setTargetAtTime(Math.max(0, -itd), t, 0.02);
+    if (running) {
+      master.gain.setTargetAtTime(0.3 * parseFloat(volEl.value) / 100, t, 0.03);
+    }
+  }
+
+  function powerToggle() {
+    ensureAudio();
+    running = !running;
+    var t = ctx.currentTime;
+    if (running) {
+      master.gain.setTargetAtTime(0.3 * parseFloat(volEl.value) / 100, t, 0.05);
+      el("power").textContent = "Stop audio";
+      el("power").classList.remove("primary");
+    } else {
+      master.gain.setTargetAtTime(0, t, 0.05);
+      el("power").textContent = "Start audio";
+      el("power").classList.add("primary");
+    }
+    updateAudio();
+  }
+
+  // ---- drawing: top-down head view ----
+  function theme() {
+    var d = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return d ? { bg: "#101216", grid: "#2a2f37", line: "#7fc4e0", dot: "#4da3c7", text: "#9aa0a8", head: "#20242b" }
+             : { bg: "#ffffff", grid: "#e3e5e8", line: "#0b6e99", dot: "#0b6e99", text: "#5a6069", head: "#f1f2f4" };
+  }
+  function draw() {
+    requestAnimationFrame(draw);
+    var th = theme();
+    var w = canvas.width, h = canvas.height;
+    var cx = w / 2, cy = h / 2, R = h * 0.42, headR = h * 0.16;
+    c2d.fillStyle = th.bg;
+    c2d.fillRect(0, 0, w, h);
+    // orbit
+    c2d.strokeStyle = th.grid;
+    c2d.setLineDash([5, 5]);
+    c2d.beginPath(); c2d.arc(cx, cy, R, 0, 2 * Math.PI); c2d.stroke();
+    c2d.setLineDash([]);
+    // head (nose up = 0 degrees, straight ahead)
+    c2d.fillStyle = th.head;
+    c2d.strokeStyle = th.line;
+    c2d.lineWidth = 2;
+    c2d.beginPath(); c2d.arc(cx, cy, headR, 0, 2 * Math.PI); c2d.fill(); c2d.stroke();
+    c2d.beginPath();
+    c2d.moveTo(cx - headR * 0.25, cy - headR * 0.95);
+    c2d.lineTo(cx, cy - headR * 1.3);
+    c2d.lineTo(cx + headR * 0.25, cy - headR * 0.95);
+    c2d.stroke();
+    // ears
+    c2d.beginPath(); c2d.arc(cx - headR, cy, headR * 0.22, 0, 2 * Math.PI); c2d.stroke();
+    c2d.beginPath(); c2d.arc(cx + headR, cy, headR * 0.22, 0, 2 * Math.PI); c2d.stroke();
+    // source
+    var az = parseFloat(azEl.value) * Math.PI / 180;
+    var sx = cx + R * Math.sin(az), sy = cy - R * Math.cos(az);
+    c2d.fillStyle = th.dot;
+    c2d.beginPath(); c2d.arc(sx, sy, 10, 0, 2 * Math.PI); c2d.fill();
+    c2d.fillStyle = th.text;
+    c2d.font = "13px system-ui, sans-serif";
+    c2d.fillText("front", cx - 14, cy - R - 12);
+    c2d.fillText("back", cx - 13, cy + R + 20);
+    c2d.fillText("L", cx - R - 20, cy + 4);
+    c2d.fillText("R", cx + R + 10, cy + 4);
+  }
+  draw();
+
+  // ---- wiring ----
+  el("power").addEventListener("click", powerToggle);
+  azEl.addEventListener("input", updateAudio);
+  volEl.addEventListener("input", updateAudio);
+  var srcBtns = document.querySelectorAll("button[data-src]");
+  var i;
+  for (i = 0; i < srcBtns.length; i++) {
+    srcBtns[i].addEventListener("click", function () {
+      for (var j = 0; j < srcBtns.length; j++) { srcBtns[j].setAttribute("aria-pressed", "false"); }
+      this.setAttribute("aria-pressed", "true");
+      ensureAudio();
+      setSource(this.getAttribute("data-src"));
+      updateAudio();
+    });
+  }
+  var cueBtns = document.querySelectorAll("button[data-cue]");
+  for (i = 0; i < cueBtns.length; i++) {
+    cueBtns[i].addEventListener("click", function () {
+      for (var j = 0; j < cueBtns.length; j++) { cueBtns[j].setAttribute("aria-pressed", "false"); }
+      this.setAttribute("aria-pressed", "true");
+      cueMode = this.getAttribute("data-cue");
+      updateAudio();
+    });
+  }
+  updateAudio();
+})();
+  </script>
+</body>
+</html>

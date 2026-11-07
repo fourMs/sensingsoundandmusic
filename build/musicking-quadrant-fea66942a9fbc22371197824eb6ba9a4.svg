@@ -1,0 +1,23 @@
+<svg width="760" height="560" viewBox="0 0 760 560" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="userSpaceOnUse"><polygon points="0 0, 10 3.5, 0 7" fill="#000"/></marker></defs>
+<line x1="328.0" y1="400.0" x2="432.0" y2="400.0" stroke="black" stroke-width="2.5" marker-end="url(#arrowhead)"/>
+<line x1="530.0" y1="302.0" x2="530.0" y2="258.0" stroke="black" stroke-width="2.5" marker-end="url(#arrowhead)"/>
+<line x1="432.0" y1="160.0" x2="328.0" y2="160.0" stroke="black" stroke-width="2.5" marker-end="url(#arrowhead)"/>
+<line x1="230.0" y1="258.0" x2="230.0" y2="302.0" stroke="black" stroke-width="2.5" marker-end="url(#arrowhead)"/>
+<circle cx="230" cy="400" r="92" fill="white" stroke="black" stroke-width="3"/>
+<text x="230" y="402" text-anchor="middle" font-size="28" font-weight="bold" font-style="normal" font-family="Helvetica, Arial, sans-serif" fill="#000">Composing</text>
+<text x="230" y="430" text-anchor="middle" font-size="18" font-weight="normal" font-style="italic" font-family="Helvetica, Arial, sans-serif" fill="#000">(composer)</text>
+<circle cx="530" cy="400" r="92" fill="white" stroke="black" stroke-width="3"/>
+<text x="530" y="402" text-anchor="middle" font-size="28" font-weight="bold" font-style="normal" font-family="Helvetica, Arial, sans-serif" fill="#000">Performing</text>
+<text x="530" y="430" text-anchor="middle" font-size="18" font-weight="normal" font-style="italic" font-family="Helvetica, Arial, sans-serif" fill="#000">(performer)</text>
+<circle cx="530" cy="160" r="92" fill="white" stroke="black" stroke-width="3"/>
+<text x="530" y="162" text-anchor="middle" font-size="28" font-weight="bold" font-style="normal" font-family="Helvetica, Arial, sans-serif" fill="#000">Perceiving</text>
+<text x="530" y="190" text-anchor="middle" font-size="18" font-weight="normal" font-style="italic" font-family="Helvetica, Arial, sans-serif" fill="#000">(perceiver)</text>
+<circle cx="230" cy="160" r="92" fill="white" stroke="black" stroke-width="3"/>
+<text x="230" y="162" text-anchor="middle" font-size="28" font-weight="bold" font-style="normal" font-family="Helvetica, Arial, sans-serif" fill="#000">Analysing</text>
+<text x="230" y="190" text-anchor="middle" font-size="18" font-weight="normal" font-style="italic" font-family="Helvetica, Arial, sans-serif" fill="#000">(analyst)</text>
+<text x="380" y="36" text-anchor="middle" font-size="24" font-weight="normal" font-style="normal" font-family="Helvetica, Arial, sans-serif" fill="#000">Experience</text>
+<text x="380" y="540" text-anchor="middle" font-size="24" font-weight="normal" font-style="normal" font-family="Helvetica, Arial, sans-serif" fill="#000">Creation</text>
+<text x="48" y="280" text-anchor="middle" font-size="24" font-family="Helvetica, Arial, sans-serif" fill="#000" transform="rotate(-90 48 280)">Out of time</text>
+<text x="716" y="280" text-anchor="middle" font-size="24" font-family="Helvetica, Arial, sans-serif" fill="#000" transform="rotate(90 716 280)">In time</text>
+</svg>
