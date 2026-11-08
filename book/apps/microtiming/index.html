@@ -51,11 +51,15 @@
     @media (max-width: 560px) { .rows { grid-template-columns: 1fr; } .cell { min-height: 20px; } }
     canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; background: var(--canvas); touch-action: none; cursor: grab; }
     .stats { font-size: 0.95rem; margin: 10px 0 0; font-variant-numeric: tabular-nums; }
+    details.more { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+    details.more summary { cursor: pointer; font-weight: 600; color: inherit; }
+    details.more h3 { font-size: 0.95rem; margin: 14px 0 4px; }
+    details.more p { margin: 6px 0; }
   </style>
 </head>
 <body>
   <h1>Microtiming</h1>
-  <p class="intro">A groove written on a sixteenth-note grid, and the freedom to move every single onset a few milliseconds off it. Drag the dots on the timeline early or late, or push a whole instrument with its slider, then flip between the grid version and the shifted version while it plays. The numbers are onset displacements in milliseconds, negative for early and positive for late, as in the chapter.</p>
+  <p class="intro">Drag the dots early or late, or push a whole instrument with its slider, then flip between Grid and Shifted while it plays.</p>
 
   <div class="row">
     <button type="button" id="power" class="primary">Start</button>
@@ -99,7 +103,13 @@
 
   <canvas id="timeline" width="900" height="230" aria-label="Timeline of onsets; drag a dot to move it early or late"></canvas>
   <div class="stats" id="stats"></div>
-  <p class="hint">What to notice: a snare 20 ms late reads as relaxed rather than wrong, and the same shift applied to the kick does something different. Shifts of a few milliseconds are below what most listeners can name but not below what they can feel. The chapter's asynchrony measure is the difference between two instruments on the same beat, so moving one instrument or the other by the same amount gives the same asynchrony but not the same groove.</p>
+  <details class="more">
+  <summary>More about this app</summary>
+  <h3>How it works</h3>
+  <p>A groove is written on a sixteenth-note grid, and every single onset can be moved a few milliseconds off it. The numbers are onset displacements in milliseconds, negative for early and positive for late, as in the chapter.</p>
+  <h3>Things to try</h3>
+  <p>A snare 20 ms late reads as relaxed rather than wrong, and the same shift applied to the kick does something different. Shifts of a few milliseconds are below what most listeners can name but not below what they can feel.</p>
+</details>
 
   <script>
 (function () {

@@ -44,11 +44,15 @@
     input[type="range"] { accent-color: var(--accent); vertical-align: middle; }
     .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
     canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; background: var(--canvas); }
+    details.more { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+    details.more summary { cursor: pointer; font-weight: 600; color: inherit; }
+    details.more h3 { font-size: 0.95rem; margin: 14px 0 4px; }
+    details.more p { margin: 6px 0; }
   </style>
 </head>
 <body>
   <h1>Window explorer</h1>
-  <p class="intro">A spectrogram slices a sound into short windows and analyses each one. The window length forces a trade-off: long windows separate close frequencies but smear events in time, while short windows do the opposite. The test signal below contains two clicks 50 ms apart and two tones 50 Hz apart. Change the window size and watch what blurs.</p>
+  <p class="intro">The test signal below contains two clicks 50 ms apart and two tones 50 Hz apart. Change the window size and watch what blurs.</p>
 
   <fieldset>
     <legend>Signal and analysis</legend>
@@ -81,7 +85,13 @@
   </fieldset>
 
   <canvas id="spec" width="900" height="460" aria-label="Spectrogram"></canvas>
-  <p class="hint">What to notice: at 16384 the two tones become two thin lines but the clicks smear into wide vertical bands; at 256 the clicks are sharp but the tones merge into one thick line.</p>
+  <details class="more">
+  <summary>More about this app</summary>
+  <h3>How it works</h3>
+  <p>A spectrogram slices a sound into short windows and analyses each one. The window length forces a trade-off: long windows separate close frequencies but smear events in time, while short windows do the opposite.</p>
+  <h3>Things to try</h3>
+  <p>At 16384 the two tones become two thin lines but the clicks smear into wide vertical bands; at 256 the clicks are sharp but the tones merge into one thick line.</p>
+  </details>
 
   <script>
 (function () {

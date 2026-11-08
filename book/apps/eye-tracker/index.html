@@ -77,8 +77,8 @@
 </head>
 <body>
   <h1>Eye tracker</h1>
-  <p class="intro">A webcam, a brightness threshold that finds the pupil, and a short calibration give an estimated gaze point, from which fixations and scanpaths are drawn. Keep your head still. Press Start camera and allow access when the browser asks.</p>
-  <p class="privacy">Privacy: the camera image is analysed in your browser and discarded. Nothing is recorded or sent anywhere; only the files you choose to download leave this page.</p>
+  <p class="intro">Keep your head still. Press Start camera and allow access when the browser asks.</p>
+  <p class="privacy">The camera image is analysed in your browser and never leaves it.</p>
 
   <div class="row">
     <button type="button" id="start" class="primary">Start camera</button>
@@ -126,7 +126,7 @@
         <p class="readout" id="readR">Right eye: no data yet</p>
       </div>
     </div>
-    <span class="hint">Red pixels are darker than the threshold, and the largest round blob of them is taken as the pupil. Lower the threshold until only the pupil is red.</span>
+    <span class="hint">Lower the threshold until only the pupil is red.</span>
   </fieldset>
 
   <fieldset>
@@ -186,7 +186,6 @@
         <tbody></tbody>
       </table>
     </div>
-    <span class="hint">Ring: the smoothed gaze point. Circles: fixations, sized by duration, joined by saccades. The table gives the dwell time in each region of the stimulus.</span>
     <div class="row">
       <button type="button" class="small" id="dlcsv">Download CSV</button>
       <button type="button" class="small" id="dlpng">Download scanpath PNG</button>
@@ -204,9 +203,10 @@
   <details class="more">
   <summary>More about this app</summary>
   <h3>How it works</h3>
-  <p>Inside each eye box every pixel is converted to grey and compared with the darkness threshold (0–255). The dark pixels are grouped into connected blobs, and the largest reasonably round blob is taken to be the pupil, drawn in blue with a cross at its centroid. Eyebrows, eyelashes and the frames of glasses are the usual false pupils.</p>
+  <p>A webcam, a brightness threshold that finds the pupil, and a short calibration give an estimated gaze point, from which fixations and scanpaths are drawn. Only the files you choose to download leave this page.</p>
+  <p>Inside each eye box every pixel is converted to grey and compared with the darkness threshold (0–255); pixels darker than the threshold are drawn red. They are grouped into connected blobs, and the largest reasonably round blob is taken to be the pupil, drawn in blue with a cross at its centroid. Eyebrows, eyelashes and the frames of glasses are the usual false pupils.</p>
   <p>Calibration records the mean pupil position while you look at each of nine dots, then fits a mapping from pupil position to screen position by least squares. The affine mapping is a stretch, a rotation and a shift; the quadratic mapping can also bend, which helps at the edges but needs cleaner data. The error reported is how well the mapping explains its own calibration data, not how accurate the tracker will be afterwards. Show residuals draws the errors as arrows.</p>
-  <p>The gaze point is smoothed over the last frames; more smoothing gives a calmer point that lags behind the eye. A fixation is counted when the gaze stays within the dispersion distance for at least the minimum duration. The heatmap adds up how long the gaze rested at each place.</p>
+  <p>The gaze point is smoothed over the last frames; more smoothing gives a calmer point that lags behind the eye. A fixation is counted when the gaze stays within the dispersion distance for at least the minimum duration. The heatmap adds up how long the gaze rested at each place. On the stimulus the ring is the smoothed gaze point and the circles are fixations, sized by duration and joined by saccades; the table gives the dwell time in each region.</p>
   <p>The pupil area grows when you lean towards the camera, shrinks when the threshold cuts off the edge of the pupil, and changes with the camera's own exposure control. Try this: keep still, look at a bright white part of the screen for 10 s, then at a dark part, and watch the area fall and rise. Then look at the dot stimulus and multiply two two-digit numbers in your head; a pupil that widens while the light stays the same is the response to mental effort that pupillometry is after.</p>
   <h3>Things to try</h3>
   <p>Calibrate, then look at each corner of the stimulus screen in turn and see how far the ring lands from where you look. Turn your head a few degrees without moving your eyes and watch the gaze point slide away, which is why research systems track the head or the corneal reflection too.</p>

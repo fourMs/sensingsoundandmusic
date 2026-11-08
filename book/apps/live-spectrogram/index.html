@@ -43,12 +43,16 @@
     .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 10px 0; }
     .status { color: var(--muted); font-size: 0.9rem; min-height: 1.4em; margin: 6px 0 0; }
     canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; background: var(--canvas); }
+    details.more { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+    details.more summary { cursor: pointer; font-weight: 600; color: inherit; }
+    details.more h3 { font-size: 0.95rem; margin: 14px 0 4px; }
+    details.more p { margin: 6px 0; }
   </style>
 </head>
 <body>
   <h1>Live spectrogram</h1>
-  <p class="intro">A spectrogram unrolls sound in time: time runs to the right, frequency upwards, and colour shows how strong each frequency is. This one listens to your microphone, so you can watch your own voice while you hear it. Press <strong>Start microphone</strong> and allow access when the browser asks.</p>
-  <p class="privacy">Privacy: the microphone signal is analysed locally in your browser, drawn to the screen, and immediately discarded. Nothing is recorded, stored, or sent anywhere.</p>
+  <p class="intro">Press Start microphone and allow access when the browser asks.</p>
+  <p class="privacy">The microphone signal is analysed in your browser and never leaves it.</p>
 
   <div class="row">
     <button type="button" id="start" class="primary">Start microphone</button>
@@ -73,7 +77,13 @@
   <p class="status" id="status"></p>
 
   <canvas id="spec" width="900" height="420" aria-label="Scrolling spectrogram of the microphone signal"></canvas>
-  <p class="hint">What to notice: speak a slow vowel and a stack of evenly spaced harmonic lines appears; whistle and the stack collapses to a single line; hiss and you get a broadband wash with no lines at all. Then step through 64 → 128 → 256 → ... → 16384: larger windows sharpen harmonics (frequency detail) but smear rapid attacks in time, while smaller windows do the opposite.</p>
+  <details class="more">
+  <summary>More about this app</summary>
+  <h3>How it works</h3>
+  <p>A spectrogram unrolls sound in time: time runs to the right, frequency upwards, and colour shows how strong each frequency is. This one listens to your microphone, so you can watch your own voice while you hear it.</p>
+  <h3>Things to try</h3>
+  <p>Speak a slow vowel and a stack of evenly spaced harmonic lines appears; whistle and the stack collapses to a single line; hiss and you get a broadband wash with no lines at all. Then step through the window sizes from 64 to 16384 while you speak.</p>
+  </details>
 
   <script>
 (function () {

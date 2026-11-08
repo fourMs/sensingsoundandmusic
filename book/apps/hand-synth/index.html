@@ -73,21 +73,25 @@
     @media (max-width: 700px) { .layout { grid-template-columns: 1fr; } .meters { grid-template-columns: 1fr 1fr; } .mapping, .tips { grid-column: 1 / -1; } }
     @media (max-width: 440px) { .meters { grid-template-columns: 1fr; } .panel { padding: 13px; } }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+    details.more { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+    details.more summary { cursor: pointer; font-weight: 600; color: inherit; }
+    details.more h3 { font-size: 0.95rem; margin: 14px 0 4px; }
+    details.more p { margin: 6px 0; }
   </style>
 </head>
 <body>
   <header>
     <p class="eyebrow">Gesture-controlled sound</p>
     <h1>Hand synth</h1>
-    <p class="intro">Move your hands to play a continuous tone. A webcam and MediaPipe track both hands: pinch your right thumb and index fingertip to change the loudness, then move your hands apart or together to sweep the pitch.</p>
+    <p class="intro">Pinch your right thumb and index finger for loudness; move your hands apart for pitch.</p>
   </header>
 
-  <p class="privacy">Your camera image is processed in this browser and is never recorded or uploaded. On first use, the MediaPipe code, WebAssembly files, and hand model are downloaded from jsDelivr and Google to your device.</p>
+  <p class="privacy">The camera image is analysed in your browser and never leaves it.</p>
 
   <div class="controls">
     <button type="button" id="start" class="button primary">Start camera and synth</button>
     <button type="button" id="mute" class="button" aria-pressed="false" disabled>Mute</button>
-    <p id="status" class="status" role="status" aria-live="polite">Allow camera access to begin. For camera access, open this page over HTTPS or localhost.</p>
+    <p id="status" class="status" role="status" aria-live="polite">Allow camera access to begin.</p>
   </div>
 
   <main class="layout">
@@ -125,12 +129,14 @@
     </section>
   </main>
 
-  <aside class="panel artists" aria-labelledby="artists-title">
-    <h2 id="artists-title">Artists to explore</h2>
-    <p><a href="https://www.instagram.com/neles0n/reels/" target="_blank" rel="noopener noreferrer">@neles0n</a> · <a href="https://www.instagram.com/wxll.hx/" target="_blank" rel="noopener noreferrer">@wxll.hx</a></p>
-  </aside>
-
+  <details class="more">
+  <summary>More about this app</summary>
+  <h3>How it works</h3>
+  <p>A webcam and MediaPipe track both hands. The distance between the right thumb tip and index tip sets the loudness of a continuous sine tone, and the distance between the two index knuckles sets its pitch. On first use, the MediaPipe code, WebAssembly files, and hand model are downloaded from jsDelivr and Google to your device.</p>
+  <h3>Artists to explore</h3>
+  <p><a href="https://www.instagram.com/neles0n/reels/" target="_blank" rel="noopener noreferrer">@neles0n</a> · <a href="https://www.instagram.com/wxll.hx/" target="_blank" rel="noopener noreferrer">@wxll.hx</a></p>
   <p class="credit">Hand landmarks are detected with <a href="https://ai.google.dev/edge/mediapipe/solutions/vision/hand_landmarker/web_js">MediaPipe Hand Landmarker</a>. Use headphones and begin with a low listening level.</p>
+</details>
 
   <video id="camera" playsinline muted hidden></video>
 

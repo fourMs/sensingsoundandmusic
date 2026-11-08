@@ -66,7 +66,7 @@
 </head>
 <body>
   <h1>Scale explorer</h1>
-  <p class="intro">Choose a tonic and a scale or mode, see it on a pitch-class circle and a keyboard, play it in equal temperament or just intonation, and watch a live chromagram of what you hear.</p>
+  <p class="intro">Choose a tonic and a scale or mode, then play it in equal temperament or just intonation.</p>
 
   <div class="row">
     <label style="flex:1; min-width:160px; margin:0;">Master volume <span class="vals" id="voldisp"></span>
@@ -110,7 +110,7 @@
     <canvas id="circle" aria-label="Pitch-class circle with the scale members and tonic marked"></canvas>
     <canvas id="chroma" aria-label="Chromagram: the pitch-class energy of the sound being played"></canvas>
   </div>
-  <p class="hint">The circle is the chromatic clock, with the tonic in orange; click a position to hear it. The chromagram shows the pitch-class energy of the sound the app is making.</p>
+  <p class="hint">The circle is the chromatic clock, with the tonic in orange; click a position to hear it.</p>
 
   <canvas id="keys" aria-label="Two-octave keyboard with the scale's keys highlighted"></canvas>
   <p class="hint">Two octaves from C4 to C6; highlighted keys belong to the scale. Click a key to hear it in the current tuning.</p>
@@ -118,14 +118,13 @@
   <fieldset>
     <legend>Degrees</legend>
     <div class="tablewrap"><table id="degrees"></table></div>
-    <p class="hint">Semitones and cents are measured from the tonic. The last column says how far the just degree is from the equal-tempered one, positive meaning sharper.</p>
   </fieldset>
 
   <details class="more">
   <summary>More about this app</summary>
   <h3>How it works</h3>
-  <p>A scale is the set of pitch classes a piece draws on, numbered from the tonic as scale degrees. Moving the shape round the circle changes the tonic; changing the shape changes the mode. The chromagram's 12 bars are measured from the app's own output and folded into one octave, as the chapter describes.</p>
-  <p>In just intonation each degree sits at a small whole-number ratio to the tonic. The diatonic degrees take the 5-limit ratios 1/1, 9/8, 5/4, 4/3, 3/2, 5/3 and 15/8; the chromatic degrees take 16/15, 6/5, 45/32, 8/5 and 9/5, the same ratios as in the Interval lab. The frequency column is that of the degree in the octave above the tonic shown on the keyboard.</p>
+  <p>A scale is the set of pitch classes a piece draws on, numbered from the tonic as scale degrees. Moving the shape round the circle changes the tonic; changing the shape changes the mode. The chromagram's 12 bars show the pitch-class energy of the sound the app is making, measured from its own output and folded into one octave, as the chapter describes.</p>
+  <p>In just intonation each degree sits at a small whole-number ratio to the tonic. The diatonic degrees take the 5-limit ratios 1/1, 9/8, 5/4, 4/3, 3/2, 5/3 and 15/8; the chromatic degrees take 16/15, 6/5, 45/32, 8/5 and 9/5, the same ratios as in the Interval lab. In the table of degrees, semitones and cents are measured from the tonic, and the last column says how far the just degree is from the equal-tempered one, positive meaning sharper. The frequency column is that of the degree in the octave above the tonic shown on the keyboard.</p>
   <h3>Things to try</h3>
   <p>Compare Lydian with major and listen for the one degree that differs. Step through the seven modes with the same tonic and watch which positions on the circle switch on and off. Play the major pentatonic over a drone and hear that no note clashes.</p>
   <p>Keep the drone on, play the major scale in equal temperament and then in just intonation, and listen to the third: the just third locks with the drone, the equal-tempered one beats gently. Watch the chromagram while the drone plays: the tonic and its fifth carry most of the energy even though the melody visits every degree.</p>

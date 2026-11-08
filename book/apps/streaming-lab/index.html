@@ -65,7 +65,7 @@
 </head>
 <body>
   <h1>Streaming lab</h1>
-  <p class="intro">Two tones alternate. Close together and slow, they form one line that jumps up and down; pull them apart or speed up, and the line splits into two streams. Change one thing at a time and listen for the moment it flips. Headphones help.</p>
+  <p class="intro">Change one thing at a time and listen for the moment it flips. Headphones help.</p>
 
   <div class="row">
     <button type="button" id="power" class="primary">Play</button>
@@ -135,7 +135,7 @@
     </div>
     <p class="status" id="expstatus">No trials yet.</p>
     <canvas id="chart" aria-label="Recorded boundary points, separation against tempo, with the two reference boundaries as bands"></canvas>
-    <p class="hint">Filled points: one stream became two. Open points: two became one. The bands are van Noorden's fission and temporal-coherence boundaries; between them, attention decides.</p>
+    <p class="hint">Filled points: one stream became two. Open points: two became one.</p>
     <div id="results"></div>
     <div class="row">
       <button type="button" id="csv" disabled>Download CSV</button>
@@ -145,8 +145,8 @@
   <details class="more">
   <summary>More about this app</summary>
   <h3>How it works</h3>
-  <p>This is auditory stream segregation, the sequential grouping problem of auditory scene analysis made audible. The sliders are the grouping cues: proximity in frequency and time, similarity of timbre and loudness. The frequency axis of the picture is logarithmic, so equal semitone steps are equal heights, and the picture of the signal does not change when the percept does. Streaming builds up over a few seconds.</p>
-  <p>In the experiment the pattern, the frequency of A, the duration, the loudness and the timbres stay as you set them, so you can repeat the run with a different timbre contrast and compare. The reference bands follow van Noorden (1975) and are approximate. The fission boundary lies at about 3–5 semitones and hardly depends on tempo; below it the sequence is always one stream. The temporal coherence boundary rises steeply as the tempo slows; above it the sequence is always two streams. Expect your points to scatter, and expect the upward and downward sweeps to differ, since a percept tends to persist once it has formed.</p>
+  <p>Two tones alternate. Close together and slow, they form one line that jumps up and down; pull them apart or speed up, and the line splits into two streams. This is auditory stream segregation, the sequential grouping problem of auditory scene analysis made audible. The sliders are the grouping cues: proximity in frequency and time, similarity of timbre and loudness. The frequency axis of the picture is logarithmic, so equal semitone steps are equal heights, and the picture of the signal does not change when the percept does. Streaming builds up over a few seconds.</p>
+  <p>In the experiment the pattern, the frequency of A, the duration, the loudness and the timbres stay as you set them, so you can repeat the run with a different timbre contrast and compare. The reference bands follow van Noorden (1975) and are approximate. The fission boundary lies at about 3–5 semitones and hardly depends on tempo; below it the sequence is always one stream. The temporal coherence boundary rises steeply as the tempo slows; above it the sequence is always two streams. Between the two bands, attention decides. Expect your points to scatter, and expect the upward and downward sweeps to differ, since a percept tends to persist once it has formed.</p>
   <h3>Things to try</h3>
   <p>Hold the separation at 6 semitones and change only the tempo: at 3 tones per second the line stays whole, at 12 it falls apart, although no frequency has moved. Hold the tempo and, at 2 or 3 semitones, give B the bright timbre; the two tones can split on timbre alone.</p>
   <p>Choose the galloping pattern at a large separation and try to hear the gallop; it is gone, because rhythm belongs to a stream. Make B much softer than A and listen for the moment it turns into a background stream. Run the experiment twice, once with equal timbres and once with contrasting ones, and compare the two sets of points.</p>

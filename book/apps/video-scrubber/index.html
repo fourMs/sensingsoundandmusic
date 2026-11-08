@@ -72,8 +72,8 @@
 </head>
 <body>
   <h1>Video scrubber</h1>
-  <p class="intro">A recording laid out along one time axis: a videogram or motiongram of the pictures, and the waveform and spectrogram of the sound. Click any panel to jump to that moment.</p>
-  <p class="privacy">Privacy: files you choose and clips you record stay in your browser. They are analysed on your own device and are never uploaded or stored anywhere.</p>
+  <p class="intro">Click any panel to jump to that moment.</p>
+  <p class="privacy">Files you choose and clips you record are analysed in your browser and never leave it.</p>
 
   <fieldset>
     <legend>Recording to analyse</legend>
@@ -81,7 +81,7 @@
       <label class="filebtn">Choose a video file<input type="file" id="file" accept="video/*,audio/*"/></label>
       <span class="vals" id="fname">No file chosen</span>
     </div>
-    <p class="hint">Most browsers read MP4 files with H.264 video and WebM files. Files up to 300 MB and 10 minutes long are accepted; longer files take longer to analyse.</p>
+    <p class="hint">MP4 or WebM, up to 300 MB and 10 minutes.</p>
     <div class="row">
       <button type="button" id="rec">Record a clip from the camera</button>
       <span style="white-space:nowrap;"><label class="inl" for="reclen">Length</label>
@@ -132,17 +132,15 @@
   <fieldset>
     <legend>Sound</legend>
     <canvas id="wave" aria-label="Waveform of the sound track"></canvas>
-    <p class="hint">The waveform: how far the sound pressure swings at each moment. Loud moments are tall, silence is a flat line.</p>
     <canvas id="spec" aria-label="Spectrogram of the sound track"></canvas>
-    <p class="hint">The spectrogram: time to the right, frequency upwards, colour for strength. A clap is a vertical stripe; a vowel is a stack of harmonics.</p>
     <div class="row"><button type="button" class="small" id="dlspec" disabled>Download PNG</button></div>
   </fieldset>
 
-  <p class="hint">Click a panel to jump to that moment. Drag across one to loop a stretch of time.</p>
+  <p class="hint">Drag across a panel to loop a stretch of time.</p>
   <details class="more">
   <summary>More about this app</summary>
   <h3>How it works</h3>
-  <p>The videogram squeezes each video frame into a single column of pixels, the motiongram does the same with the changes between frames, and the spectrogram shows how the frequencies in the sound change over time, from dark (80 dB below the loudest moment) to yellow (the loudest). The logarithmic frequency axis gives each octave the same height, closer to how we hear pitch; the linear axis gives each hertz the same height. All panels share one time axis in seconds, and the red line follows the playback.</p>
+  <p>A recording is laid out along one time axis: a videogram or motiongram of the pictures, and the waveform and spectrogram of the sound. The videogram squeezes each video frame into a single column of pixels, and the motiongram does the same with the changes between frames. The waveform shows how far the sound pressure swings at each moment: loud moments are tall, silence is a flat line. The spectrogram shows time to the right, frequency upwards and colour for strength, from dark (80 dB below the loudest moment) to yellow (the loudest); a clap is a vertical stripe, a vowel a stack of harmonics. The logarithmic frequency axis gives each octave the same height, closer to how we hear pitch; the linear axis gives each hertz the same height. All panels share one time axis in seconds, and the red line follows the playback.</p>
   <h3>Things to try</h3>
   <p>Record yourself clapping three times, then waving a hand, then clapping again, and find the claps in both the motiongram and the spectrogram. Does the hand movement before each clap show up in the motiongram? Load a music video and look for the cuts in the videogram and the beat in the waveform.</p>
   <p>Record yourself speaking a sentence and then singing it, and compare the spectrograms: where are the harmonics clear and steady, and where do they glide? Switch between the logarithmic and the linear frequency axis and see where the voice ends up.</p>

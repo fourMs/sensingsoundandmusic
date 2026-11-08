@@ -76,7 +76,7 @@
 </head>
 <body>
   <h1>Chord lab</h1>
-  <p class="intro">Build a chord on a keyboard and a staff, then string chords together with Roman numerals, hear the four cadences, and watch the voices move. A chromagram and a key estimate follow what sounds.</p>
+  <p class="intro">Build a chord, then string chords together and watch the voices move.</p>
 
   <div class="row">
     <button type="button" data-mode="build" aria-pressed="true">Chord builder</button>
@@ -154,7 +154,6 @@
     <p class="status" id="pstatus"></p>
     <canvas id="kbd2" class="kbd" aria-label="Keyboard with the current chord marked and the voice movements drawn"></canvas>
     <p class="readout" id="voicelist"></p>
-    <span class="hint">Four voices play each chord. With smooth voice leading each voice moves as little as possible from the previous chord; the orange lines show where it came from.</span>
   </fieldset>
 
   <fieldset>
@@ -164,15 +163,15 @@
     <div class="row">
       <button type="button" id="chromareset" class="small">Forget the recent chords</button>
     </div>
-    <span class="hint">Tall bars: pitch-class energy in the sound right now. Pale bars: the memory of the last few chords, on which the key estimate is based.</span>
+    <span class="hint">Tall bars: pitch-class energy in the sound right now.</span>
   </fieldset>
 
   <details class="more">
   <summary>More about this app</summary>
   <h3>How it works</h3>
   <p>An inversion puts a chord tone other than the root in the bass. A close voicing packs the notes tightly, an open voicing lifts every second note an octave, and a drop-2 voicing takes the second note from the top and drops it an octave, as a jazz pianist or guitarist would.</p>
-  <p>With smooth voice leading the app tries every way of placing the four voices on chord tones within two octaves, over all inversions, and keeps the one in which the voices move the fewest semitones in total: common tones stay, and the rest move by step where they can. A hollow circle marks a voice that stayed. With no voice leading every chord sits in root position, so the whole chord jumps.</p>
-  <p>The chromagram is measured from the audio with a spectrum analyser and folded into one octave. The key estimate correlates the remembered chromagram with a major key profile (after Krumhansl) for each of the 12 tonics and names the best match, reading the recent chords as Roman numerals in that key. The harmonics of each tone leak into other pitch classes, mostly the fifth, which is also what a key-finding algorithm has to cope with on a real recording.</p>
+  <p>Four voices play each chord. With smooth voice leading the app tries every way of placing them on chord tones within two octaves, over all inversions, and keeps the one in which the voices move the fewest semitones in total: common tones stay, and the rest move by step where they can. The orange lines show where each voice came from, and a hollow circle marks a voice that stayed. With no voice leading every chord sits in root position, so the whole chord jumps.</p>
+  <p>The chromagram is measured from the audio with a spectrum analyser and folded into one octave. The pale bars are the memory of the last few chords, on which the key estimate is based. The key estimate correlates the remembered chromagram with a major key profile (after Krumhansl) for each of the 12 tonics and names the best match, reading the recent chords as Roman numerals in that key. The harmonics of each tone leak into other pitch classes, mostly the fifth, which is also what a key-finding algorithm has to cope with on a real recording.</p>
   <h3>Things to try</h3>
   <p>Play the four triads on C one after the other and hear the difference between major, minor, diminished and augmented. Set a progression that ends on vi instead of I and notice the deceptive cadence. Switch voice leading off and listen to the leaps. Build C13 and change the quality down through C11, C9 and C7 to hear each added third disappear until the plain dominant seventh is back.</p>
 </details>

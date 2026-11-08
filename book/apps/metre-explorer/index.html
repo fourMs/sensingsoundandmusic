@@ -47,11 +47,15 @@
     @media (max-width: 600px) { .wrap { grid-template-columns: 1fr; } }
     canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; background: var(--canvas); }
     .desc { font-size: 1rem; margin: 10px 0 0; font-variant-numeric: tabular-nums; }
+    details.more { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+    details.more summary { cursor: pointer; font-weight: 600; color: inherit; }
+    details.more h3 { font-size: 0.95rem; margin: 14px 0 4px; }
+    details.more p { margin: 6px 0; }
   </style>
 </head>
 <body>
   <h1>Metre explorer</h1>
-  <p class="intro">A metre is a cycle of pulses with a pattern of accents on top. Choose a cycle and how its pulses are grouped into beats, from the familiar 2/4, 3/4, and 4/4 to 7/8 as 2+2+3, 11/8, or a cycle of your own, and listen while the cycle is drawn as a circle. In some metres every beat is the same length; in others a beat of three pulses sits beside beats of two, and the beat level itself is uneven.</p>
+  <p class="intro">Choose a cycle and how its pulses are grouped into beats, and listen while the cycle is drawn as a circle.</p>
 
   <div class="row">
     <button type="button" id="power" class="primary">Start</button>
@@ -115,7 +119,11 @@
     <canvas id="line" width="420" height="420" aria-label="The cycle drawn as a line, with the durations of each beat"></canvas>
   </div>
   <div class="desc" id="desc"></div>
-  <p class="hint">Things to try: compare 6/8 with 3/4 at the same pulse rate; they have the same six pulses and differ only in grouping. Play 7/8 as 2+2+3, then as 3+2+2, and feel where the long beat sits. Switch off the beat clicks in 2+2+3 and check whether you still hear the limp. Push the tempo up in 11/8 until you stop counting pulses and start feeling five uneven beats.</p>
+  <details class="more">
+  <summary>More about this app</summary>
+  <h3>Things to try</h3>
+  <p>Compare 6/8 with 3/4 at the same pulse rate; they have the same six pulses and differ only in grouping. Play 7/8 as 2+2+3, then as 3+2+2, and feel where the long beat sits. Switch off the beat clicks in 2+2+3 and check whether you still hear the limp. Push the tempo up in 11/8 until you stop counting pulses and start feeling five uneven beats.</p>
+  </details>
 
   <script>
 (function () {

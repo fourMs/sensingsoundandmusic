@@ -50,11 +50,15 @@
     #pad:active { background: var(--accent); color: var(--accent-fg); }
     .stats { font-size: 1.05rem; margin: 10px 0 0; font-variant-numeric: tabular-nums; }
     canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; background: var(--canvas); }
+    details.more { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+    details.more summary { cursor: pointer; font-weight: 600; color: inherit; }
+    details.more h3 { font-size: 0.95rem; margin: 14px 0 4px; }
+    details.more p { margin: 6px 0; }
   </style>
 </head>
 <body>
   <h1>Tap along</h1>
-  <p class="intro">Start the click and tap along on every beat, using the space bar or the large button. After twenty taps the app shows how early or late you tap on average (the mean asynchrony) and how consistent you are (the standard deviation). The swing section moves the off-beat click later in the beat so you can compare two swing ratios.</p>
+  <p class="intro">Start the click and tap along on every beat with the space bar or the large button. After twenty taps the app shows your mean asynchrony and standard deviation.</p>
 
   <div class="row">
     <button type="button" id="power" class="primary">Start click</button>
@@ -96,7 +100,11 @@
   <button type="button" id="pad">Tap here (or press the space bar)</button>
   <div class="stats" id="stats">Taps: 0 of 20</div>
   <canvas id="hist" width="900" height="220" aria-label="Histogram of tap asynchronies"></canvas>
-  <p class="hint">What to notice: most people tap slightly ahead of the click. The measurement is approximate, since the browser adds a few milliseconds of audio and input latency.</p>
+  <details class="more">
+  <summary>More about this app</summary>
+  <h3>Things to try</h3>
+  <p>Most people tap slightly ahead of the click. The measurement is approximate, since the browser adds a few milliseconds of audio and input latency.</p>
+  </details>
 
   <script>
 (function () {

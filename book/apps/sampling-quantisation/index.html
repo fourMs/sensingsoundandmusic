@@ -41,11 +41,15 @@
     .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     @media (max-width: 520px) { .grid2 { grid-template-columns: 1fr; } }
     canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; background: var(--canvas); }
+    details.more { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+    details.more summary { cursor: pointer; font-weight: 600; color: inherit; }
+    details.more h3 { font-size: 0.95rem; margin: 14px 0 4px; }
+    details.more p { margin: 6px 0; }
   </style>
 </head>
 <body>
   <h1>Sampling and quantisation</h1>
-  <p class="intro">Digital audio measures the sound pressure many thousand times per second (the sample rate) and stores each measurement with a limited number of steps (the bit depth). This app plays a short synthesised riff and lets you lower both, so you can hear what each kind of coarseness does to the sound. Press <strong>Start audio</strong> first.</p>
+  <p class="intro">Lower the sample rate and the bit depth of a short riff and listen to what each kind of coarseness does to the sound. Press Start audio first.</p>
 
   <div class="row">
     <button type="button" id="power" class="primary">Start audio</button>
@@ -69,7 +73,13 @@
   </fieldset>
 
   <canvas id="scope" width="900" height="300" aria-label="Output waveform showing the staircase at low settings"></canvas>
-  <p class="hint">What to notice: lowering the sample rate adds a metallic, whistling shimmer (aliasing: frequencies above half the sample rate fold back down as new, unrelated tones), while lowering the bit depth adds hiss and grit (quantisation error). This simple simulation deliberately leaves out the anti-aliasing filter a real converter would use, so the aliasing is easy to hear.</p>
+  <details class="more">
+  <summary>More about this app</summary>
+  <h3>How it works</h3>
+  <p>Digital audio measures the sound pressure many thousand times per second (the sample rate) and stores each measurement with a limited number of steps (the bit depth). This simple simulation deliberately leaves out the anti-aliasing filter a real converter would use, so the aliasing is easy to hear.</p>
+  <h3>Things to try</h3>
+  <p>Lowering the sample rate adds a metallic, whistling shimmer (aliasing: frequencies above half the sample rate fold back down as new, unrelated tones), while lowering the bit depth adds hiss and grit (quantisation error).</p>
+  </details>
 
   <script>
 (function () {

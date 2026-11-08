@@ -40,11 +40,15 @@
     button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
     .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 10px 0; }
     canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; background: var(--canvas); touch-action: none; cursor: crosshair; }
+    details.more { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+    details.more summary { cursor: pointer; font-weight: 600; color: inherit; }
+    details.more h3 { font-size: 0.95rem; margin: 14px 0 4px; }
+    details.more p { margin: 6px 0; }
   </style>
 </head>
 <body>
   <h1>Spectral sketch</h1>
-  <p class="intro">Draw a sound. The canvas is an empty spectrogram: left to right is time, bottom to top is pitch (a logarithmic frequency axis), and whatever you draw becomes the spectrum of the sound. Pressing <strong>Play</strong> runs an inverse Fourier transform on your sketch, frame by frame, and turns the picture into audio.</p>
+  <p class="intro">Draw on the canvas, then press Play to hear what you drew.</p>
 
   <div class="row">
     <button type="button" id="play" class="primary">Play</button>
@@ -64,7 +68,13 @@
     <input type="range" id="dur" min="1" max="8" step="0.5" value="4" aria-label="Duration in seconds"/>
   </fieldset>
 
-  <p class="hint">Things to try: a horizontal line is a steady tone; a rising line is a glissando; parallel horizontal lines make a chord (equally spaced lines on this log axis form equal musical intervals); a filled blob is a noise band; a vertical line is a click. Write your name and listen to it. Behind the scenes, each column of the picture is treated as the magnitude spectrum of one short frame, converted to a waveform with an inverse FFT, and the frames are overlap-added into the final sound.</p>
+  <details class="more">
+  <summary>More about this app</summary>
+  <h3>How it works</h3>
+  <p>The canvas is an empty spectrogram: left to right is time, bottom to top is pitch (a logarithmic frequency axis), and whatever you draw becomes the spectrum of the sound. Each column of the picture is treated as the magnitude spectrum of one short frame, converted to a waveform with an inverse FFT, and the frames are overlap-added into the final sound.</p>
+  <h3>Things to try</h3>
+  <p>A horizontal line is a steady tone; a rising line is a glissando; parallel horizontal lines make a chord (equally spaced lines on this log axis form equal musical intervals); a filled blob is a noise band; a vertical line is a click. Write your name and listen to it.</p>
+</details>
 
   <script>
 (function () {

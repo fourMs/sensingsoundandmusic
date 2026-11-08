@@ -80,8 +80,8 @@
 </head>
 <body>
   <h1>Breathing monitor</h1>
-  <p class="intro">A phone lying on the chest tilts a little with every breath, and a webcam sees the shoulders rise and fall. Either gives a waveform from which the app counts breaths and finds the breathing rate. Choose a source, press Start, and sit or lie still.</p>
-  <p class="privacy">Privacy: the sensor and camera data are analysed in your browser and never uploaded; only the CSV file you choose to download leaves this page.</p>
+  <p class="intro">Choose a source, press Start, and sit or lie still.</p>
+  <p class="privacy">The camera image is analysed in your browser and never leaves it.</p>
 
   <fieldset>
     <legend>Source</legend>
@@ -129,14 +129,13 @@
     <canvas id="wave" aria-label="The filtered breathing signal over the last 60 seconds, with detected breaths marked"></canvas>
     <p class="readout big" id="rateread">Breathing rate: no data yet</p>
     <p class="readout" id="statsread"></p>
-    <span class="hint">The filtered signal over the last 60 s, with detected breaths as dots. Resting adults breathe roughly 12–20 times a minute.</span>
+    <span class="hint">The filtered signal over the last 60 s, with detected breaths as dots.</span>
   </fieldset>
 
   <fieldset>
     <legend>Spectrum of the last 30 s</legend>
     <canvas id="spec" aria-label="Spectrum of the last 30 seconds of the breathing signal, in breaths per minute"></canvas>
     <p class="readout" id="specread">Spectrum: waiting for 10 s of data</p>
-    <span class="hint">A second estimate of the rate, from what repeats in the last 30 s rather than from counting breaths. The shaded band is the resting range.</span>
   </fieldset>
 
   <fieldset>
@@ -156,16 +155,17 @@
       <button type="button" id="tone">Start tone</button>
       <span class="readout" id="phase" style="margin:0;"></span>
     </div>
-    <span class="hint">The tone rises while you breathe in and falls while you breathe out. Breathe along for a minute and compare with your free breathing. The <a href="../breath-pulse/">Breath and pulse</a> app has a fuller guide.</span>
+    <span class="hint">The tone rises while you breathe in and falls while you breathe out. Breathe along for a minute and compare with your free breathing.</span>
   </fieldset>
 
   <details class="more">
   <summary>More about this app</summary>
   <h3>How it works</h3>
+  <p>A phone lying on the chest tilts a little with every breath, and a webcam sees the shoulders rise and fall. Either gives a waveform from which the app counts breaths and finds the breathing rate.</p>
   <p>Phone: every breath tilts the phone, and the share of gravity on each of its three axes changes with the tilt. The app filters all three axes and their combined magnitude, keeps the one that swings most, removes the steady part, and smooths away anything faster than about one swing per second. Choose the axis yourself if the automatic choice jumps about.</p>
   <p>Webcam: the image is analysed at 160 × 120 pixels. The rows of the box are averaged into one brightness value each, and the brightness-weighted mean row is the signal: when the shoulders rise on an in-breath, the bands of light and dark inside the box move up, and the number moves with them.</p>
   <p>A breath is counted when the trace rises and then falls by more than half of its recent swing; two breaths closer than 1.5 s are taken as one. The breathing rate is 60 divided by the median of the last five breath intervals, so one odd breath does not move it much. The coefficient of variation is the standard deviation of the intervals divided by their mean: how regular the breathing is, regardless of how fast.</p>
-  <p>The spectrum is the Fourier transform of the last 30 s of the filtered trace. Regular breathing shows up as one peak, whose position is the breathing rate found a second way. With only 30 s of signal the peak is a few breaths per minute wide, as the window explorer app shows for sound. The two estimates agree when the breathing is regular and drift apart when it is not.</p>
+  <p>The spectrum is the Fourier transform of the last 30 s of the filtered trace. Regular breathing shows up as one peak, whose position is the breathing rate found a second way, from what repeats rather than from counting breaths. The shaded band is the resting range: resting adults breathe roughly 12–20 times a minute. With only 30 s of signal the peak is a few breaths per minute wide, as the window explorer app shows for sound. The two estimates agree when the breathing is regular and drift apart when it is not.</p>
   <h3>Things to try</h3>
   <p>Sit quietly for two minutes and note the rate and the coefficient of variation. Then read a paragraph aloud and watch both change: speech makes the breaths short and uneven, because the in-breaths come where the sentences allow. Hum one long note for as long as you can and see a single slow breath appear in the trace.</p>
   <p>Listen to a slow piece and then a fast one, three minutes each, and compare. Finally, measure the same person with both sources at once (the phone on the chest, the laptop camera on the shoulders) and compare the two rates and traces: they measure the same breathing in two ways and should agree, but not perfectly.</p>

@@ -54,12 +54,16 @@
     table { border-collapse: collapse; margin-top: 10px; width: 100%; font-size: 0.9rem; }
     th, td { border: 1px solid var(--border); padding: 4px 8px; text-align: left; }
     th { background: var(--panel); }
+    details.more { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+    details.more summary { cursor: pointer; font-weight: 600; color: inherit; }
+    details.more h3 { font-size: 0.95rem; margin: 14px 0 4px; }
+    details.more p { margin: 6px 0; }
   </style>
 </head>
 <body>
   <h1>Breath and pulse</h1>
-  <p class="intro">Your breathing and your heartbeat are coupled: the pulse speeds up slightly on the in-breath and slows on the out-breath, and slow paced breathing calms both. Use the guide below to breathe at a set pace, then measure your pulse by hand (two fingers on the wrist or the neck) and log the numbers under different conditions, for example at rest, after slow music, and after fast music.</p>
-  <p class="privacy">Nothing leaves this page. The numbers you type are kept in memory only and disappear when you close or reload the tab.</p>
+  <p class="intro">Breathe at the set pace, then count your pulse and log it under different conditions.</p>
+  <p class="privacy">Nothing leaves this page.</p>
 
   <fieldset>
     <legend>Paced breathing guide</legend>
@@ -89,7 +93,15 @@
     <div id="tablehost"></div>
   </fieldset>
 
-  <p class="hint">What to notice: for most people a few minutes of breathing at 4 to 6 breaths per minute visibly lowers the pulse, and lively music nudges it the other way. The differences are small, so count carefully. This is a classroom exercise, not a medical measurement.</p>
+  <p class="hint">This is a classroom exercise, not a medical measurement.</p>
+
+  <details class="more">
+  <summary>More about this app</summary>
+  <h3>How it works</h3>
+  <p>Your breathing and your heartbeat are coupled: the pulse speeds up slightly on the in-breath and slows on the out-breath, and slow paced breathing calms both. The numbers you type are kept in memory only and disappear when you close or reload the tab.</p>
+  <h3>Things to try</h3>
+  <p>For most people a few minutes of breathing at 4 to 6 breaths per minute visibly lowers the pulse, and lively music nudges it the other way. Try it at rest, after slow music and after fast music. The differences are small, so count carefully.</p>
+  </details>
 
   <script>
 (function () {

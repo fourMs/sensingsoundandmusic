@@ -42,11 +42,15 @@
     }
     .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 10px 0; }
     canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; background: var(--canvas); }
+    details.more { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+    details.more summary { cursor: pointer; font-weight: 600; color: inherit; }
+    details.more h3 { font-size: 0.95rem; margin: 14px 0 4px; }
+    details.more p { margin: 6px 0; }
   </style>
 </head>
 <body>
   <h1>Noise explorer</h1>
-  <p class="intro">Noise types are named after colours according to how their energy is spread across the spectrum. Pick a colour and switch the continuous noise on to hear its character, or press <strong>Impulse</strong> to hear the same noise as a short burst: the spectrum is similar, but the sonic feel is completely different.</p>
+  <p class="intro">Pick a colour and switch the noise on, or press Impulse to hear the same noise as a short burst.</p>
 
   <div class="row">
     <button type="button" id="power" class="primary">Noise: off</button>
@@ -75,7 +79,13 @@
   </fieldset>
 
   <canvas id="scope" width="900" height="300" aria-label="Waveform and spectrum display"></canvas>
-  <p class="hint">What to notice: white noise hisses, pink noise sounds like rainfall, brownian noise rumbles, blue noise is sharp and bright, and grey noise (an approximation here) aims to sound equally loud across the spectrum. A short impulse of the same noise no longer sounds like a texture at all, but like a click, tick, or thump; the difference lies in how the energy is distributed in time, not in frequency.</p>
+  <details class="more">
+  <summary>More about this app</summary>
+  <h3>How it works</h3>
+  <p>Noise types are named after colours according to how their energy is spread across the spectrum. A short burst of the same noise has a similar spectrum, but a completely different sonic feel.</p>
+  <h3>Things to try</h3>
+  <p>White noise hisses, pink noise sounds like rainfall, brownian noise rumbles, blue noise is sharp and bright, and grey noise (an approximation here) aims to sound equally loud across the spectrum. A short impulse of the same noise no longer sounds like a texture at all, but like a click, tick, or thump; the difference lies in how the energy is distributed in time, not in frequency.</p>
+  </details>
 
   <script>
 (function () {

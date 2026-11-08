@@ -46,11 +46,15 @@
     th, td { border: 1px solid var(--border); padding: 3px 8px; text-align: left; }
     th { background: var(--panel); }
     td.warn { font-weight: 600; }
+    details.more { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+    details.more summary { cursor: pointer; font-weight: 600; color: inherit; }
+    details.more h3 { font-size: 0.95rem; margin: 14px 0 4px; }
+    details.more p { margin: 6px 0; }
   </style>
 </head>
 <body>
   <h1>Room modes</h1>
-  <p class="intro">Between two parallel walls, sound waves whose half-wavelength fits a whole number of times build up standing waves called room modes. At those frequencies some spots in the room boom and others fall almost silent. Enter the size of your own room, see where its axial modes land, and use the hear buttons to hunt the boom by walking around while a mode plays.</p>
+  <p class="intro">Enter the size of your own room, see where its axial modes land, and use the hear buttons to hunt the boom by walking around while a mode plays.</p>
 
   <div class="row">
     <label style="flex:1; min-width:160px; margin:0;">Master volume <span class="vals" id="voldisp"></span>
@@ -80,7 +84,13 @@
 
   <div id="tablehost"></div>
 
-  <p class="hint">What to notice: modes from different dimensions that land within a few hertz of each other (flagged in the table) pile up into pronounced trouble spots. Real rooms also have tangential and oblique modes between the walls, floor, and ceiling, and absorption shifts and softens everything; the axial modes computed here are the first approximation.</p>
+  <details class="more">
+  <summary>More about this app</summary>
+  <h3>How it works</h3>
+  <p>Between two parallel walls, sound waves whose half-wavelength fits a whole number of times build up standing waves called room modes. At those frequencies some spots in the room boom and others fall almost silent. Real rooms also have tangential and oblique modes between the walls, floor, and ceiling, and absorption shifts and softens everything; the axial modes computed here are the first approximation.</p>
+  <h3>Things to try</h3>
+  <p>Look for modes from different dimensions that land within a few hertz of each other (flagged in the table): they pile up into pronounced trouble spots.</p>
+</details>
 
   <script>
 (function () {

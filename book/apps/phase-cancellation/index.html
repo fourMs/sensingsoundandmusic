@@ -42,11 +42,15 @@
     .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     @media (max-width: 520px) { .grid2 { grid-template-columns: 1fr; } }
     canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; background: var(--canvas); }
+    details.more { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+    details.more summary { cursor: pointer; font-weight: 600; color: inherit; }
+    details.more h3 { font-size: 0.95rem; margin: 14px 0 4px; }
+    details.more p { margin: 6px 0; }
   </style>
 </head>
 <body>
   <h1>Phase cancellation</h1>
-  <p class="intro">When two identical waves meet, they add. In phase they reinforce each other; half a period apart they cancel. Try it first with two sine tones, then with a full music loop and its polarity-inverted copy, and listen to how fragile perfect cancellation is. Press <strong>Start audio</strong> first.</p>
+  <p class="intro">Try it first with two sine tones, then with a music loop and its polarity-inverted copy, and listen to how fragile perfect cancellation is. Press Start audio first.</p>
 
   <div class="row">
     <button type="button" id="power" class="primary">Start audio</button>
@@ -95,7 +99,11 @@
   </fieldset>
 
   <canvas id="scope" width="900" height="300" aria-label="The two component waves and their sum, or the live spectrum in music mode"></canvas>
-  <p class="hint">What to notice: perfect cancellation needs identical, perfectly aligned signals. A few milliseconds of misalignment gives colouration, not silence, which is why noise-cancelling headphones must react so quickly and why the trick rarely works out in ordinary rooms.</p>
+  <details class="more">
+  <summary>More about this app</summary>
+  <h3>How it works</h3>
+  <p>When two identical waves meet, they add. In phase they reinforce each other; half a period apart they cancel. Perfect cancellation needs identical, perfectly aligned signals. A few milliseconds of misalignment gives colouration, not silence, which is why noise-cancelling headphones must react so quickly and why the trick rarely works out in ordinary rooms.</p>
+</details>
 
   <script>
 (function () {

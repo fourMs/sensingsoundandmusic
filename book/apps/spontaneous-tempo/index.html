@@ -62,11 +62,15 @@
     th, td { border-bottom: 1px solid var(--border); padding: 4px 6px; text-align: right; }
     th:first-child, td:first-child { text-align: left; }
     .hidden { display: none !important; }
+    details.more { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+    details.more summary { cursor: pointer; font-weight: 600; color: inherit; }
+    details.more h3 { font-size: 0.95rem; margin: 14px 0 4px; }
+    details.more p { margin: 6px 0; }
   </style>
 </head>
 <body>
   <h1>Spontaneous tempo</h1>
-  <p class="intro">Tap at whatever rate feels natural, with no music playing, and find your spontaneous motor tempo. In <em>blind</em> mode the page shows nothing while you tap, so that the rate is your own; the statistics appear when the time is up. In <em>live</em> mode the tempo and the interval between taps are drawn as you go, so you can watch yourself drift.</p>
+  <p class="intro">Tap at whatever rate feels natural, with no music playing.</p>
 
   <fieldset>
     <legend>Settings</legend>
@@ -116,7 +120,12 @@
     <span class="vals" id="copied"></span>
   </div>
 
-  <p class="hint">Reading the numbers: the inter-onset interval (IOI) is the time between two taps and the tempo is its inverse in beats per minute. The standard deviation (SD) says how steady you were, the coefficient of variation (CV) is the SD as a percentage of the mean, and the drift is the tempo of the second half minus the first half. Most people settle between 100 and 120 BPM. Keyboard and touch input add a few milliseconds of jitter, which is small compared with the variability of the tapper.</p>
+  <details class="more">
+  <summary>More about this app</summary>
+  <h3>How it works</h3>
+  <p>The app measures your spontaneous motor tempo. In <em>blind</em> mode the page shows nothing while you tap, so that the rate is your own; the statistics appear when the time is up. In <em>live</em> mode the tempo and the interval between taps are drawn as you go, so you can watch yourself drift.</p>
+  <p>The inter-onset interval (IOI) is the time between two taps and the tempo is its inverse in beats per minute. The standard deviation (SD) says how steady you were, the coefficient of variation (CV) is the SD as a percentage of the mean, and the drift is the tempo of the second half minus the first half. Most people settle between 100 and 120 BPM. Keyboard and touch input add a few milliseconds of jitter, which is small compared with the variability of the tapper.</p>
+  </details>
 
   <script>
 (function () {

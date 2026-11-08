@@ -50,11 +50,15 @@
     table { border-collapse: collapse; margin-top: 10px; width: 100%; font-size: 0.9rem; }
     th, td { border: 1px solid var(--border); padding: 4px 8px; text-align: left; }
     th { background: var(--panel); }
+    details.more { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+    details.more summary { cursor: pointer; font-weight: 600; color: inherit; }
+    details.more h3 { font-size: 0.95rem; margin: 14px 0 4px; }
+    details.more p { margin: 6px 0; }
   </style>
 </head>
 <body>
   <h1>Interval lab</h1>
-  <p class="intro">An interval is the distance between two tones, and its character depends on the ratio between their frequencies. Choose a root and an interval, compare just intonation (small whole-number ratios) with equal temperament (every semitone identical), and then test your own ears in the ranking game at the bottom.</p>
+  <p class="intro">Choose a root and an interval, compare just intonation with equal temperament, and then test your own ears in the ranking game at the bottom.</p>
 
   <div class="row">
     <label style="flex:1; min-width:160px; margin:0;">Master volume <span class="vals" id="voldisp"></span>
@@ -107,7 +111,13 @@
     <div id="gameresult"></div>
   </fieldset>
 
-  <p class="hint">What to notice: in the beat demo, the equal-tempered major third wobbles (its harmonics beat against each other, since the ratio 1.2599 is close to but not exactly 5:4), while the just third settles into calm. In the game, most listeners place the octave, fifth, and fourth at the smooth end and the seconds and the tritone at the rough end, but personal and musical background shifts the middle.</p>
+  <details class="more">
+  <summary>More about this app</summary>
+  <h3>How it works</h3>
+  <p>An interval is the distance between two tones, and its character depends on the ratio between their frequencies. In just intonation the ratios are small whole numbers; in equal temperament every semitone is identical.</p>
+  <h3>Things to try</h3>
+  <p>In the beat demo, the equal-tempered major third wobbles (its harmonics beat against each other, since the ratio 1.2599 is close to but not exactly 5:4), while the just third settles into calm. In the game, most listeners place the octave, fifth, and fourth at the smooth end and the seconds and the tritone at the rough end, but personal and musical background shifts the middle.</p>
+</details>
 
   <script>
 (function () {

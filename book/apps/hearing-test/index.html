@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Frequency sweep explorer</title>
+  <title>Hearing test</title>
   <style>
     :root {
       --bg: #fdfdfd; --fg: #1c1e21; --muted: #5a6069; --panel: #f1f2f4;
@@ -46,12 +46,16 @@
     #freqbig small { font-size: 1.1rem; font-weight: 400; color: var(--muted); }
     .score { font-size: 1.05rem; margin: 8px 0; }
     #feedback { min-height: 1.4em; font-weight: 600; }
+    details.more { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+    details.more summary { cursor: pointer; font-weight: 600; color: inherit; }
+    details.more h3 { font-size: 0.95rem; margin: 14px 0 4px; }
+    details.more p { margin: 6px 0; }
   </style>
 </head>
 <body>
-  <h1>Frequency sweep explorer</h1>
-  <p class="intro">Explore the range of human hearing. Move the slider to sweep a pure tone from 20 Hz to 20 kHz, or let it sweep automatically, and note where the tone becomes hard to hear. Then try the listening game, which tests how small a frequency difference you can detect. Use headphones at a comfortable level.</p>
-  <p class="caveat">This is not a medical hearing test. What you hear depends heavily on your headphones or loudspeakers, the volume setting, and background noise.</p>
+  <h1>Hearing test</h1>
+  <p class="intro">Sweep a pure tone from 20 Hz to 20 kHz and note where it becomes hard to hear. Use headphones at a comfortable level.</p>
+  <p class="caveat">Not a medical hearing test; the result depends on your headphones, volume and room.</p>
 
   <fieldset>
     <legend>Sweep a tone</legend>
@@ -87,7 +91,11 @@
     <div id="feedback" aria-live="polite"></div>
   </fieldset>
 
-  <p class="hint">What to notice: sensitivity is not flat across frequencies, and near 1000 Hz most listeners can detect differences well below one percent.</p>
+  <details class="more">
+  <summary>More about this app</summary>
+  <h3>Things to try</h3>
+  <p>Sweep slowly and compare how loud the tone seems at different frequencies: sensitivity is not flat across the range. In the listening game, near 1000 Hz most listeners can detect differences well below one percent.</p>
+</details>
 
   <script>
 (function () {

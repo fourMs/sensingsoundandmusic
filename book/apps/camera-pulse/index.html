@@ -83,8 +83,8 @@
 </head>
 <body>
   <h1>Camera pulse</h1>
-  <p class="intro">With every heartbeat a little more blood reaches the fingertip, and the picture from a camera pressed against it darkens slightly. This is photoplethysmography (PPG), the principle behind the heart-rate sensor in a smartwatch. Choose a mode and press Start.</p>
-  <p class="privacy">Privacy: the camera frames are analysed in your browser and discarded. Nothing is recorded or sent anywhere; only the CSV file you choose to download leaves this page.</p>
+  <p class="intro">Choose a mode and press Start.</p>
+  <p class="privacy">The camera image is analysed in your browser and never leaves it.</p>
 
   <fieldset>
     <legend>Mode</legend>
@@ -125,13 +125,12 @@
     <p class="readout" id="qualread">Signal quality: no signal</p>
     <canvas id="spectrum" aria-label="The spectrum of the last 20 seconds of signal, in beats per minute"></canvas>
     <div class="axis"><span>40 bpm</span><span>180 bpm</span></div>
-    <span class="hint">The filtered brightness of the picture, flipped so that a peak means more blood. Each marked peak is a detected beat; the spectrum gives a second, slower estimate of the rate. When the two disagree, trust neither.</span>
+    <span class="hint">The filtered brightness of the picture, flipped so that a peak means more blood. Each marked peak is a detected beat; the spectrum gives a second, slower estimate of the rate.</span>
   </fieldset>
 
   <fieldset>
     <legend>Heart-rate variability</legend>
     <p class="readout" id="hrvread">HRV: needs 30 s of good signal</p>
-    <span class="hint">RMSSD and SDNN in milliseconds, as in the physiology chapter. A camera at 30 frames per second locates each beat only roughly, so treat these as indicative.</span>
   </fieldset>
 
   <fieldset>
@@ -147,6 +146,7 @@
   <details class="more">
   <summary>More about this app</summary>
   <h3>How it works</h3>
+  <p>With every heartbeat a little more blood reaches the fingertip, and the picture from a camera pressed against it darkens slightly. This is photoplethysmography (PPG), the principle behind the heart-rate sensor in a smartwatch.</p>
   <p>The signal is the mean brightness of the camera picture (the red channel in fingertip mode, the green channel of the chosen region in face mode), with the slow trend removed above 0.7 Hz and the fast flicker smoothed away below 3 Hz. A beat is a local maximum that rises above 40 % of the largest peak in the last 3 s and comes at least 0.33 s after the previous beat.</p>
   <p>The first heart rate is the median of the last 10 inter-beat intervals, so it follows changes within a few beats. The second comes from the spectrum, which asks which repetition rate is strongest in the last 20 s and therefore changes slowly. Signal quality compares the height of that spectral peak with the level around it and checks the frame rate.</p>
   <p>For HRV, intervals outside 0.33–2 s, or more than 30 % away from the median interval, are left out as artefacts. A camera samples at about 30 frames per second, so each beat is located to within a few tens of milliseconds even with interpolation between frames, which is the same order as the quantity being measured. An ECG sampled at hundreds of hertz is needed for proper HRV.</p>
@@ -154,6 +154,7 @@
   <p>Sit quietly for a minute and note the rate, then stand up and watch it climb before it settles again. Put on a favourite piece of music and watch whether the rate moves, and when. Count your pulse by hand for 30 s, as in the breath and pulse app, and compare the doubled count with what the camera says.</p>
   <p>Breathe slowly and deeply at about 6 breaths per minute and look for the intervals lengthening on the out-breath and shortening on the in-breath, which is respiratory sinus arrhythmia.</p>
   <h3>Limits</h3>
+  <p>When the two heart-rate estimates disagree, trust neither. RMSSD and SDNN are given in milliseconds, as in the physiology chapter, but a camera at 30 frames per second locates each beat only roughly, so treat them as indicative.</p>
   <p>Movement, changing light and a cold fingertip all break the measurement, and face mode breaks with far less. The app demonstrates a measurement principle and is not a medical device. Do not use it to make decisions about your health, and compare it with a proper sensor before trusting it in a study. A music researcher who needs reliable beat timing uses a chest strap or an ECG, as the physiology chapter describes.</p>
 </details>
   

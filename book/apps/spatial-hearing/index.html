@@ -46,12 +46,16 @@
     .readout { font-size: 0.9rem; color: var(--muted); }
     .fbnote { font-size: 0.9rem; color: var(--muted); min-height: 1.4em; margin: 4px 0 0; }
     canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; background: var(--canvas); }
+    details.more { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+    details.more summary { cursor: pointer; font-weight: 600; color: inherit; }
+    details.more h3 { font-size: 0.95rem; margin: 14px 0 4px; }
+    details.more p { margin: 6px 0; }
   </style>
 </head>
 <body>
   <h1>Spatial hearing</h1>
-  <p class="headphones">Headphones required. This app plays different signals to your two ears; through loudspeakers the effect disappears.</p>
-  <p class="intro">Move a sound around your head and listen to the two cues the brain uses to locate it: the tiny arrival-time difference between the ears (ITD, up to about 0.7 ms) and the level difference caused by the head&rsquo;s shadow (ILD). Switch the cues on and off to hear what each one does on its own. Press <strong>Start audio</strong> first.</p>
+  <p class="headphones">Headphones required.</p>
+  <p class="intro">Move the sound around your head and switch the two cues on and off. Press Start audio first.</p>
 
   <div class="row">
     <button type="button" id="power" class="primary">Start audio</button>
@@ -87,7 +91,13 @@
   </fieldset>
 
   <canvas id="head" width="900" height="360" aria-label="Top-down view of the head with the source position"></canvas>
-  <p class="hint">What to notice: the low clicks localise mainly by timing (switch to ITD only and they still move), while the hissy noise localises mainly by level. Angles behind you sound the same as the mirrored front angle, since headphones give none of the spectral cues that normally resolve front from back.</p>
+  <details class="more">
+  <summary>More about this app</summary>
+  <h3>How it works</h3>
+  <p>The app plays different signals to your two ears, which is why it needs headphones. The brain locates a sound with two cues: the tiny arrival-time difference between the ears (ITD, up to about 0.7 ms) and the level difference caused by the head&rsquo;s shadow (ILD).</p>
+  <h3>Things to try</h3>
+  <p>The low clicks localise mainly by timing (switch to ITD only and they still move), while the hissy noise localises mainly by level. Angles behind you sound the same as the mirrored front angle, since headphones give none of the spectral cues that normally resolve front from back.</p>
+  </details>
 
   <script>
 (function () {

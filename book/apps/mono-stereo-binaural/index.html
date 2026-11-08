@@ -52,12 +52,16 @@
     @media (max-width: 480px) { .src { grid-template-columns: 1.1em 1fr; } .src input[type="range"] { grid-column: 1 / -1; } }
     .readout { font-size: 0.9rem; color: var(--muted); }
     canvas { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 6px; margin-top: 10px; background: var(--canvas); }
+    details.more { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+    details.more summary { cursor: pointer; font-weight: 600; color: inherit; }
+    details.more h3 { font-size: 0.95rem; margin: 14px 0 4px; }
+    details.more p { margin: 6px 0; }
   </style>
 </head>
 <body>
   <h1>Mono, stereo, binaural</h1>
-  <p class="headphones">Headphones required. Stereo and binaural rendering only work when each ear gets its own signal.</p>
-  <p class="intro">The same three-source scene is played in three formats. <strong>Mono</strong> sums everything into one signal. <strong>Stereo</strong> pans each source between left and right, as a channel-based mix does. <strong>Binaural</strong> filters each source with a head-related transfer function (HRTF) for its direction, so that your ears receive the timing, level, and spectral cues a real source would produce. Switch between them while the scene plays. Press <strong>Start audio</strong> first.</p>
+  <p class="headphones">Headphones required.</p>
+  <p class="intro">The same three-source scene in three formats. Switch between them while the scene plays. Press Start audio first.</p>
 
   <div class="row">
     <button type="button" id="power" class="primary">Start audio</button>
@@ -100,7 +104,13 @@
   </fieldset>
 
   <canvas id="head" width="900" height="380" aria-label="Top-down view of the head showing where each source is and where it is heard"></canvas>
-  <p class="hint">What to notice: in mono every source sits in the middle of your head. In stereo they spread along the line between your ears but stay inside the head, and a source behind you sounds the same as its mirror image in front. In binaural the sources move outside the head and, with the orbit running, pass behind you. How convincing the front and back are depends on how well the generic HRTF matches your own ears.</p>
+  <details class="more">
+  <summary>More about this app</summary>
+  <h3>How it works</h3>
+  <p>Mono sums everything into one signal. Stereo pans each source between left and right, as a channel-based mix does. Binaural filters each source with a head-related transfer function (HRTF) for its direction, so that your ears receive the timing, level, and spectral cues a real source would produce. Stereo and binaural rendering only work when each ear gets its own signal.</p>
+  <h3>Things to try</h3>
+  <p>In mono every source sits in the middle of your head. In stereo they spread along the line between your ears but stay inside the head, and a source behind you sounds the same as its mirror image in front. In binaural the sources move outside the head and, with the orbit running, pass behind you. How convincing the front and back are depends on how well the generic HRTF matches your own ears.</p>
+</details>
 
   <script>
 (function () {
