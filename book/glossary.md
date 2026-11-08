@@ -81,11 +81,11 @@ Beat tracking
 Binaural audio
 : Headphone reproduction that delivers to each eardrum the signal it would receive in the recorded space, using dummy-head recording or HRTF filtering.
 
-Bouba–kiki effect
-: The near-universal pairing of a rounded shape with the word bouba and a spiky shape with kiki, the standard demonstration that crossmodal correspondences between sound and shape are shared rather than learned.
-
 Bit depth
 : The number of bits used to store each sample of a digital signal, which sets the amplitude precision and the available dynamic range.
+
+Bouba–kiki effect
+: The near-universal pairing of a rounded shape with the word bouba and a spiky shape with kiki, the standard demonstration that crossmodal correspondences between sound and shape are shared rather than learned.
 
 Centroid of motion
 : The average position of the pixels that changed between two video frames, a rough measure of where in the image the motion happens.
@@ -129,11 +129,11 @@ Critical band
 Crossmodal correspondence
 : A systematic association between the senses shared by most people, such as linking high pitch with brightness or small size.
 
-Cross-rhythm
-: The overlap of rhythmic streams whose periodicities do not fit into each other as whole numbers, such as three against two, creating metrical ambiguity.
-
 Crossmodal perception
 : The case in which one sense changes what another reports, as when seen lip movements change the heard syllable (the McGurk effect) or a seen source captures a sound's location; integration showing itself when the senses disagree.
+
+Cross-rhythm
+: The overlap of rhythmic streams whose periodicities do not fit into each other as whole numbers, such as three against two, creating metrical ambiguity.
 
 Decibel
 : A logarithmic unit for expressing the ratio between two sound levels, matching the ear's compressive response to intensity.
@@ -211,7 +211,7 @@ Formant
 : A resonance peak of the vocal tract that amplifies some harmonics of the voice, with the lowest two formants distinguishing the vowels.
 
 Four levels of description
-: The book's organising framework of physical, digital, perceptual, and interpretive levels, used to locate whether a claim is about the air, the file, the ear, or the listener.
+: The book's organising framework of physical, digital, perceptual, and interpretive levels, used to locate whether a claim is about the air, the file, the ear, or the mind.
 
 Fourier transform
 : The mathematical operation that decomposes a complex signal into sinusoids, converting the time-domain view into a frequency-domain view.
@@ -241,7 +241,7 @@ Gesture
 : The meaning-bearing component of an action; "visible action as utterance." The same gesture, such as waving goodbye, can be carried out with different physical motion while keeping its meaning.
 
 Groove
-: A repeated rhythmic pattern that establishes a clear beat, and equally the pleasurable urge to move that such patterns induce.
+: A repeated rhythmic pattern that establishes a clear beat, the way such a pattern is played, and the pleasurable urge to move that it induces.
 
 Harmonics
 : Frequency components at whole-number multiples of the fundamental, whose relative strengths shape the timbre of a tone.
@@ -298,7 +298,7 @@ Labanotation
 : A notation system for human movement developed by Rudolf Laban, with symbols on a vertical staff for direction, level, duration, and body part.
 
 Latency
-: The delay between a sound arriving and a system's response to it, set by the analysis window, any lookahead, and the processing time; the central constraint of real-time machine listening.
+: The delay between the input to a system and its output, from the buffer of an audio interface to the analysis window, lookahead and processing time of a machine listener; the central constraint of anything that must respond while the music plays.
 
 Listening
 : The active, attentive interpretation of sound, as opposed to the passive registration of hearing.
@@ -522,23 +522,23 @@ Singer's formant
 Sonification
 : The use of non-speech sound to represent data, the auditory counterpart of visualisation.
 
-Sound object
-: Schaeffer's term for the perceptual unit of listening, a chunk of sound of roughly half a second to five seconds heard as one event.
-
 Sound-accompanying actions
 : Movements made to sound rather than for producing it, such as dancing or air-instrument playing, one category in the taxonomy of music-related body motion.
 
 Sound-facilitating actions
 : Support movements that do not themselves produce sound but help performance, such as a pianist's arm trajectories or breathing.
 
+Sound object
+: Schaeffer's term for the perceptual unit of listening, a chunk of sound of roughly half a second to five seconds heard as one event.
+
+Sound-producing actions
+: Movements that generate sound directly, divided into excitation, such as striking or bowing, and modification, such as fingering.
+
 Sound signal
 : In Schafer's soundscape vocabulary, a foreground sound that is listened to consciously because it carries information, such as a siren, a bell, or a bird call; the counterpart of the keynote, and unrelated to the signal of signal processing.
 
 Soundmark
 : A sound with special significance for a community, the sonic counterpart of a landmark, such as particular church bells.
-
-Sound-producing actions
-: Movements that generate sound directly, divided into excitation, such as striking or bowing, and modification, such as fingering.
 
 Soundscape
 : The acoustic environment as perceived and experienced by people, including natural, human, and mechanical sources.
