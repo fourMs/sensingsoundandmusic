@@ -1,0 +1,20 @@
+{
+ "vintage": {
+  "model": "IRCAM RAVE pretrained 'vintage'",
+  "sr": 48000,
+  "latent_dims": 16,
+  "latent_rate_hz": 23.44,
+  "seconds": 30,
+  "generation_s": 0.9,
+  "file_mb": 481.8
+ },
+ "percussion": {
+  "model": "IRCAM RAVE pretrained 'percussion'",
+  "sr": 44100,
+  "latent_dims": 4,
+  "latent_rate_hz": 21.53,
+  "seconds": 30,
+  "generation_s": 0.2,
+  "file_mb": 71.1
+ }
+}

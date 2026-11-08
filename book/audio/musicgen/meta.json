@@ -1,0 +1,17 @@
+{
+ "text_funk": {
+  "model": "facebook/musicgen-small",
+  "prompt": "upbeat funk with slap bass, drums and electric piano",
+  "seconds": 15,
+  "generation_s": 11.8,
+  "seed": 0
+ },
+ "melody_coltrane": {
+  "model": "facebook/musicgen-melody",
+  "prompt": "string quartet, chamber music, slow and lyrical",
+  "melody": "Coltrane excerpt, first 15 s",
+  "seconds": 15,
+  "generation_s": 48.4,
+  "seed": 0
+ }
+}

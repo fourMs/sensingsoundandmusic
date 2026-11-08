@@ -63,6 +63,9 @@ Auditory scene analysis
 Auditory–visual
 : The perceptual pair: the auditory and visual senses and what the brain does with what they report, as in auditory–visual integration or illusions. Used for perception, not for recordings; compare audio–video.
 
+Autoencoder
+: A neural network trained to compress its input into a few numbers, the latent representation, and reconstruct it from them; trained on one kind of sound, its decoder can only produce that kind, which is what makes timbre transfer possible.
+
 Autonomic nervous system
 : The involuntary control system of the body whose sympathetic and parasympathetic branches regulate arousal and recovery.
 
@@ -140,9 +143,6 @@ Deep learning
 
 Depth camera
 : A camera that records a distance for every pixel as well as its brightness, by projecting an infrared pattern or timing a pulse of light; the Kinect made it a cheap route to markerless motion capture.
-
-Diffuseness
-: A measure, from an ambisonic recording, of how far the sound comes from everywhere at once rather than from one direction; low for a single talker, high for a reverberant murmur.
 
 Doppler effect
 : The shift in perceived frequency when a sound source and listener move relative to each other, with pitch rising on approach and falling on retreat, exploited musically in the Leslie speaker.
@@ -311,6 +311,9 @@ Loudness
 
 Machine listening
 : The use of signal processing and machine learning to turn sound into structured information: features, events, labels, and transcriptions; also called computer audition.
+
+Markov chain
+: A model that predicts the next event from the last few events alone, by counting how often each continuation followed them in a collection; the earliest generative model for melody.
 
 Masking
 : One sound making another harder or impossible to hear, whether simultaneously or just before or after it, a principle exploited by perceptual audio codecs.
@@ -617,6 +620,9 @@ Thermal camera
 
 Timbre
 : The sound quality that distinguishes two tones of identical pitch and loudness, arising from spectral content and the temporal envelope.
+
+Timbre transfer
+: Rendering one sound, a voice or an instrument, in the timbre of another, as when a recording is passed through an autoencoder trained on a different kind of sound.
 
 Time signature
 : The pair of numbers at the start of a staff giving the note value that counts as one pulse and how many of them make a bar, such as 3/4 or 6/8.
