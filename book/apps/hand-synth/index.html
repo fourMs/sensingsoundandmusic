@@ -26,6 +26,7 @@
     .intro { max-width: 720px; margin-bottom: 20px; color: #d3dde4; font-size: 1.05rem; }
     .privacy, .panel { border: 1px solid var(--border); border-radius: 14px; background: var(--panel); }
     .privacy { margin-bottom: 16px; padding: 12px 15px; color: var(--muted); font-size: .9rem; }
+    .headphones { margin: 0 0 12px; padding: 10px 15px; border: 1px solid var(--border); border-radius: 14px; background: var(--panel); color: var(--text, inherit); font-size: .95rem; font-weight: 600; }
     .controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 12px; }
     .button {
       min-height: 44px; padding: 9px 16px; border: 1px solid var(--border); border-radius: 9px;
@@ -86,6 +87,7 @@
     <p class="intro">Pinch your right thumb and index finger for loudness; move your hands apart for pitch.</p>
   </header>
 
+  <p class="headphones">Use headphones and start at a low listening level.</p>
   <p class="privacy">The camera image is analysed in your browser and never leaves it.</p>
 
   <div class="controls">
@@ -135,7 +137,7 @@
   <p>A webcam and MediaPipe track both hands. The distance between the right thumb tip and index tip sets the loudness of a continuous sine tone, and the distance between the two index knuckles sets its pitch. On first use, the MediaPipe code, WebAssembly files, and hand model are downloaded from jsDelivr and Google to your device.</p>
   <h3>Artists to explore</h3>
   <p><a href="https://www.instagram.com/neles0n/reels/" target="_blank" rel="noopener noreferrer">@neles0n</a> · <a href="https://www.instagram.com/wxll.hx/" target="_blank" rel="noopener noreferrer">@wxll.hx</a></p>
-  <p class="credit">Hand landmarks are detected with <a href="https://ai.google.dev/edge/mediapipe/solutions/vision/hand_landmarker/web_js">MediaPipe Hand Landmarker</a>. Use headphones and begin with a low listening level.</p>
+  <p class="credit">Hand landmarks are detected with <a href="https://ai.google.dev/edge/mediapipe/solutions/vision/hand_landmarker/web_js">MediaPipe Hand Landmarker</a>.</p>
 </details>
 
   <video id="camera" playsinline muted hidden></video>
