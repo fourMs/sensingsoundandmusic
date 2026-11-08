@@ -216,3 +216,5 @@ _build/
 
 # Agent session files
 .claude/
+.venv-demucs/
+logs/
