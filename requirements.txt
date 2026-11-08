@@ -7,4 +7,3 @@ scipy
 pandas
 mystmd==1.6.0
 ipywidgets
-ambiscape
