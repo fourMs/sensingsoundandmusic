@@ -17,7 +17,7 @@ See the [wiki](https://github.com/fourMs/sensingsoundandmusic/wiki) for full bui
 
 ## Licence
 
-The text, figures and audio of the book are licensed under [Creative Commons Attribution 4.0](https://creativecommons.org/licenses/by/4.0/) (`LICENSE`). The code, that is the web apps in `book/apps/`, the notebook cells and the scripts in `scripts/` and `tools/`, is licensed under the [GNU General Public License, version 3 or later](https://www.gnu.org/licenses/gpl-3.0.html) (`LICENSE-CODE`), since the video visualiser derives from [VideoViz](https://github.com/alexarje/videoviz), which is GPL-3.0. Audio recordings by others keep their own licences, stated where they are used.
+The text, figures and audio of the book are licensed under [Creative Commons Attribution 4.0](https://creativecommons.org/licenses/by/4.0/) (`LICENSE`). The code, that is the web apps in `book/apps/`, the notebook cells and the scripts in `scripts/` and `tools/`, is licensed under the [GNU General Public License, version 3 or later](https://spdx.org/licenses/GPL-3.0-or-later.html) (`LICENSE-CODE`), since the video visualiser derives from [VideoViz](https://github.com/alexarje/videoviz), which is GPL-3.0. Audio recordings by others keep their own licences, stated where they are used.
 
 ## Credits
 
