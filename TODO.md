@@ -20,7 +20,7 @@ Three entries at the end of `book/references.bib`, none cited yet.
   The HTML build passes and the citation resolves in both chapters. Committed as fc22dbf5.
 - Note and tone, after the same student: `harmony-and-melody.ipynb` now says "tones" for the heard
   sound in Pitch class, Chords, Gestalt, the tuning comparison and the harmony introduction, and
-  the definition box adds that everyday English uses "note" for both. The HTML build passes.
+  the definition box adds that everyday English uses "note" for both, and that a score indicates timbre only as a category. The HTML build passes.
 
 ## Done 2026-11-07
 
