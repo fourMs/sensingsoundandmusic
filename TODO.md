@@ -17,7 +17,10 @@ Three entries at the end of `book/references.bib`, none cited yet.
   `harmony-and-melody.ipynb` (Pitch intro, the paragraph after the third demo, the figure
   caption) and `psychoacoustics.ipynb` ("Missing fundamental") now say "most listeners" and name
   the fundamental/spectral listener difference; `Schneider2005` added to `book/references.bib`.
-  The HTML build passes and the citation resolves in both chapters. Uncommitted.
+  The HTML build passes and the citation resolves in both chapters. Committed as fc22dbf5.
+- Note and tone, after the same student: `harmony-and-melody.ipynb` now says "tones" for the heard
+  sound in Pitch class, Chords, Gestalt, the tuning comparison and the harmony introduction, and
+  the definition box adds that everyday English uses "note" for both. The HTML build passes.
 
 ## Done 2026-11-07
 
