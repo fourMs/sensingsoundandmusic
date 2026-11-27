@@ -255,6 +255,9 @@ Hearing
 Heart rate variability (HRV)
 : The variation in the intervals between successive heartbeats, with higher variability indicating relaxed, parasympathetic states.
 
+Hi-fi soundscape
+: In Schafer's vocabulary, a soundscape with a low background level in which distant and quiet sounds can be heard clearly.
+
 Hi-hat
 : A pair of cymbals on a stand in a drum kit, played with sticks and opened and closed with a foot pedal; it often carries the subdivision in pop and dance music.
 
@@ -302,6 +305,9 @@ Latency
 
 Listening
 : The active, attentive interpretation of sound, as opposed to the passive registration of hearing.
+
+Lo-fi soundscape
+: In Schafer's vocabulary, a soundscape so crowded that sounds mask each other and only loud, near sounds stand out.
 
 Long-term memory
 : Memory lasting minutes to years, holding the form of a piece and the metres and grooves of a style, and supplying the expectations a listener brings to music.
