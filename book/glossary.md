@@ -322,7 +322,7 @@ Markov chain
 : A model that predicts the next event from the last few events alone, by counting how often each continuation followed them in a collection; the earliest generative model for melody.
 
 Masking
-: One sound making another harder or impossible to hear, whether simultaneously or just before or after it, a principle exploited by perceptual audio codecs.
+: One sound making another harder or impossible to hear, whether simultaneously or just before or after it, a principle exploited by perceptual audio codecs. Not to be confused with the continuity illusion, in which an absent sound is heard.
 
 McGurk effect
 : An illusion in which seen lip movements change which speech sound is heard, demonstrating that vision participates in speech perception.
