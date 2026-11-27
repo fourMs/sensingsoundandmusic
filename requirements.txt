@@ -5,5 +5,5 @@ librosa
 music21
 scipy
 pandas
-mystmd==1.6.0
+mystmd==1.14.0
 ipywidgets
